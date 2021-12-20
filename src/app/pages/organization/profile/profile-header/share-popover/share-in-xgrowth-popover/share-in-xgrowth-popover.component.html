@@ -1,0 +1,16 @@
+<ion-content class="share-in-xgrowth-popover-content">
+  <ion-title [translate]="'organization.shareOrganization.title'"></ion-title>
+  <ion-item lines="none">
+    <ion-label>Select coworkers:</ion-label>
+    <ion-select class="custom-options" multiple="true" [(ngModel)]="selectedCoworkersIds">
+      <ion-select-option *ngFor="let cw of coworkers" [value]="cw._id">
+        {{ cw.firstName }} {{ cw.familyName }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-button
+    [disabled]="selectedCoworkersIds === undefined || selectedCoworkersIds?.length === 0"
+    (click)="share()"
+    [translate]="'organization.shareOrganization.button'"
+  ></ion-button>
+</ion-content>

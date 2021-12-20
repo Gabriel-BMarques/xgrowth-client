@@ -1,0 +1,428 @@
+<div class="organization-overview-container">
+  <div *ngIf="viewport === 'mobile'" class="header">
+    <div class="header-content">
+      <i class="fas fa-chevron-left back-icon" (click)="back()"></i>
+      <span class="title" [translate]="'myCompany.profile.organizationOverview'"></span>
+    </div>
+  </div>
+  <div *ngIf="loading" class="loader-container">
+    <ion-spinner *ngIf="loading" name="lines" class="loader"></ion-spinner>
+  </div>
+  <!-- FORM -->
+  <div *ngIf="!loading && isEditing" class="organization-overview-form-container">
+    <ion-row>
+      <form class="organization-overview-form" [formGroup]="organizationOverviewForm">
+        <div class="form-field">
+          <label class="form-label" [translate]="'myCompany.profile.organizationType'"></label>
+          <mat-form-field
+            [ngClass]="{
+              'form-input': true,
+              'form-input-valid': form.organizationType.valid && isAdmin,
+              'form-input-invalid': form.organizationType.invalid && form.organizationType.touched
+            }"
+          >
+            <span
+              *ngIf="inputEmpty(form.organizationType)"
+              class="input-placeholder"
+              [translate]="'global.forms.selectFromList'"
+            ></span>
+            <mat-select (selectionChange)="handleOrgTypeChange($event)" formControlName="organizationType">
+              <mat-option
+                *ngFor="let organizationType of organizationTypes.filteredData"
+                [value]="organizationType._id"
+              >
+                {{ organizationType.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.organizationType.invalid">
+              <div style="text-align: center;">
+                <span [translate]="'myCompany.profile.edit.errorOrganizationType'"></span>
+              </div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="hasSubType" class="form-field">
+          <label
+            class="form-label"
+            [translate]="isStartup ? 'myCompany.profile.startupType' : 'myCompany.profile.externalManufacturerType'"
+          ></label>
+          <mat-form-field
+            [ngClass]="{
+              'form-input': true,
+              'form-input-valid': form.subType.valid && isAdmin,
+              'form-input-invalid': form.subType.invalid && form.subType.touched
+            }"
+          >
+            <span
+              *ngIf="inputEmpty(form.subType)"
+              class="input-placeholder"
+              [translate]="'global.forms.notDefined'"
+            ></span>
+            <mat-select formControlName="subType">
+              <mat-option *ngFor="let subType of organizationTypeSubTypes" [value]="subType._id">
+                {{ subType.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.subType.invalid">
+              <div style="text-align: center;">
+                <span [translate]="'myCompany.profile.edit.errorOrganizationSubType'"></span>
+              </div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" [translate]="'myCompany.profile.organizationName'"></label>
+          <mat-form-field
+            [ngClass]="{
+              'form-input': true,
+              'form-input-invalid': form.name.invalid && form.name.touched,
+              'form-input-valid': form.name.valid && isAdmin
+            }"
+          >
+            <input type="text" matInput formControlName="name" />
+            <mat-error *ngIf="form.name.invalid">
+              <div style="text-align: center;">
+                <span [translate]="'myCompany.profile.edit.errorName'"></span>
+              </div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" [translate]="'myCompany.profile.organizationReach'"></label>
+          <div
+            class="organization-reach-field-container"
+            [ngClass]="{
+              'organization-reach-field-container': true,
+              'organization-reach-field-container-valid': form.organizationReach.valid
+            }"
+          >
+            <mat-form-field class="form-input search-input">
+              <span
+                *ngIf="searchEmpty(this.organizationReachSearchParam)"
+                class="input-placeholder"
+                [translate]="'global.forms.searchCountry'"
+              ></span>
+              <input
+                type="text"
+                matInput
+                (keyup)="applyFilterOrgReach($event.target.value, countries, 500)"
+                (keydown)="$event.stopPropagation()"
+              />
+              <i class="fas fa-search search-icon"></i>
+            </mat-form-field>
+            <div class="organization-reach-list">
+              <div *ngFor="let globalRegion of globalRegions; let last = last">
+                <div class="organization-reach-item">
+                  <mat-checkbox [checked]="globalRegion.selected" (change)="toggleGlobalRegion(globalRegion)">
+                    <span class="global-region-name">{{ globalRegion.name }}</span>
+                  </mat-checkbox>
+                </div>
+                <div class="countries-grid">
+                  <div
+                    [hidden]="!includesF(country, countries.filteredData)"
+                    class="organization-reach-item"
+                    *ngFor="let country of regionCountries(globalRegion._id)"
+                  >
+                    <mat-checkbox [checked]="country.selected" (change)="toggleCountry(country, globalRegion)">
+                      <span class="country-name">{{ country.name }}</span>
+                    </mat-checkbox>
+                  </div>
+                </div>
+                <hr *ngIf="!last" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" [translate]="'myCompany.profile.organizationWebsite'"></label>
+          <label class="form-label" style="font-weight: 300;" [translate]="'global.forms.optional'"></label>
+          <mat-form-field
+            [ngClass]="{
+              'form-input': true,
+              'form-input-invalid': form.website.invalid && !inputEmpty(form.website),
+              'form-input-valid': form.website.valid && !inputEmpty(form.website)
+            }"
+          >
+            <span
+              *ngIf="inputEmpty(form.website)"
+              class="input-placeholder"
+              [translate]="'myCompany.profile.insertWebsite'"
+            ></span>
+            <input
+              type="text"
+              pattern="[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)"
+              matInput
+              formControlName="website"
+            />
+            <mat-error *ngIf="form.website.invalid">
+              <div style="text-align: center;">
+                <span [translate]="'myCompany.profile.edit.errorWebsite'"></span>
+              </div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" [translate]="'myCompany.profile.segments'"></label>
+          <mat-form-field
+            [ngClass]="{
+              'form-input': true,
+              'mat-error-customized': true,
+              'form-input-invalid': form.segments.invalid && form.segments.touched,
+              'form-input-valid': form.segments.valid
+            }"
+          >
+            <span
+              *ngIf="inputEmpty(form.segments) && !form.segments.touched"
+              class="input-placeholder"
+              [translate]="'global.forms.selectSegmentFromList'"
+            ></span>
+            <span
+              *ngIf="form.segments.invalid && form.segments.touched"
+              class="input-error"
+              [translate]="'myCompany.profile.edit.segmentsRequired'"
+            ></span>
+            <mat-select multiple formControlName="segments">
+              <div class="search-div">
+                <span
+                  *ngIf="searchEmpty(segments.filter)"
+                  class="search-placeholder"
+                  [translate]="'global.forms.typeToSearch'"
+                >
+                </span>
+                <input
+                  type="text"
+                  class="search-input"
+                  (keyup)="applyFilter($event.target.value, segments)"
+                  (keydown)="$event.stopPropagation()"
+                />
+              </div>
+              <mat-option *ngFor="let segment of segments.filteredData" [value]="segment._id">
+                {{ segment.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" [translate]="'myCompany.profile.subSegments'"></label>
+          <mat-form-field
+            [ngClass]="{
+              'form-input': true,
+              'mat-error-customized': true,
+              'form-input-invalid': form.subSegments.invalid && form.subSegments.touched,
+              'form-input-valid': form.subSegments.valid
+            }"
+          >
+            <span
+              *ngIf="inputEmpty(form.subSegments) && !form.subSegments.touched"
+              class="input-placeholder"
+              [translate]="'global.forms.selectSubSegmentFromList'"
+            ></span>
+            <span
+              *ngIf="form.subSegments.invalid && form.subSegments.touched && form.segments.valid"
+              class="input-error"
+              [translate]="'myCompany.profile.edit.subSegmentsRequired'"
+            ></span>
+            <span
+              *ngIf="form.subSegments.touched && form.segments.invalid"
+              class="input-error"
+              [translate]="'myCompany.profile.edit.firstSelectSegments'"
+            ></span>
+            <mat-select multiple formControlName="subSegments">
+              <div class="search-div">
+                <span
+                  *ngIf="searchEmpty(subSegments.filter)"
+                  class="search-placeholder"
+                  [translate]="'global.forms.typeToSearch'"
+                >
+                </span>
+                <input
+                  type="text"
+                  class="search-input"
+                  (keyup)="applyFilter($event.target.value, subSegments)"
+                  (keydown)="$event.stopPropagation()"
+                />
+              </div>
+              <ng-template ngFor let-segment [ngForOf]="selectedSegments">
+                <div class="parent-option">
+                  <mat-checkbox
+                    (change)="toggleSubsegments($event, segment._id)"
+                    [checked]="allSubSegmentsSelected(segment._id)"
+                    >{{ segment.name }}</mat-checkbox
+                  >
+                </div>
+                <ng-template ngFor let-subSegment [ngForOf]="filteredSubSegments">
+                  <mat-option *ngIf="subSegment.parentId._id === segment._id" [value]="subSegment._id">
+                    {{ subSegment.name }}
+                  </mat-option>
+                </ng-template>
+              </ng-template>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field" *ngIf="filteredSkills && filteredSkills.length">
+          <label class="form-label" [translate]="'myCompany.profile.skills'"></label>
+          <mat-form-field
+            [ngClass]="{
+              'form-input': true,
+              'mat-error-customized': true,
+              'form-input-invalid': form.skills.invalid && form.skills.touched,
+              'form-input-valid': form.skills.valid
+            }"
+          >
+            <span
+              *ngIf="inputEmpty(form.skills) && !form.skills.touched"
+              class="input-placeholder"
+              [translate]="'global.forms.selectSkillsFromList'"
+            ></span>
+            <span
+              *ngIf="form.skills.invalid && form.skills.touched && form.subSegments.valid"
+              class="input-error"
+              [translate]="'myCompany.profile.edit.skillRequired'"
+            ></span>
+            <span
+              *ngIf="form.skills.touched && form.subSegments.invalid"
+              class="input-error"
+              [translate]="'myCompany.profile.edit.firstSelectSubSegments'"
+            ></span>
+            <mat-select multiple formControlName="skills">
+              <div class="search-div">
+                <span
+                  *ngIf="searchEmpty(skills.filter)"
+                  class="search-placeholder"
+                  [translate]="'global.forms.typeToSearch'"
+                >
+                </span>
+                <input
+                  type="text"
+                  class="search-input"
+                  (keyup)="applyFilter($event.target.value, skills)"
+                  (keydown)="$event.stopPropagation()"
+                />
+              </div>
+              <ng-template ngFor let-subSegment [ngForOf]="selectedSubSegments">
+                <div class="parent-option">
+                  <mat-checkbox
+                    (change)="toggleSkills($event, subSegment._id)"
+                    [checked]="allSkillsSelected(subSegment._id)"
+                    >{{ subSegment.name }}</mat-checkbox
+                  >
+                </div>
+                <ng-template ngFor let-skill [ngForOf]="filteredSkills">
+                  <mat-option *ngIf="skill.segment._id === subSegment._id" [value]="skill._id">
+                    {{ skill.name }}
+                  </mat-option>
+                </ng-template>
+              </ng-template>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" [translate]="'myCompany.profile.certifications'"></label>
+          <label class="form-label" style="font-weight: 300;" [translate]="'global.forms.optional'"></label>
+          <mat-form-field
+            [ngClass]="{
+              'form-input': true,
+              'form-input-valid': form.certifications.valid && !inputEmpty(form.certifications)
+            }"
+          >
+            <span
+              *ngIf="inputEmpty(form.certifications)"
+              class="input-placeholder"
+              [translate]="'global.forms.selectCertificationsFromList'"
+            ></span>
+            <mat-select multiple formControlName="certifications">
+              <div class="search-div">
+                <span
+                  *ngIf="searchEmpty(certifications.filter)"
+                  class="search-placeholder"
+                  [translate]="'global.forms.typeToSearch'"
+                >
+                </span>
+                <input
+                  type="text"
+                  class="search-input"
+                  (keyup)="applyFilter($event.target.value, certifications)"
+                  (keydown)="$event.stopPropagation()"
+                />
+              </div>
+              <mat-option *ngFor="let certification of certifications.filteredData" [value]="certification._id">
+                {{ certification.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" [translate]="'myCompany.profile.ownerShipDiversity'"></label>
+          <label class="form-label" style="font-weight: 300;" [translate]="'global.forms.optional'"></label>
+          <mat-form-field
+            [ngClass]="{
+              'form-input': true,
+              'form-input-valid': form.initiatives.valid && !inputEmpty(form.initiatives)
+            }"
+          >
+            <span
+              *ngIf="inputEmpty(form.initiatives)"
+              class="input-placeholder"
+              [translate]="'global.forms.selectOwnershipInitiativesFromList'"
+            ></span>
+            <mat-select multiple formControlName="initiatives">
+              <div class="search-div">
+                <span
+                  *ngIf="searchEmpty(initiatives.filter)"
+                  class="search-placeholder"
+                  [translate]="'global.forms.typeToSearch'"
+                >
+                </span>
+                <input
+                  type="text"
+                  class="search-input"
+                  (keyup)="applyFilter($event.target.value, initiatives)"
+                  (keydown)="$event.stopPropagation()"
+                />
+              </div>
+              <mat-option *ngFor="let initiative of initiatives.filteredData" [value]="initiative._id">
+                {{ initiative.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" [translate]="'myCompany.profile.whoWeAre'"></label>
+          <label class="form-label" style="font-weight: 300;" [translate]="'global.forms.optional'"></label>
+          <mat-form-field
+            [ngClass]="{
+              'form-textarea': true,
+              'form-input-valid': form.whoWeAre.valid && !inputEmpty(form.whoWeAre)
+            }"
+          >
+            <span
+              *ngIf="inputEmpty(form.whoWeAre)"
+              class="input-placeholder"
+              [translate]="'myCompany.profile.whoWeArePlaceholder'"
+            ></span>
+            <textarea id="whoWeAre" type="description" rows="8" matInput formControlName="whoWeAre"> </textarea>
+          </mat-form-field>
+        </div>
+
+        <div class="contact-us-container">
+          <span [translate]="'organization.profile.couldntfind'"></span><br />
+          <a
+            style="cursor: pointer;"
+            (click)="openContactModal('contact us', 'support@growinco.com')"
+            [translate]="'organization.profile.contactus'"
+          ></a>
+        </div>
+      </form>
+    </ion-row>
+  </div>
+</div>

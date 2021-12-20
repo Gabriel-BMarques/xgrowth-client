@@ -1,0 +1,120 @@
+<ion-content>
+  <div class="page-header container" *ngIf="!isLoading">
+    <div class="header-title">
+      <span>Target audience</span>
+      <button (click)="openTutorial()">
+        <i class="fas fa-question-circle"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="container" *ngIf="!isLoading">
+    <form [formGroup]="targetUsersForm">
+      <ion-list style="justify-content: center; display: flex;">
+        <ion-row class="row" style="max-width: 600px; width: 100%;">
+          <div class="col-12">
+            <label class="input-label">Target business unit(s)</label>
+            <div class="target-bus">
+              <div class="company-loader" *ngIf="loadingCompanies">loading companies...</div>
+              <ng-container *ngIf="!loadingCompanies">
+                <ion-searchbar
+                  animated
+                  placeholder="Search companies"
+                  (keyup)="searchCompanies($event.target.value)"
+                  (ionClear)="searchCompanies(null)"
+                >
+                </ion-searchbar>
+                <div class="select-all">
+                  <ion-checkbox
+                    id="add-post-all-selected"
+                    [(ngModel)]="allCompaniesSelected"
+                    [ngModelOptions]="{ standalone: true }"
+                    (ionChange)="toggleAllCompanies()"
+                  ></ion-checkbox>
+                  <span class="select-all-label">Select all companies</span>
+                </div>
+                <div class="organizations-panel">
+                  <ng-container *ngFor="let organization of organizations; let i = index">
+                    <div
+                      *ngIf="organization.name !== '1. Prospect Solvers with GrowinCo.'"
+                      class="organization-container"
+                      [ngClass]="i === organizations.length - 1 ? 'no-border' : ''"
+                    >
+                      <div class="organization-name-div">
+                        <span class="organization-name">{{ organization.name }}</span>
+                      </div>
+                      <ion-list class="companies-container">
+                        <ng-container *ngFor="let company of companies">
+                          <ion-item class="company-item" *ngIf="company.organization._id === organization._id">
+                            <ion-checkbox
+                              id="add-post-company-selected"
+                              [(ngModel)]="company.selected"
+                              [ngModelOptions]="{ standalone: true }"
+                              (ionChange)="selectCompany(company)"
+                            ></ion-checkbox>
+                            <span class="company-name">{{ company.companyName }}</span>
+                          </ion-item>
+                        </ng-container>
+                      </ion-list>
+                    </div>
+                  </ng-container>
+                </div>
+              </ng-container>
+            </div>
+            <label class="input-label">Department(s)</label>
+            <div class="target-departments">
+              <div class="company-loader" *ngIf="loadingCompanies">loading companies...</div>
+              <ng-container *ngIf="!loadingCompanies">
+                <ion-searchbar
+                  animated
+                  placeholder="Search companies"
+                  (keyup)="searchDepartment($event.target.value)"
+                  (ionClear)="searchDepartment(null)"
+                >
+                </ion-searchbar>
+                <div class="select-all">
+                  <ion-checkbox
+                    id="add-post-all-selected"
+                    [(ngModel)]="allDepartmentsSelected"
+                    [ngModelOptions]="{ standalone: true }"
+                    (ionChange)="toggleAllDepartments()"
+                  ></ion-checkbox>
+                  <span class="select-all-label">Select all departments</span>
+                </div>
+                <div class="organizations-panel">
+                  <div class="organization-container">
+                    <ion-list class="companies-container">
+                      <ng-container *ngFor="let department of departments">
+                        <ion-item class="company-item">
+                          <ion-checkbox
+                            id="add-post-company-selected"
+                            [(ngModel)]="department.selected"
+                            [ngModelOptions]="{ standalone: true }"
+                            (ionChange)="selectDepartment(department)"
+                          ></ion-checkbox>
+                          <span class="company-name">{{ department.name }}</span>
+                        </ion-item>
+                      </ng-container>
+                    </ion-list>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </ion-row>
+      </ion-list>
+    </form>
+  </div>
+</ion-content>
+<div class="response-add-footer-container">
+  <div class="buttons-container">
+    <ion-button color="secondary" (click)="previousStep()" fill="outline">Back</ion-button>
+    <ion-button
+      [disabled]="!canSubmit || isSaving"
+      [class]="!canSubmit || isSaving ? 'next-disabled' : ''"
+      color="primary"
+      (click)="submitModal()"
+      >Submit</ion-button
+    >
+  </div>
+</div>

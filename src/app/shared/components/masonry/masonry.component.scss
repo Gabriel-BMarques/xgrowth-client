@@ -1,0 +1,190 @@
+.posts-grid {
+  column-fill: initial;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  --background: inherit;
+  .posts-list {
+    width: 95%;
+    .post-card {
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      transition: none !important;
+      background: #ffffff 0% 0% no-repeat padding-box;
+      box-shadow: 0px 2px 4px #0000001a;
+      display: inline-block; /* Fix the misalignment of items */
+      vertical-align: top; /* Keep the item on the very top */
+      border-radius: 7px;
+      max-width: 17.375rem;
+      overflow: hidden;
+      ion-button {
+        display: flex;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        width: 30px;
+        height: 30px;
+        --background: white;
+        --background-hover: #cdcdcd;
+        --border-radius: 80px;
+        opacity: 0.8;
+        i {
+          color: #707070;
+        }
+      }
+      video {
+        cursor: pointer;
+        background: url(http://www.slatecube.com/images/play-btn.png);
+      }
+      .video-player-button {
+        img {
+          position: absolute;
+          min-height: unset !important;
+          top: 0%;
+          max-width: 50px;
+          right: 0%;
+        }
+      }
+      .post-image {
+        cursor: pointer;
+        z-index: 1;
+        height: 10.375rem;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        img {
+          position: absolute;
+          vertical-align: middle;
+          min-width: inherit;
+          min-height: 10.375rem;
+          margin: auto;
+          top: -9999px;
+          left: -9999px;
+          right: -9999px;
+          bottom: -9999px;
+          object-fit: cover;
+        }
+      }
+      .placeholder-image {
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background: transparent bottom;
+      }
+      .brief-chip {
+        z-index: 2;
+        i {
+          margin-right: 0.5rem;
+        }
+        position: absolute;
+        top: -5px;
+        left: -2.5%;
+        width: 110%;
+        background-color: #f5a031c9;
+        color: white;
+        font-weight: 600;
+        border-radius: 20px 20px 0px 0px;
+        font-size: 0.8rem;
+      }
+      .title {
+        font-size: 14px;
+        text-align: left;
+        padding-left: 0.5rem;
+        padding-right: 1rem;
+        color: #565555;
+        font-family: Open Sans;
+        font-weight: normal;
+        margin-top: 1rem;
+        margin-left: 0.3rem;
+        cursor: pointer;
+      }
+      .subtitle {
+        font-size: 12px;
+        text-align: left;
+        padding-left: 0.5rem;
+        padding-right: 0rem;
+        color: #70c1ed;
+        font-family: Open Sans;
+        font-weight: bold;
+        margin-top: 0.5rem;
+        margin-left: 0.3rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.post-modal-footer {
+  position: fixed;
+  width: 100%;
+  height: 88px;
+}
+
+// https://www.creativebloq.com/advice/10-things-you-never-knew-you-could-do-with-sass
+$grid-breakpoints: (
+  xs: 320px,
+  sm: 650px,
+  md: 800px,
+  lg: 1200px,
+  xl: 1564px
+);
+
+@function breakpoint-var($breakpoint) {
+  @return map-get($grid-breakpoints, $breakpoint);
+}
+
+@mixin resizeRow($margin, $flex) {
+  margin: $margin;
+  width: $flex;
+}
+
+.posts-list .post-card {
+  &.start-six {
+    // six cards per row
+    @media (min-width: breakpoint-var(xl)) {
+      @include resizeRow(10px 0.5%, 15.66%);
+    }
+
+    // five cards per row
+    @media (max-width: breakpoint-var(xl)) and (min-width: breakpoint-var(lg)) {
+      @include resizeRow(10px 0.5%, 19%);
+    }
+
+    // four cards per row
+    @media (max-width: breakpoint-var(lg)) and (min-width: breakpoint-var(md)) {
+      @include resizeRow(10px 0.75%, 23.5%);
+    }
+
+    // three cards per row
+    @media (max-width: breakpoint-var(md)) and (min-width: breakpoint-var(sm)) {
+      @include resizeRow(10px 1%, 31.33%);
+    }
+
+    // two cards per row
+    @media (max-width: breakpoint-var(sm)) and (min-width: breakpoint-var(xs)) {
+      @include resizeRow(10px 1%, 48%);
+    }
+
+    // one cards per row
+    @media (max-width: breakpoint-var(xs)) {
+      @include resizeRow(10px 0.5%, 99%);
+    }
+  }
+  &.start-three {
+    // three cards per row
+    @media (min-width: breakpoint-var(sm)) {
+      @include resizeRow(10px 1%, 31.33%);
+    }
+
+    // two cards per row
+    @media (max-width: breakpoint-var(sm)) and (min-width: breakpoint-var(xs)) {
+      @include resizeRow(10px 1%, 48%);
+    }
+
+    // one cards per row
+    @media (max-width: breakpoint-var(xs)) {
+      @include resizeRow(10px 0.5%, 99%);
+    }
+  }
+}

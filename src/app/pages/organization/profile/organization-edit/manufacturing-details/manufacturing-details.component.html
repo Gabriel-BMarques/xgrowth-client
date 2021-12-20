@@ -1,0 +1,345 @@
+<div class="manufacturing-details-container">
+  <div *ngIf="viewport === 'mobile'" class="header">
+    <div class="header-content">
+      <i class="fas fa-chevron-left back-icon" (click)="back()"></i>
+      <span class="title" [translate]="'myCompany.profile.manufacturingDetails'"></span>
+    </div>
+  </div>
+  <div *ngIf="loading" class="loader-container">
+    <ion-spinner *ngIf="loading" name="lines" class="loader"></ion-spinner>
+  </div>
+  <div *ngIf="!loading && !isEditingPlant && !isAddingPlant" class="manufacturing-details-info-container">
+    <ion-row>
+      <div class="form-title">
+        <span style="font-weight: bold;" [translate]="'myCompany.profile.plantDetails'"></span>
+        <span [translate]="'myCompany.profile.optional'"></span>
+        <img
+          *ngIf="(isEditing || !plants?.length) && organization.canEdit"
+          class="add-plant-button"
+          style="cursor: pointer;"
+          src="../../../../../assets/icon/plus-circle-icon.svg"
+          (click)="addPlant()"
+        />
+      </div>
+      <div *ngIf="!plants?.length" class="no-plants">
+        <div class="no-plants-icon"></div>
+        <div class="no-plants-message">
+          <span
+            *ngIf="organization.canEdit"
+            style="font-weight: bold;"
+            [translate]="'myCompany.profile.noPlantsYourOrg'"
+          ></span>
+          <span
+            *ngIf="!organization.canEdit"
+            style="font-weight: bold;"
+            [translate]="'myCompany.profile.noPlantsThisOrg'"
+          ></span>
+          <div *ngIf="organization.canEdit" class="how-to-add-plant">
+            <span style="font-weight: normal;" [translate]="'myCompany.profile.clickOnThe'"></span>
+            <img
+              *ngIf="isEditing || !plants?.length"
+              class="add-plant-button"
+              style="width: 25px; height: 25px; cursor: pointer;"
+              src="../../../../../assets/icon/plus-circle-icon.svg"
+            />
+            <span [translate]="'myCompany.profile.buttonToAddPlant'"></span>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="plants?.length" class="plant-list-container">
+        <div *ngFor="let plant of plants; let last = last">
+          <span class="plant-title-div">
+            <span class="plant-title">{{ plant.name }}</span>
+            <i *ngIf="isEditing" class="fas fa-pen edit-plant-icon" (click)="editPlant(plant)"></i>
+          </span>
+          <div class="plant-info-container">
+            <ion-col class="left-col" size="8">
+              <div class="plant-info">
+                <span class="info-label" [translate]="'myCompany.profile.country'"></span>
+                <span class="info-value">{{ plant.country?.name || 'N/D' }}</span>
+              </div>
+              <div class="plant-info">
+                <span class="info-label" [translate]="'myCompany.profile.stateProvince'"></span>
+                <span class="info-value">{{ plant.stateProvinceRegion?.name || 'N/D' }}</span>
+              </div>
+              <div class="plant-info">
+                <span class="info-label" [translate]="'myCompany.profile.city'"></span>
+                <span class="info-value">{{ plant.city?.name || 'N/D' }}</span>
+              </div>
+              <div class="plant-info">
+                <span class="info-label" [translate]="'myCompany.profile.address'"></span>
+                <span class="info-value">{{ plant.address || 'N/D' }}</span>
+              </div>
+              <div *ngIf="plant.lines?.length" class="line-details-button" (click)="displayLineDetails(plant)">
+                <span [translate]="'myCompany.profile.productionLineDetails'"></span>
+                <i *ngIf="!plant.linesActive" class="fas fa-chevron-down"></i>
+                <i *ngIf="plant.linesActive" class="fas fa-chevron-up"></i>
+              </div>
+              <div *ngIf="plant.linesActive" class="lines-list">
+                <div *ngFor="let line of plant.lines">
+                  <span class="line-title">{{ line.name }}</span>
+                  <div class="products-list">
+                    <span class="products-title" [translate]="'myCompany.profile.products'"></span>
+                    <ul>
+                      <li *ngFor="let product of line.products" class="product-item">{{ product.name }}</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </ion-col>
+            <ion-col class="right-col" size="4">
+              <div class="plant-info">
+                <span class="info-label" [translate]="'myCompany.profile.contact'"></span>
+                <br /><span class="info-value">{{ plant.contact || 'N/D' }}</span>
+              </div>
+            </ion-col>
+          </div>
+          <hr *ngIf="!last" class="divider" />
+        </div>
+      </div>
+    </ion-row>
+  </div>
+  <div *ngIf="!loading && (isAddingPlant || isEditingPlant)" class="manufacturing-form-container">
+    <ion-row>
+      <div class="form-title">
+        <span style="font-weight: bold;" [translate]="'myCompany.profile.plantDetails'"></span>
+        <span [translate]="'myCompany.profile.optional'"></span>
+      </div>
+      <form class="plant-details-form" [formGroup]="plantDetailsForm">
+        <div class="form-field">
+          <label class="form-label" [translate]="'myCompany.profile.plantName'"></label>
+          <mat-form-field
+            [ngClass]="{
+              'form-input': true,
+              'form-input-invalid': plantForm.plantName.invalid && plantForm.plantName.touched,
+              'form-input-valid': plantForm.plantName.valid
+            }"
+          >
+            <span
+              *ngIf="inputEmpty(this.plantForm.plantName)"
+              class="input-placeholder"
+              [translate]="'global.forms.insertPlantName'"
+            ></span>
+            <input type="text" matInput formControlName="plantName" />
+            <mat-error *ngIf="plantForm.plantName.invalid">
+              <div style="text-align: center;">
+                <span [translate]="'myCompany.profile.edit.errorPlantName'"></span>
+              </div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" [translate]="'myCompany.profile.country'"></label>
+          <mat-form-field
+            [ngClass]="{
+              'form-input': true,
+              'form-input-invalid': plantForm.country.invalid && plantForm.country.touched,
+              'form-input-valid': plantForm.country.valid
+            }"
+          >
+            <span
+              *ngIf="inputEmpty(this.plantForm.country)"
+              class="input-placeholder"
+              [translate]="'global.forms.typeToSearch'"
+            ></span>
+            <input type="text" formControlName="country" matInput [matAutocomplete]="country" appCountryValidator />
+            <mat-error *ngIf="plantForm.country.invalid">
+              <div style="text-align: center;">
+                <span [translate]="'myCompany.profile.edit.errorCountryName'"></span>
+              </div>
+            </mat-error>
+            <i class="fas fa-chevron-down dropdown-icon"></i>
+            <mat-autocomplete #country="matAutocomplete" [displayWith]="displayFn" (optionSelected)="getStates($event)">
+              <mat-option *ngFor="let country of filteredCountries | async" [value]="country">
+                {{ country.name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" [translate]="'myCompany.profile.stateProvince'"></label>
+          <mat-form-field
+            [ngClass]="{
+              'form-input': true,
+              'form-input-invalid': plantForm.province.invalid && plantForm.province.touched,
+              'form-input-valid': plantForm.province.valid
+            }"
+          >
+            <span
+              *ngIf="inputEmpty(this.plantForm.province)"
+              class="input-placeholder"
+              [translate]="'global.forms.typeToSearch'"
+            ></span>
+            <input
+              type="text"
+              formControlName="province"
+              matInput
+              [matAutocomplete]="province"
+              appStateProvinceValidator
+            />
+            <mat-error *ngIf="plantForm.province.invalid">
+              <div style="text-align: center;">
+                <span [translate]="'myCompany.profile.edit.errorStateName'"></span>
+              </div>
+            </mat-error>
+            <i class="fas fa-chevron-down dropdown-icon"></i>
+            <mat-autocomplete
+              #province="matAutocomplete"
+              [displayWith]="displayFn"
+              (optionSelected)="getCities($event)"
+            >
+              <mat-option *ngFor="let stateProvince of filteredStateProvinces | async" [value]="stateProvince">
+                {{ stateProvince.name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" [translate]="'myCompany.profile.city'"></label>
+          <mat-form-field
+            [ngClass]="{
+              'form-input': true,
+              'form-input-invalid': plantForm.city.invalid && plantForm.city.touched,
+              'form-input-valid': plantForm.city.valid
+            }"
+          >
+            <span
+              *ngIf="inputEmpty(this.plantForm.city)"
+              class="input-placeholder"
+              [translate]="'global.forms.typeToSearch'"
+            ></span>
+            <input type="text" formControlName="city" matInput [matAutocomplete]="city" appCityValidator />
+            <mat-error *ngIf="plantForm.city.invalid">
+              <div style="text-align: center;">
+                <span [translate]="'myCompany.profile.edit.errorCityName'"></span>
+              </div>
+            </mat-error>
+            <i class="fas fa-chevron-down dropdown-icon"></i>
+            <mat-autocomplete #city="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let city of filteredCities | async" [value]="city">
+                {{ city.name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" [translate]="'myCompany.profile.address'"></label>
+          <label class="form-label" style="font-weight: 300;" [translate]="'myCompany.profile.optional'"></label>
+          <mat-form-field
+            [ngClass]="{
+              'form-input': true,
+              'form-input-valid': plantForm.address.valid && !inputEmpty(plantForm.address)
+            }"
+          >
+            <span
+              *ngIf="inputEmpty(this.plantForm.address)"
+              class="input-placeholder"
+              [translate]="'global.forms.insertAddress'"
+            ></span>
+            <input type="text" matInput formControlName="address" />
+          </mat-form-field>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" [translate]="'myCompany.profile.contact'"></label>
+          <label class="form-label" style="font-weight: 300;" [translate]="'myCompany.profile.optional'"></label>
+          <mat-form-field
+            [ngClass]="{
+              'form-input': true,
+              'form-input-valid': plantForm.contact.valid && !inputEmpty(plantForm.contact)
+            }"
+          >
+            <span
+              *ngIf="inputEmpty(this.plantForm.contact)"
+              class="input-placeholder"
+              [translate]="'global.forms.insertContact'"
+            ></span>
+            <input type="text" matInput formControlName="contact" />
+          </mat-form-field>
+        </div>
+
+        <div class="line-details-container">
+          <div class="line-details-form">
+            <div class="line-details-decision">
+              <span class="question" [translate]="'myCompany.profile.wouldYouLikeToAddLineDetails'"></span>
+              <div class="radio-buttons-container">
+                <ion-radio-group [value]="lineDetails">
+                  <ion-radio [value]="false" (ionSelect)="switchLineDetails($event)"></ion-radio>
+                  <ion-label>No</ion-label>
+                  <ion-radio [value]="true" (ionSelect)="switchLineDetails($event)"></ion-radio>
+                  <ion-label>Yes</ion-label>
+                </ion-radio-group>
+              </div>
+            </div>
+            <div *ngIf="lineDetails" class="line-details">
+              <div *ngIf="lines.length" class="line-list">
+                <div class="line-item" *ngFor="let line of lines">
+                  <div class="line-title">
+                    <span>{{ line.name }}</span>
+                    <i class="fas fa-pen edit-button" (click)="editLine(line)"></i>
+                  </div>
+                  <div class="line-products">
+                    <div *ngIf="line.products && line.products.length" class="products-title">
+                      <span [translate]="'myCompany.profile.products'"></span>
+                    </div>
+                    <div class="products-list">
+                      <ul>
+                        <li *ngFor="let product of line.products">{{ product.name }}</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr *ngIf="lines.length" />
+              <div class="line-form">
+                <div formGroupName="lineDetails">
+                  <div class="form-field">
+                    <label class="form-label" [translate]="'myCompany.profile.productionLineName'"></label>
+                    <mat-form-field
+                      [ngClass]="{
+                        'form-input': true,
+                        'form-input-valid': lineForm.lineName.valid && !inputEmpty(lineForm.lineName)
+                      }"
+                    >
+                      <span
+                        *ngIf="inputEmpty(this.plantForm.lineDetails.controls.lineName)"
+                        class="input-placeholder"
+                        [translate]="'myCompany.profile.insertProductLineNameHere'"
+                      ></span>
+                      <input type="text" matInput formControlName="lineName" />
+                    </mat-form-field>
+                  </div>
+                  <div class="buttons-container">
+                    <img
+                      *ngIf="!isEditingLine && lineForm.lineName.valid"
+                      class="add-line-button"
+                      src="../../../../../assets/icon/plus-circle-icon.svg"
+                      (click)="addLine()"
+                    />
+                    <img
+                      *ngIf="isEditingLine || (!isEditingLine && lineForm.lineName.invalid)"
+                      class="add-line-button"
+                      style="cursor: unset;"
+                      src="../../../../../assets/icon/plus-circle-icon-disabled.svg"
+                    />
+                    <ion-button
+                      shape="round"
+                      class="save-line-button"
+                      [disabled]="!isEditingLine || lineForm.lineName.invalid"
+                      (click)="saveLineChanges()"
+                      [translate]="'global.actions.save'"
+                    ></ion-button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ion-row>
+  </div>
+</div>

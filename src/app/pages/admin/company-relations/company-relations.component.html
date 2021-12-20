@@ -1,0 +1,75 @@
+<ion-content #contentArea>
+  <div class="title">
+    <span class="text-uppercase">Company Relations</span>
+  </div>
+  <ion-grid>
+    <div class="actions-div">
+      <ion-button
+        id="admin-relations-refresh"
+        fill="clear"
+        color="dark"
+        class="refresh-button"
+        (click)="refreshCompanies()"
+      >
+        <i class="fas fa-redo-alt"></i>
+      </ion-button>
+    </div>
+    <!--Mobile-->
+    <ng-container *ngIf="isApp">
+      <button class="tooltip-relations-mob" (click)="toggleTooltipInfo()">
+        <i class="fas fa-info-circle"></i>
+      </button>
+      <div class="col-10 col-md-8 d-flex">
+        <p *ngIf="showTooltipInfo" class="tooltip-text-mob">
+          Company Relations Page allows you to set BUs as seekers and solvers. Business Units selected in the modals are
+          solvers and the modal owner the seeker.
+        </p>
+      </div>
+    </ng-container>
+    <ion-searchbar
+      id="admin-relations-searchbar"
+      animated
+      (keyup.enter)="applyFilter($event.target.value)"
+      (ionClear)="applyFilter(null)"
+      style="--background: white;"
+    >
+    </ion-searchbar>
+  </ion-grid>
+
+  <!--Desktop-->
+  <ng-container *ngIf="!isApp">
+    <button class="tooltip-relations" (click)="toggleTooltipInfo()">
+      <i class="fas fa-info-circle"></i>
+    </button>
+    <div class="col-10 col-md-8 d-flex">
+      <p *ngIf="showTooltipInfo" class="tooltip-text">
+        Company Relations Page allows you to set BUs as seekers and solvers. Business Units selected in the modals are
+        solvers and the modal owner the seeker.
+      </p>
+    </div>
+  </ng-container>
+
+  <div *ngIf="skeletonLoading">
+    <app-skeleton [skeleton]="'companies'"></app-skeleton>
+  </div>
+  <ion-grid class="display-list" *ngIf="!skeletonLoading">
+    <ion-row>
+      <div *ngFor="let item of companyData.filteredData; let i = index">
+        <ion-card class="company-relations-container">
+          <a>
+            <ion-item id="admin-relations-edit" class="table-item" (click)="itemClick(item._id)">
+              <ion-label>
+                <h5 class="title">{{ item.companyName }}</h5>
+                <!-- <h3 *ngIf="Type === 'companies'" class="description">{{ item.organization }}</h3> -->
+              </ion-label>
+            </ion-item>
+          </a>
+        </ion-card>
+      </div>
+    </ion-row>
+  </ion-grid>
+  <!-- <app-panel [panelData]="panelData" *ngIf="!skeletonLoading"></app-panel> -->
+  <ion-infinite-scroll threshold="40%" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText=""> </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

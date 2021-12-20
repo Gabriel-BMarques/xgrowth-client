@@ -1,0 +1,98 @@
+<ion-content #contentArea *ngIf="!selectedPreview">
+  <div class="tutorials-head container">
+    <div class="row mt-2 mb-2">
+      <div class="actions-div col-12 col-md-6 d-flex align-items-center">
+        <h5>help center</h5>
+        <ion-button
+          id="admin-tutorials-refresh"
+          fill="clear"
+          style="color: #707070; font-size: 21px;"
+          class="refresh-button"
+          (click)="fetchTutorials()"
+        >
+          <i class="bi bi-arrow-repeat"></i>
+        </ion-button>
+      </div>
+      <div class="col-12 col-md-6 d-flex align-items-center">
+        <ion-searchbar
+          id="admin-tutorials-searchbar"
+          animated
+          (keyup.enter)="applyFilter($event.target.value)"
+          (ionClear)="applyFilter(null)"
+        ></ion-searchbar>
+        <button id="admin-tutorials-create" class="create-article-btn" (click)="addTutorial()">
+          <span>Create article</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="skeletonLoading">
+    <app-skeleton [skeleton]="'companies'"></app-skeleton>
+  </div>
+  <ion-grid class="display-list container" *ngIf="!skeletonLoading">
+    <div class="topic">
+      <div class="row">
+        <div class="col-5 col-md-6 col-lg-8 d-flex align-items-center">
+          <h4 style="margin-bottom: 0px;">tutorials</h4>
+        </div>
+        <div class="col-5 col-md-4 col-lg-2 d-flex align-items-center justify-content-center">
+          <span style="margin-right: 5px;">Feedback</span>
+          <i class="bi bi-graph-up" style="color: #CECECE;"></i>
+        </div>
+        <div class="col-2 col-md-2 col-lg-2 d-flex align-items-center justify-content-center">
+          <span>Visibility</span>
+        </div>
+      </div>
+    </div>
+    <div *ngFor="let topic of tutorialTopics" class="topic">
+      <h4>{{ topic }}</h4>
+      <ng-container *ngFor="let tutorial of tutorials; let i = index">
+        <div *ngIf="tutorial?.topic === topic" class="tutorials-container">
+          <div class="row">
+            <div class="col-5 col-md-6 col-lg-8 d-flex align-items-center">
+              <a class="table-item" (click)="editTutorial(tutorial)">
+                <h5>
+                  {{ tutorial?.title }} <span class="main-indicator" *ngIf="tutorial.type === 'main topic'">main</span>
+                </h5>
+              </a>
+            </div>
+            <div class="col-5 col-md-4 col-lg-2 d-flex align-items-center justify-content-between">
+              <div class="happy">
+                <i class="bi bi-emoji-smile"></i>
+                <span>{{ countReactions(tutorial._id, 'happy') }}</span>
+              </div>
+              <div class="neutral">
+                <i class="bi bi-emoji-neutral"></i>
+                <span>{{ countReactions(tutorial._id, 'neutral') }}</span>
+              </div>
+              <div class="sad">
+                <i class="bi bi-emoji-frown"></i>
+                <span>{{ countReactions(tutorial._id, 'sad') }}</span>
+              </div>
+            </div>
+            <div class="col-2 col-md-2 col-lg-2 d-flex align-items-center justify-content-center">
+              <mat-slide-toggle
+                id="admin-tutorials-visibility-{{ i }}"
+                class="tp-margin"
+                [checked]="tutorial?.visible"
+                (change)="toggleVisibility($event, tutorial)"
+              ></mat-slide-toggle>
+              <i (click)="previewTutorial(tutorial)" class="ml-2 bi bi-eye" style="cursor: pointer;"></i>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </ion-grid>
+</ion-content>
+<!-- Tutorial Preview -->
+<ion-content *ngIf="selectedPreview">
+  <div class="container tutorial-details">
+    <i class="fas fa-arrow-left back-icon" (click)="selectedPreview = !selectedPreview"></i>
+    <span (click)="selectedPreview = !selectedPreview" class="back-text">Back</span>
+    <h3 style="color: var(--ion-text-color);">{{ selectedTutorial?.title }}</h3>
+    <div class="tutorial-text">
+      <span [innerHTML]="htmlText(selectedTutorial)"></span>
+    </div>
+  </div>
+</ion-content>

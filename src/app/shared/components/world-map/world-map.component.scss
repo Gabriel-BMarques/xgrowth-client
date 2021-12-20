@@ -1,0 +1,20 @@
+.loader-container {
+  display: flex;
+  min-height: 400px;
+  min-width: 600px;
+  align-items: center;
+  justify-content: center;
+}
+
+::ng-deep .highcharts-map-series .highcharts-point {
+  stroke: #e8e8e8;
+  stroke-width: 0.25px;
+}
+
+::ng-deep .highcharts-title {
+  display: none;
+}
+
+::ng-deep .highcharts-button {
+  display: none;
+}

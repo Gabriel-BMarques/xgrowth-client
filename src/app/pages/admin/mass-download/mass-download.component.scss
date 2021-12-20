@@ -1,0 +1,102 @@
+@media (min-width: 1px) {
+  ion-content.mass-download-container {
+    ion-card.mass-download-card {
+      margin-right: 2rem;
+      margin-left: 2rem;
+      padding-bottom: 0px;
+      transition: padding-bottom 1s ease-in-out;
+
+      ion-card-header.mass-download-header {
+        padding: 1rem;
+        margin-bottom: 0rem;
+        text-align: center;
+
+        ion-card-title {
+          --color: #AOAOAO;
+          font-size: 1.3rem;
+          font-weight: bold;
+          text-transform: uppercase;
+        }
+
+        ion-card-subtitle {
+          --color: #AOAOAO;
+          font-size: 1rem;
+        }
+      }
+
+      ion-card-content.mass-download-content {
+        margin: 1rem 0;
+
+        ion-button {
+          --background: #f5a031;
+          --background-hover: #ffc06d;
+          --color-hover: white;
+          --background-focused: #ffc06d;
+          --border-radius: 50px;
+          display: block;
+          margin: 1rem 25%;
+          font-size: 0.95rem;
+        }
+      }
+
+      .downloading-data-main-content {
+        .downloading-data-card {
+          .downloading-data-card-content {
+            ion-card-subtitle {
+              --color: #AOAOAO;
+              margin-bottom: 10px;
+              font-weight: 400;
+            }
+            section.progress-bar-section {
+              ion-button.finish-mass-download-button {
+                --background: #f5a031;
+                --background-hover: #ffc06d;
+                --color-hover: white;
+                --background-focused: #ffc06d;
+                --border-radius: 50px;
+                display: block;
+                margin: 2rem 25% 1rem;
+                font-size: 0.95rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  ion-content.mass-download-container {
+    ion-card.mass-download-card {
+      ion-card-content.mass-download-content {
+        ion-button {
+          margin: 1rem 0;
+          font-size: 0.9rem;
+        }
+      }
+
+      .downloading-data-main-content {
+        .downloading-data-card {
+          .downloading-data-card-content {
+            section.progress-bar-section {
+              ion-button.finish-mass-download-button {
+                margin: 2rem 0 1rem;
+                font-size: 0.9rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1368px) {
+  ion-content.mass-download-container {
+    ion-card.mass-download-card {
+      margin-right: 30%;
+      margin-left: 30%;
+    }
+  }
+}

@@ -1,0 +1,92 @@
+ion-card {
+  min-height: 28.1875rem;
+  // width: 17.375rem;
+  font: normal normal normal 1rem/1.375rem Open Sans;
+  border-radius: 7px !important;
+  opacity: 1;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  background: #ffffff 0% 0% no-repeat padding-box;
+
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  transition: none !important;
+  display: inline-block; /* Fix the misalignment of items */
+  vertical-align: top; /* Keep the item on the very top */
+  width: 100%;
+  overflow: hidden;
+  .image {
+    position: relative;
+  }
+
+  .overlay {
+    position: absolute;
+    right: 0;
+    z-index: 5;
+    width: 100%;
+    .fas {
+      display: inline-block !important;
+      border-radius: 3.75rem !important;
+      box-shadow: 0rem 0rem 0.125rem #888 !important;
+      padding: 0.5em 0.6em !important;
+      color: #70c1ed;
+      background-color: white;
+      opacity: 0.8;
+      cursor: pointer;
+      transition: 1s ease-in-out;
+      &.fas:hover {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  .read_more_less_link {
+    color: #70c1ed;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  ion-img {
+    vertical-align: middle;
+    border-style: none;
+    width: 100%;
+    height: 15.625rem;
+    object-fit: cover;
+    border-radius: 0.4375rem;
+  }
+  .sales_market_container {
+    text-align: left;
+    font: normal normal bold 0.875rem/1.1875rem Open Sans;
+    a {
+      color: #70c1ed;
+      text-decoration: none;
+      font-size: 0.875rem;
+      letter-spacing: 0px;
+      opacity: 1;
+    }
+  }
+  .product_wight_subtitle {
+    text-align: left;
+    letter-spacing: 0px;
+    color: #565555;
+    padding-top: 0.3125rem;
+  }
+}
+
+.limitTextHeight {
+  height: 4.375rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.my-custom-class {
+  background-color: red !important;
+  border-radius: 0px !important;
+}
+
+ion-modal {
+  --box-shadow: 0 1.75rem 3rem rgba(0, 0, 0, 0.4);
+  --border-radius: 0px !important;
+}

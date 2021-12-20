@@ -1,0 +1,430 @@
+/**
+* Universal classes
+*/
+.text-centralizer {
+  width: 100%;
+  text-align: center;
+}
+
+.search-div {
+  padding-left: 0.938rem;
+  padding-right: 0.938rem;
+  padding-top: 0.938rem;
+  padding-bottom: 0.938rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  .search-placeholder {
+    position: absolute;
+    padding-left: 1rem;
+    font-size: 0.9375rem;
+    color: #cacaca;
+    z-index: 0;
+  }
+  .search-input {
+    width: 100%;
+    height: 2.5rem;
+    margin-right: auto;
+    margin-left: auto;
+    border: 1px #dededf solid;
+    border-radius: 1.563rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    outline: none;
+    background: transparent;
+    z-index: 1;
+  }
+}
+
+.parent-option {
+  height: 48px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  display: flex;
+  align-items: center;
+  ::ng-deep .mat-checkbox-frame {
+    border-color: #dededf;
+    border-width: 1px;
+  }
+  ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background-color: #70c1ed;
+  }
+  ::ng-deep .mat-checkbox-label {
+    color: #565555;
+    opacity: 0.4;
+    font-weight: bold;
+  }
+}
+
+::ng-deep .cdk-overlay-pane {
+  .mat-select-panel-wrap {
+    .mat-option {
+      color: #565555 !important;
+      .mat-pseudo-checkbox {
+        border: 1px #dededf solid;
+      }
+      .mat-pseudo-checkbox-checked {
+        background: #70c1ed;
+        display: flex;
+        border-color: #70c1ed;
+      }
+      .mat-pseudo-checkbox-checked:after {
+        margin-left: 1px;
+        margin-top: 1px;
+      }
+    }
+  }
+}
+
+.organization-overview-container {
+  .header {
+    width: 100%;
+    height: 4rem;
+    background: #ffffff;
+    box-shadow: 0px -1px 6px #00000029;
+    display: flex;
+    align-items: center;
+    .header-content {
+      .back-icon {
+        margin-left: 1.313rem;
+        color: #707070;
+        font-size: 0.875rem;
+      }
+      .title {
+        margin-left: 0.628rem;
+        color: #565555;
+        font-size: 1rem;
+        font-weight: bold;
+      }
+    }
+  }
+  .loader-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 3rem;
+    .loader {
+      transform: scale(1.5);
+    }
+  }
+  .organization-overview-info-container {
+    ion-row {
+      ion-col {
+        .section-container-title {
+          color: #565555;
+          font-weight: bold;
+          font-size: 1rem;
+          opacity: 0.4;
+          width: 100%;
+          display: block;
+        }
+        .organization-reach-container {
+          margin-top: 1.25rem;
+          .global-region-list {
+            display: flex;
+            width: 100%;
+            padding-left: 2.25rem;
+            margin-bottom: 0;
+            .region-name {
+              font-size: 0.875rem;
+              color: #565555;
+            }
+            .region-reach-level {
+              font-size: 0.875rem;
+              font-weight: bold;
+              color: #70c1ed;
+            }
+            .left-list {
+              display: table;
+              padding-right: 4.25rem;
+            }
+            .right-list {
+              display: table;
+            }
+          }
+          .view-more {
+            font-size: 0.875rem;
+            color: #70c1ed;
+            font-weight: bold;
+            cursor: pointer;
+          }
+        }
+        .website-section-container {
+          .value {
+            margin-top: 0.156rem;
+            display: block;
+            font-size: 0.875rem;
+          }
+        }
+        .startup-type-section-container {
+          .value {
+            margin-top: 0.156rem;
+            color: #565555;
+            font-size: 0.875rem;
+            display: block;
+          }
+        }
+        .list-section-container {
+          margin-top: 1.25rem;
+          .values-list {
+            margin-top: 0.313rem;
+            .view-more {
+              font-size: 0.875rem;
+              color: #70c1ed;
+              font-weight: bold;
+              cursor: pointer;
+            }
+            ul {
+              padding: 0;
+              line-height: 19px;
+              li {
+                color: #565555;
+                font-size: 0.875rem;
+                margin-left: 2.5rem;
+              }
+              .view-more {
+                margin-left: 1.469rem;
+              }
+            }
+            .skills-parent-div {
+              overflow: hidden;
+              max-height: 120px;
+              .skills-child-div {
+                .skill-chip {
+                  --background: #70c1ed;
+                  --color: #ffffff;
+                  .skill-label {
+                    font-weight: bold;
+                  }
+                }
+              }
+            }
+          }
+          .value {
+            margin-top: 0.156rem;
+            color: #565555;
+            font-size: 0.875rem;
+            display: block;
+          }
+        }
+      }
+    }
+    @media (max-width: 541px) {
+      ion-row {
+        display: block;
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+        margin-bottom: 12.5rem;
+        ion-col {
+          display: block;
+        }
+      }
+    }
+  }
+  .organization-overview-form-container {
+    padding-bottom: 7.625rem;
+    .organization-overview-form {
+      width: 100%;
+      .form-field {
+        width: 100%;
+        margin-top: 1.25rem;
+        .form-label {
+          margin-bottom: 0.313rem;
+          font-weight: bold;
+          color: #565555;
+        }
+        .select-disabled {
+          ::ng-deep .mat-form-field-infix {
+            background-color: #dededf !important;
+          }
+        }
+        .form-input {
+          width: 100%;
+          ::ng-deep .mat-form-field-infix {
+            padding: 0 !important;
+            background-color: #ffffff;
+            height: 2.5rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px #dededf solid;
+            border-radius: 1.563rem;
+            input {
+              margin: 0 !important;
+              padding-right: 1rem;
+              padding-left: 1rem;
+              height: 100%;
+              border-radius: 1.563rem;
+            }
+            .mat-input-element:disabled {
+              color: #565555;
+              background-color: #dededf;
+            }
+            .mat-select-disabled .mat-select-value {
+              color: #565555;
+            }
+            ::ng-deep .mat-select {
+              height: 100%;
+              padding-right: 1rem;
+              padding-left: 1rem;
+              .mat-select-trigger {
+                height: 100%;
+                .mat-select-value {
+                  padding: 0;
+                  vertical-align: middle;
+                }
+                .mat-select-arrow-wrapper {
+                  background-image: url("../../../../../../assets/icon/chevron-down-icon.svg");
+                  background-repeat: no-repeat;
+                  background-position: center;
+                  .mat-select-arrow {
+                    border: none;
+                    width: 4px;
+                  }
+                }
+              }
+            }
+          }
+          .input-placeholder {
+            position: absolute;
+            padding-left: 1rem;
+            font-size: 0.9375rem;
+            color: #cacaca;
+          }
+          .input-error {
+            position: absolute;
+            padding-left: 1rem;
+            font-size: 0.9375rem;
+            color: red;
+            transition-timing-function: ease-in;
+            transition-delay: 0.5s;
+          }
+        }
+        .form-input-invalid {
+          width: 100%;
+          ::ng-deep .mat-form-field-infix {
+            border: 1px red solid !important;
+          }
+        }
+        .form-input-valid {
+          width: 100%;
+          ::ng-deep .mat-form-field-infix {
+            border: 1px green solid !important;
+          }
+        }
+        .form-textarea {
+          width: 100%;
+          ::ng-deep .mat-form-field-infix {
+            padding: 0 !important;
+            background-color: #ffffff;
+            width: 100%;
+            display: flex;
+            border-radius: 7px;
+            .input-placeholder {
+              position: absolute;
+              padding-left: 1rem;
+              padding-right: 1rem;
+              padding-top: 1rem;
+              font-size: 0.9375rem;
+              color: #cacaca;
+            }
+            textarea {
+              margin: 0 !important;
+              padding-right: 1rem;
+              padding-left: 1rem;
+              padding-top: 1rem;
+              padding-bottom: 1rem;
+              height: 100%;
+            }
+          }
+        }
+      }
+      .organization-reach-field-container {
+        border: 1px solid #dededf;
+        border-radius: 7px;
+        height: 19.75rem;
+        overflow-y: auto;
+        overflow-x: hidden;
+        .search-input {
+          padding-left: 0.938rem;
+          padding-right: 0.938rem;
+          padding-top: 0.938rem;
+          margin-right: auto;
+          margin-left: auto;
+        }
+        .organization-reach-list {
+          margin-top: 1.25rem;
+          padding-left: 0.938rem;
+          padding-right: 0.938rem;
+          .organization-reach-item {
+            width: 135px;
+            ::ng-deep .mat-checkbox-inner-container {
+              width: 16px;
+              height: 16px;
+              margin-right: 0;
+              cursor: pointer;
+              display: table-cell;
+              vertical-align: middle;
+              .mat-checkbox-frame {
+                border-width: 1px;
+                border-color: #dededf;
+              }
+            }
+            ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+              background-color: #70c1ed;
+            }
+            .global-region-name {
+              margin-left: 0.313rem;
+              color: #565555;
+              font-weight: bold;
+              font-size: 0.875rem;
+              opacity: 0.4;
+            }
+            .country-name {
+              font-size: 0.875rem;
+              color: #565555;
+              margin-left: 0.313rem;
+            }
+          }
+          .countries-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-gap: 5px;
+          }
+        }
+      }
+      .organization-reach-field-container-valid {
+        border: 1px solid green;
+      }
+      .contact-us-container {
+        margin-top: 3.125rem;
+        width: 100%;
+        span {
+          font-size: 0.875rem;
+          width: 100%;
+          color: #a0a0a0;
+        }
+        a {
+          font-size: 0.875rem;
+          color: #70c1ed;
+          text-decoration: underline;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 1024px) {
+  .organization-overview-container {
+    .organization-overview-info-container {
+      max-height: 100vh;
+      padding-top: 1.563rem;
+      overflow-y: auto;
+    }
+    .organization-overview-form-container {
+      max-height: 100vh;
+      overflow-y: auto;
+      padding-bottom: 18rem;
+    }
+  }
+}

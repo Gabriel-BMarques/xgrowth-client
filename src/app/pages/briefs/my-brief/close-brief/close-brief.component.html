@@ -1,0 +1,53 @@
+<ion-content>
+  <ion-row>
+    <ion-col>
+      <div class="header">
+        <div class="title">
+          <span [translate]="'briefs.myBrief.close'"></span>
+        </div>
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <div class="subtitle">
+        <ion-label [translate]="'briefs.myBrief.areYouSure'"></ion-label>
+        <span [translate]="'briefs.myBrief.closeBrief'"></span>
+      </div>
+      <!-- <div class="companies">
+        <ion-label>Company, Company, Company, Company and Company</ion-label>
+      </div> -->
+    </ion-col>
+  </ion-row>
+  <!-- <ion-row>
+    <ion-col>
+      <div class="feedback">
+        <ion-textarea rows="3" placeholder="Message"></ion-textarea>
+      </div>
+    </ion-col>
+  </ion-row> -->
+  <div class="actions col text-center">
+    <ion-button
+      shape="round"
+      fill="outline"
+      style="color: #70C1ED;
+      margin-right: 0.5rem;
+      text-transform: none;
+      --border-color: #70C1ED;
+      --border-width: 1px"
+      (click)="cancel()"
+      [translate]="'global.actions.cancel'"
+    >
+    </ion-button>
+    <ion-button
+      shape="round"
+      style="--background: #F6A117;
+                color: white;
+                text-transform: none;
+                --box-shadow: none;"
+      (click)="send()"
+      [translate]="'briefs.myBrief.close'"
+    >
+    </ion-button>
+  </div>
+</ion-content>

@@ -1,0 +1,603 @@
+<div class="modal">
+  <div
+    [ngClass]="{
+      'modal-select-privacy': type === 'select-privacy',
+      'modal-category': type === 'categories',
+      'modal-user': type === 'user',
+      'modal-organization': type === 'organization',
+      'modal-company': type === 'company',
+      'modal-company-relation': type === 'company-relation',
+      'modal-notification': type === 'notification',
+      'modal-feed-filter': type === 'feed-filter'
+    }"
+    *ngIf="type !== undefined && type !== null"
+    text-center
+  >
+    <div class="loading-container" *ngIf="isLoading">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+    <div class="modal-container" *ngIf="!isLoading">
+      <div class="panel-header">
+        <!-- <div class="back-icon">
+          <i class="fas fa-arrow-left" (click)="cancel()"></i>
+        </div> -->
+        <div class="title">
+          <span>{{ title }}</span>
+        </div>
+      </div>
+      <div style="overflow-y: auto" class="panel-body">
+        <div class="organization-form-container" *ngIf="type !== 'delete' && type === 'organization'">
+          <form [formGroup]="organizationForm" novalidate>
+            <ion-list>
+              <label class="input-label">Organization Name</label>
+              <mat-form-field style="padding-bottom: 1rem;">
+                <input id="admin-org-name" type="text" matInput formControlName="name" required />
+                <mat-error *ngIf="form.name.invalid && form.name.touched">
+                  <span translate>Organization Name is required</span>
+                </mat-error>
+              </mat-form-field>
+              <label class="input-label">Organization Type</label>
+              <mat-form-field style="padding-bottom: 1rem;">
+                <mat-select id="admin-org-type" formControlName="organizationType">
+                  <mat-option *ngFor="let orgType of organizationTypes" [value]="orgType._id">{{
+                    orgType.name
+                  }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <label *ngIf="hasSubType" class="input-label">Organization Type 2</label>
+              <mat-form-field *ngIf="hasSubType" style="padding-bottom: 1rem;">
+                <mat-select id="admin-org-type" formControlName="organizationSubType">
+                  <mat-option *ngFor="let orgSubType of orgTypeSubTypes" [value]="orgSubType._id">{{
+                    orgSubType.name
+                  }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div formArrayName="allowedDomains" class="col-12 sku-code-all">
+                <div *ngFor="let domain of allowedDomainsArray.controls; let i = index" [formGroupName]="i" class="row">
+                  <div class="col-8">
+                    <label class="input-label">Allowed Domains</label>
+                    <mat-form-field style="padding-bottom: 1rem;">
+                      <input id="admin-org-domains" type="text" matInput formControlName="aDomain" required />
+                      <mat-error *ngIf="form.allowedDomains.invalid && form.allowedDomains.touched">
+                        <span translate>At least one allowed domain required</span>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-2 sku-form-field pr-0 pl-0 d-flex align-items-center">
+                    <button
+                      id="admin-org-add-domain"
+                      style="background: inherit; font-size: 12px;"
+                      class="add"
+                      (click)="addDomain()"
+                    >
+                      <i class="fa fa-plus"></i> Add
+                    </button>
+                  </div>
+                  <div
+                    class="col-2 sku-form-field pr-0 pl-0 d-flex align-items-center"
+                    *ngIf="allowedDomainsArray.controls.length > 1"
+                  >
+                    <button
+                      id="admin-org-remove-domain"
+                      style="background: inherit; font-size: 12px;"
+                      class="remove"
+                      (click)="deleteDomain(i)"
+                    >
+                      <i class="fa fa-times"></i> Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <label class="input-label">Organization Admins</label>
+              <mat-form-field style="padding-bottom: 1rem;">
+                <mat-select id="admin-org-admins" formControlName="organizationAdmins" multiple>
+                  <mat-option *ngFor="let admin of organizationUsers" [value]="admin._id">
+                    {{ admin.firstName }} {{ admin.familyName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <label class="input-label">
+                <i
+                  class="fas fa-exclamation"
+                  matTooltip="You'll only see categories for the selected segments above! (if the selected segments have categories)"
+                ></i>
+                Organization's Categories</label
+              >
+              <mat-form-field style="padding-bottom: 1rem;" *ngIf="categoryOrganizations?.length">
+                <mat-select id="admin-org-categories" formControlName="organizationCategories" multiple>
+                  <mat-option *ngFor="let category of categoryOrganizations" [value]="category._id"
+                    >{{ category.name }}
+                    <span style="font-size: 12px;">(segment: {{ category.segment.name }})</span></mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </ion-list>
+          </form>
+        </div>
+        <div *ngIf="type === 'delete'" class="delete-text-container">
+          <span [translate]="'modal.deleteItem'"></span>
+        </div>
+        <div *ngIf="type !== 'delete' && type === 'categories'" class="categories-form-container">
+          <form *ngIf="type === 'categories'" [formGroup]="categoryForm">
+            <ion-list>
+              <label class="input-label" [translate]="'category.categoryName'"></label>
+              <mat-form-field [hideRequiredMarker]="true">
+                <input id="admin-categories-name" type="text" matInput formControlName="name" required />
+                <mat-error *ngIf="form.name.invalid && form.name.touched">
+                  <span [translate]="'category.nameRequired'"></span>
+                </mat-error>
+              </mat-form-field>
+              <label class="input-label" [translate]="'category.parentCategory'"></label>
+              <mat-form-field [hideRequiredMarker]="true">
+                <mat-select id="admin-categories-parent-categories" formControlName="parentCategory">
+                  <mat-option *ngFor="let category of parentCategories" [value]="category._id">
+                    {{ category.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <!-- <label class="input-label" [translate]="'category.organization'"></label> -->
+              <!-- <mat-form-field [hideRequiredMarker]="true">
+                <mat-select id="admin-categories-organization" formControlName="organization">
+                  <mat-option *ngFor="let organization of Organizations" [value]="organization._id">
+                    {{ organization.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field> -->
+              <div
+                class="applies-only"
+                style="text-align: center; margin-top: 1rem; margin-bottom: 1rem; margin-inline: 1rem;"
+              >
+                <span [translate]="'category.appliesOnly'"></span><br />
+                <span style="font-weight: bold; color: rgb(219, 219, 2); margin-top: 1rem;">
+                  This category will be visible to all companies selected below AND the companies linked with them
+                </span>
+              </div>
+              <label class="input-label" [translate]="'category.companies'"></label>
+              <mat-form-field [hideRequiredMarker]="true">
+                <mat-select id="admin-categories-company" formControlName="companies" multiple>
+                  <mat-option *ngFor="let company of Companies" [value]="company._id">
+                    {{ company.companyName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </ion-list>
+            <div class="profile-complete-div d-flex justify-content-center align-items-center mt-2 mb-2">
+              <ion-checkbox id="admin-categories-public" slot="start" formControlName="isPublic"></ion-checkbox>
+              <ion-label class="remember-text ml-1">Public</ion-label>
+            </div>
+          </form>
+        </div>
+        <div class="company-form-container" *ngIf="type === 'company'">
+          <form (ngSubmit)="save()" [formGroup]="companyForm" novalidate>
+            <ion-list>
+              <div class="has-webinar-access">
+                <ion-toggle
+                  id="admin-webinar-access"
+                  slot="start"
+                  color="secondary"
+                  formControlName="hasWebinarAccess"
+                ></ion-toggle>
+                <span>Has webinar access</span>
+              </div>
+              <label class="input-label">Business Unit Name</label>
+              <mat-form-field style="padding-bottom: 1rem;">
+                <input id="admin-companies-name" type="text" matInput formControlName="companyName" required />
+                <mat-error *ngIf="form.companyName.invalid && form.companyName.touched">
+                  <span translate>Business Unit Name is required</span>
+                </mat-error>
+              </mat-form-field>
+              <label class="input-label">Country</label>
+              <mat-form-field style="padding-bottom: 1rem;">
+                <mat-select id="admin-companies-countries" formControlName="country">
+                  <mat-option *ngFor="let country of countries" [value]="country._id">{{ country.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <label class="input-label">Organization</label>
+              <mat-form-field style="padding-bottom: 1rem;">
+                <mat-select id="admin-companies-organizations" formControlName="organization">
+                  <mat-option *ngFor="let organization of organizations" [value]="organization._id">{{
+                    organization.name
+                  }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <!--<label class="input-label">Company type</label>-->
+              <div class="post-days-container">
+                <label class="input-label">Post Limit (Post/Day)</label>
+                <div class="post-inputs-div">
+                  <div class="post-limit">
+                    <mat-form-field style="padding-bottom: 1rem;">
+                      <input
+                        id="admin-companies-type-posts"
+                        type="number"
+                        matInput
+                        formControlName="postLimit"
+                        required
+                      />
+                      <span matSuffix>posts</span>
+                      <mat-error *ngIf="form.postLimit.invalid && form.postLimit.touched">
+                        <span translate>Post Limit is required</span>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="post-days">
+                    <mat-form-field style="padding-bottom: 1rem;">
+                      <input
+                        id="admin-companies-type-days"
+                        type="number"
+                        matInput
+                        formControlName="postWaitDays"
+                        required
+                      />
+                      <span matSuffix>days</span>
+                      <mat-error *ngIf="form.postWaitDays.invalid && form.postWaitDays.touched">
+                        <span translate>Post Wait Days is required</span>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="company-logo-container">
+                <div class="uploaded-file">
+                  <!-- <img *ngIf="!form.logo.value" class="logo-img" src="assets/xGrowth_Logo_favicon.png" /> -->
+                  <p *ngIf="!form.logo.value">no image yet</p>
+                  <img *ngIf="form.logo.value" class="logo-img" [src]="form.logo.value" />
+                </div>
+                <label class="fileInput">
+                  <p-fileUpload
+                    #fileInput
+                    mode="basic"
+                    auto="true"
+                    id="file"
+                    accept="image/*"
+                    maxFileSize="250000000"
+                    customUpload="true"
+                    (uploadHandler)="uploadFile($event)"
+                  >
+                  </p-fileUpload>
+                  <div id="admin-companies-upload-logo" class="upload-div companylogo">
+                    <i class="fas fa-file-upload"></i>
+                    <span>Upload Logo</span>
+                  </div>
+                </label>
+              </div>
+              <div
+                id="admin-companies-remove-logo"
+                class="remove-div companylogo"
+                (click)="form.logo.setValue(undefined)"
+              >
+                <i class="fas fa-trash"></i>
+                <span>Remove Logo</span>
+              </div>
+            </ion-list>
+          </form>
+        </div>
+        <div class="company-relation-form-container" *ngIf="type === 'company-relation'">
+          <form (ngSubmit)="save()" [formGroup]="companyRelationForm" novalidate>
+            <ion-list>
+              <label class="input-label">Company Name</label>
+              <mat-form-field style="padding-bottom: 1rem;">
+                <input id="admin-relation-name" type="text" matInput formControlName="companyName" required readonly />
+                <mat-error *ngIf="form.companyName.invalid && form.companyName.touched">
+                  <span translate>Company Name is required</span>
+                </mat-error>
+              </mat-form-field>
+              <ion-item>
+                <ion-label>Add Relation</ion-label>
+                <ionic-selectable
+                  id="admin-relation-add"
+                  [items]="companies"
+                  itemValueField="_id"
+                  itemTextField="companyName"
+                  [canSearch]="true"
+                  (onChange)="addRelation($event)"
+                >
+                </ionic-selectable>
+              </ion-item>
+            </ion-list>
+            <ion-list class="company-relations-container">
+              <div *ngFor="let companyRelation of companyRelations">
+                <!-- <ion-item *ngIf="companyRelation.companyA">
+                  <div class="company-relation-div">
+                    <div class="company-name">
+                      {{ companyRelation.companyA.companyName }}
+                    </div>
+                    <div class="delete-icon-container">
+                      <i class="fas fa-trash delete-button" (click)="disableRelation(companyRelation._id)"></i>
+                    </div>
+                  </div>
+                </ion-item> -->
+                <ion-item *ngIf="companyRelation.companyB">
+                  <div class="company-relation-div">
+                    <div class="company-name">
+                      {{ companyRelation.companyB.companyName }}
+                    </div>
+                    <div class="delete-icon-container">
+                      <i
+                        id="admin-relation-delete"
+                        class="fas fa-trash delete-button"
+                        (click)="disableRelation(companyRelation._id)"
+                      ></i>
+                    </div>
+                  </div>
+                </ion-item>
+              </div>
+            </ion-list>
+          </form>
+        </div>
+        <div class="notification-form-container" *ngIf="type === 'notification'">
+          <form [formGroup]="notificationForm" novalidate>
+            <ion-list>
+              <label class="input-label">Title</label>
+              <mat-form-field style="padding-bottom: 1rem;">
+                <input id="admin-notifications-title" type="text" matInput formControlName="title" required />
+                <mat-error *ngIf="form.title.invalid && form.title.touched">
+                  <span translate>Title is required</span>
+                </mat-error>
+              </mat-form-field>
+              <label class="input-label">Description</label>
+              <mat-form-field style="padding-bottom: 1rem;">
+                <input id="admin-notifications-description" type="text" matInput formControlName="description" />
+              </mat-form-field>
+              <label class="input-label">Link</label>
+              <mat-form-field style="padding-bottom: 1rem;">
+                <input id="admin-notifications-link" type="text" matInput formControlName="link" />
+              </mat-form-field>
+            </ion-list>
+          </form>
+        </div>
+        <div class="user-form-container" *ngIf="type === 'user'">
+          <form (ngSubmit)="save()" [formGroup]="userForm" novalidate>
+            <ion-list>
+              <div class="user-actions-div">
+                <div class="block-user-div">
+                  <ion-toggle id="admin-users-block" slot="start" color="danger" formControlName="blocked"></ion-toggle>
+                  <label class="input-label">Block User</label>
+                </div>
+                <div class="global-user-div">
+                  <ion-toggle
+                    id="admin-users-global"
+                    slot="start"
+                    color="primary"
+                    formControlName="Global"
+                  ></ion-toggle>
+                  <label class="input-label">Global User</label>
+                </div>
+              </div>
+              <label class="input-label">Email</label>
+              <mat-form-field style="padding-bottom: 1rem;">
+                <input
+                  id="admin-users-email"
+                  style="text-align: center;"
+                  type="text"
+                  matInput
+                  formControlName="email"
+                  required
+                />
+                <mat-error *ngIf="form.email.invalid && form.email.touched">
+                  <span translate>Email is required</span>
+                </mat-error>
+              </mat-form-field>
+              <div
+                style="width: 100%; display: flex; justify-content: center;"
+                class="gen-link"
+                *ngIf="form.email.valid"
+              >
+                <div style="text-align: center; display: flex; flex-direction: column; width: 100%;">
+                  <a style="color: #f6a117; cursor: pointer;" (click)="generateReactivationLink(form.email.value)"
+                    >generate reactivation link</a
+                  >
+                  <input
+                    id="admin-users-generate-reactivation"
+                    style="height: 40px; border-radius: 50px; width: 100%; padding: 0px 16px;"
+                    *ngIf="reactivationLink"
+                    type="text"
+                    [value]="reactivationLink"
+                  />
+                </div>
+              </div>
+              <ion-item>
+                <ion-label>Organization</ion-label>
+                <ionic-selectable
+                  id="admin-users-organizations"
+                  formControlName="selectedOrganization"
+                  [items]="organizations"
+                  itemValueField="_id"
+                  itemTextField="name"
+                  [canSearch]="true"
+                  [hasVirtualScroll]="true"
+                  (onChange)="getOrganization($event)"
+                >
+                </ionic-selectable>
+              </ion-item>
+              <div *ngIf="companies">
+                <label class="input-label">Company</label>
+                <mat-form-field style="padding-bottom: 1rem;">
+                  <mat-select id="admin-users-companies" formControlName="company">
+                    <mat-option *ngFor="let company of companies" [value]="company._id">{{
+                      company.companyName
+                    }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <label class="input-label">First Name</label>
+              <mat-form-field style="padding-bottom: 1rem;">
+                <input id="admin-users-first-name" type="text" matInput formControlName="firstName" required />
+                <mat-error *ngIf="form.firstName.invalid && form.firstName.touched">
+                  <span translate>First Name is required</span>
+                </mat-error>
+              </mat-form-field>
+              <label class="input-label">Family Name</label>
+              <mat-form-field style="padding-bottom: 1rem;">
+                <input id="admin-users-family-name" type="text" matInput formControlName="familyName" required />
+                <mat-error *ngIf="form.familyName.invalid && form.familyName.touched">
+                  <span translate>Family Name is required</span>
+                </mat-error>
+              </mat-form-field>
+              <label class="input-label">Country</label>
+              <mat-form-field style="padding-bottom: 1rem;">
+                <mat-select id="admin-users-country" formControlName="country">
+                  <mat-option *ngFor="let country of countries" [value]="country._id">{{ country.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <label class="input-label">Categories</label>
+              <mat-form-field style="padding-bottom: 1rem;">
+                <mat-select id="admin-users-categories" formControlName="categoryOrganizations" multiple>
+                  <mat-option *ngFor="let categOrg of categoryOrganizations" [value]="categOrg._id">{{
+                    categOrg.name
+                  }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <label class="input-label">Business Units</label>
+              <mat-form-field style="padding-bottom: 1rem;">
+                <mat-select id="admin-users-unit" formControlName="businessUnit" multiple>
+                  <mat-option *ngFor="let businessUnit of businessUnits" [value]="businessUnit._id">{{
+                    businessUnit.name
+                  }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <label class="input-label">Department</label>
+              <mat-form-field style="padding-bottom: 1rem;">
+                <mat-select id="admin-users-department" formControlName="department">
+                  <mat-option *ngFor="let dep of departments" [value]="dep.name">{{ dep.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <label class="input-label">Job Title</label>
+              <mat-form-field style="padding-bottom: 1rem;">
+                <mat-select id="admin-users-job-title" formControlName="jobTitle">
+                  <mat-option *ngFor="let jobTitle of jobTitles" [value]="jobTitle.name">{{
+                    jobTitle.name
+                  }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div class="profile-complete-div d-flex justify-content-center align-items-center mt-2 mb-2">
+                <ion-checkbox id="admin-users-profile" slot="start" formControlName="profileComplete"></ion-checkbox>
+                <ion-label class="remember-text ml-1">Profile complete</ion-label>
+              </div>
+            </ion-list>
+          </form>
+        </div>
+        <div class="feed-filter-form-container" *ngIf="type === 'feed-filter'">
+          <form (ngSubmit)="save()" [formGroup]="feedFilterForm" novalidate>
+            <ion-list *ngIf="user && user.Global">
+              <!-- <ion-searchbar animated (keyup)="applyFilter($event.target.value)" (ionClear)="applyFilter(null)">
+              </ion-searchbar> -->
+              <div class="panel-container">
+                <div class="panel-header">
+                  <div class="title">
+                    <span class="text-uppercase">By</span>
+                  </div>
+                </div>
+                <div class="region-container" *ngFor="let company of companies; let index = index">
+                  <div class="company-name">
+                    <ion-chip
+                      outline
+                      color="primary"
+                      [ngClass]="{
+                        'chip-selected': company.selected === true,
+                        'category-tag': company.selected === false
+                      }"
+                      style="border-radius: 50px"
+                      (click)="changeSelectionRegion(company, index)"
+                    >
+                      <ion-label>{{ company.companyName }}</ion-label>
+                    </ion-chip>
+                  </div>
+                </div>
+              </div>
+            </ion-list>
+            <div class="panel-container">
+              <div class="panel-header">
+                <div class="title">
+                  <span class="text-uppercase">Tags</span>
+                </div>
+              </div>
+              <div class="categories-container" *ngFor="let category of arrayCategories; let index = index">
+                <div class="category-name">
+                  <ion-chip
+                    outline
+                    color="primary"
+                    [ngClass]="{
+                      'chip-selected': category.selected === true,
+                      'category-tag': category.selected === false
+                    }"
+                    style="border-radius: 50px"
+                    (click)="changeSelectionCategory(category, index)"
+                  >
+                    <ion-label>{{ category.name }}</ion-label>
+                  </ion-chip>
+                </div>
+                <span *ngFor="let subcategory of this.arraySubCategories">
+                  <ion-chip
+                    *ngIf="subcategory.parentId === category._id"
+                    outline
+                    color="primary"
+                    [ngClass]="{
+                      'chip-selected': subcategory.selected === true,
+                      'category-tag': subcategory.selected === false
+                    }"
+                    style="border-radius: 50px"
+                    (click)="changeSelectionCategory(subcategory, index)"
+                  >
+                    <ion-label>{{ subcategory.name }}</ion-label>
+                  </ion-chip>
+                </span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="footer-container" *ngIf="!isLoading">
+      <div *ngIf="type === 'user'">
+        <ion-button id="admin-users-impersonate-user" shape="round" fill="outline" (click)="impersonateUser()"
+          >Impersonate User</ion-button
+        >
+      </div>
+      <div class="delete-button-container">
+        <ion-button
+          *ngIf="Mode === 'create'"
+          (click)="prepareCategoryToSubmit()"
+          color="primary"
+          [translate]="'category.createCategory'"
+        ></ion-button>
+        <ion-button
+          *ngIf="Mode === 'edit'"
+          (click)="prepareCategoryToSubmit()"
+          color="primary"
+          [translate]="'category.updateCategory'"
+        ></ion-button>
+        <ion-button
+          *ngIf="Mode === 'delete'"
+          (click)="deleteItem()"
+          color="primary"
+          [translate]="'modal.confirmDeletion'"
+        ></ion-button>
+      </div>
+
+      <div class="actions-container">
+        <div class="cancel-button-container">
+          <ion-button id="admin-panel-cancel" shape="round" fill="outline" (click)="cancel()" translate
+            >Cancel</ion-button
+          >
+        </div>
+        <div class="save-button-container">
+          <ion-button id="admin-panel-save" color="primary" (click)="save()" translate>Save</ion-button>
+        </div>
+        <!-- <ion-button
+          *ngIf="mode === 'create'"
+          (click)="prepareCategoryToSubmit()"
+          color="primary"
+          [translate]="'category.createCategory'"
+        ></ion-button>
+        <ion-button
+          *ngIf="mode === 'edit'"
+          (click)="prepareCategoryToSubmit()"
+          color="primary"
+          [translate]="'category.updateCategory'"
+        ></ion-button> -->
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div class="header-add-collection">
+          <div class="title">
+            <span [translate]="'collections.newCollection'"></span>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div class="form-container input-name">
+          <form class="add-collection-form" [formGroup]="collectionForm">
+            <label class="input-label" [translate]="'collections.newCollectionName'"></label>
+            <mat-form-field [hideRequiredMarker]="true">
+              <input type="text" matInput formControlName="collectionName" required />
+              <mat-error
+                *ngIf="collectionForm.controls.collectionName.invalid && collectionForm.controls.collectionName.touched"
+              >
+                <span [translate]="'collections.nameRequired'"></span>
+              </mat-error>
+            </mat-form-field>
+          </form>
+        </div>
+      </ion-col>
+    </ion-row>
+    <div class="actions col text-center">
+      <ion-button
+        shape="round"
+        fill="outline"
+        style="color: #70C1ED;
+         margin-right: 1rem;
+          text-transform: none;
+            --border-color: #70C1ED;
+            --border-width: 1px"
+        (click)="onCancel()"
+        [translate]="'global.actions.cancel'"
+      >
+      </ion-button>
+      <ion-button
+        shape="round"
+        style="--background: #F6A117;
+        color: white;
+        text-transform: none;
+        --box-shadow: none;"
+        (click)="onCreate()"
+        [translate]="'global.actions.create'"
+      >
+      </ion-button>
+    </div>
+  </ion-grid>
+</ion-content>

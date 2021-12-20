@@ -1,0 +1,73 @@
+<div class="organization-profile-header">
+  <app-back-button [defaultRoute]="defaultBackRoute"></app-back-button>
+  <div class="cover-image-container" style="background: #DEDEDF">
+    <img *ngIf="organization.coverImage" [src]="organization.coverImage.url" (onerror)="this.src = fallbackImage(i)" />
+    <span *ngIf="!organization.coverImage" class="cover-empty">1820 x 201</span>
+  </div>
+  <div class="organization-information-div">
+    <ion-avatar class="organization-profile-image">
+      <img [src]="organization.logo?.url" onerror="this.src='../../../assets/EmptyProfileLogo.png'" />
+    </ion-avatar>
+    <label class="file-input-logo" *ngIf="isEditing">
+      <p-fileUpload
+        #fileInputLogo
+        mode="basic"
+        auto="true"
+        id="file"
+        multiple="false"
+        fileLimit="1"
+        maxFileSize="250000000"
+        customUpload="true"
+        accept="image/*"
+        (uploadHandler)="upload($event, 'logo')"
+      >
+      </p-fileUpload>
+      <img class="camera-icon" src="../../../../assets/icon/camera-icon.svg" />
+    </label>
+    <div class="organization-name-type">
+      <span class="organization-name"
+        >{{ organization.name }}
+        <button *ngIf="canEdit && !isEditing" class="edit-button" (click)="editProfile(selectedSection.id)">
+          <i class="fas fa-pen"></i></button
+      ></span>
+      <div *ngIf="!isEditing" class="header-navigator">
+        <span class="type-text-field">
+          <span
+            class="go-back-text"
+            [translate]="'myCompany.profile.goBackToSolversPage'"
+            (click)="goBackToSolversPage()"
+          ></span>
+          <span style="color: #565555;"> | </span><br class="line-break" />
+          <span
+            *ngFor="let navigationPath of navigationPaths; let last = last"
+            [class]="navigationPath.class"
+            (click)="navigate(navigationPath.route, navigationPath.routeParams)"
+          >
+            {{ navigationPath.path }}
+            <span *ngIf="!last" style="color: #565555;"> > </span><br class="line-break" />
+          </span>
+        </span>
+      </div>
+    </div>
+    <div *ngIf="overviewPage && !isMyOrganization" class="share-icon" (click)="presentSharePopover($event)">
+      <i class="bi bi-share-fill"></i>
+    </div>
+  </div>
+  <label class="file-input-cover" *ngIf="isEditing">
+    <p-fileUpload
+      #fileInputCover
+      mode="basic"
+      auto="false"
+      id="file"
+      multiple="false"
+      fileLimit="1"
+      maxFileSize="250000000"
+      customUpload="true"
+      accept="image/*"
+      (onSelect)="readURL($event, 'coverImage')"
+      (uploadHandler)="upload($event, 'coverImage')"
+    >
+    </p-fileUpload>
+    <img class="camera-icon" src="../../../../assets/icon/camera-icon.svg" />
+  </label>
+</div>

@@ -1,0 +1,32 @@
+<div class="modal">
+  <div
+    class="loader"
+    *ngIf="isLoading"
+    style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center;"
+  >
+    <app-loader [isLoading]="isLoading"></app-loader>
+  </div>
+  <div class="modal-container" *ngIf="!isLoading">
+    <div class="panel-body">
+      <h3>Are you sure?</h3>
+      <p>
+        Write a feedback to
+        <strong>{{ webinar.createdBy.firstName }} {{ webinar.createdBy.familyName }}</strong> explaining why the webinar
+        was denied.
+      </p>
+      <form [formGroup]="denialForm">
+        <textarea
+          id="webinars-denial-message"
+          formControlName="message"
+          cols="30"
+          rows="10"
+          [ngClass]="messageField.touched && messageField.invalid ? 'invalid' : ''"
+        ></textarea>
+      </form>
+      <div class="actions">
+        <button id="webinars-denial-send" class="btn-denial" (click)="deny()">Send</button>
+        <button id="webinars-denial-cancel" class="btn-cancel" (click)="cancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

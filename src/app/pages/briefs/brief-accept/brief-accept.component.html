@@ -1,0 +1,78 @@
+<ion-content #scrollableDiv [scrollEvents]="true" style="--background: #F6F6F6F6;">
+  <div class="back" (click)="back()">
+    <ion-button shape="round" class="back-button">
+      <i class="fas fa-chevron-left"></i>
+    </ion-button>
+    <ion-label class="back-label" [translate]="'global.actions.back'"></ion-label>
+  </div>
+  <div class="header" *ngIf="!isAccepted && !isDeclined && isActive && !isLoading">
+    <div class="accept">
+      <div class="accept-text">
+        <ion-label [translate]="'briefs.respond.youNeed'"></ion-label>
+        <ion-label [translate]="'briefs.respond.youCan'"></ion-label>
+      </div>
+      <div class="actions">
+        <ion-button shape="round" class="accept-button" (click)="onAccept()">
+          <span [translate]="'briefs.respond.accept'"></span>
+        </ion-button>
+        <ion-button shape="round" fill="outline" class="decline-button" (click)="onDecline()">
+          <span [translate]="'briefs.respond.decline'"></span>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+  <div class="header-accept" *ngIf="isAccepted && !isLoading">
+    <div class="add-response col text-center">
+      <ion-button shape="round" class="accept-button" (click)="addResponse()">
+        <span [translate]="'briefs.respond.addResponse'"></span>
+      </ion-button>
+    </div>
+  </div>
+  <div class="header-decline" *ngIf="isDeclined">
+    <div class="add-response col text-center">
+      <ion-button (click)="reverseDecline()" shape="round" fill="outline" class="decline-button">
+        <span [translate]="'briefs.respond.briefDeclined'"></span>
+      </ion-button>
+    </div>
+  </div>
+  <div class="mobile" *ngIf="brief">
+    <div class="brief">
+      <app-brief-post-card
+        [mode]="'mobile'"
+        [type]="'brief-accept'"
+        [entity]="brief"
+        [company]="brief.ClientId"
+        [userInfo]="'anything'"
+      ></app-brief-post-card>
+      <div class="responses">
+        <ion-label class="title-response">
+          <span [translate]="'briefs.myBrief.responses'"></span>
+        </ion-label>
+        <app-masonry
+          [onScrollEvent]="scrollableDiv.ionScroll"
+          [onScrollEnd]="scrollableDiv.ionScrollEnd"
+          [posts]="briefResponses"
+        ></app-masonry>
+      </div>
+    </div>
+  </div>
+  <div class="desktop" *ngIf="brief">
+    <app-brief-post-card
+      [mode]="'desktop'"
+      [type]="'brief-accept'"
+      [entity]="brief"
+      [company]="brief.ClientId"
+      [userInfo]="'anything'"
+    ></app-brief-post-card>
+    <div class="responses">
+      <ion-label class="title-response">
+        <span [translate]="'briefs.myBrief.responses'"></span>
+      </ion-label>
+      <app-masonry
+        [onScrollEvent]="scrollableDiv.ionScroll"
+        [onScrollStop]="scrollableDiv.ionScrollEnd"
+        [posts]="briefResponses"
+      ></app-masonry>
+    </div>
+  </div>
+</ion-content>

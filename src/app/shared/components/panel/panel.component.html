@@ -1,0 +1,87 @@
+<div
+  [ngClass]="{
+    'container-products': panelData.type === 'products',
+    'container-posts': panelData.type === 'posts',
+    'container-suppliers': panelData.type === 'suppliers',
+    'container-latest-news': panelData.type === 'news',
+    'container-drafts': panelData.type === 'drafts',
+    'container-users': panelData.type === 'users' || panelData.type === 'categories',
+    'container-companies': panelData.type === 'companies',
+    'container-organizations': panelData.type === 'organizations',
+    'container-organizations': panelData.type === 'organizations',
+    'container-coworkers': panelData.type === 'coworkers',
+    'container-collections': panelData.type === 'collections'
+  }"
+  *ngIf="panelData !== undefined && panelData !== null"
+  text-center
+>
+  <div class="panel-header">
+    <div class="title">
+      <span>{{ panelData.name }}</span>
+    </div>
+    <div class="view-all">
+      <a [translate]="'home.viewAll'"></a>
+    </div>
+  </div>
+  <ion-card class="display-items">
+    <div *ngFor="let item of panelData.items">
+      <app-item [Item]="item" [Type]="panelData.type"></app-item>
+    </div>
+  </ion-card>
+  <ion-grid class="display-list">
+    <div class="select-all-container">
+      <ion-checkbox color="primary" (ionChange)="checkAll($event)"></ion-checkbox>
+      <ion-label [translate]="'global.actions.selectAll'"></ion-label>
+    </div>
+    <ion-row>
+      <div *ngFor="let item of panelData.items; let i = index">
+        <ion-col>
+          <ion-checkbox color="primary" [(ngModel)]="item.selected" (ionChange)="activeFooter()"></ion-checkbox>
+          <app-item [Item]="item" [Type]="panelData.type"></app-item>
+        </ion-col>
+      </div>
+    </ion-row>
+  </ion-grid>
+
+  <div class="masonry">
+    <div *ngFor="let item of panelData.items; let index = index">
+      <ion-checkbox
+        *ngIf="panelData.isEditing"
+        class="post-checkbox"
+        [(ngModel)]="item.selected"
+        (ionChange)="toggleSelection(item, index)"
+      ></ion-checkbox>
+      <app-item [Item]="item" [Type]="panelData.type"></app-item>
+    </div>
+  </div>
+  <!-- <div *ngIf="panelData.isEditing" class="footer">
+    <ion-button
+      *ngIf="!allSelected"
+      (click)="selectAll()"
+      class="selection-button"
+      color="primary-contrast"
+      [translate]="'global.actions.selectAll'"
+    >
+    </ion-button>
+    <ion-button
+      *ngIf="allSelected"
+      (click)="deselectAll()"
+      class="selection-button"
+      color="primary-contrast"
+      [translate]="'global.actions.clearSelection'"
+    >
+    </ion-button>
+    <ion-button
+      (click)="deleteItems('collection')"
+      class="delete-selected"
+      color="primary"
+      [translate]="'collections.deleteSelected'"
+    >
+    </ion-button>
+  </div> -->
+</div>
+<div class="footer-container" *ngIf="footer && panelData.type === 'drafts'">
+  <div class="delete-button-container">
+    <ion-button color="primary" [translate]="'collections.deleteSelected'"></ion-button>
+  </div>
+</div>

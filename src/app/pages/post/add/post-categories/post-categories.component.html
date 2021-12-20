@@ -1,0 +1,77 @@
+<ion-content>
+  <div class="page-header" *ngIf="!isLoading">
+    <div class="header-title">
+      {{ header }}
+    </div>
+    <!-- <div class="header-information">
+      <span [translate]="'addNew.post.draftSaved'"></span>
+    </div> -->
+  </div>
+  <form *ngIf="!isLoading" (ngSubmit)="next()" [formGroup]="postCategoriesForm">
+    <ion-list class="mobile">
+      <label for="categories" class="input-label" [translate]="'addNew.post.categories'"></label>
+      <div class="categories-button-container">
+        <ion-button class="select-categories-button" fill="outline" color="secondary" (click)="addCategories()">
+          <span [translate]="'addNew.post.selectCategories'"></span>
+          <span *ngIf="categoriesCounter > 0">({{ categoriesCounter }})</span>
+        </ion-button>
+      </div>
+      <!-- <label for="tags" class="input-label" style="margin-top: 1rem;">Tags</label>
+      <div class="input-container">
+        <mat-form-field class="form-input">
+          <input type="text" matInput formControlName="tags" required />
+        </mat-form-field>
+      </div> -->
+    </ion-list>
+    <ion-list class="desktop">
+      <ion-row>
+        <ion-col>
+          <label for="categories" class="input-label" [translate]="'addNew.post.categories'"></label>
+          <div class="categories-button-container">
+            <ion-button class="select-categories-button" fill="outline" color="secondary" (click)="addCategories()">
+              <span [translate]="'addNew.post.selectCategories'"></span>
+              <span *ngIf="categoriesCounter > 0">({{ categoriesCounter }})</span>
+            </ion-button>
+          </div>
+        </ion-col>
+        <!-- <ion-col>
+          <label for="tags" class="input-label">Tags</label>
+          <div class="input-container">
+            <mat-form-field class="form-input">
+              <input type="text" matInput formControlName="tags" required />
+            </mat-form-field>
+          </div>
+        </ion-col> -->
+      </ion-row>
+    </ion-list>
+  </form>
+</ion-content>
+<div class="post-categories-footer-container">
+  <div class="save-button col text-center">
+    <ion-button
+      [disabled]="!wizard.entity.Categories.length"
+      class="save-changes"
+      *ngIf="wizard.isEditing"
+      shape="round"
+      color="secondary"
+      (click)="saveEditChanges()"
+      [translate]="'global.actions.saveChanges'"
+    ></ion-button>
+  </div>
+  <div class="buttons-container">
+    <ion-button
+      class="footer-button"
+      color="secondary"
+      fill="outline"
+      (click)="back()"
+      [translate]="'global.actions.back'"
+    ></ion-button>
+    <ion-button
+      [disabled]="!wizard.entity.Categories || !wizard.entity.Categories.length"
+      class="footer-button"
+      color="primary"
+      (click)="next()"
+      [translate]="'global.actions.next'"
+    ></ion-button>
+  </div>
+</div>

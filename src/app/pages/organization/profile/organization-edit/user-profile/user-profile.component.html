@@ -1,0 +1,186 @@
+<ion-row style="font-family: 'Open Sans'; margin-bottom: 6rem;">
+  <ion-col size-sm="12" size-md="8">
+    <ion-row class="user-profile-component">
+      <ion-col>
+        <div class="panel-container">
+          <div class="title">
+            <span [translate]="'myCompany.profile.edit.userProfile'" class="text-uppercase"></span>
+          </div>
+          <div class="panel-header">
+            <div class="subtitle">
+              <span>This information is not visible to other users in the platform</span>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <!-- First Side Informations -->
+    <div class="form-user-component">
+      <form class="form-organization" *ngIf="!isLoading" [formGroup]="userProfile" novalidate>
+        <div class="first-info">
+          <ion-row>
+            <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="6">
+              <label class="input-label" [translate]="'register.firstName'"></label>
+              <div class="input-field" [ngClass]="{ 'input-disabled': isSSO }">
+                <mat-form-field [hideRequiredMarker]="true" style="padding-bottom: 1rem;">
+                  <input id="user-first-name" type="text" matInput formControlName="firstName" disabled />
+                  <mat-error *ngIf="userProfile.controls.firstName.invalid && userProfile.controls.firstName.touched">
+                    <div style="text-align: center;">
+                      <span [translate]="'register.firstRequired'"></span>
+                    </div>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </ion-col>
+            <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="6">
+              <label class="input-label" [translate]="'register.familyName'"></label>
+              <div class="input-field" [ngClass]="{ 'input-disabled': isSSO }">
+                <mat-form-field [hideRequiredMarker]="true" style="padding-bottom: 1rem;">
+                  <input id="user-family-name" type="text" matInput formControlName="familyName" required />
+                  <mat-error *ngIf="userProfile.controls.familyName.invalid && userProfile.controls.familyName.touched">
+                    <div style="text-align: center;">
+                      <span [translate]="'register.familyRequired'"></span>
+                    </div>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="6">
+              <label class="input-label" [translate]="'register.email'"></label>
+              <div class="input-field input-disabled">
+                <mat-form-field [hideRequiredMarker]="true" style="padding-bottom: 1rem;">
+                  <input id="user-email" type="text" matInput formControlName="email" />
+                </mat-form-field>
+              </div>
+            </ion-col>
+            <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="6">
+              <label class="input-label" [translate]="'myCompany.profile.edit.country'"></label>
+              <div class="input-field" [ngClass]="{ 'input-disabled': isSSO }">
+                <mat-form-field [hideRequiredMarker]="true" style="padding-bottom: 1rem;">
+                  <mat-select
+                    id="user-country"
+                    formControlName="country"
+                    disableOptionCentering
+                    panelClass="static-user-select-panel-class"
+                  >
+                    <div class="search-div">
+                      <input
+                        class="mat-select-search"
+                        placeholder="Search country"
+                        (keyup)="applyFilter($event.target.value, countriesSI)"
+                        (keydown)="$event.stopPropagation()"
+                      />
+                      <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <mat-option
+                      *ngFor="let country of countriesSI.data"
+                      [hidden]="!includes(country, countriesSI.filteredData)"
+                      [value]="country._id"
+                    >
+                      {{ country.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="6">
+              <label class="input-label">Department</label>
+              <div class="input-field" [ngClass]="{ 'input-disabled': isSSO }">
+                <mat-form-field [hideRequiredMarker]="true" style="padding-bottom: 1rem;">
+                  <mat-select
+                    id="user-department"
+                    formControlName="department"
+                    disableOptionCentering
+                    panelClass="static-user-select-panel-class"
+                  >
+                    <mat-option *ngFor="let department of departmentsSI" [value]="department.name">
+                      {{ department.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </ion-col>
+            <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="6">
+              <label class="input-label">Wich of these roles is the closest to yours?</label>
+              <div class="input-field" [ngClass]="{ 'input-disabled': isSSO }">
+                <mat-form-field [hideRequiredMarker]="true" style="padding-bottom: 1rem;">
+                  <mat-select
+                    id="user-job-title"
+                    formControlName="jobTitle"
+                    disableOptionCentering
+                    panelClass="static-user-select-panel-class"
+                  >
+                    <mat-option *ngFor="let jobTitle of jobTitlesSI" [value]="jobTitle.name">
+                      {{ jobTitle.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="6">
+              <label class="input-label" [translate]="'myCompany.profile.edit.organization'"></label>
+              <div class="input-field input-disabled">
+                <mat-form-field [hideRequiredMarker]="true" style="padding-bottom: 1rem;">
+                  <input id="user-organization-name" type="text" matInput formControlName="organizationName" disabled />
+                </mat-form-field>
+              </div>
+            </ion-col>
+            <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="6">
+              <label class="input-label" [translate]="'category.companies'"></label>
+              <div class="input-field">
+                <mat-form-field [hideRequiredMarker]="true" style="padding-bottom: 1rem;">
+                  <mat-select
+                    id="user-company"
+                    formControlName="company"
+                    disableOptionCentering
+                    panelClass="static-user-select-panel-class"
+                  >
+                    <mat-option *ngFor="let company of companiesSI" [value]="company._id">
+                      {{ company.companyName }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="userProfile.controls.company.invalid && userProfile.controls.company.touched">
+                    <div style="text-align: center;">
+                      <span [translate]="'briefs.respond.nameRequired'"></span>
+                    </div>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <label class="input-label">Categories</label>
+              <div class="input-field">
+                <mat-form-field [hideRequiredMarker]="true" class="category-input" style="padding-bottom: 1rem">
+                  <mat-select
+                    id="user-categories"
+                    formControlName="categoriesOrganization"
+                    multiple
+                    disableOptionCentering
+                    panelClass="user-profile-panel-class"
+                  >
+                    <mat-option *ngFor="let category of categoryOfUserSI" [value]="category._id">
+                      {{ category.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row [ngClass]="{ 'change-password-displayed': isSSO }">
+            <ion-col>
+              <span class="change-password-button" (click)="changePasswordModal()">Change password</span>
+            </ion-col>
+          </ion-row>
+        </div>
+      </form>
+    </div>
+  </ion-col>
+</ion-row>

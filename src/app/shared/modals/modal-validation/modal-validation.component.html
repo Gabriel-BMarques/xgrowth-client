@@ -1,0 +1,32 @@
+<ion-content>
+  <ion-row *ngIf="title">
+    <ion-col>
+      <div class="header">
+        <div class="title">
+          <ion-label>
+            {{ title }}
+          </ion-label>
+        </div>
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row *ngIf="mainMessage" [ngClass]="!title ? 'mt-3' : ''">
+    <ion-col>
+      <div class="subtitle">
+        <span>{{ mainMessage }}</span>
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row *ngIf="secondaryMessage">
+    <ion-col>
+      <div class="subtitle">
+        <span>{{ secondaryMessage }}</span>
+      </div>
+    </ion-col>
+  </ion-row>
+  <div class="pb-4 col text-center">
+    <ion-button class="button-ok" shape="round" (click)="ok()">
+      {{ textButton }}
+    </ion-button>
+  </div>
+</ion-content>

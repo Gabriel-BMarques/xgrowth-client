@@ -1,0 +1,240 @@
+.container-modal {
+  ion-item {
+    font-size: 11px;
+  }
+  .options {
+    display: inline-flex;
+    position: absolute;
+    flex-direction: column;
+    width: 96%;
+    z-index: 2;
+    background: #fff;
+    // padding-block: 1rem; not working safari browser
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    box-shadow: 0 1px 6px -6px #00000029;
+    i {
+      color: #cecece;
+      cursor: pointer;
+    }
+    .option-button {
+      cursor: pointer;
+      padding-left: 2rem;
+      button {
+        padding-left: 0.8rem;
+        color: #565555;
+        background: #fff;
+        :focus {
+          outline: none;
+        }
+      }
+    }
+  }
+  .panel-header {
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .title {
+      float: left;
+      display: block;
+      padding: 1rem 0rem 0px 1rem;
+      color: #56555566;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+    .view-all {
+      float: right;
+      display: block;
+      padding: 1rem 1.5rem 0px 2rem;
+      color: #f6a117;
+      cursor: pointer;
+      font-weight: bold;
+      a {
+        color: #707070;
+      }
+    }
+  }
+  .profileOptions {
+    display: none;
+  }
+  ion-list {
+    margin-bottom: 0;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    ion-item {
+      --border-style: none;
+      margin-bottom: 1rem;
+      margin-top: 1rem;
+      ion-avatar {
+        width: 55px;
+        height: 55px;
+      }
+      ion-label {
+        margin-left: 1rem;
+        margin-right: 2rem;
+      }
+      .item-info {
+        white-space: pre-wrap;
+        font-size: 11px;
+      }
+      .item-data {
+        font-weight: bold;
+        color: #56555566;
+        font-size: 11px;
+        bottom: 0;
+      }
+      .post-options {
+        margin-right: 0.55rem;
+        cursor: pointer;
+        a {
+          color: #707070;
+          padding: 1.5rem;
+          margin: -1.5rem;
+        }
+      }
+      .notification-options {
+        display: inline-flex;
+        flex-direction: column;
+        width: 90%;
+      }
+      .option {
+        margin-left: -1rem;
+        display: inline-flex;
+        position: absolute;
+        transform: translate3d(0, 0, 0);
+        flex-direction: row;
+        width: 80%;
+        height: 100%;
+        z-index: 5;
+        background: #fff;
+        padding-bottom: 1rem;
+        padding-top: 0.5rem;
+        i {
+          color: #cecece;
+          cursor: pointer;
+          opacity: 1.5 !important;
+        }
+        .option-button {
+          width: 83%;
+          cursor: pointer;
+          padding-left: 2rem;
+          button {
+            padding-left: 0.8rem;
+            color: #565555;
+            background: #fff;
+            :focus {
+              outline: none;
+            }
+          }
+        }
+        .post-options {
+          margin-top: 1.1rem;
+          cursor: pointer;
+          a {
+            color: #707070;
+            padding: 1.5rem;
+            margin: -1.5rem;
+          }
+        }
+      }
+    }
+    .line {
+      width: 100%;
+      background-color: rgba(224, 224, 224, 0.507);
+      height: 3px;
+    }
+  }
+}
+
+.container-profile-modal {
+  width: 100%;
+  overflow-x: auto;
+  .panel-header {
+    display: none;
+  }
+  ion-list {
+    margin-bottom: 0;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    ion-item {
+      --border-style: none;
+      padding-left: 0px !important;
+      margin-left: 0.5rem;
+      margin-bottom: 1.5rem;
+      ion-avatar {
+        width: 55px;
+        height: 55px;
+        overflow: hidden;
+        img {
+          width: 55px;
+          height: 55px;
+          object-fit: none;
+        }
+      }
+      i {
+        color: #f6a117;
+        font-size: 25px;
+        margin-left: 0.8rem;
+      }
+      ion-label {
+        padding-left: 1.2rem;
+        .profile-name {
+          font-size: 19px;
+          color: #565555;
+          font-weight: bold;
+        }
+        .profile-company {
+          font-size: 16px;
+          color: #56555566;
+          font-weight: bold;
+        }
+        .option-text {
+          color: #f6a117;
+          font-size: 16px;
+          text-transform: uppercase;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+  .line {
+    background-color: rgba(224, 224, 224, 0.541);
+    width: 200px;
+    height: 1px;
+    margin-bottom: 0.75rem;
+    margin-left: 1.5rem;
+  }
+}
+
+@media (min-width: 1px) {
+  .container-modal {
+    width: 100%;
+    overflow-y: auto;
+    padding-bottom: 1rem;
+    font-size: 12px;
+    max-height: calc(100vh - 65px);
+  }
+}
+@media (min-width: 540px) {
+  .container-modal {
+    width: 100%;
+    overflow-y: auto;
+    padding-bottom: 1rem;
+    font-size: 12px;
+    max-height: calc(100vh - 155px);
+  }
+}
+// CSS ONLY SAFARI
+@media not all and (min-resolution: 0.001dpcm) {
+  @supports (-webkit-appearance: none) {
+    .container-modal {
+      max-height: calc(100vh - 195px);
+      overflow-x: hidden;
+    }
+    .view-all {
+      margin-left: 12.8rem;
+    }
+  }
+}

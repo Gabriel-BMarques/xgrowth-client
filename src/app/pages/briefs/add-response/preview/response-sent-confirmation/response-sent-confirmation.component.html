@@ -1,0 +1,37 @@
+<ion-content>
+  <ion-grid>
+    <!-- <ion-row>
+      <ion-col>
+        <div class="header">
+          <div class="title">
+            <i class="far fa-smile-wink fa-3x" style="color: hsl(0, 0%, 81%);"></i>
+            <span style="font-size: 14px;"></span>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row> -->
+    <ion-row>
+      <ion-col>
+        <div class="subtitle">
+          <ion-label style="margin-bottom: 15px;" [translate]="'briefs.respond.messageSentSuccessfully'"></ion-label>
+          <ion-label [translate]="'briefs.respond.thanksForSharing'"></ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+    <div class="actions">
+      <div class="col text-center">
+        <ion-button
+          id="response-sent-confirmation"
+          shape="round"
+          style="--background: #f6a117;
+                --background-hover: #f6a117ad; 
+                color: white;
+                text-transform: none;
+                --box-shadow: none;"
+          (click)="ok()"
+          [translate]="'briefs.respond.checkResponse'"
+        ></ion-button>
+      </div>
+    </div>
+  </ion-grid>
+</ion-content>

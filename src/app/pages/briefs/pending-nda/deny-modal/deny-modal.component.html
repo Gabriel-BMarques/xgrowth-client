@@ -1,0 +1,59 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div class="header">
+          <div class="title">
+            <i class="fas fa-sad-tear fa-3x" style="color: #CC2B2B;"></i>
+            <span style="font-size: 14px; margin-top: 0.5rem;" [translate]="'briefs.whatThisCompany'"></span>
+            <span style="font-size: 14px; margin-top: 0.5rem;" [translate]="'briefs.ndaApproved'"></span>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div class="feedback">
+          <form [formGroup]="ndaAcceptanceForm">
+            <ion-textarea
+              rows="3"
+              placeholder="{{ placeholder }}"
+              style="font-size: 12px; text-align: left; color: #56555580;"
+              formControlName="description"
+            >
+            </ion-textarea>
+          </form>
+        </div>
+      </ion-col>
+    </ion-row>
+    <div class="actions">
+      <div class="buttons-container">
+        <ion-button
+          shape="round"
+          fill="outline"
+          style="color: #70C1ED;
+                  margin-right: 0.5rem;
+                  text-transform: none;
+                  --border-color: #70C1ED;
+                  --background-hover: #70c1ed52;
+                  width: 100px;
+                  --border-width: 1px"
+          (click)="cancel()"
+          [translate]="'global.actions.cancel'"
+        ></ion-button>
+        <ion-button
+          shape="round"
+          style="margin-left: 0.5rem;
+                  --background: #f6a117;
+                  --background-hover: #f6a117ad; 
+                  color: white;
+                  text-transform: none;
+                  width: 100px;
+                  --box-shadow: none;"
+          (click)="send()"
+          [translate]="'global.actions.send'"
+        ></ion-button>
+      </div>
+    </div>
+  </ion-grid>
+</ion-content>

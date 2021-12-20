@@ -1,0 +1,77 @@
+<ion-content>
+  <!-- <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div> -->
+  <div class="page-header" *ngIf="!isLoading">
+    <div class="header-title">
+      <span [translate]="'briefs.add.solvers'"></span>
+      <!-- <div class="help">
+        <ion-label style="color: #F6A117; font-size: 12px; text-transform: none;" translate="briefs.add.step6">
+        </ion-label>
+        <i class="fa fa-question-circle" aria-hidden="true" style="margin-left: 0.5rem; color: #F6A117;"></i>
+      </div> -->
+    </div>
+    <!-- <div class="header-information">
+      <span style="float: right;" [translate]="'addNew.post.draftSaved'"></span>
+    </div> -->
+  </div>
+  <div class="select" *ngIf="!isLoading">
+    <div class="col text-center">
+      <ion-button id="add-brief-select-solvers" color="primary" (click)="select()">
+        <ion-label [translate]="'briefs.add.selectSolvers'"></ion-label>
+      </ion-button>
+    </div>
+    <div *ngIf="solvers.length === 0" style="padding-top: 6rem;">
+      <div class="col text-center">
+        <div class="no-members">
+          <ion-label [translate]="'briefs.add.youHavent'"></ion-label>
+          <ion-label [translate]="'briefs.add.anySolvers'"></ion-label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="list" *ngIf="solvers.length > 0">
+    <!-- <div style="margin-left: 1rem;">
+      <ion-label style="color: #56555566; font-size: 11px; font-weight: bold;" [translate]="'briefs.add.organization'">
+      </ion-label>
+    </div> -->
+    <ion-list *ngFor="let item of solvers">
+      <ion-item>
+        <i class="fas fa-minus-circle" (click)="removeSolver(item)" style="color:#E11919; cursor: pointer;"></i>
+        <ion-label style="margin-left: 0.5rem;">
+          {{ item.SupplierId.companyName }}
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
+<div class="footer-container" *ngIf="!isLoading">
+  <div class="save-button col text-center">
+    <ion-button
+      id="add-brief-save-changes"
+      class="save-changes"
+      *ngIf="wizard.isEditing"
+      (click)="saveEditChanges()"
+      shape="round"
+      [translate]="'global.actions.saveChanges'"
+    ></ion-button>
+  </div>
+  <div class="buttons-container">
+    <ion-button
+      id="add-brief-solvers-back"
+      class="footer-button"
+      color="secondary"
+      fill="outline"
+      (click)="back()"
+      [translate]="'global.actions.back'"
+    >
+    </ion-button>
+    <ion-button
+      id="add-brief-solvers-next"
+      [disabled]="!solvers || solvers.length === 0"
+      color="primary"
+      (click)="next()"
+      [translate]="'global.actions.next'"
+    ></ion-button>
+  </div>
+</div>

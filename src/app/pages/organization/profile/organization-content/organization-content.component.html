@@ -1,0 +1,85 @@
+<ion-content #scrollableDiv [scrollEvents]="true" class="organization-content">
+  <ng-container *ngIf="viewport && organization">
+    <div class="main">
+      <app-profile-header
+        [isEditing]="isEditing"
+        [organization]="organization"
+        [canEdit]="canEdit"
+        [viewport]="viewport"
+        [path]="selectedTabLabel"
+      ></app-profile-header>
+    </div>
+    <ng-container>
+      <ion-grid class="organization-tabs">
+        <mat-tab-group
+          mat-stretch-tabs
+          [disablePagination]="true"
+          animationDuration="0ms"
+          (selectedTabChange)="switchTab($event)"
+          [(selectedIndex)]="selectedTabIndex"
+        >
+          <mat-tab *ngFor="let tab of activeTabs; let index = index" [label]="tab.label">
+            <div *ngIf="tab.id === 'posts'">
+              <div *ngIf="!loadingPosts && organizationPosts.length === 0" class="no-posts col text-center">
+                <span [translate]="'myCompany.profile.noposts'"></span>
+              </div>
+              <div class="loading-container col text-center" *ngIf="loadingPosts">
+                <ion-spinner name="lines"></ion-spinner>
+              </div>
+              <app-masonry
+                [onScrollEvent]="scrollableDiv.ionScroll"
+                [onScrollStop]="scrollableDiv.ionScrollEnd"
+                *ngIf="selectedTabLabel === 'posts' && !loadingPosts"
+                [posts]="organizationPosts"
+              ></app-masonry>
+              <ion-infinite-scroll threshold="20%" (ionInfinite)="loadData($event, 'posts')">
+                <ion-infinite-scroll-content loadingSpinner="lines" loadingText=""> </ion-infinite-scroll-content>
+              </ion-infinite-scroll>
+            </div>
+
+            <div *ngIf="tab.id === 'briefs'" class="brief-section">
+              <div *ngIf="!loadingBriefs && organizationBriefs.length === 0" class="no-posts col text-center">
+                <span [translate]="'myCompany.profile.noBriefs'"></span>
+              </div>
+              <div class="loading-container col text-center" *ngIf="loadingBriefs">
+                <ion-spinner name="lines"></ion-spinner>
+              </div>
+              <div class="brief-loop">
+                <app-brief-loop
+                  *ngIf="selectedTabLabel === 'briefs' && !loadingBriefs"
+                  [briefs]="organizationBriefs"
+                  [isGrid]="true"
+                  [section]="'main'"
+                ></app-brief-loop>
+              </div>
+              <ion-infinite-scroll threshold="20%" (ionInfinite)="loadData($event, 'briefs')">
+                <ion-infinite-scroll-content loadingSpinner="lines" loadingText=""></ion-infinite-scroll-content>
+              </ion-infinite-scroll>
+            </div>
+
+            <div *ngIf="tab.id === 'brief-responses'" class="brief-section">
+              <div
+                *ngIf="!loadingBriefResponses && organizationBriefResponses.length === 0"
+                class="no-posts col text-center"
+              >
+                <span [translate]="'myCompany.profile.noBriefResponses'"></span>
+              </div>
+              <div class="loading-container col text-center" *ngIf="loadingBriefResponses">
+                <ion-spinner name="lines"></ion-spinner>
+              </div>
+              <app-masonry
+                [onScrollEvent]="scrollableDiv.ionScroll"
+                [onScrollStop]="scrollableDiv.ionScrollEnd"
+                *ngIf="selectedTabLabel === 'brief responses' && !loadingResponses"
+                [posts]="organizationBriefResponses"
+              ></app-masonry>
+              <ion-infinite-scroll threshold="20%" (ionInfinite)="loadData($event, 'brief-responses')">
+                <ion-infinite-scroll-content loadingSpinner="lines" loadingText=""> </ion-infinite-scroll-content>
+              </ion-infinite-scroll>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </ion-grid>
+    </ng-container>
+  </ng-container>
+</ion-content>

@@ -1,0 +1,26 @@
+.header-popover-organization {
+  margin-top: 1.5rem;
+  text-align: center;
+  .popover-icon {
+    color: hsl(0, 0%, 81%);
+    font-size: 50px;
+    margin-bottom: 1rem;
+  }
+  .title {
+    color: #565555;
+    font-size: 13px;
+    font-weight: bold;
+  }
+}
+.description-popover-organization {
+  padding-left: 2.15rem;
+  padding-right: 2.15rem;
+  padding-bottom: 1rem;
+  font-size: 13px;
+  color: #565555;
+  text-align: center;
+}
+.actions {
+  margin-bottom: 1rem;
+  display: inline-flex;
+}

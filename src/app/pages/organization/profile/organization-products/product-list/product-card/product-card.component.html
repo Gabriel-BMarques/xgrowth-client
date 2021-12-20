@@ -1,0 +1,69 @@
+<ion-card style="max-width: 18.375rem; box-shadow: 2px 2px 4px #0000001A;">
+  <div class="image">
+    <div class="overlay d-flex flex-row justify-content-between align-items-center">
+      <div class="p-3">
+        <ng-container *ngIf="product.uploadedFiles?.length">
+          <i (click)="openGallery(product.uploadedFiles)" class="fas fa-search-plus"></i>
+        </ng-container>
+      </div>
+      <div *ngIf="canEdit" class="p-3">
+        <i (click)="onProductWillEdit.emit(product)" class="fas fa-pencil-alt"></i>
+      </div>
+    </div>
+    <ion-img
+      class="img img-responsive"
+      [src]="product?.uploadedFiles?.length ? (product?.uploadedFiles)[0].url : imagePlaceholder"
+      (error)="(imagePlaceholder)"
+    ></ion-img>
+  </div>
+  <ion-card-header class="pb-2">
+    <ion-card-title class="text-truncate" [innerText]="product.name | titlecase"></ion-card-title>
+    <div
+      class="product_wight_subtitle"
+      *ngIf="product?.weight && product?.measuringUnit; else productWeightPlaceholder"
+    >
+      <ion-text
+        style="font-size: 13px;"
+        class="text-dark"
+        [innerText]="(product.weight | number) + product.measuringUnit"
+      ></ion-text>
+    </div>
+    <ng-template #productWeightPlaceholder>
+      <ion-text style="font-size: 13px;" class="text-muted">No weight or size available</ion-text>
+    </ng-template>
+  </ion-card-header>
+
+  <ion-card-content>
+    <ng-container *ngIf="product?.description; else descriptionPlaceholder">
+      <div class="limitTextHeight">
+        <div
+          class="d-block text-justify"
+          [line-truncation]="2"
+          (hasTruncated)="handler($event)"
+          [disabled]="!hasTruncatedDescription"
+          [innerText]="product.description"
+        ></div>
+        <div class="py-0 mt-1 px-0">
+          <a
+            *ngIf="hasTruncatedDescription"
+            class="read_more_less_link"
+            [translate]="'global.actions.readMore'"
+            (click)="descriptionReadMore(product.description, 'Product Description', 'text')"
+          ></a>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #descriptionPlaceholder>
+      <div class="limitTextHeight">
+        <ion-text style="font-size: 13px;" class="text-muted">No description available</ion-text>
+      </div>
+    </ng-template>
+    <br />
+    <ion-text *ngIf="product.salesMarket?.length" class="sales_market_container mt-2">
+      <a style="cursor: pointer;" (click)="openSalesMarketModal(product.salesMarket, 'sales-market', 'sales market')"
+        >Sales market</a
+      >
+    </ion-text>
+  </ion-card-content>
+</ion-card>

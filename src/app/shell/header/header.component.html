@@ -1,0 +1,91 @@
+<ion-header class="header-container">
+  <ion-toolbar class="header-toolbar">
+    <!-- MENU -->
+    <ion-buttons slot="start" class="sandwich-desktop" id="header-sandwich">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="start" class="sandwich-mobile" id="header-sandwich">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <!-- LANGUAGE -->
+    <!-- <ion-button class="language">
+      <ion-label class="label" (click)="changeLanguage($event)">EN</ion-label>
+    </ion-button> -->
+
+    <!-- CENTRAL BUTTONS -->
+    <div class="nav-wrapper position-absolute w-50 d-none d-xl-block slot-toolbar">
+      <ng-container *ngTemplateOutlet="segment"></ng-container>
+    </div>
+
+    <!-- DESKTOP -->
+    <div class="notification-company-profile-desktop">
+      <!-- NOTIFICATIONS -->
+      <span class="notifications-icon" (click)="openNotificationsModal($event)" id="header-notifications">
+        <i class="fas fa-bell"></i>
+        <div *ngIf="notificationCounter > 0" class="notification-counter-div">
+          <span class="notification-counter" *ngIf="notificationCounter <= 99">{{ notificationCounter }}</span>
+          <span class="notification-counter" *ngIf="notificationCounter > 99">+99</span>
+        </div>
+      </span>
+
+      <!--  PROFILE  -->
+      <a
+        *ngIf="loadedUserInfo"
+        (click)="openOrganizationProfileModal($event)"
+        id="header-logo"
+        style="cursor: pointer;"
+      >
+        <ion-avatar class="organization-logo-avatar">
+          <img
+            [src]="currentCompany.organization.logo?.url"
+            onerror="this.src='../../../assets/EmptyProfileLogo.png'"
+          />
+        </ion-avatar>
+      </a>
+    </div>
+
+    <!-- MOBILE -->
+    <div class="notification-company-profile-mobile">
+      <!-- NOTIFICATIONS -->
+      <span class="notifications-icon" (click)="openNotificationsModal($event)" id="header-notifications">
+        <i class="fas fa-bell"></i>
+        <div *ngIf="notificationCounter > 0" class="notification-counter-div">
+          <span class="notification-counter" *ngIf="notificationCounter <= 99">{{ notificationCounter }}</span>
+          <span class="notification-counter" *ngIf="notificationCounter > 99">+99</span>
+        </div>
+      </span>
+
+      <!--  PROFILE  -->
+      <a *ngIf="loadedUserInfo" (click)="openOrganizationProfileModal($event)" id="header-logo">
+        <ion-avatar class="organization-logo-avatar">
+          <img
+            [src]="currentCompany.organization.logo?.url"
+            onerror="this.src='../../../assets/EmptyProfileLogo.png'"
+          />
+        </ion-avatar>
+      </a>
+    </div>
+    <!-- Footer for mobile -->
+  </ion-toolbar>
+</ion-header>
+
+<ng-template #segment>
+  <ion-segment mode="md" class="central mx-auto" color="secondary">
+    <ion-segment-button
+      mode="md"
+      *ngFor="let p of headerService.pages"
+      routerLinkActive="segment-button-checked"
+      [routerLinkActiveOptions]="{ exact: true }"
+      [routerLink]="p.path"
+      [replaceUrl]="true"
+      (click)="navigationToll(p.title)"
+      color="primary"
+      style="--background-hover: none; outline: none"
+      [id]="p.id"
+    >
+      <ion-icon class="m-0 mt-2" *ngIf="p.img" src="{{ p.img }}"></ion-icon>
+      <ion-label class="mb-1 text-capitalize small {{ p.titleClass }}">{{ p.title }}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</ng-template>

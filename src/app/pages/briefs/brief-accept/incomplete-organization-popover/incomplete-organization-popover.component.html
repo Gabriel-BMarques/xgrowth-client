@@ -1,0 +1,26 @@
+<ion-content>
+  <div class="incomplete-profile-advertise">
+    <div class="sad-icon">
+      <i class="far fa-frown"></i>
+    </div>
+    <span class="advertise-text" [translate]="'briefs.onlyUsersWith'"></span>
+    <span class="advertise-text-bold" [translate]="'briefs.completeProfile'"></span>
+    <span class="advertise-text" [translate]="'briefs.canAddResponse'"></span>
+    <div class="buttons-div">
+      <ion-button
+        shape="round"
+        fill="outline"
+        [ngClass]="organizationAdmin ? 'exit-button-org-admin' : 'exit-button'"
+        [translate]="'global.actions.back'"
+        (click)="dismiss()"
+      ></ion-button>
+      <ion-button
+        *ngIf="organizationAdmin"
+        shape="round"
+        class="complete-button"
+        [translate]="'global.actions.complete'"
+        (click)="completeProfile()"
+      ></ion-button>
+    </div>
+  </div>
+</ion-content>

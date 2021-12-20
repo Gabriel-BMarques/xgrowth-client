@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "391651282012",
+    "firebase_url": "https://welever-app.firebaseio.com",
+    "project_id": "welever-app",
+    "storage_bucket": "welever-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:391651282012:android:e388bd13a90dbdfddf6a99",
+        "android_client_info": {
+          "package_name": "com.welever.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "391651282012-np3q2sbnp2uiq85m6804q2f0aodo3vtj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgOX2Z1HrHRCOQV85SfZ--l0tmicdubac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "391651282012-np3q2sbnp2uiq85m6804q2f0aodo3vtj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

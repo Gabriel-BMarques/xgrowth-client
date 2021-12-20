@@ -1,0 +1,151 @@
+.header {
+  width: 100%;
+  margin-top: 1rem;
+  align-items: center;
+  display: table;
+  .page-title {
+    margin-left: 2rem;
+    display: table-cell;
+    margin-top: 0.9rem !important;
+    vertical-align: middle;
+    color: #565555;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    float: left;
+    width: fit-content;
+  }
+}
+
+.view-all {
+  color: #64b34c;
+  font-weight: bold;
+  font-size: 14px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1rem;
+}
+
+.container-members {
+  width: 100%;
+  padding-bottom: 0.5rem;
+  max-height: 240px;
+  overflow-y: auto;
+  .can-edit {
+    position: absolute;
+    color: #56555566;
+    font-weight: bold;
+    right: 1.6rem;
+    font-size: 0.7rem;
+  }
+  .no-members {
+    width: 100%;
+    text-align: center;
+    .no-members-icon {
+      font-size: 8rem;
+      margin-top: 2.5rem;
+      color: #56555566;
+    }
+    .no-members-text {
+      font-size: 1rem;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-top: 1.5rem;
+      color: #56555566;
+    }
+  }
+  .display-list {
+    display: block;
+    div {
+      width: 100%;
+      line-height: 0px;
+      ion-checkbox {
+        position: absolute;
+        margin-top: 1rem;
+        right: 0;
+        margin-right: 1rem;
+        width: 1.4rem;
+        height: 1.4rem;
+        // --border-radius: 5px;
+        --background-checked: #64b34c;
+        --border-color-checked: #64b34c;
+        --border-width: 1px;
+        --border-color: #56555566;
+      }
+      ion-col {
+        display: flex;
+        border-bottom: 1px solid #56555525;
+      }
+      @media (min-width: 1px) {
+        padding-inline-start: 1rem;
+        padding-inline-end: 1rem;
+      }
+      @media (min-width: 1000px) {
+        padding-inline-start: 3rem;
+        padding-inline-end: 3rem;
+      }
+    }
+  }
+  .masonry {
+    display: none;
+  }
+  .select-all-container {
+    display: none;
+  }
+  .fa-minus-circle {
+    color: #316eb4;
+    font-size: 1.5rem;
+    margin-top: 0.8rem;
+    margin-right: 1rem;
+    float: left;
+  }
+  .fa-plus-circle {
+    color: #64b34c;
+    font-size: 1.5rem;
+    margin-top: 0.8rem;
+    margin-right: 1rem;
+    float: left;
+  }
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  z-index: 1000;
+  background-color: #fff;
+  box-shadow: 0 2px 6px 2px rgba(0, 0, 0, 0.281);
+  .cancel-button {
+    float: left;
+    width: 35%;
+    font-size: 18px;
+    --padding-top: 1.2rem;
+    --padding-bottom: 1.2rem;
+    --border-radius: 25px;
+    --box-shadow: none;
+    --color: #316eb4;
+    --border-color: #316eb4;
+    --border-width: 1px;
+    --border-style: solid;
+    text-transform: none;
+    margin-left: 3rem;
+  }
+  .done-button {
+    float: right;
+    width: 35%;
+    font-size: 18px;
+    --padding-top: 1.2rem;
+    --padding-bottom: 1.2rem;
+    --border-radius: 25px;
+    --box-shadow: none;
+    text-transform: none;
+    margin-right: 3rem;
+  }
+}
+
+ion-searchbar {
+  --background: white;
+  --box-shadow: none;
+}

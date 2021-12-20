@@ -1,0 +1,19 @@
+@media (max-width: 1199px) {
+  .all-tabs {
+    display: flex;
+    padding-top: 3px;
+    box-shadow: 0px 1px 6px #00000029;
+    .segment-title {
+      color: #cacaca;
+    }
+    .segment-title-active {
+      color: #70c1ed;
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  .all-tabs {
+    display: none;
+  }
+}

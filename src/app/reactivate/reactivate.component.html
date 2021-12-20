@@ -1,0 +1,96 @@
+<div class="register-page background-banner">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 offset-md-4 text-center">
+        <img width="142.519" height="39.287" src="../../../../assets/Logo_xGrowth_Main.svg" alt="Logo xGrowth" />
+      </div>
+    </div>
+    <div class="row justify-content-center" style="padding-top:2.2rem">
+      <div class="register-box">
+        <div class="title">
+          <span>{{ title }}</span>
+        </div>
+        <div class="description" [innerHTML]="description"></div>
+        <form [formGroup]="passwordForm">
+          <div class="register-input">
+            <mat-form-field
+              [ngClass]="[
+                passwordForm.controls.password.value === '' ? 'input-field-normal' : '',
+                passwordForm.controls.password.invalid && passwordForm.controls.password.touched
+                  ? 'input-field-error'
+                  : '',
+                !passwordForm.controls.password.invalid ? 'input-field-success' : ''
+              ]"
+              hideRequiredMarker="true"
+              floatLabel="never"
+            >
+              <input
+                id="register-password"
+                (click)="checkPassPlaceHolder()"
+                (blur)="checkPassPlaceHolder()"
+                formControlName="password"
+                appearance="fill"
+                [placeholder]="passwordPlaceHolder"
+                [type]="passIsVisible ? 'text' : 'password'"
+                matInput
+                required
+              />
+              <img
+                id="register-password-visibility"
+                (click)="passIsVisible = !passIsVisible"
+                class="password-visibility"
+                width="16px"
+                height="13px"
+                [src]="
+                  passIsVisible
+                    ? '../../../../assets/password_visible.svg'
+                    : '../../../../assets/password_not_visible.svg'
+                "
+                alt="Password icon"
+              />
+              <mat-error
+                *ngIf="passwordForm.get('password').hasError('required') && passwordForm.controls.password.touched"
+              >
+                <span>That's a required field</span>
+              </mat-error>
+              <div
+                class="password-lenght-error"
+                *ngIf="passwordForm.get('password').hasError('minlength') && passwordForm.controls.password.touched"
+              >
+                <span>Must be at least 8 characters</span>
+              </div>
+            </mat-form-field>
+          </div>
+          <div *ngIf="passwordForm.controls.password.value" class="new-password-strength pt-3 pb-2">
+            <app-password-strength-bar [passwordToCheck]="passwordForm.controls.password.value">
+            </app-password-strength-bar>
+            <p class="pt-1">
+              Great passwords include 8+ characters, lowercase and uppercase letters, numbers and special characters.
+            </p>
+          </div>
+          <div class="next-button" (click)="setPassword()">
+            <button id="register-save" [class]="passwordForm.controls.password.invalid ? 'next-disabled' : ''">
+              Set new password
+            </button>
+          </div>
+        </form>
+        <hr class="box-divider" style="margin-top: 1.875rem" />
+        <div class="register-footer row justify-content-center">
+          <span id="register-already" class="already-register">Already registered?</span>
+          <span id="register-access-account" class="access-account" (click)="goToLogin()">Access your account</span>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center pt-2">
+      <span id="register-open-terms" class="register-terms" (click)="openTerms()"
+        >Terms and Conditions
+        <span class="terms-dot">•</span>
+      </span>
+      <span id="register-need-help" class="register-help" (click)="needHelp()">Need help?</span>
+    </div>
+    <div class="d-flex flex-column align-items-center pt-4 register-powered">
+      <span class="pb-1">Powered by</span>
+      <img width="112px" height="17px" src="../../../../assets/Logo_GrowinCo_Gray.svg" alt="Logo xGrowth" />
+    </div>
+  </div>
+</div>

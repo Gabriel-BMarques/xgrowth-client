@@ -1,0 +1,155 @@
+<ion-content>
+  <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+  <div class="page-header" *ngIf="!isLoading">
+    <div class="back-icon">
+      <i class="fas fa-arrow-left" (click)="back()"></i>
+    </div>
+    <div class="header-title">
+      {{ header }}
+    </div>
+  </div>
+  <div *ngIf="!isLoading">
+    <form [formGroup]="privacyForm" novalidate>
+      <ion-list class="desktop">
+        <ion-row>
+          <div class="col text-center">
+            <ion-button
+              [ngClass]="{
+                selected: privacy === 'Public',
+                unselected: privacy !== 'Public'
+              }"
+              color="secondary"
+              (click)="switchPrivacy('Public')"
+              [translate]="'addNew.post.public'"
+            >
+            </ion-button>
+          </div>
+        </ion-row>
+        <ion-row>
+          <div class="col text-center" style="margin-top: 1rem;">
+            <ion-button
+              [ngClass]="{
+                selected: privacy === 'My Organization',
+                unselected: privacy !== 'My Organization'
+              }"
+              color="secondary"
+              (click)="switchPrivacy('My Organization')"
+              [translate]="'addNew.post.myOrganization'"
+            >
+            </ion-button>
+          </div>
+        </ion-row>
+        <ion-row>
+          <div class="col text-center" style="margin-top: 1rem;">
+            <ion-button
+              [ngClass]="{
+                selected: privacy === 'Selected Companies',
+                unselected: privacy !== 'Selected Companies'
+              }"
+              color="secondary"
+              (click)="switchPrivacy('Selected Companies')"
+              [translate]="'addNew.post.selectedCompanies'"
+            >
+            </ion-button>
+          </div>
+        </ion-row>
+      </ion-list>
+      <ion-list class="mobile">
+        <ion-button
+          [ngClass]="{
+            selected: privacy === 'Public',
+            unselected: privacy !== 'Public'
+          }"
+          color="secondary"
+          (click)="switchPrivacy('Public')"
+          [translate]="'addNew.post.public'"
+        >
+        </ion-button>
+        <ion-button
+          [ngClass]="{
+            selected: privacy === 'My Organization',
+            unselected: privacy !== 'My Organization'
+          }"
+          color="secondary"
+          (click)="switchPrivacy('My Organization')"
+          [translate]="'addNew.post.myOrganization'"
+          style="margin-top: 1rem;"
+        >
+        </ion-button>
+        <ion-button
+          [ngClass]="{
+            selected: privacy === 'Selected Companies',
+            unselected: privacy !== 'Selected Companies'
+          }"
+          color="secondary"
+          (click)="switchPrivacy('Selected Companies')"
+          [translate]="'addNew.post.selectedCompanies'"
+          style="margin-top: 1rem;"
+        >
+        </ion-button>
+      </ion-list>
+      <div class="select-companies-container" *ngIf="privacy === 'Selected Companies' && !loadingCompanies">
+        <ion-searchbar
+          animated
+          placeholder=" {{ searchbar }}"
+          (keyup)="applyFilter($event.target.value)"
+          (ionClear)="applyFilter(null)"
+        >
+        </ion-searchbar>
+        <ion-checkbox
+          [(ngModel)]="allSelected"
+          [indeterminate]="isIndeterminate"
+          [ngModelOptions]="{ standalone: true }"
+          (ionChange)="toggleAllCompanies()"
+        ></ion-checkbox>
+        <span class="company-name">Select all companies</span>
+        <div class="organizations-panel">
+          <div class="organization-container" *ngFor="let organization of organizationData.filteredData; let i = index">
+            <div class="organization-name-div">
+              <span class="organization-name">{{ organization.name }}</span>
+            </div>
+            <ion-list class="companies-container">
+              <ion-item class="company-item" *ngFor="let company of organizationData.filteredData[i].companies">
+                <ion-checkbox
+                  [(ngModel)]="company.selected"
+                  [ngModelOptions]="{ standalone: true }"
+                  (ionChange)="selectCompany(company)"
+                ></ion-checkbox>
+                <span class="company-name">{{ company.companyName }}</span>
+              </ion-item>
+            </ion-list>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</ion-content>
+<div class="select-privacy-footer-container" *ngIf="!isLoading">
+  <div class="save-button col text-center">
+    <ion-button
+      [disabled]="privacy === 'Selected Companies' && (!companyIds || companyIds.length === 0)"
+      class="save-changes"
+      *ngIf="wizard.isEditing && wizard.entity.IsPublished"
+      shape="round"
+      color="secondary"
+      (click)="saveEditChanges()"
+      [translate]="'global.actions.saveChanges'"
+    ></ion-button>
+  </div>
+  <div class="buttons-container">
+    <ion-button
+      [disabled]="privacy === 'Selected Companies' && (!companyIds || companyIds.length === 0)"
+      color="primary"
+      (click)="submitPrivacy()"
+    >
+      <span translate>
+        addNew.post.confirmSelection
+      </span>
+      <span class="counter" *ngIf="form.recipientsCompanyProfileId.value.length >= 1">
+        ({{ form.recipientsCompanyProfileId.value.length }})
+      </span>
+    </ion-button>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<ion-content class="overview-modal-see-all">
+  <ion-grid class="overview-modal-see-all-grid">
+    <ion-card-title class="content_title_item">Overview</ion-card-title>
+    <ion-row class="ion-align-items-start">
+      <ion-col size-lg="4" size-md="6" size-xs="12" class="pl-0 pr-3">
+        <div class="d-flex pb-2 flex-column">
+          <ion-text class="pb-1 font-weight-bold">Organization type</ion-text>
+          <ion-text [innerText]="organizationType"></ion-text>
+        </div>
+      </ion-col>
+      <ion-col size-lg="4" size-md="6" size-xs="12" class="pl-0 pr-3">
+        <div class="d-flex py-2 flex-column">
+          <ion-text class="pb-1 font-weight-bold">Segment(s)</ion-text>
+          <ion-text>{{ segments | slice: 0:80 }}<ion-text *ngIf="segments.length > 80"> +</ion-text></ion-text>
+        </div>
+      </ion-col>
+      <ion-col size-lg="4" size-md="6" size-xs="12" class="pl-0 pr-3">
+        <div class="d-flex py-2 flex-column">
+          <ion-text class="pb-1 font-weight-bold">Sub-segment(s)</ion-text>
+          <ion-text>{{ subSegments | slice: 0:80 }}<ion-text *ngIf="subSegments.length > 80"> +</ion-text></ion-text>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-align-items-start">
+      <ion-col size-lg="4" size-md="6" size-xs="12" class="pl-0 pr-3">
+        <div class="d-flex py-2 flex-column">
+          <ion-text class="pb-1 font-weight-bold">Skills</ion-text>
+          <ion-text>{{ skills | slice: 0:80 }}<ion-text *ngIf="skills.length > 80"> +</ion-text></ion-text>
+        </div>
+      </ion-col>
+      <ion-col size-lg="4" size-md="6" size-xs="12" class="pl-0 pr-3">
+        <div class="d-flex py-2 flex-column">
+          <ion-text class="pb-1 font-weight-bold">Certifications</ion-text>
+          <ion-text
+            >{{ certifications | slice: 0:80 }}<ion-text *ngIf="certifications.length > 80"> +</ion-text></ion-text
+          >
+        </div>
+      </ion-col>
+      <ion-col size-lg="4" size-md="6" size-xs="12" class="pl-0 pr-3">
+        <div class="d-flex py-2 flex-column">
+          <ion-text class="pb-1 font-weight-bold">Ownership/Diversity iniciative</ion-text>
+          <ion-text>{{ initiatives | slice: 0:80 }}<ion-text *ngIf="initiatives.length > 80"> +</ion-text></ion-text>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

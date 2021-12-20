@@ -1,0 +1,200 @@
+@import "../../../../../theme/theme.scss";
+@media (min-width: 1px) {
+  .loading-container {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    ion-spinner {
+      padding-top: 100%;
+    }
+  }
+
+  .page-header {
+    display: flex;
+    .header-title {
+      display: grid;
+      width: 78%;
+      text-transform: uppercase;
+      font-weight: bold;
+      padding-top: 1.5rem;
+      padding-left: 2rem;
+      padding-bottom: 1rem;
+    }
+    .header-information {
+      text-transform: initial;
+      font-size: 0.9rem;
+      color: rgba(86, 85, 85, 0.37);
+      font-weight: 600;
+      position: absolute;
+      right: 1rem;
+      top: 1.5rem;
+    }
+  }
+  .select-team-members {
+    float: right;
+    margin-right: 1rem;
+  }
+  .select {
+    ion-button {
+      width: 20rem;
+      --border-radius: 50px;
+      --box-shadow: none;
+      --border-width: 1px;
+      --background-color: #316eb4;
+      text-transform: none;
+    }
+    .no-members {
+      display: grid;
+      margin-top: 4rem;
+    }
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    ion-label {
+      color: #56555566;
+      font-size: 11px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .brief-owner {
+      display: flex;
+      margin-top: 1.5rem;
+      margin-left: 2rem;
+      .main-contact {
+        display: grid;
+        margin-right: 2.5rem;
+      }
+    }
+    .list-header {
+      display: flex;
+      float: right;
+      margin-top: 1rem;
+      margin-right: 2.4rem;
+      .main-contact {
+        display: grid;
+        margin-right: 2.5rem;
+      }
+    }
+  }
+  .list {
+    .collaborators {
+      margin-left: 2rem;
+      ion-label {
+        color: #56555566;
+        font-size: 11px;
+        font-weight: bold;
+        text-align: center;
+      }
+    }
+    .item {
+      margin-left: 1rem;
+    }
+    ion-label {
+      color: #000000cc;
+      font-size: 13px;
+    }
+    .radio-button-container {
+      position: absolute;
+      right: 7.8rem;
+      // width: 66.91px;
+    }
+    .checkbox-container {
+      position: absolute;
+      right: 3rem;
+      // z-index: 1;
+      // width: 59.95px;
+      ion-checkbox {
+        margin-left: 1rem;
+      }
+    }
+  }
+  .warning-container {
+    width: 100%;
+    text-align: center;
+    bottom: 0;
+    .warning-block {
+      display: inline-flex;
+      padding: 1rem;
+      .warning {
+        font-size: 13px;
+        color: #565555;
+        text-align: left;
+        padding-left: 1rem;
+        display: grid;
+      }
+    }
+    .warning-block-no-padding {
+      display: inline-flex;
+      padding-top: 10%;
+      padding: 1rem;
+      .warning {
+        font-size: 13px;
+        color: #565555;
+        text-align: left;
+        padding-left: 1rem;
+        display: grid;
+      }
+    }
+  }
+  .footer-container {
+    box-shadow: 0 -2px 6px 1px rgba(0, 0, 0, 0.281);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    bottom: 0;
+    width: 100%;
+    z-index: 2;
+    background: white;
+    .save-button {
+      .save-changes {
+        --color-hover: white;
+        --box-shadow: none;
+        --background: #70c1ed;
+        --background-hover: #70c1edad;
+        color: white;
+        text-transform: none;
+        width: 40%;
+      }
+    }
+    .buttons-container {
+      text-align: center;
+      ion-button {
+        width: 30%;
+        margin-right: 1.5rem;
+        margin-left: 1.5rem;
+        text-transform: initial;
+        --border-radius: 50px;
+        --box-shadow: none;
+        --border-width: 1px;
+        --padding-top: 1.2rem;
+        --padding-bottom: 1.2rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 414px) {
+  .select-team-members {
+    float: unset;
+    margin-left: unset;
+    margin-right: unset;
+  }
+
+  .list-header {
+    margin-right: 1.4rem !important;
+    .main-contact {
+      display: grid;
+      margin-right: 1.5rem !important;
+    }
+  }
+
+  .list {
+    .radio-button-container {
+      right: 5.8rem;
+    }
+
+    .checkbox-container {
+      right: 2rem;
+    }
+  }
+}

@@ -1,0 +1,156 @@
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+
+.logo {
+  margin: 0 auto;
+  padding-top: 40vh;
+  width: 300px;
+}
+
+.tutorials-head {
+  h5 {
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 0px;
+  }
+  ion-searchbar {
+    --background: #fff;
+  }
+  .create-article-btn {
+    width: 200px;
+    height: 44px;
+    background: orange;
+    border: 1px solid orange;
+    border-radius: 50px;
+    color: white;
+  }
+}
+
+.display-list {
+  display: block;
+  .mat-slide-toggle.mat-checked {
+    .mat-slide-toggle-bar {
+      background-color: #70c1ed !important;
+    }
+    .mat-slide-toggle-thumb {
+      background-color: #fff;
+    }
+  }
+  .mat-slide-toggle-thumb-container {
+    top: 4px;
+    left: 3px;
+    .mat-slide-toggle-thumb {
+      height: 14px;
+      width: 14px;
+    }
+  }
+
+  .mat-slide-toggle-bar {
+    height: 22px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+  }
+
+  .topic {
+    width: 100%;
+    line-height: 0px;
+    margin: 0px 0px 15px 0px;
+    padding: 0px 0px 15px 0px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.13);
+    @media (max-width: 767px) {
+      .mobile-hidden {
+        display: none !important;
+      }
+    }
+    h4 {
+      font-size: 20px;
+      text-transform: uppercase;
+    }
+    .tutorials-container {
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      border-radius: 0px;
+      box-shadow: unset;
+      a {
+        color: #475063;
+        &:hover {
+          color: #475063;
+        }
+      }
+      .table-item {
+        border: none !important;
+        display: block;
+        cursor: pointer;
+        padding-left: 25px;
+        width: 100%;
+        h5 {
+          font-size: 15px;
+          .main-indicator {
+            background: inherit;
+            color: #70c1ed;
+            border: 1px solid #70c1ed;
+            border-radius: 50px;
+            padding: 0px 5px 2px 5px;
+          }
+        }
+      }
+      .table-item:hover {
+        --background: rgb(202, 207, 255);
+      }
+    }
+  }
+}
+.tutorial-details {
+  color: var(--ion-text-color);
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  .back-icon {
+    cursor: pointer;
+    text-align: left;
+    padding: 2rem 0 2rem 0;
+    font-size: 22px;
+    color: #f6a117;
+  }
+  .back-text {
+    color: #f6a117;
+    text-align: left;
+    margin-left: 6px;
+    font: normal normal 18px/24px Open Sans;
+    cursor: pointer;
+  }
+
+  .tutorial-image {
+    margin: 1rem 0 1rem;
+    width: 100%;
+    height: 400px;
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+    }
+  }
+  .tutorial-text {
+    .iframe-container {
+      overflow: hidden;
+      /* 16:9 aspect ratio */
+      padding-top: 56.25%;
+      position: relative;
+
+      iframe {
+        height: 100%;
+        width: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        border: 0;
+      }
+    }
+    img {
+      height: auto;
+      max-width: 100%;
+    }
+  }
+}

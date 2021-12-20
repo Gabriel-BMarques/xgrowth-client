@@ -1,0 +1,38 @@
+<ion-content>
+  <ion-card class="reports-card">
+    <div class="card-title">
+      Users data base
+    </div>
+    <ion-button id="admin-reports-users" class="export-button" (click)="downloadUsers()">
+      Export to .xslx
+    </ion-button>
+  </ion-card>
+  <ion-card class="reports-card">
+    <div class="card-title">
+      Users actions
+    </div>
+    <ion-item>
+      <ion-label position="floating">From</ion-label>
+      <ion-datetime
+        id="admin-reports-datetime-from"
+        displayFormat="MM/DD/YYYY"
+        min="2019-01-01"
+        max="2012-12-09"
+        value="2002-09-23T15:03:46.789"
+      ></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">To</ion-label>
+      <ion-datetime
+        id="admin-reports-datetime-to"
+        displayFormat="MM/DD/YYYY"
+        min="2019-01-01"
+        max="2012-12-09"
+        value="2002-09-23T15:03:46.789"
+      ></ion-datetime>
+    </ion-item>
+    <ion-button id="admin-reports-users-actions" class="export-button" (click)="downloadUsers()">
+      Export to .xslx
+    </ion-button>
+  </ion-card>
+</ion-content>

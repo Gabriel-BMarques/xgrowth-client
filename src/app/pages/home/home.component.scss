@@ -1,0 +1,144 @@
+.logo {
+  margin: 0 auto;
+  padding-top: 40vh;
+  width: 300px;
+}
+
+q {
+  font-style: italic;
+  quotes: "« " " »";
+}
+
+mat-tab-group {
+  padding-top: 1rem;
+}
+
+.feed {
+  padding-top: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  .filters {
+    ion-button {
+      --background: none;
+      --box-shadow: none;
+      color: #f6a117;
+      --background-hover: none;
+      --background-activated: none;
+      --background-focused: none;
+      ion-label {
+        text-transform: none;
+        margin-left: 0.5rem;
+        font-weight: bold;
+        font-size: 14px;
+      }
+      i {
+        color: #f6a117;
+        margin-left: 0.5rem;
+      }
+    }
+    .location-name {
+      display: block;
+      width: 100px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+  .home-categories-filter {
+    z-index: 9;
+    top: 0;
+    background-color: #f6f6f6;
+    border-bottom: 1px solid #c3c3c3;
+    padding: 7px 0px;
+    .home-slider {
+      height: auto !important;
+    }
+    .swiper-slide {
+      width: auto !important;
+    }
+    .swiper-wrapper {
+      // justify-content: center;
+    }
+    i {
+      color: #565555;
+      font-size: 10px;
+      opacity: 0.5;
+    }
+    ion-chip {
+      height: 26px;
+      border-radius: 42px;
+      ion-label {
+        width: auto;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+    .ion-chip-selected {
+      background-color: #f6a117;
+      color: white;
+    }
+    .home-categories-prev {
+      position: absolute;
+      z-index: 99;
+      background: linear-gradient(to left, rgba(246, 246, 246, 0.808), rgb(246, 246, 246));
+      height: 35px;
+      padding-right: 1.3rem;
+    }
+    .home-categories-next {
+      position: absolute;
+      z-index: 30;
+      right: -6px;
+      background: linear-gradient(to right, rgba(246, 246, 246, 0.808), rgb(246, 246, 246));
+      height: 35px;
+      padding-left: 1.3rem;
+    }
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .filters {
+    display: none;
+  }
+}
+@media only screen and (min-width: 321px) and (max-width: 768px) {
+  .filters {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1px) {
+  ion-fab {
+    padding-right: 2rem;
+    padding-bottom: 3rem;
+  }
+  .filters {
+    display: none;
+  }
+}
+@media only screen and (min-width: 1000px) {
+  ion-fab {
+    display: none;
+  }
+
+  .filters {
+    display: block;
+  }
+}
+
+@media only screen and (max-width: 999px) {
+  .filters {
+    display: block;
+  }
+}
+
+@media (min-width: 600px) {
+  .brief-container {
+    .briefsListByCompany {
+      display: table-caption;
+      flex-direction: column;
+      .card {
+        width: 40rem;
+      }
+    }
+  }
+}

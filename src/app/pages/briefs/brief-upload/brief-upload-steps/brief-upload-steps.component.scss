@@ -1,0 +1,134 @@
+.terms-text-desktop {
+  display: none;
+}
+
+.back-button {
+  margin-top: 1rem;
+  font-size: 14px;
+  color: #f6a117;
+  font-weight: bold;
+  font-family: Open Sans;
+  ion-button {
+    text-transform: none;
+    --background: transparent;
+    --background-hover: transparent;
+    --box-shadow: none;
+    outline: none;
+  }
+}
+.steps {
+  .number-circle {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background: #bbbbbb;
+    border: 2px solid #bbbbbb;
+    color: #ffffff;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0 auto;
+    display: table;
+  }
+  .number-circle-active {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background: #f6a117;
+    border: 2px solid #f6a117;
+    color: #ffffff;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0 auto;
+    display: table;
+  }
+  .step {
+    text-align: center;
+    display: grid;
+    font-size: 14px;
+    margin-top: 0.5rem;
+  }
+  .terms {
+    .title {
+      color: #f6a117;
+      font-size: 12px;
+      font-weight: bold;
+      font-family: Open Sans;
+      display: inline-flex;
+    }
+    .terms-text-mobile {
+      margin-top: 1rem;
+      margin-left: 1rem;
+      margin-right: 1rem;
+      text-align: left;
+      font-family: Open Sans;
+      font-size: 12px;
+      color: #56555580;
+    }
+  }
+  .warning {
+    margin-top: 2rem;
+    display: inline-flex;
+    .texts {
+      text-align: center;
+      display: grid;
+      margin-left: 1rem;
+    }
+  }
+}
+
+.fileName {
+  display: inline-flex;
+  .fa-file-download {
+    color: #f6a117;
+    margin-right: 10px;
+    font-size: 1.2rem;
+  }
+  h6 {
+    font-weight: bold;
+    color: #f6a117;
+    font-size: 13px;
+  }
+  .fa-times {
+    color: #70c1ed;
+    margin-left: 15px;
+    font-size: 1rem;
+  }
+}
+
+.fileInput {
+  width: 100%;
+  height: fit-content;
+}
+.fileInput > p-fileUpload {
+  display: none;
+}
+
+.help {
+  margin-top: 1.8rem;
+  margin-bottom: 1.8rem;
+  color: #565555;
+  font-size: 12px;
+  text-align: center;
+}
+
+@media (min-width: 600px) {
+  .terms-text-mobile {
+    display: none;
+  }
+  .terms-text-desktop {
+    text-align: center;
+    display: grid;
+    margin-top: 1rem;
+    padding-right: 15rem;
+    padding-left: 15rem;
+    overflow-wrap: break-word;
+    font-family: Open Sans;
+    font-size: 13.5px;
+    color: #56555580;
+  }
+  .back-button {
+    margin-left: 3rem;
+  }
+}

@@ -1,0 +1,27 @@
+<ion-content>
+  <div class="container tutorial-details">
+    <a routerLink="/tutorial" *ngIf="!tutorialInput">Back to tutorials list</a>
+    <h3 style="color: var(--ion-text-color);">{{ tutorial?.title }}</h3>
+    <div class="tutorial-text">
+      <span [innerHTML]="htmlText(tutorial)"></span>
+    </div>
+    <div class="reactions" *ngIf="!isLoadingReactions">
+      <p>was this page helpful?</p>
+      <i
+        class="bi bi-emoji-smile"
+        [ngClass]="reaction?.type === 'happy' ? 'selected' : ''"
+        (click)="markReaction('happy')"
+      ></i>
+      <i
+        class="bi bi-emoji-neutral"
+        [ngClass]="reaction?.type === 'neutral' ? 'selected' : ''"
+        (click)="markReaction('neutral')"
+      ></i>
+      <i
+        class="bi bi-emoji-frown"
+        [ngClass]="reaction?.type === 'sad' ? 'selected' : ''"
+        (click)="markReaction('sad')"
+      ></i>
+    </div>
+  </div>
+</ion-content>

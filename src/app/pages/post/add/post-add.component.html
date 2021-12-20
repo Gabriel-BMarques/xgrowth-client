@@ -1,0 +1,494 @@
+<ion-content>
+  <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+  <div class="page-header" *ngIf="!isLoading">
+    <div class="header-title">
+      <span [translate]="'briefs.add.basicInfo'"></span>
+    </div>
+  </div>
+  <div *ngIf="!isLoading">
+    <div class="uploaded-files-container">
+      <div class="align-center">
+        <ion-grid>
+          <ion-row>
+            <ion-col offset-md="5" offset-lg="5" offset="4" size="6" size-md="3">
+              <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
+                <div *ngFor="let img of files; let index = index">
+                  <div
+                    id="add-post-delete"
+                    *ngIf="img.url"
+                    (click)="deleteImageOfArray(img.url)"
+                    class="action-circle"
+                    style="left: 75px; z-index: 1000000; cursor: pointer;"
+                  >
+                    <i class="fas fa-times"></i>
+                  </div>
+                  <ion-reorder>
+                    <div class="uploaded-file">
+                      <ion-col>
+                        <ion-spinner
+                          *ngIf="!img.url"
+                          style="z-index: 1000000; margin-top: 2rem; margin-left: 2rem"
+                          name="crescent"
+                        ></ion-spinner>
+                        <div *ngIf="img.url" class="action-circle" style="left: 8px; top: -30px">
+                          <span class="counter">{{ index + 1 }}</span>
+                        </div>
+                        <img *ngIf="img.url && !isVideo(img.Type)" class="post-img" [src]="img.url" />
+                        <img *ngIf="img.url && isVideo(img.Type)" class="post-img" [src]="getVideoThumbnail(img.url)" />
+                      </ion-col>
+                    </div>
+                  </ion-reorder>
+                </div>
+              </ion-reorder-group>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+      <label class="fileInput">
+        <p-fileUpload
+          #fileInput
+          mode="basic"
+          auto="true"
+          id="file"
+          name="file.name"
+          multiple="true"
+          fileLimit="9"
+          accept="image/*,video/*"
+          customUpload="true"
+          (uploadHandler)="upload($event)"
+        >
+        </p-fileUpload>
+        <div>
+          <div
+            id="add-post-upload-media"
+            [ngClass]="{
+              'no-images': !images,
+              'is-images ion-activatable ripple-parent': images
+            }"
+            color="primary"
+            style="--box-shadow: none"
+          >
+            <i class="fas fa-file-upload" style="padding-right: 0.5rem"></i>
+            <span [translate]="'addNew.post.uploadMedia'"></span>
+            <ion-ripple-effect></ion-ripple-effect>
+          </div>
+        </div>
+        <div class="alert">
+          <div class="col text-center" style="max-width: 270px;">
+            <ion-label [translate]="'addNew.post.addFiles'"></ion-label>
+          </div>
+          <!-- <div class="col text-center" style="margin-top: 0.2rem;">
+            <ion-label [translate]="'briefs.add.files'"></ion-label>
+          </div> -->
+        </div>
+      </label>
+    </div>
+    <form class="mobile" [formGroup]="postInfoForm" novalidate>
+      <ion-list>
+        <label class="input-label" [translate]="'addNew.post.name'"></label>
+        <div class="input-field">
+          <mat-form-field [hideRequiredMarker]="true" style="padding-bottom: 1rem;">
+            <input id="add-post-post-title" type="text" matInput formControlName="name" required />
+            <mat-error *ngIf="postInfoForm.controls.name.invalid && postInfoForm.controls.name.touched">
+              <div style="text-align: center;">
+                <span [translate]="'addNew.post.addPostTitle'"></span>
+              </div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <label class="input-label" [translate]="'addNew.post.description'"></label>
+        <div class="input-field">
+          <mat-form-field [hideRequiredMarker]="true" class="description-form">
+            <textarea
+              id="add-post-description"
+              (ng-blur)="saveChanges()"
+              type="description"
+              rows="5"
+              matInput
+              formControlName="description"
+              required
+              style="padding-left: 1rem; resize: none;"
+            >
+            </textarea>
+            <mat-error *ngIf="postInfoForm.controls.description.invalid && postInfoForm.controls.description.touched">
+              <div style="text-align: center;">
+                <span [translate]="'addNew.post.descriptionRequired'"></span>
+              </div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <!-- PRIVACY LIST CARDS MOBILE HERE -->
+        <div class="post-privacy">
+          <div class="head-privacy">
+            <h3>
+              <button class="tooltip-privacy" id="add-post-toggle-info" (click)="toggleTooltipInfo()">
+                <i class="fas fa-info-circle"></i>
+              </button>
+              Who do you expect to reach with your posting?
+            </h3>
+            <p *ngIf="showTooltipInfo">
+              It considers markets you have access to as per your company's subscription package. <br />
+              E.g. if your company has access to EU region, "Potential clients" consider every potential client in the
+              given region.
+            </p>
+          </div>
+          <div class="navigators">
+            <div>
+              <button
+                id="add-post-prev-privacy"
+                class="chevron-left"
+                (click)="prevPrivacy()"
+                *ngIf="!privacies[0].isCurrentSlide"
+              >
+                <img src="../../../../assets/chevron-circle-left.svg" alt="" />
+              </button>
+            </div>
+            <div>
+              <button
+                id="add-post-next-privacy"
+                class="chevron-right"
+                (click)="nextPrivacy()"
+                *ngIf="!privacies[privacies.length - 1].isCurrentSlide"
+              >
+                <img src="../../../../assets/chevron-circle-right.svg" alt="" />
+              </button>
+            </div>
+          </div>
+          <ion-slides #privacySlider [options]="slideOpts">
+            <ion-slide *ngFor="let privacy of privacies">
+              <button
+                [id]="'add-post-' + privacy.id"
+                class="post-privacy-card"
+                [ngClass]="privacy.selected ? 'selected' : ''"
+                (click)="switchPrivacy(privacy.value)"
+              >
+                <div class="radio-mobile">
+                  <div class="circle">
+                    <div class="selected" *ngIf="privacy.selected"></div>
+                  </div>
+                </div>
+                <div class="privacy-image">
+                  <img [src]="privacy.src" alt="" />
+                </div>
+                <div class="privacy-info">
+                  <h4>{{ privacy.name }}</h4>
+                  <p>
+                    {{ privacy.description
+                    }}<span *ngIf="privacy.value === 'Potential Clients'"
+                      ><button class="toggle-potential-clients" (click)="togglePotentialClientList()">
+                        Check the list
+                        <i [class]="showPotentialClientList ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i></button
+                    ></span>
+                  </p>
+                </div>
+                <div class="best-option" *ngIf="privacy.isBestOption">Best option!</div>
+              </button>
+            </ion-slide>
+          </ion-slides>
+          <div *ngIf="postInfoForm.controls.privacy.value === 'Selected Companies'" class="select-companies">
+            <div class="company-loader" *ngIf="loadingCompanies">loading companies...</div>
+            <ng-container *ngIf="!loadingCompanies">
+              <ion-searchbar
+                animated
+                placeholder="Search companies"
+                (keyup)="applyFilter($event.target.value)"
+                (ionClear)="applyFilter(null)"
+              >
+              </ion-searchbar>
+              <div class="select-all">
+                <ion-checkbox
+                  id="add-post-all-selected"
+                  [(ngModel)]="allSelected"
+                  [ngModelOptions]="{ standalone: true }"
+                  (ionChange)="toggleAllCompanies()"
+                ></ion-checkbox>
+                <span class="select-all-label">Select all companies</span>
+              </div>
+              <div class="organizations-panel">
+                <div
+                  class="organization-container"
+                  *ngFor="let organization of organizationData.filteredData; let i = index"
+                  [ngClass]="i === organizationData.filteredData.length - 1 ? 'no-border' : ''"
+                >
+                  <ng-container *ngIf="organization.name !== '1. Prospect Solvers with GrowinCo.'">
+                    <div class="organization-name-div">
+                      <span class="organization-name">{{ organization.name }}</span>
+                    </div>
+                    <ion-list class="companies-container">
+                      <ion-item class="company-item" *ngFor="let company of organizationData.filteredData[i].companies">
+                        <ion-checkbox
+                          id="add-post-company-selected"
+                          [(ngModel)]="company.selected"
+                          [ngModelOptions]="{ standalone: true }"
+                          (ionChange)="selectCompany(company)"
+                        ></ion-checkbox>
+                        <span class="company-name">{{ company.companyName }}</span>
+                      </ion-item>
+                    </ion-list>
+                  </ng-container>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+          <div
+            *ngIf="showPotentialClientList && postInfoForm.controls.privacy.value === 'Potential Clients'"
+            class="select-companies"
+          >
+            <div class="company-loader" *ngIf="loadingCompanies">
+              loading companies...
+            </div>
+            <ng-container *ngIf="!loadingCompanies">
+              <ion-searchbar
+                animated
+                placeholder="Search companies"
+                (keyup.enter)="searchPotentialClients($event.target.value)"
+                (ionClear)="searchPotentialClients(null)"
+              >
+              </ion-searchbar>
+              <div class="organizations-panel" *ngIf="potentialOrganizations && potentialOrganizations?.length">
+                <div class="organization-container" *ngFor="let organization of potentialOrganizations; let i = index">
+                  <div class="organization-name-div">
+                    <span class="organization-name">{{ organization.name }}</span>
+                  </div>
+                  <ion-list class="companies-container">
+                    <ng-container *ngFor="let company of potentialClients">
+                      <ion-item class="company-item" *ngIf="company.organization._id === organization._id">
+                        <span class="company-name">{{ company.companyName }}</span>
+                      </ion-item>
+                    </ng-container>
+                  </ion-list>
+                </div>
+              </div>
+              <div
+                class="organizations-panel"
+                *ngIf="!potentialOrganizations || !potentialOrganizations?.length"
+                style="text-align: center;"
+              >
+                No potential clients.
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </ion-list>
+    </form>
+    <form class="desktop" [formGroup]="postInfoForm" novalidate>
+      <ion-list>
+        <ion-row>
+          <ion-col>
+            <label class="input-label" [translate]="'addNew.post.name'"></label>
+            <div class="input-field">
+              <mat-form-field [hideRequiredMarker]="true" style="padding-bottom: 1rem;">
+                <input id="add-post-post-title" type="text" matInput formControlName="name" required />
+                <mat-error *ngIf="postInfoForm.controls.name.invalid && postInfoForm.controls.name.touched">
+                  <div style="text-align: center;">
+                    <span [translate]="'addNew.post.addPostTitle'"></span>
+                  </div>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <label class="input-label" [translate]="'addNew.post.description'"></label>
+            <div class="input-field">
+              <mat-form-field [hideRequiredMarker]="true" class="description-form">
+                <textarea
+                  id="add-post-description"
+                  type="description"
+                  rows="11"
+                  matInput
+                  formControlName="description"
+                  style="padding-left: 1rem; resize: none; margin-left: 0px !important;"
+                  required
+                >
+                </textarea>
+                <mat-error
+                  *ngIf="postInfoForm.controls.description.invalid && postInfoForm.controls.description.touched"
+                >
+                  <div style="text-align: center;">
+                    <span align="center" [translate]="'addNew.post.descriptionRequired'"></span>
+                  </div>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </ion-col>
+          <ion-col>
+            <!-- PRIVACY LIST CARDS DESKTOP HERE -->
+            <div class="post-privacy">
+              <div class="head-privacy">
+                <h3>
+                  <button class="tooltip-privacy" id="add-post-toggle-info" (click)="toggleTooltipInfo()">
+                    <i class="fas fa-info-circle"></i>
+                  </button>
+                  Who do you expect to see this post?
+                </h3>
+                <p *ngIf="showTooltipInfo">
+                  It considers markets you have access to as per your company's subscription package. <br />
+                  E.g. if your company has access to EU region, "Potential clients" consider every potential client in
+                  the given region.
+                </p>
+              </div>
+              <ng-container *ngFor="let privacy of privacies">
+                <button
+                  [id]="'add-post-' + privacy.id"
+                  class="post-privacy-card"
+                  [ngClass]="privacy.selected ? 'selected' : ''"
+                  (click)="switchPrivacy(privacy.value)"
+                >
+                  <div class="radio">
+                    <div class="circle">
+                      <div class="selected" *ngIf="privacy.selected"></div>
+                    </div>
+                  </div>
+                  <div class="privacy-image">
+                    <img [src]="privacy.src" alt="" />
+                  </div>
+                  <div class="privacy-info">
+                    <h4>{{ privacy.name }}</h4>
+                    <p>
+                      {{ privacy.description }}
+                      <span *ngIf="privacy.value === 'Potential Clients'"
+                        ><button class="toggle-potential-clients" (click)="togglePotentialClientList()">
+                          Check the list
+                          <i
+                            [class]="showPotentialClientList ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"
+                          ></i></button
+                      ></span>
+                    </p>
+                  </div>
+                  <div class="best-option" *ngIf="privacy.isBestOption">Best option!</div>
+                </button>
+
+                <div *ngIf="privacy.selected && privacy.value === 'Selected Companies'" class="select-companies">
+                  <div class="company-loader" *ngIf="loadingCompanies">loading companies...</div>
+                  <ng-container *ngIf="!loadingCompanies">
+                    <ion-searchbar
+                      animated
+                      placeholder="Search companies"
+                      (keyup)="applyFilter($event.target.value)"
+                      (ionClear)="applyFilter(null)"
+                    >
+                    </ion-searchbar>
+                    <div class="select-all">
+                      <ion-checkbox
+                        id="add-post-all-selected"
+                        [(ngModel)]="allSelected"
+                        [ngModelOptions]="{ standalone: true }"
+                        (ionChange)="toggleAllCompanies()"
+                      ></ion-checkbox>
+                      <span class="select-all-label">Select all companies</span>
+                    </div>
+                    <div class="organizations-panel">
+                      <div
+                        class="organization-container"
+                        *ngFor="let organization of organizationData.filteredData; let i = index"
+                        [ngClass]="i === organizationData.filteredData.length - 1 ? 'no-border' : ''"
+                      >
+                        <ng-container *ngIf="organization.name !== '1. Prospect Solvers with GrowinCo.'">
+                          <div class="organization-name-div">
+                            <span class="organization-name">{{ organization.name }}</span>
+                          </div>
+                          <ion-list class="companies-container">
+                            <ion-item
+                              class="company-item"
+                              *ngFor="let company of organizationData.filteredData[i].companies"
+                            >
+                              <ion-checkbox
+                                id="add-post-company-selected"
+                                [(ngModel)]="company.selected"
+                                [ngModelOptions]="{ standalone: true }"
+                                (ionChange)="selectCompany(company)"
+                              ></ion-checkbox>
+                              <span class="company-name">{{ company.companyName }}</span>
+                            </ion-item>
+                          </ion-list>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+                <div
+                  *ngIf="showPotentialClientList && privacy.selected && privacy.value === 'Potential Clients'"
+                  class="select-companies"
+                >
+                  <div class="company-loader" *ngIf="loadingCompanies">
+                    loading companies...
+                  </div>
+                  <ng-container *ngIf="!loadingCompanies">
+                    <ion-searchbar
+                      animated
+                      placeholder="Search companies"
+                      (keyup.enter)="searchPotentialClients($event.target.value)"
+                      (ionClear)="searchPotentialClients(null)"
+                    >
+                    </ion-searchbar>
+                    <div class="organizations-panel" *ngIf="potentialOrganizations && potentialOrganizations?.length">
+                      <div
+                        class="organization-container"
+                        *ngFor="let organization of potentialOrganizations; let i = index"
+                      >
+                        <div class="organization-name-div">
+                          <span class="organization-name">{{ organization.name }}</span>
+                        </div>
+                        <ion-list class="companies-container">
+                          <ng-container *ngFor="let company of potentialClients">
+                            <ion-item class="company-item" *ngIf="company.organization._id === organization._id">
+                              <span class="company-name">{{ company.companyName }}</span>
+                            </ion-item>
+                          </ng-container>
+                        </ion-list>
+                      </div>
+                    </div>
+                    <div
+                      class="organizations-panel"
+                      *ngIf="!potentialOrganizations || !potentialOrganizations?.length"
+                      style="text-align: center;"
+                    >
+                      No potential clients.
+                    </div>
+                  </ng-container>
+                </div>
+              </ng-container>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-list>
+    </form>
+  </div>
+</ion-content>
+<div class="post-add-footer-container" *ngIf="!isLoading">
+  <div class="save-button col text-center">
+    <ion-button
+      id="add-post-save-changes"
+      [disabled]="postInfoForm.controls.name.invalid || postInfoForm.controls.description.invalid || !haveFiles"
+      class="save-changes"
+      *ngIf="wizard.isEditing && wizard.entity?.IsPublished"
+      shape="round"
+      color="secondary"
+      (click)="saveChanges('finish')"
+      [translate]="'global.actions.saveChanges'"
+    ></ion-button>
+  </div>
+  <div class="buttons-container">
+    <ion-button
+      id="add-post-cancel"
+      (click)="cancel()"
+      color="secondary"
+      fill="outline"
+      [translate]="'global.actions.cancel'"
+    ></ion-button>
+    <ion-button
+      id="add-post-next"
+      [class]="
+        postInfoForm.controls.name.invalid ||
+        postInfoForm.controls.description.invalid ||
+        !haveFiles ||
+        (postInfoForm.controls.privacy.value === 'Selected Companies' && companyIds.length < 1)
+          ? 'next-disabled'
+          : ''
+      "
+      color="primary"
+      (click)="next()"
+      [translate]="'global.actions.next'"
+    ></ion-button>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+ion-content {
+  .header {
+    margin-top: 1.5rem;
+    text-align: center;
+    .title {
+      color: #41414180;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .text {
+      text-align: center;
+      display: grid;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
+  .actions {
+    margin-left: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    display: inline-flex;
+  }
+}

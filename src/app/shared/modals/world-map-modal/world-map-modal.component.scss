@@ -1,0 +1,55 @@
+.world-map-modal-container {
+  color: #565555;
+  font-size: 1rem;
+  height: 100%;
+  .world-map-modal-header {
+    position: absolute;
+    top: 0;
+    display: flex;
+    height: 5rem;
+    width: 100%;
+    z-index: 1;
+    display: flex !important;
+    align-items: center;
+    box-shadow: 0px 3px 10px #00000029;
+    .back {
+      cursor: pointer;
+      margin-left: 1.25rem;
+      .back-icon {
+        font-size: 1.125rem;
+        color: #f6a117;
+        position: initial;
+      }
+    }
+    .world-map-modal-title {
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-left: 0.599rem;
+    }
+    .list-icon {
+      position: absolute;
+      cursor: pointer;
+      font-weight: bold;
+      color: #a0a0a0;
+      right: 0;
+      margin-right: 1.25rem;
+      font-size: 1rem;
+    }
+  }
+  .world-map-modal-content {
+    margin-top: 5rem;
+    width: 100%;
+    height: calc(100% - 140px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .world-map-modal-footer {
+    position: absolute;
+    width: 100%;
+    background-color: #ffffff;
+    bottom: 0;
+    height: 3.75rem;
+    box-shadow: 0px 3px 10px #00000029;
+  }
+}

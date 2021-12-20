@@ -1,0 +1,98 @@
+<ion-content>
+  <div
+    [ngClass]="{
+      'container-modal': !type,
+      'container-profile-modal': type === 'profile'
+    }"
+  >
+    <!-- NOTIFICATIONS & MESSAGES -->
+    <div *ngIf="type !== 'profile'">
+      <div class="panel-header">
+        <div class="title">
+          <span [translate]="'sidebar-menu.notifications'"></span>
+        </div>
+        <div *ngIf="panelData.type === 'notifications'" class="view-all" (click)="toggleOptions()">
+          <a><i class="fas fa-ellipsis-h"></i></a>
+        </div>
+      </div>
+      <div *ngIf="options" class="options">
+        <span (click)="readAllNotifications()" class="option-button" style="padding-bottom: 0.4rem;">
+          <i class="fas fa-check"></i>
+          <button>Mark all as read</button>
+        </span>
+        <span (click)="hideAllNotifications()" class="option-button" style="padding-top: 0.4rem;">
+          <i class="fas fa-trash"></i>
+          <button>Clear all</button>
+        </span>
+      </div>
+      <ng-container *ngIf="!panelData.items?.length && !isLoading">
+        <ion-list>
+          <ion-item>No notifications.</ion-item>
+        </ion-list>
+      </ng-container>
+      <ng-container *ngIf="panelData.items?.length && !isLoading">
+        <ion-list *ngFor="let item of panelData.items; let last = last; let i = index">
+          <ion-item>
+            <div class="image-notification" [style]="item.read ? 'opacity: 0.5' : ''">
+              <ion-avatar>
+                <img
+                  style="object-fit: cover !important;"
+                  [src]="item.src"
+                  onerror="this.src='../../../assets/Logo_xGrowth_Icon192.png'"
+                />
+              </ion-avatar>
+            </div>
+            <ion-label
+              style="cursor: pointer;"
+              *ngIf="item.link"
+              (click)="navigateToNotification(item)"
+              [style]="item.read ? 'opacity: 0.5' : ''"
+            >
+              <h3 class="item-info">{{ item.title }}</h3>
+              <h5 class="item-data">{{ item.sentOn | dateAgo }}</h5>
+            </ion-label>
+            <div class="post-options">
+              <a *ngIf="option !== item._id" (click)="setOption(item._id)"
+                ><i style="color:#707070" class="fas fa-ellipsis-h"></i
+              ></a>
+              <a *ngIf="option === item._id" (click)="unsetOption()"
+                ><i style="color:#c7b8b8" class="fas fa-ellipsis-h"></i
+              ></a>
+            </div>
+
+            <div *ngIf="option === item._id" class="option" style="opacity: 1">
+              <div class="notification-options">
+                <span
+                  *ngIf="item.read === false"
+                  (click)="readNotification(item)"
+                  class="option-button"
+                  style="padding-bottom: 0.4rem;"
+                >
+                  <i class="fas fa-envelope-open"></i>
+                  <button>Mark as read</button>
+                </span>
+                <span
+                  *ngIf="item.read === true"
+                  (click)="unreadNotification(item)"
+                  class="option-button"
+                  style="padding-bottom: 0.4rem;"
+                >
+                  <i class="fas fa-envelope"></i>
+                  <button>Mark as unread</button>
+                </span>
+                <span class="option-button" style="padding-top: 0.4rem;" (click)="deleteNotification(item)">
+                  <i class="fas fa-trash"></i>
+                  <button>Delete</button>
+                </span>
+              </div>
+            </div>
+          </ion-item>
+          <div *ngIf="!last" class="line"></div>
+        </ion-list>
+      </ng-container>
+      <div *ngIf="isLoading" class="ion-text-center">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+    </div>
+  </div>
+</ion-content>

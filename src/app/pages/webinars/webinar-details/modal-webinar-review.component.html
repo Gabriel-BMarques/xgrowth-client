@@ -1,0 +1,22 @@
+<ion-content class="modal-webinar-review">
+  <div class="approved" *ngIf="webinar.reviewStatus === 'approved'">
+    <i class="bi bi-emoji-smile"></i>
+    <p>Your request to webinar was approved!</p>
+    <p>Be ready to receive your audience on the scheduled date and time.</p>
+    <button (click)="modalController.dismiss()">ok</button>
+  </div>
+  <div class="denied" *ngIf="webinar.reviewStatus === 'denied'">
+    <i class="bi bi-emoji-frown"></i>
+    <p>Your submitted request to webinar wasn't approved!</p>
+    <ng-container *ngIf="webinar.denialReason">
+      <p><strong>Check some comments that will help you out:</strong></p>
+      <p class="denial-reason">{{ webinar.denialReason }}</p>
+    </ng-container>
+    <div class="review-footer">
+      <span class="mail-support">
+        <a href="mailto:support@growinco.com">Contact support</a>
+      </span>
+      <button (click)="modalController.dismiss()">Dismiss</button>
+    </div>
+  </div>
+</ion-content>

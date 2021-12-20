@@ -1,0 +1,38 @@
+<ion-content *ngIf="!isLoading" class="masonry-popover-content">
+  <ion-list class="feed-popover-list">
+    <ion-item
+      lines="none"
+      detail="false"
+      (click)="dismiss()"
+      href="/#/post/details/{{ post._id }}"
+      target="_blank"
+      button
+    >
+      Open {{ post?.BriefId ? 'response' : 'post' }}
+      in new tab
+    </ion-item>
+    <ion-item lines="full" detail="false" (click)="openPostInNewWindow()" button>
+      Open {{ post?.BriefId ? 'response' : 'post' }} in new window
+    </ion-item>
+    <ion-item lines="none" detail="false" (click)="sharePost()" button>
+      {{ post?.BriefId ? 'Share response' : 'Share
+      post' }}
+    </ion-item>
+    <ion-item lines="none" detail="false" (click)="savePost()" button
+      >Save {{ post?.BriefId ? 'response' : 'post' }} to a collection</ion-item
+    >
+    <ion-item
+      *ngIf="!isCreator"
+      lines="none"
+      detail="false"
+      button
+      (click)="dismiss()"
+      href="mailto:{{ post.CreatedBy?.email }}?subject=xGrowth Post: {{ post.Title }}"
+    >
+      {{ post?.BriefId ? 'Contact response creator' : 'Contact post creator' }}
+    </ion-item>
+    <ion-item *ngIf="canEdit" lines="none" detail="false" (click)="editPost()" button
+      >Edit {{ post?.BriefId ? 'response' : 'post' }}</ion-item
+    >
+  </ion-list>
+</ion-content>

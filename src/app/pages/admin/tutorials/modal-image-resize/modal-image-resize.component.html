@@ -1,0 +1,39 @@
+<div class="modal">
+  <div class="modal-container">
+    <div class="panel-header">
+      <div class="title">
+        <span>Resize image</span>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div
+        style="
+              margin-top: 1rem;
+              margin-bottom: 1rem;
+              padding-left: 1.5rem;
+              padding-right: 1.5rem;"
+      >
+        <form [formGroup]="resizeForm">
+          <div class="width">
+            <label>width</label>
+            <input id="admin-tutorials-image-width" type="number" formControlName="width" />
+          </div>
+          <div class="height">
+            <label>height</label>
+            <input id="admin-tutorials-image-height" type="number" formControlName="height" disabled />
+          </div>
+        </form>
+      </div>
+
+      <div class="footer-modal-resize">
+        <div class="actions-container">
+          <div class="cancel-button-container">
+            <ion-button id="admin-tutorials-dismiss" shape="round" fill="outline" (click)="dismiss()" translate
+              >Dismiss</ion-button
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

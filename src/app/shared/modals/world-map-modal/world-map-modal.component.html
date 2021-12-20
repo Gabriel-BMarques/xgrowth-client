@@ -1,0 +1,13 @@
+<div class="world-map-modal-container">
+  <div class="world-map-modal-header">
+    <div (click)="dismiss()" class="back">
+      <i class="fas fa-arrow-left back-icon"></i>
+    </div>
+    <span class="world-map-modal-title" [translate]="'solvers.organizationReach'"></span>
+    <i class="fas fa-bars list-icon" (click)="switchToList(organizationReach)"></i>
+  </div>
+  <div id="worldMapContainer" class="world-map-modal-content">
+    <app-world-map [chartWidth]="700" [organizationReach]="organizationReach"></app-world-map>
+  </div>
+  <div class="world-map-modal-footer"></div>
+</div>

@@ -1,0 +1,59 @@
+<ion-content>
+  <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+  <div class="page-header-team" *ngIf="!isLoading">
+    <div class="back-icon">
+      <i class="fas fa-arrow-left" (click)="back()"></i>
+    </div>
+    <div class="header-title">
+      <span [translate]="'briefs.add.selectMembers'"></span>
+    </div>
+  </div>
+  <div class="select" *ngIf="!isLoading">
+    <div class="row">
+      <div class="col text-center">
+        <div class="warning">
+          <ion-label [translate]="'briefs.add.atLeast'"></ion-label>
+          <ion-label [translate]="'briefs.add.required'"></ion-label>
+        </div>
+      </div>
+    </div>
+    <div class="filter">
+      <ion-searchbar
+        animated
+        (keyup)="applyFilter($event.target.value)"
+        placeholder=" {{ searchbar }}"
+        (ionClear)="applyFilter(null)"
+      ></ion-searchbar>
+    </div>
+    <div *ngIf="memberData" class="list">
+      <ion-list *ngFor="let item of memberData.filteredData">
+        <ion-item
+          *ngIf="item._id !== wizard.entity.CreatedBy._id"
+          style="cursor: pointer"
+          (click)="changeSelection(item)"
+        >
+          <i *ngIf="!membersSelected.includes(item)" class="fas fa-plus-circle" style="color:#64B34C;"></i>
+          <i *ngIf="membersSelected.includes(item)" class="fas fa-minus-circle" style="color: #E11919;"></i>
+          <ion-label style="margin-left: 0.5rem;"> {{ item.firstName }} {{ item.familyName }} </ion-label>
+          <ion-label class="ion-text-right" style="padding: 1rem">{{ item.department }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+</ion-content>
+<div class="footer-container" *ngIf="!isLoading">
+  <div class="buttons-container">
+    <ion-button
+      color="secondary"
+      id="add-brief-select-member-back"
+      (click)="back()"
+      fill="outline"
+      [translate]="'global.actions.back'"
+    ></ion-button>
+    <ion-button color="primary" id="add-brief-select-member-confirm" (click)="confirmSelection()">
+      <span [translate]="'briefs.add.confirmSelection'"></span>
+    </ion-button>
+  </div>
+</div>

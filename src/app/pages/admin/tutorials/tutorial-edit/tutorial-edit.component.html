@@ -1,0 +1,117 @@
+<div class="tutorial-edit">
+  <div
+    class="loader"
+    *ngIf="isLoading"
+    style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center;"
+  >
+    <app-loader [isLoading]="isLoading"></app-loader>
+  </div>
+  <div class="modal-container" *ngIf="!isLoading">
+    <div class="panel-body">
+      <form [formGroup]="tutorialForm">
+        <div class="container">
+          <div class="panel-header">
+            <div class="title">
+              <span>help center article</span>
+            </div>
+            <div class="delete">
+              <button id="admin-tutorials-delete" (click)="deleteTutorial()"><i class="bi bi-trash-fill"></i></button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-sm-6">
+              <div class="tutorial-input">
+                <label class="input-label">Type</label>
+                <mat-form-field [hideRequiredMarker]="false" style="padding-bottom: 1rem; width: 100%;">
+                  <mat-select id="admin-tutorials-types" formControlName="type">
+                    <mat-option *ngFor="let type of tutorialTypes" [value]="type">
+                      {{ type }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6">
+              <div class="tutorial-input">
+                <label class="input-label">Topic</label>
+                <mat-form-field [hideRequiredMarker]="false" style="padding-bottom: 1rem; width: 100%;">
+                  <mat-select
+                    id="admin-tutorials-topics"
+                    (selectionChange)="hasMainTopic($event)"
+                    formControlName="topic"
+                  >
+                    <mat-option *ngFor="let topic of tutorialTopics" [value]="topic">
+                      {{ topic }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="tutorial-input">
+                <label class="input-label">Title</label>
+                <mat-form-field [hideRequiredMarker]="false" style="padding-bottom: 1rem; width: 100%;">
+                  <input id="admin-tutorials-title" type="text" matInput formControlName="title" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="tutorial-input">
+                <label class="input-label">Content body</label>
+                <div class="editor-container">
+                  <div class="editor" contenteditable="true" #editor></div>
+                  <div class="actions">
+                    <div class="format">
+                      <select (change)="setHeading($event)">
+                        <option *ngFor="let h of headings" [value]="h">
+                          {{ h }}
+                        </option>
+                      </select>
+                      <button (click)="format('bold')"><i class="bi bi-type-bold"></i></button>
+                      <button (click)="format('italic')"><i class="bi bi-type-italic"></i></button>
+                      <button (click)="format('underline')"><i class="bi bi-type-underline"></i></button>
+                      <button (click)="format('justifyleft')"><i class="bi bi-justify-left"></i></button>
+                      <button (click)="format('justifycenter')"><i class="bi bi-text-center"></i></button>
+                      <button (click)="format('justify')"><i class="bi bi-justify"></i></button>
+                      <button (click)="format('justifyright')"><i class="bi bi-justify-right"></i></button>
+                      <button (click)="format('insertunorderedlist')"><i class="bi bi-list-ul"></i></button>
+                    </div>
+                    <div class="upload">
+                      <label for="img"><i class="bi bi-image"></i></label>
+                      <input
+                        type="file"
+                        id="img"
+                        name="img"
+                        accept="image/*"
+                        style="display: none;"
+                        (change)="addImage($event)"
+                      />
+                      <button id="admin-tutorials-add-link" (click)="addLink()">
+                        <i class="bi bi-link-45deg"></i>
+                      </button>
+                      <button id="admin-tutorials-add-link" (click)="addVideo()">
+                        <i class="bi bi-youtube"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="footer-container">
+        <div class="actions-container">
+          <div class="button-container">
+            <ion-button id="admin-tutorials-cancel" shape="round" fill="outline" (click)="cancel()" translate
+              >Cancel</ion-button
+            >
+          </div>
+          <div class="button-container">
+            <ion-button id="admin-tutorials-save" color="secondary" (click)="submit()">Save</ion-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

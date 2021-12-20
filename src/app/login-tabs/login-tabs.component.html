@@ -1,0 +1,16 @@
+<ion-tab-bar style="margin-top: 2rem;">
+  <ion-tab-button (click)="loginSelected()">
+    <ion-label
+      [ngClass]="{ 'login-text': this.router.url === '/login' || this.router.url === '/login?redirect=%2Fhome' }"
+      >Login</ion-label
+    >
+    <div
+      [ngClass]="{ 'tab-border-button': this.router.url === '/login' || this.router.url === '/login?redirect=%2Fhome' }"
+    ></div>
+  </ion-tab-button>
+  <div class="tab-border-bottom"></div>
+  <ion-tab-button (click)="registerSelected()">
+    <ion-label [ngClass]="{ 'register-text': this.router.url === '/register' }">Register </ion-label>
+    <div [ngClass]="{ 'tab-border-button': this.router.url === '/register' }"></div>
+  </ion-tab-button>
+</ion-tab-bar>

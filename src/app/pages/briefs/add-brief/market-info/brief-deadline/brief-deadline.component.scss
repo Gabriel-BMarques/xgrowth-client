@@ -1,0 +1,221 @@
+@import "../../../../../../theme/theme.scss";
+@media (min-width: 1px) {
+  .loading-container {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    ion-spinner {
+      padding-top: 100%;
+    }
+  }
+  .page-header-deadline {
+    display: flex;
+    i {
+      padding-top: 1.8rem;
+      padding-left: 2rem;
+      color: #f6a117;
+    }
+    .header-title {
+      display: grid;
+      width: 78%;
+      text-transform: uppercase;
+      font-weight: bold;
+      padding-top: 1.5rem;
+      padding-left: 1rem;
+      padding-bottom: 1rem;
+    }
+  }
+  .footer-container {
+    box-shadow: 0 -2px 6px 1px rgba(0, 0, 0, 0.281);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    bottom: 0;
+    width: 100%;
+    z-index: 2;
+    background: white;
+    .buttons-container {
+      text-align: center;
+      ion-button {
+        width: 35%;
+        margin-right: 1.5rem;
+        margin-left: 1.5rem;
+        text-transform: initial;
+        --border-radius: 50px;
+        --box-shadow: none;
+        --border-width: 1px;
+        --padding-top: 1.2rem;
+        --padding-bottom: 1.2rem;
+      }
+    }
+  }
+}
+
+.validator-message {
+  font-size: 10px;
+  color: red;
+}
+
+.date {
+  height: auto;
+  max-width: 278px;
+  margin: 0 auto;
+}
+.mat-calendar-table-header th {
+  font-size: 12px !important;
+  font-weight: bold;
+}
+.mat-calendar-body-label {
+  font-size: 14px;
+}
+
+.mat-calendar-body-cell-content {
+  font-size: 13px;
+  color: #70c1ed;
+}
+
+.mat-calendar-body-today {
+  border-color: #cecece !important;
+}
+
+.mat-calendar-body-focus {
+  background: whitesmoke !important;
+}
+
+.mat-calendar-body-selected {
+  background: #f6a117 !important;
+  color: white;
+}
+
+.mat-calendar-header {
+  color: #f6a117;
+}
+.mat-calendar-body-label {
+  font-weight: bold;
+  color: #f6a117;
+  display: none;
+}
+.mat-calendar-period-button {
+  font-weight: bold;
+}
+
+.alertDate-class {
+  .alert-head {
+    text-align: center;
+
+    .alert-title {
+      font-weight: bold;
+      color: #41414180;
+    }
+  }
+  #alert-1-msg {
+    text-align: center;
+  }
+  .alert-button {
+    display: block;
+    width: 150px;
+    border: solid 1px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 50px;
+    right: 18%;
+    .alert-button-inner {
+      justify-content: center;
+    }
+  }
+}
+
+// first desktop view
+.hour-selection-container {
+  width: 278px;
+  text-align: center;
+  margin-top: 2rem;
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+  .hour-selection-title {
+    color: #f6a117;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  form {
+    width: 100%;
+    .time-selection-container {
+      display: inline-flex;
+      margin-top: 1.25rem;
+      margin-inline: auto;
+      align-items: center;
+      .clock-icon {
+        color: #f6a117;
+        font-size: 16px;
+        margin-right: 0.3rem;
+      }
+      .mat-form-field-infix {
+        border: 1px solid;
+        border-radius: 1.5rem; //15rem
+        border-color: #70c1ed;
+        padding: 0.5rem 0 !important;
+        width: 4.79rem;
+        margin-inline: 0.3rem;
+        input {
+          width: 51% !important;
+          color: #70c1ed;
+          text-align: center;
+          vertical-align: middle;
+          font-size: 14px;
+        }
+        .mat-select {
+          .mat-select-value {
+            color: #70c1ed;
+            font-size: 14px;
+          }
+          .mat-select-arrow {
+            color: #70c1ed;
+          }
+          .mat-select-trigger {
+            height: fit-content !important;
+          }
+        }
+      }
+      span {
+        color: #70c1ed;
+      }
+    }
+    .timezone-selection-container {
+      width: 100%;
+      margin-top: 1.25rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .time-zone-selection-title {
+        color: #f6a117;
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+      .mat-form-field-infix {
+        border: 1px solid;
+        border-radius: 1.5rem;
+        border-color: #70c1ed;
+        padding: 0.5rem 0 !important;
+        padding-inline: 5px;
+        width: 207px;
+        .mat-select-value-text {
+          color: #70c1ed;
+          font-size: 15px;
+        }
+      }
+      .mat-select-arrow {
+        color: #70c1ed;
+      }
+    }
+  }
+}

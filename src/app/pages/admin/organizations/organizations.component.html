@@ -1,0 +1,42 @@
+<ion-content #contentArea class="organizations-div">
+  <div class="title">
+    <span class="text-uppercase"> Organizations</span>
+  </div>
+  <ion-grid>
+    <div class="actions-div">
+      <ion-button id="admin-org-add" fill="clear" color="dark" class="add-button" (click)="addOrganization()">
+        <i class="fas fa-plus"></i>
+      </ion-button>
+      <ion-button
+        id="admin-org-refresh"
+        fill="clear"
+        color="dark"
+        class="refresh-button"
+        (click)="refreshOrganizations()"
+      >
+        <i class="fas fa-redo-alt"></i>
+      </ion-button>
+    </div>
+    <ion-searchbar
+      id="admin-org-searchbar"
+      animated
+      (keyup.enter)="applyFilter($event.target.value)"
+      (ionClear)="applyFilter(null)"
+      style="--background: white;"
+    >
+    </ion-searchbar>
+  </ion-grid>
+  <div *ngIf="skeletonLoading">
+    <app-skeleton [skeleton]="'organizations'"></app-skeleton>
+  </div>
+  <app-panel [panelData]="panelData" *ngIf="!skeletonLoading"></app-panel>
+  <ion-fab vertical="bottom" horizontal="end" edge slot="fixed">
+    <ion-fab-button id="admin-org-add" shape="round" color="success" fill="solid" (click)="addOrganization()">
+      <i class="fas fa-plus"></i>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-infinite-scroll *ngIf="!searchActive" threshold="40%" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText=""> </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  <app-loader [isLoading]="isLoading" *ngIf="!searchActive"></app-loader>
+</ion-content>

@@ -1,0 +1,21 @@
+<ion-menu
+  (ionWillClose)="reset()"
+  side="end"
+  menuId="first"
+  contentId="main"
+  type="overlay"
+  swipeGesture="false"
+  style="position: fixed; z-index: 20000000 !important;"
+>
+  <ion-content class="menu-content">
+    <app-product-edit
+      #productEditForm
+      *ngIf="product"
+      [product]="product"
+      [organization]="organization"
+      [viewport]="viewport"
+      (onProductEdit)="disableMenu()"
+    ></app-product-edit>
+  </ion-content>
+</ion-menu>
+<div id="main"></div>

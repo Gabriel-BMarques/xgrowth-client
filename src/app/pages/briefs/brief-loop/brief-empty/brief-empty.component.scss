@@ -1,0 +1,33 @@
+.brief-empty {
+  text-align: center;
+  margin-top: 60px;
+  hr {
+    border-top: 1px solid rgba(46, 46, 46, 0.2);
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  .empty-message {
+    max-width: 310px;
+    display: inline-block;
+    font-size: 16px;
+    color: #a0a0a0;
+    .sad-icon {
+      color: #cacaca;
+      margin-top: 20px;
+      margin-bottom: 40px;
+    }
+  }
+  .empty-buttons {
+    margin-top: 20px;
+    .empty-options {
+      min-width: 180px;
+      height: 40px;
+      text-transform: initial;
+      --border-radius: 50px;
+      --box-shadow: none;
+      --border-width: 1px;
+      --padding-top: 1.2rem;
+      --padding-bottom: 1.2rem;
+    }
+  }
+}

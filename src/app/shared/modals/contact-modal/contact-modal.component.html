@@ -1,0 +1,93 @@
+<ion-content class="contact-modal-content">
+  <div class="contact-modal-header">
+    <span class="contact-modal-header-title">
+      {{ modalTitle }}
+    </span>
+  </div>
+  <div class="contact-modal-form-container">
+    <form class="contact-modal-form" [formGroup]="contactForm">
+      <div class="form-field">
+        <label class="form-label" [translate]="'global.name'"></label>
+        <mat-form-field
+          [ngClass]="{
+            'form-input': true,
+            'form-input-invalid': form.name.invalid && form.name.touched,
+            'form-input-valid': form.name.valid
+          }"
+        >
+          <span *ngIf="inputEmpty(form.name)" class="input-placeholder" [translate]="'global.forms.insertName'"></span>
+          <input type="text" matInput formControlName="name" />
+        </mat-form-field>
+      </div>
+      <div class="form-field">
+        <label class="form-label" [translate]="'global.email'"></label>
+        <mat-form-field
+          [ngClass]="{
+            'form-input': true,
+            'form-input-invalid': form.email.invalid && form.email.touched,
+            'form-input-valid': form.email.valid
+          }"
+        >
+          <span
+            *ngIf="inputEmpty(form.email)"
+            class="input-placeholder"
+            [translate]="'global.forms.insertEmail'"
+          ></span>
+          <input type="text" matInput formControlName="email" />
+        </mat-form-field>
+      </div>
+      <div class="form-field">
+        <label class="form-label" [translate]="'global.modals.contactModal.subject'"></label>
+        <mat-form-field
+          [ngClass]="{
+            'form-input': true,
+            'form-input-invalid': form.subject.invalid && form.subject.touched,
+            'form-input-valid': form.subject.valid
+          }"
+        >
+          <span
+            *ngIf="inputEmpty(form.subject)"
+            class="input-placeholder"
+            [translate]="'global.modals.contactModal.subjectPlaceholder'"
+          ></span>
+          <input type="text" matInput formControlName="subject" />
+        </mat-form-field>
+      </div>
+      <div class="form-field">
+        <label class="form-label" [translate]="'global.modals.contactModal.message'"></label>
+        <mat-form-field
+          [ngClass]="{
+            'form-textarea': true,
+            'form-input-invalid': form.message.invalid && form.message.touched,
+            'form-input-valid': form.message.valid
+          }"
+        >
+          <span
+            *ngIf="inputEmpty(form.message)"
+            class="input-placeholder"
+            [translate]="'global.modals.contactModal.messagePlaceholder'"
+          ></span>
+          <textarea type="text" matInput formControlName="message"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="contact-modal-buttons">
+        <ion-button
+          shape="round"
+          class="cancel"
+          fill="outline"
+          style="float: left;"
+          [translate]="'global.actions.cancel'"
+          (click)="dismiss()"
+        ></ion-button>
+        <ion-button
+          [disabled]="formInvalid"
+          shape="round"
+          class="send"
+          style="float: right;"
+          [translate]="'global.actions.send'"
+          (click)="sendContactEmail()"
+        ></ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>

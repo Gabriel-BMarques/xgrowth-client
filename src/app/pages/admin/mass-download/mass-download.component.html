@@ -1,0 +1,51 @@
+<ion-content class="mass-download-container">
+  <ion-card class="mass-download-card">
+    <ion-card-header class="mass-download-header">
+      <ion-card-title>MASS DOWNLOAD</ion-card-title>
+      <ion-card-subtitle [translate]="'massDownload.subtitle'"></ion-card-subtitle>
+    </ion-card-header>
+    <ng-container *ngIf="downloadStarted; then downloadingTemplate; else downloadButton"> </ng-container>
+    <ng-template #downloadButton>
+      <ion-card-content class="mass-download-content">
+        <ion-button
+          [translate]="'massDownload.massDownloadOrganizations'"
+          (click)="downloadFile('organizations')"
+          expand="block"
+        ></ion-button>
+        <ion-button
+          [translate]="'massDownload.massDownloadCompanies'"
+          (click)="downloadFile('companies')"
+          expand="block"
+        ></ion-button>
+      </ion-card-content>
+    </ng-template>
+    <ng-template #downloadingTemplate>
+      <ion-card-content class="downloading-data-main-content">
+        <ion-card class="downloading-data-card">
+          <ion-card-content class="downloading-data-card-content">
+            <ion-card-subtitle *ngIf="step === 0" [translate]="'massDownload.generating'"></ion-card-subtitle>
+            <ion-card-subtitle *ngIf="step === 1" [translate]="'massDownload.downloading'"></ion-card-subtitle>
+            <ion-card-subtitle *ngIf="step === 2" [translate]="'massDownload.finished'"></ion-card-subtitle>
+            <section class="progress-bar-section">
+              <ion-card-subtitle class="text-center"> {{ (progressBarValue * 100).toFixed(0) }}% </ion-card-subtitle>
+              <ion-progress-bar
+                class="mass-download-progress-bar"
+                [value]="progressBarValue"
+                [buffer]="progressBarBuffer"
+                type="determinate"
+                reversed="false"
+              ></ion-progress-bar>
+              <ion-button
+                (click)="clearDownload()"
+                color="primary"
+                class="finish-mass-download-button"
+                [translate]="'global.actions.done'"
+                *ngIf="progressBarValue >= 1"
+              ></ion-button>
+            </section>
+          </ion-card-content>
+        </ion-card>
+      </ion-card-content>
+    </ng-template>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,172 @@
+<ion-card
+  [ngClass]="{
+    'product-items': Type === 'products',
+    'post-items': Type === 'posts',
+    'supplier-items': Type === 'suppliers',
+    'latest-news-items': Type === 'news',
+    'drafts-items': Type === 'drafts',
+    'users-items': Type === 'users',
+    'category-items': Type == 'categories',
+    'companies-items': Type === 'companies',
+    'organizations-items': Type === 'organizations',
+    'coworkers-items': Type === 'coworkers',
+    'collections-items': Type === 'collections',
+    'members-items': Type === 'members'
+  }"
+>
+  <ion-card (click)="itemClick(Item.id)" class="collection-images">
+    <div class="main-image">
+      <img
+        *ngIf="
+          Item.UploadedFiles &&
+          Item.UploadedFiles.length > 0 &&
+          Item.UploadedFiles[0] &&
+          isVideo(Item.UploadedFiles[0].Type)
+        "
+        [src]="getThumbnail(Item.UploadedFiles[0].url)"
+        (onerror)="fallbackImage()"
+      />
+      <img
+        *ngIf="
+          Item.UploadedFiles &&
+          Item.UploadedFiles.length > 0 &&
+          Item.UploadedFiles[0] &&
+          !isVideo(Item.UploadedFiles[0].Type)
+        "
+        [src]="getResizedUrl(Item.UploadedFiles[0])"
+        (onerror)="fallbackImage()"
+      />
+    </div>
+    <div class="other-images">
+      <img
+        *ngIf="
+          Item.UploadedFiles &&
+          Item.UploadedFiles.length > 1 &&
+          Item.UploadedFiles[1] &&
+          isVideo(Item.UploadedFiles[1].Type)
+        "
+        [src]="getThumbnail(Item.UploadedFiles[1])"
+        (onerror)="fallbackImage()"
+      />
+      <img
+        *ngIf="
+          Item.UploadedFiles &&
+          Item.UploadedFiles.length > 1 &&
+          Item.UploadedFiles[1] &&
+          !isVideo(Item.UploadedFiles[1].Type)
+        "
+        [src]="getResizedUrl(Item.UploadedFiles[1])"
+        (onerror)="fallbackImage()"
+      />
+      <img
+        *ngIf="
+          Item.UploadedFiles &&
+          Item.UploadedFiles.length > 2 &&
+          Item.UploadedFiles[2] &&
+          isVideo(Item.UploadedFiles[2].Type)
+        "
+        [src]="getThumbnail(Item.UploadedFiles[2])"
+        (onerror)="fallbackImage()"
+      />
+      <img
+        *ngIf="
+          Item.UploadedFiles &&
+          Item.UploadedFiles.length > 2 &&
+          Item.UploadedFiles[2] &&
+          !isVideo(Item.UploadedFiles[2].Type)
+        "
+        [src]="getResizedUrl(Item.UploadedFiles[2])"
+        (onerror)="fallbackImage()"
+      />
+    </div>
+  </ion-card>
+  <img
+    *ngIf="Item.UploadedFiles && Item.UploadedFiles[0] && isVideo(Item.UploadedFiles[0].Type)"
+    [src]="getThumbnail(Item.UploadedFiles[0].url)"
+    (onerror)="fallbackImage()"
+    (click)="imageClick(Item.id)"
+  />
+  <img
+    *ngIf="Item.UploadedFiles && Item.UploadedFiles[0] && !isVideo(Item.UploadedFiles[0].Type)"
+    [src]="getResizedUrl(Item.UploadedFiles[0])"
+    (ionError)="fallbackImage()"
+    (click)="imageClick(Item.id)"
+  />
+  <ion-card-title class="title" (click)="titleClick(Item.id)">{{ Item.title }}</ion-card-title>
+  <ion-card-subtitle class="subtitle" (click)="subtitleClick(Item.id)">{{ Item.subtitle }}</ion-card-subtitle>
+  <ion-card-subtitle class="counter">{{ Item.subtitle }}</ion-card-subtitle>
+
+  <a>
+    <ion-item class="news-item">
+      <ion-card>
+        <ion-img
+          *ngIf="Item.UploadedFiles && Item.UploadedFiles.length > 0"
+          [src]="Item.UploadedFiles[0].url"
+          (ionError)="fallbackImage()"
+        ></ion-img>
+      </ion-card>
+      <ion-label>
+        <h3>{{ Item.title }}</h3>
+        <h5 class="last-news-data">20/02/2020</h5>
+      </ion-label>
+      <i class="fas fa-chevron-right"></i>
+    </ion-item>
+
+    <ion-item class="table-item" (click)="itemClick(Item.id)">
+      <ion-card>
+        <ion-img
+          *ngIf="Item.UploadedFiles && Item.UploadedFiles.length > 0"
+          [src]="Item.UploadedFiles[0].url"
+          (ionError)="fallbackImage()"
+        ></ion-img>
+      </ion-card>
+
+      <ion-label>
+        <h5 class="title">{{ Item.title }}</h5>
+        <h3 class="subtitle">
+          <span *ngIf="Type === 'categories'" class="applies-to" translate>Applies to: </span>{{ Item.subtitle
+          }}<span *ngIf="Type === 'categories'" translate> companies in all organizations</span>
+        </h3>
+        <h3 *ngIf="Type !== 'companies'" [ngClass]="{ description: Item.description !== 'root category' }">
+          {{ Item.description }}
+        </h3>
+        <h3 *ngIf="Type === 'companies'" class="description">{{ Item.subtitle }}</h3>
+      </ion-label>
+
+      <i class="fas fa-pen edit-button" (click)="edit(Item.id, Type)"></i>
+      <i class="fas fa-trash delete-button" (click)="delete(Item, Type)"></i>
+
+      <a class="edit-coworker">
+        <svg xmlns="http://www.w3.org/2000/svg" width="17.514" height="17.514" viewBox="0 0 17.514 17.514">
+          <defs>
+            <style>
+              .a {
+                fill: #64b34c;
+              }
+            </style>
+          </defs>
+          <path
+            class="a"
+            d="M9.935,3.2l4.379,4.379L4.8,17.085l-3.9.431a.821.821,0,0,1-.906-.907L.429,12.7,9.935,3.2Zm7.088-.652L14.966.489a1.643,1.643,0,0,0-2.323,0L10.709,2.423,15.088,6.8l1.934-1.934a1.643,1.643,0,0,0,0-2.323Z"
+            transform="translate(0.011 -0.007)"
+          />
+        </svg>
+      </a>
+
+      <ion-item class="selectable-item" (click)="itemClick()">
+        <ion-card>
+          <ion-img
+            *ngIf="Item.UploadedFiles && Item.UploadedFiles.length > 0"
+            [src]="Item.UploadedFiles[0].url"
+            (ionError)="fallbackImage()"
+          ></ion-img>
+        </ion-card>
+        <ion-label>
+          <h5 class="item-title">{{ Item.title }}</h5>
+          <h3 class="item-subtitle">{{ Item.subtitle }}</h3>
+          <h3 class="item-description">{{ Item.description }}</h3>
+        </ion-label>
+      </ion-item>
+    </ion-item>
+  </a>
+</ion-card>

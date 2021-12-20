@@ -1,0 +1,222 @@
+<div *ngIf="!skeletonLoading" class="solver-loop">
+  <ng-container *ngFor="let solver of solvers; let index = index">
+    <ion-card *ngIf="!solver.name.includes('Prospect Solvers')" class="solver-card">
+      <div class="card-content">
+        <div class="organization-info row">
+          <div class="left col">
+            <div class="organization-profile">
+              <img
+                [src]="solver.logo?.url"
+                onerror="this.src='../../../../assets/EmptyProfileLogo.png'"
+                style="object-fit: scale-down;"
+              />
+              <div class="organization-name-container">
+                <div class="organization-name">
+                  {{ solver.name }}
+                </div>
+                <div>
+                  {{ solver.organizationType?.name || solver.subType?.name }}
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!solver.isAllEmpty" class="who-we-are">
+              <div class="title">
+                Who we are
+              </div>
+              <div *ngIf="solver.hasTruncatedWhoWeAre">
+                <div
+                  [ngClass]="solver.whoWeAre ? 'content' : 'empty-content'"
+                  style="margin-bottom: 0 !important;"
+                  line-truncation="4"
+                  (hasTruncated)="handler($event, 'whoWeAre', solver)"
+                  [innerHTML]="solver.whoWeAre || 'Not added'"
+                ></div>
+                <div class="read-more" (click)="readMore('whoWeAre', solver)">Read more</div>
+              </div>
+              <div *ngIf="!solver.hasTruncatedWhoWeAre">
+                <div
+                  [ngClass]="solver.whoWeAre ? 'content' : 'empty-content'"
+                  [innerHTML]="solver.whoWeAre || 'Not added'"
+                  style="margin-bottom: 0 !important;"
+                ></div>
+                <div *ngIf="solver.readLessWhoWeAre" class="read-more" (click)="readLess('whoWeAre', solver)">
+                  Read less
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="right col">
+            <div
+              [style]="!solver.organizationReach?.length || solver.isAllEmpty ? 'visibility: hidden' : ''"
+              (click)="openMap(solver.organizationReach)"
+              class="organization-reach"
+            >
+              <i class="bi bi-map-fill"></i>
+              <div class="organization-reach-title">Organization Reach</div>
+            </div>
+            <div *ngIf="solver.skills?.length && !solver.isAllEmpty" class="skills">
+              <div class="title">
+                Skills
+              </div>
+              <div *ngIf="solver.hasTruncatedSkills" class="skill-content" style="width: 100%; display: flex;">
+                <div style="width: 95%;">
+                  <div
+                    [ngClass]="solver.skills ? 'content' : 'empty-content'"
+                    line-truncation="1"
+                    [options]="{ ellipsis: '..' }"
+                    (hasTruncated)="handler($event, 'skills', solver)"
+                    [innerHTML]="getNames(solver.skills || []) || 'Not added'"
+                  ></div>
+                </div>
+                <div class="read-more" style="width: 10px;" (click)="readMore('skills', solver)">+</div>
+              </div>
+              <div *ngIf="!solver.hasTruncatedSkills" class="skill-content">
+                <div
+                  [ngClass]="solver.skills ? 'content' : 'empty-content'"
+                  [innerHTML]="getNames(solver.skills || []) || 'Not added'"
+                ></div>
+                <div
+                  *ngIf="solver.readLessSkills"
+                  class="read-more"
+                  style="width: 10px;"
+                  (click)="readLess('skills', solver)"
+                >
+                  -
+                </div>
+              </div>
+            </div>
+            <div *ngIf="solver.certifications?.length && !solver.isAllEmpty" class="certification">
+              <div class="title">
+                Certification
+              </div>
+              <div *ngIf="solver.hasTruncatedCertifications" style="width: 100%; display: flex;">
+                <div style="width: 95%;">
+                  <div
+                    [ngClass]="solver.certifications ? 'content' : 'empty-content'"
+                    line-truncation="1"
+                    [options]="{ ellipsis: '..' }"
+                    (hasTruncated)="handler($event, 'certifications', solver)"
+                    [innerHTML]="getNames(solver.certifications || []) || 'Not added'"
+                  ></div>
+                </div>
+                <div class="read-more" style="width: 10px;" (click)="readMore('certifications', solver)">+</div>
+              </div>
+              <div *ngIf="!solver.hasTruncatedCertifications">
+                <div
+                  [ngClass]="solver.certifications ? 'content' : 'empty-content'"
+                  [innerHTML]="getNames(solver.certifications || []) || 'Not added'"
+                ></div>
+                <span
+                  *ngIf="solver.readLessCertifications"
+                  class="read-more"
+                  style="width: 10px;"
+                  (click)="readLess('certifications', solver)"
+                  >-</span
+                >
+              </div>
+            </div>
+            <div
+              *ngIf="
+                (!solver.skills?.length || !solver.certifications?.length) &&
+                solver.segments?.length &&
+                !solver.isAllEmpty
+              "
+              class="segments"
+            >
+              <div class="title">
+                Segment(s)
+              </div>
+              <div *ngIf="solver.hasTruncatedSegments" style="width: 100%; display: flex;">
+                <div style="width: 95%;">
+                  <div
+                    [ngClass]="solver.segments ? 'content' : 'empty-content'"
+                    line-truncation="1"
+                    [options]="{ ellipsis: '..' }"
+                    (hasTruncated)="handler($event, 'segments', solver)"
+                    [innerHTML]="getNames(solver.segments || []) || 'Not added'"
+                  ></div>
+                </div>
+                <div class="read-more" style="width: 10px;" (click)="readMore('segments', solver)">+</div>
+              </div>
+              <div *ngIf="!solver.hasTruncatedSegments">
+                <div
+                  [ngClass]="solver.segments ? 'content' : 'empty-content'"
+                  [innerHTML]="getNames(solver.segments || []) || 'Not added'"
+                ></div>
+                <span
+                  *ngIf="solver.readLessSegments"
+                  class="read-more"
+                  style="width: 10px;"
+                  (click)="readLess('segments', solver)"
+                  >-</span
+                >
+              </div>
+            </div>
+            <div *ngIf="!solver.skills?.length && !solver.certifications?.length && !solver.isAllEmpty">
+              <div class="sub-segments">
+                <div class="title">
+                  Sub-segment(s)
+                </div>
+                <div *ngIf="solver.hasTruncatedSubSegments" style="width: 100%; display: flex;">
+                  <div style="width: 95%;">
+                    <div
+                      [ngClass]="solver.subsegments ? 'content' : 'empty-content'"
+                      line-truncation="1"
+                      [options]="{ ellipsis: '..' }"
+                      (hasTruncated)="handler($event, 'subSegments', solver)"
+                      [innerHTML]="getNames(solver.subSegments || []) || 'Not added'"
+                    ></div>
+                  </div>
+                  <div class="read-more" style="width: 10px;" (click)="readMore('subSegments', solver)">+</div>
+                </div>
+                <div *ngIf="!solver.hasTruncatedSubSegments">
+                  <div
+                    [ngClass]="solver.subsegments ? 'content' : 'empty-content'"
+                    [innerHTML]="getNames(solver.subSegments || []) || 'Not added'"
+                  ></div>
+                  <span
+                    *ngIf="solver.readLessSubSegments"
+                    class="read-more"
+                    style="width: 10px;"
+                    (click)="readLess('subSegments', solver)"
+                    >-</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!solver.isAllEmpty && solver.products?.length" class="products">
+          <div class="title">
+            Products
+          </div>
+          <div *ngIf="solver.products?.length" class="content row" style="justify-content: space-between">
+            <div class="product-col col-4">
+              <div>{{ solver.products[0]?.name }}</div>
+              <div>{{ solver.products[1]?.name }}</div>
+              <div>{{ solver.products[2]?.name }}</div>
+            </div>
+            <div class="product-col col-4">
+              <div>{{ solver.products[3]?.name }}</div>
+              <div>{{ solver.products[4]?.name }}</div>
+              <div>{{ solver.products[5]?.name }}</div>
+            </div>
+            <div class="product-col col-4">
+              <div>{{ solver.products[6]?.name }}</div>
+              <div>{{ solver.products[7]?.name }}</div>
+              <div *ngIf="solver.products[8]" class="view-all-products" (click)="viewAllProducts(solver.products)">
+                View all products
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!solver.products" class="content">
+            Not added
+          </div>
+        </div>
+        <div class="view-organization-profile" (click)="viewOrganization(solver._id)">
+          <div>View organization profile</div>
+        </div>
+      </div>
+    </ion-card>
+  </ng-container>
+</div>

@@ -1,0 +1,50 @@
+@media (min-width: 1px) {
+  .reports-card {
+    margin-left: 2rem;
+    margin-right: 2rem;
+    .card-title {
+      padding: 1rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 0rem;
+    }
+    .export-button {
+      --background: #f5a031;
+      --background-hover: #ffc06d;
+      --color-hover: white;
+      --background-focused: #ffc06d;
+      --border-radius: 50px;
+      display: block;
+      margin: 1rem;
+      margin-left: 25%;
+      margin-right: 25%;
+    }
+  }
+}
+@media (min-width: 1000px) {
+  .reports-card {
+    margin-left: 30%;
+    margin-right: 30%;
+    .card-title {
+      padding: 1rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 0rem;
+    }
+    .export-button {
+      --background: #f5a031;
+      --background-hover: #ffc06d;
+      --color-hover: white;
+      --background-focused: #ffc06d;
+      --border-radius: 50px;
+      display: block;
+      margin: 1rem;
+      margin-left: 25%;
+      margin-right: 25%;
+    }
+  }
+}

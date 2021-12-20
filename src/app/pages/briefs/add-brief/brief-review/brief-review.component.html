@@ -1,0 +1,180 @@
+<ion-content>
+  <!-- <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div> -->
+  <div class="page-header" *ngIf="!isLoading">
+    <div class="header-title">
+      <span [translate]="'briefs.add.review'"></span>
+      <div class="help">
+        <!-- <ion-label
+          style="color: #F6A117; font-size: 12px; text-transform: none;"
+          translate="briefs.add.step8"
+        ></ion-label> -->
+        <!-- <i class="fa fa-question-circle" aria-hidden="true" style="margin-left: 0.5rem; color: #F6A117;"></i> -->
+      </div>
+    </div>
+  </div>
+  <div class="review" *ngIf="brief">
+    <ion-label class="title" [translate]="'briefs.add.basicInfo'"></ion-label>
+    <div class="name">
+      <ion-label class="subtitle" [translate]="'briefs.add.briefName'"></ion-label>
+      <ion-label style="color: #616060; font-size: 16px; font-weight: bold; text-align: left;">{{
+        brief.Title
+      }}</ion-label>
+    </div>
+    <div class="description">
+      <ion-label class="subtitle" [translate]="'briefs.add.description'"></ion-label>
+      <ion-label style="color: #616060; font-size: 14px; font-weight: regular; text-align: left; padding-right: 20px;">
+        {{ brief.Description }}
+      </ion-label>
+    </div>
+    <div class="media">
+      <ion-label class="title" style="text-transform: none;" [translate]="'briefs.add.images&videos'"></ion-label>
+    </div>
+    <div class="align-center">
+      <ion-row>
+        <div class="uploaded-file" *ngFor="let img of images; let index = index">
+          <ion-col>
+            <div class="action-circle" style="left: 8px;">
+              <span class="counter">{{ index + 1 }}</span>
+            </div>
+            <img class="response-img" [src]="img" />
+          </ion-col>
+        </div>
+      </ion-row>
+    </div>
+    <div class="attachments">
+      <ion-label class="title" style="text-transform: none;" [translate]="'briefs.add.attachments'"></ion-label>
+      <div class="list" *ngFor="let file of attachments">
+        <div style="display: flex;">
+          <i class="fas fa-file fa-3x" style="color: #70C1ED; width: 31px;"></i>
+          <ion-label style="color: #70C1ED; font-size: 12px; font-weight: bold; margin-left: 1rem; margin-top: 1rem;">
+            {{ file.Name }}
+          </ion-label>
+        </div>
+      </div>
+    </div>
+    <div class="categories">
+      <ion-label class="title" [translate]="'briefs.add.tags'"></ion-label>
+      <ion-list>
+        <ion-chip *ngFor="let item of categories" outline color="secondary" style="border-radius: 50px">
+          {{ item.name }}
+        </ion-chip>
+      </ion-list>
+    </div>
+    <div class="market-info">
+      <ion-label class="title" [translate]="'briefs.add.marketInfo'"></ion-label>
+      <div class="company">
+        <ion-label class="subtitle-info" [translate]="'briefs.add.company'"></ion-label>
+        <ion-label *ngFor="let company of companies" class="labels">{{ company.companyName }}</ion-label>
+      </div>
+      <div class="market">
+        <ion-label class="subtitle-info" [translate]="'briefs.add.market'"></ion-label>
+        <ion-label *ngFor="let country of countries" class="labels">{{ country.name }}</ion-label>
+      </div>
+      <div class="deadline">
+        <ion-label class="subtitle-info" [translate]="'briefs.add.deadline'"></ion-label>
+        <ion-label class="labels">{{ deadline }}</ion-label>
+      </div>
+      <div class="team-members">
+        <ion-label class="title" [translate]="'briefs.add.teamMembers'"></ion-label>
+        <div class="header">
+          <ion-grid>
+            <ion-row>
+              <ion-col class="name-col">
+                <ion-label [translate]="'briefs.add.name'"></ion-label>
+              </ion-col>
+              <ion-col>
+                <ion-label [translate]="'briefs.add.admin'"></ion-label>
+              </ion-col>
+              <ion-col style="display: grid;">
+                <ion-label [translate]="'briefs.add.mainContact'"></ion-label>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+        <ion-list>
+          <ion-grid *ngFor="let member of members">
+            <ion-row>
+              <ion-col class="name-col">
+                <ion-label style="color: #616060; font-size: 16px; margin-top: 0.6rem;"
+                  >{{ member.UserId.firstName }} {{ member.UserId.familyName }}</ion-label
+                >
+              </ion-col>
+              <ion-col>
+                <i *ngIf="member.Admin" style="color: #64B34C;" class="fas fa-check"></i>
+              </ion-col>
+              <ion-col>
+                <i *ngIf="member.IsContact" style="color: #64B34C;" class="fas fa-check"></i>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-list>
+      </div>
+      <!-- verificar se vai ter condições para ndas: como fica o layout se só tiver um nda pra todos os solvers? -->
+      <div class="solvers">
+        <ion-label class="title" [translate]="'briefs.add.solvers'"></ion-label>
+        <div class="header">
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-label [translate]="'briefs.add.organization'"></ion-label>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+        <ion-grid *ngFor="let solver of solvers">
+          <ion-row>
+            <ion-col>
+              <ion-label style="color:#616060; font-size: 16px; margin-top: 0.6rem;">{{
+                solver.SupplierId.companyName
+              }}</ion-label>
+            </ion-col>
+            <ion-col>
+              <i style="color: #70C1ED" *ngIf="!brief.Nda && solver.Nda" class="fas fa-file-download"></i>
+              <ion-label
+                style="color: #70C1ED; font-size: 14px; font-weight: bold; margin-left: 0.5rem;"
+                *ngIf="!brief.Nda && solver.Nda"
+                >{{ solver.Nda.Name }}</ion-label
+              >
+              <ion-label
+                style="color: #70C1ED; font-size: 14px; font-weight: bold; margin-left: 0.5rem;"
+                *ngIf="brief.Nda"
+                >{{ brief.Nda.Name }}</ion-label
+              >
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-list> </ion-list>
+      </div>
+    </div>
+  </div>
+</ion-content>
+<div class="footer-container" *ngIf="!isLoading">
+  <div class="save-button col text-center">
+    <ion-button
+      id="add-brief-save-changes"
+      class="save-changes"
+      *ngIf="wizard.isEditing"
+      shape="round"
+      [translate]="'global.actions.saveChanges'"
+    ></ion-button>
+  </div>
+  <div class="buttons-container">
+    <ion-button
+      id="add-brief-review-back"
+      class="footer-button"
+      color="secondary"
+      fill="outline"
+      (click)="back()"
+      [translate]="'global.actions.back'"
+    >
+    </ion-button>
+    <ion-button
+      id="add-brief-review-publish"
+      color="primary"
+      (click)="navigateToBrief()"
+      [translate]="'briefs.add.publish'"
+    ></ion-button>
+  </div>
+</div>

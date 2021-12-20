@@ -1,0 +1,77 @@
+<ion-content #scrollableDiv [scrollEvents]="true" style="--background: #F6F6F6F6;">
+  <!-- <div *ngIf="skeletonLoading">
+    <app-skeleton [skeleton]="'post'"></app-skeleton>
+  </div> -->
+  <div class="header" (click)="backBriefs()">
+    <ion-button id="my-brief-back" shape="round" class="back-icon-header">
+      <i class="fas fa-chevron-left"></i>
+    </ion-button>
+    <ion-label class="back-label" [translate]="'global.actions.back'"></ion-label>
+  </div>
+
+  <div class="not-found" *ngIf="!brief && postNotFound">
+    <div style="text-align: center;">
+      <h3>Brief not found :(</h3>
+      <a routerLink="/briefs">Return to briefs</a>
+    </div>
+  </div>
+  <div class="mobile" *ngIf="!isLoading && brief">
+    <ion-button shape="round" class="back-icon" (click)="backBriefs()">
+      <i class="fas fa-chevron-left"></i>
+    </ion-button>
+    <app-brief-post-card
+      [mode]="'mobile'"
+      [type]="'my-brief'"
+      [entity]="brief"
+      [company]="brief.ClientId"
+      [userInfo]="user"
+    ></app-brief-post-card>
+    <div class="responses">
+      <ion-label class="title-response">
+        <span [translate]="'briefs.myBrief.responses'"></span>
+      </ion-label>
+    </div>
+  </div>
+  <div class="desktop" *ngIf="brief">
+    <app-brief-post-card
+      [mode]="'desktop'"
+      [type]="'my-brief'"
+      [entity]="brief"
+      [company]="brief.ClientId"
+      [userInfo]="user"
+    ></app-brief-post-card>
+    <div class="responses">
+      <ion-label class="title-response">
+        <span [translate]="'briefs.myBrief.responses'"></span>
+        <span></span>
+      </ion-label>
+    </div>
+  </div>
+  <div *ngIf="!isLoading" class="similar-feed">
+    <app-masonry
+      [onScrollEvent]="scrollableDiv.ionScroll"
+      [onScrollStop]="scrollableDiv.ionScrollEnd"
+      [posts]="briefResponses"
+      [class]="'start-three'"
+    ></app-masonry>
+  </div>
+</ion-content>
+<div class="footer-container-my-brief">
+  <div class="buttons-container">
+    <ion-button
+      id="my-brief-team-members"
+      style="--border-color: #70C1ED; color: #70C1ED;"
+      fill="outline"
+      (click)="viewMembers()"
+    >
+      <span [translate]="'briefs.myBrief.teamMembers'"></span>
+    </ion-button>
+    <ion-button
+      id="my-brief-solvers"
+      style="--border-color: #F6A117; --background-color: #F6A117;"
+      (click)="viewSolvers()"
+    >
+      <span [translate]="'briefs.myBrief.participatingSolvers'"></span>
+    </ion-button>
+  </div>
+</div>

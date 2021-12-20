@@ -1,0 +1,255 @@
+<div class="brief-loop">
+  <!-- View Mode -->
+  <div class="brief-main-grid" *ngIf="isGrid || section === 'fastAccess'">
+    <div class="row" #rowFastAccess>
+      <ng-container *ngFor="let item of briefs; let index = index">
+        <ion-card
+          *ngIf="(item && section === 'main') || (section === 'fastAccess' && index < briefLimit && item)"
+          [class]="'brief-card ' + class"
+          (click)="viewBrief(item)"
+        >
+          <div class="brief-image">
+            <img
+              *ngIf="
+                item.UploadedFiles &&
+                item.UploadedFiles.length > 0 &&
+                !item.UploadedFiles[0].isVideo &&
+                !(!item.sent && !item.isPublic)
+              "
+              [src]="getResizedUrl(item.UploadedFiles[0])"
+              id="{{ item.UploadedFiles[0]._id }}"
+              onerror="this.src='../../../../assets/default-fallback-image.svg'"
+            />
+            <img
+              *ngIf="item.UploadedFiles.length < 1 && (item.sent || item.isPublic)"
+              src="../../../../assets/default-fallback-image.svg"
+              onerror="this.src='../../../../assets/default-fallback-image.svg'"
+            />
+            <img
+              *ngIf="
+                item.UploadedFiles &&
+                item.UploadedFiles.length > 0 &&
+                item.UploadedFiles[0].isVideo &&
+                !(!item.sent && !item.isPublic)
+              "
+              preload="metadata"
+              [src]="getThumbnail(item.UploadedFiles[0].url)"
+              onerror="this.src='../../../assets/default-fallback-image.svg'"
+            />
+            <svg
+              *ngIf="!item.sent && !item.isPublic"
+              xmlns="http://www.w3.org/2000/svg"
+              width="278px"
+              height="150px"
+              viewBox="0 0 100 100"
+              class="brief-nda-lock-grid"
+            >
+              <path
+                class="a"
+                d="M62.5,35H58.75V23.75a23.75,23.75,0,1,0-47.5,0V35H7.5A7.5,7.5,0,0,0,0,42.5v30A7.5,7.5,0,0,0,7.5,80h55A7.5,7.5,0,0,0,70,72.5v-30A7.5,7.5,0,0,0,62.5,35ZM46.25,35H23.75V23.75a11.25,11.25,0,1,1,22.5,0Z"
+              />
+            </svg>
+          </div>
+          <!-- Desktop -->
+          <div id="brief-loop-view" class="brief-content-hover" (click)="viewBrief(item)">
+            <div class="edit-brief" *ngIf="item.canEdit">
+              <button id="brief-loop-edit" class="btn btn-sm edit" (click)="edit(item); $event.stopPropagation()">
+                <i class="bi bi-pencil-fill"></i>
+              </button>
+            </div>
+            <div class="posted-on">
+              <span> {{ item?.Deadline | briefDate }} </span>
+            </div>
+          </div>
+          <!-- Mobile -->
+          <div id="brief-loop-view" class="brief-content-mobile" (click)="viewBrief(item)">
+            <div class="info-brief">
+              <button
+                id="brief-loop-details"
+                class="btn btn-sm more"
+                (clickOutside)="item.visibility = false"
+                attachOutsideOnClick="true"
+                (click)="toggleDiv(index); $event.stopPropagation()"
+              >
+                <i class="fas fa-ellipsis-h"></i>
+              </button>
+            </div>
+            <div class="brief-modal-info" *ngIf="item.visibility">
+              <span class="title-info" [translate]="'briefs.briefType'"></span>
+              <span>{{ item.type?.name }}</span>
+              <span class="title-info" style="margin-top:6px" [translate]="'briefs.postedOn'"></span>
+              <span>{{ item?.createdAt | date: 'mediumDate' }}</span>
+              <span class="title-info" style="margin-top:6px" [translate]="'briefs.add.deadline'"></span>
+              <span>{{ item?.Deadline | date: 'mediumDate' }}</span>
+              <span class="title-info" style="margin-top:6px" [translate]="'briefs.businessUnit'"> </span>
+              <span>{{ item.ClientId?.companyName }}</span>
+              <hr *ngIf="item.canEdit" />
+              <span
+                id="brief-loop-edit"
+                *ngIf="item.canEdit"
+                (click)="edit(item); $event.stopPropagation()"
+                [translate]="'briefs.editBrief'"
+              ></span>
+            </div>
+          </div>
+          <div id="brief-loop-view" class="brief-content" (click)="viewBrief(item)">
+            <div class="brief-main-informations">
+              <ion-avatar>
+                <img
+                  [src]="item.ClientId?.organization?.logo?.url"
+                  onerror="this.src='../../../assets/EmptyProfileLogo.png'"
+                />
+              </ion-avatar>
+              <div
+                class="brief-title"
+                [style]="(!item.sent && !item.isPublic) || section === 'fastAccess' ? 'font-weight: normal;' : ''"
+              >
+                {{ !!item.isPublic ? item.Title : 'Upload the signed NDA to view the full content.' }}
+              </div>
+            </div>
+            <div class="brief-additional-informations">
+              <ion-label>
+                <span *ngIf="section === 'fastAccess'" class="brief-last-viewed"
+                  >Last viewed on {{ lastViewed[index].updatedAt | date: 'mediumDate' }}</span
+                >
+                <span *ngIf="section === 'main'" class="brief-company-name">{{ item.ClientId?.companyName }}</span>
+              </ion-label>
+            </div>
+          </div>
+        </ion-card>
+      </ng-container>
+    </div>
+    <hr *ngIf="section === 'fastAccess' && isGrid" class="brief-divider" />
+  </div>
+  <div *ngIf="section === 'main' && !isGrid" class="mobile-remove">
+    <div class="list-header row">
+      <div class="col-4" style="min-width: 302px; color:#565555">
+        Brief
+      </div>
+      <div class="header-info col-2 " style="margin-left: 1.8rem;">
+        Type
+      </div>
+      <div class="header-info col-2">
+        Posted on
+      </div>
+      <div class="header-info col-2">
+        Deadline
+      </div>
+      <div class="header-info col-2">
+        Business Unit
+      </div>
+    </div>
+    <hr style="border-top: 1px solid #bbb; margin: 4px 0 0 0;" />
+  </div>
+  <!-- List Mode -->
+  <div class="brief-main-list" *ngIf="section === 'main' && !isGrid">
+    <ng-container *ngFor="let item of briefs; let index = index">
+      <div class="background-hover-list">
+        <div id="brief-loop-list-view" *ngIf="item" class="brief-list row" (click)="viewBrief(item)">
+          <div class="col-4" style="display: flex; min-width: 300px;">
+            <div class="brief-img">
+              <img
+                *ngIf="
+                  item.UploadedFiles &&
+                  item.UploadedFiles.length > 0 &&
+                  !item.UploadedFiles[0].isVideo &&
+                  !(!item.sent && !item.isPublic)
+                "
+                [src]="getResizedUrl(item.UploadedFiles[0])"
+                id="{{ item.UploadedFiles[0]._id }}"
+                onerror="this.src='../../../../assets/default-fallback-image.svg'"
+              />
+              <img
+                *ngIf="item.UploadedFiles.length < 1 && (item.sent || item.isPublic)"
+                src="../../../../assets/default-fallback-image.svg"
+                onerror="this.src='../../../../assets/default-fallback-image.svg'"
+              />
+              <img
+                *ngIf="
+                  item.UploadedFiles &&
+                  item.UploadedFiles.length > 0 &&
+                  item.UploadedFiles[0].isVideo &&
+                  !(!item.sent && !item.isPublic)
+                "
+                preload="metadata"
+                [src]="getThumbnail(item.UploadedFiles[0].url)"
+                onerror="this.src='../../../assets/default-fallback-image.svg'"
+              />
+              <svg
+                *ngIf="!item.sent && !item.isPublic"
+                xmlns="http://www.w3.org/2000/svg"
+                width="82px"
+                height="60px"
+                viewBox="0 0 100 100"
+                class="brief-nda-lock"
+              >
+                <path
+                  class="a"
+                  d="M62.5,35H58.75V23.75a23.75,23.75,0,1,0-47.5,0V35H7.5A7.5,7.5,0,0,0,0,42.5v30A7.5,7.5,0,0,0,7.5,80h55A7.5,7.5,0,0,0,70,72.5v-30A7.5,7.5,0,0,0,62.5,35ZM46.25,35H23.75V23.75a11.25,11.25,0,1,1,22.5,0Z"
+                />
+              </svg>
+            </div>
+            <div class="brief-info">
+              <div class="brief-info-mobile">
+                <div class="brief-title-mobile">
+                  <span>{{ !!item.isPublic ? item.Title : 'Upload the signed NDA to view the full content.' }}</span>
+                </div>
+                <span class="mobile-date mobile-show">{{ item.createdAt | date: 'mediumDate' }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="brief-info mobile-remove col-2" style="margin-left: 1rem;" *ngIf="item.type">
+            <div>
+              <span>{{ item.type.name }}</span>
+            </div>
+          </div>
+          <div class="brief-info mobile-remove col-2">
+            <div>
+              <span>{{ item.createdAt | date: 'mediumDate' }}</span>
+            </div>
+          </div>
+          <div class="brief-info mobile-remove col-2">
+            <div>
+              <span>{{ item.Deadline | date: 'mediumDate' }}</span>
+            </div>
+          </div>
+          <div class="brief-info mobile-remove col-2">
+            <span>{{ item.ClientId.companyName }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="brief-content-mobile">
+        <div class="info-brief">
+          <button
+            id="brief-loop-list-details"
+            class="btn btn-sm more"
+            (clickOutside)="item.visibility = false"
+            attachOutsideOnClick="true"
+            (click)="toggleDiv(index)"
+          >
+            <i class="bi bi-three-dots"></i>
+          </button>
+        </div>
+        <div class="brief-modal-info" *ngIf="item.visibility">
+          <span class="title-info" [translate]="'briefs.briefType'"></span>
+          <span>{{ item.type?.name }}</span>
+          <span class="title-info" style="margin-top:6px" [translate]="'briefs.postedOn'"></span>
+          <span>{{ item?.createdAt | date: 'mediumDate' }}</span>
+          <span class="title-info" style="margin-top:6px" [translate]="'briefs.add.deadline'"></span>
+          <span>{{ item?.Deadline | date: 'mediumDate' }}</span>
+          <span class="title-info" style="margin-top:6px" [translate]="'briefs.businessUnit'"> </span>
+          <span>{{ item.ClientId?.companyName }}</span>
+          <hr *ngIf="item.canEdit" />
+          <span
+            id="brief-loop-list-edit"
+            *ngIf="item.canEdit"
+            (click)="edit(item); $event.stopPropagation()"
+            style="cursor: pointer;"
+            [translate]="'briefs.editBrief'"
+          ></span>
+        </div>
+      </div>
+      <hr style="color: #A0A0A0; margin: 0;" />
+    </ng-container>
+  </div>
+</div>

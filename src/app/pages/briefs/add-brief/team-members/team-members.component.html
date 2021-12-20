@@ -1,0 +1,130 @@
+<ion-content>
+  <div class="page-header" *ngIf="!isLoading">
+    <div class="header-title">
+      <span [translate]="'briefs.add.teamMembers'"></span>
+    </div>
+  </div>
+  <div class="select">
+    <div class="col text-center">
+      <ion-button id="add-brief-team-members" color="primary" (click)="select()">
+        <span [translate]="'briefs.add.selectTeam'"></span>
+      </ion-button>
+    </div>
+    <div *ngIf="briefMembers.length === 0" style="padding-top: 6rem;">
+      <div class="col text-center">
+        <div class="no-members">
+          <ion-label [translate]="'briefs.add.youHavent'"></ion-label>
+          <ion-label [translate]="'briefs.add.anyMembers'"></ion-label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="header">
+    <div class="brief-owner">
+      <ion-label>Brief owner</ion-label>
+    </div>
+    <div class="list-header" *ngIf="briefMembers.length > 0">
+      <div style="display: flex;">
+        <div class="main-contact">
+          <ion-label [translate]="'briefs.add.main'"></ion-label>
+          <ion-label [translate]="'briefs.add.contact'"></ion-label>
+        </div>
+      </div>
+      <div>
+        <ion-label [translate]="'briefs.add.admin'"></ion-label>
+      </div>
+    </div>
+  </div>
+  <div class="list" *ngIf="briefMembers && briefMembers.length && wizard.entity && wizard.entity.CreatedBy">
+    <ion-radio-group allow-empty-selection="true" name="radio-group">
+      <ng-container *ngFor="let item of briefMembers">
+        <ion-list *ngIf="item.UserId && isSame(item.UserId._id, wizard.entity.CreatedBy._id)">
+          <ion-item class="item" style="border: 0px">
+            <ion-label> {{ wizard.entity.CreatedBy.firstName }} {{ wizard.entity.CreatedBy.familyName }} </ion-label>
+            <div class="radio-button-container" (click)="changeContact(item)">
+              <ion-checkbox id="add-brief-members-contact" color="success" [(ngModel)]="item.IsContact"> </ion-checkbox>
+            </div>
+            <div class="checkbox-container" (click)="changeAdmin(item)">
+              <ion-checkbox id="add-brief-members-admin" color="success" [(ngModel)]="item.Admin" [disabled]="true">
+              </ion-checkbox>
+            </div>
+          </ion-item>
+        </ion-list>
+      </ng-container>
+      <div class="collaborators">
+        <ion-label>Collaborators</ion-label>
+      </div>
+      <ng-container *ngFor="let item of briefMembers">
+        <ion-list *ngIf="item.UserId && !isSame(item.UserId._id, wizard.entity.CreatedBy._id)">
+          <ion-item class="item">
+            <i class="fas fa-minus-circle" (click)="removeMember(item)" style="color:#E11919; cursor: pointer;"></i>
+            <ion-label style="margin-left: 0.5rem;">
+              {{ item.UserId.firstName }} {{ item.UserId.familyName }}
+            </ion-label>
+            <div class="radio-button-container" (click)="changeContact(item)">
+              <ion-checkbox id="add-brief-members-contact" color="success" [(ngModel)]="item.IsContact"> </ion-checkbox>
+            </div>
+            <div class="checkbox-container" (click)="changeAdmin(item)">
+              <ion-checkbox
+                id="add-brief-members-admin"
+                color="success"
+                [(ngModel)]="item.Admin"
+                [disabled]="item.isContact || disableCheckBox(item)"
+              >
+              </ion-checkbox>
+            </div>
+          </ion-item>
+        </ion-list>
+      </ng-container>
+    </ion-radio-group>
+  </div>
+  <div class="warning-container">
+    <div
+      *ngIf="briefMembers && briefMembers.length"
+      [ngClass]="{
+        'warning-block': briefMembers.length === 0,
+        'warning-block-no-padding': briefMembers.length > 0
+      }"
+    >
+      <ion-checkbox
+        id="add-brief-members-only"
+        color="success"
+        #membersOnlyCheckbox
+        (ionChange)="membersOnly($event)"
+      ></ion-checkbox>
+      <div class="warning">
+        <ion-label [translate]="'briefs.add.onlyTeam'"></ion-label>
+      </div>
+    </div>
+  </div>
+</ion-content>
+<div class="footer-container" *ngIf="!isLoading">
+  <div class="save-button col text-center">
+    <ion-button
+      id="add-brief-save-changes"
+      class="save-changes"
+      *ngIf="wizard.isEditing"
+      (click)="saveEditChanges()"
+      shape="round"
+      [translate]="'global.actions.saveChanges'"
+    ></ion-button>
+  </div>
+  <div class="buttons-container">
+    <ion-button
+      id="add-brief-member-back"
+      class="footer-button"
+      color="secondary"
+      fill="outline"
+      (click)="back()"
+      [translate]="'global.actions.back'"
+    >
+    </ion-button>
+    <ion-button
+      id="add-brief-member-next"
+      color="primary"
+      (click)="next()"
+      [translate]="'global.actions.next'"
+      [disabled]="nextToggleButton()"
+    ></ion-button>
+  </div>
+</div>

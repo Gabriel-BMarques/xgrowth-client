@@ -1,0 +1,15 @@
+<ion-content>
+  <div class="container-profile-modal">
+    <div *ngFor="let section of modalSections">
+      <span class="section-title">{{ section.title }}</span>
+      <div *ngFor="let item of section.items">
+        <span *ngIf="item.canSee" class="section-item">
+          <a [id]="item.id" (click)="navigate(item.route, item.mode)" [replaceUrl]="true">
+            <div class="icon-div"><i [class]="item.icon"></i></div>
+            <div class="label">{{ item.label }}</div>
+          </a>
+        </span>
+      </div>
+    </div>
+  </div>
+</ion-content>

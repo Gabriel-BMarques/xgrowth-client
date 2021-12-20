@@ -1,0 +1,377 @@
+dialog-activation-success {
+  .dialog-container {
+    text-align: center;
+    .header-div {
+      i {
+        color: #64b34c;
+        font-size: 2rem;
+      }
+      .header-text {
+        font-weight: bold;
+        color: #41414180;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+      }
+    }
+    .body-div {
+      font-size: 1rem;
+    }
+    .actions-div {
+      padding-top: 1rem;
+      ion-button {
+        width: 40%;
+        --border-radius: 50px;
+      }
+    }
+  }
+}
+
+ion-content {
+  --keyboard-offset: 0px !important;
+}
+.login-content {
+  font-family: "Open Sans" !important;
+
+  .mat-form-field-subscript-wrapper {
+    padding-right: 1rem;
+  }
+  @media (min-width: 1px) {
+    :root {
+      --customBlue: #316eb4;
+    }
+
+    ion-grid,
+    ion-row {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .bg-img {
+      background-image: url("../../assets/Growinco_Banner_Website_DesktopBanner.png");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      overflow-y: auto;
+    }
+
+    .login-header {
+      .welcome-back {
+        color: #ffffff;
+        font-weight: bold;
+        margin-bottom: 2rem;
+      }
+    }
+    .sso-message {
+      height: 100px;
+      text-align: center;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .box {
+      margin-left: 2rem;
+      margin-right: 2rem;
+      background: rgba(255, 255, 255, 0.7) 0% 0% no-repeat padding-box;
+      border-radius: 10px;
+
+      .mat-tab-header {
+        display: none !important;
+      }
+
+      .mat-tab-label .mat-tab-label-content {
+        color: #f6a117;
+        display: none;
+      }
+
+      .mat-tab-group.mat-primary .mat-ink-bar,
+      .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+        background-color: #f6a117;
+        display: none;
+      }
+      .mat-tab-group {
+        .mat-tab-label {
+          color: #f6a117;
+          font-weight: normal;
+          display: none;
+        }
+        .mat-tab-label-active {
+          font-weight: bold;
+          color: #f6a117;
+          display: none;
+        }
+        .mat-tab-body {
+          ion-list {
+            margin-top: 1rem;
+            background: unset;
+          }
+        }
+      }
+    }
+
+    .register-container {
+      .title-text {
+        text-align: center;
+        font-weight: bold;
+        color: #f6a117;
+        text-transform: uppercase;
+        padding-top: 2rem;
+        padding-bottom: 1rem;
+      }
+      .option {
+        margin-left: 3rem;
+        margin-right: 3rem;
+        .option-row {
+          display: flex;
+          .mat-radio-outer-circle {
+            border: 1px solid #dddddd;
+            background-color: white;
+          }
+          .mat-radio-inner-circle {
+            background-color: #f6a117;
+          }
+          .option-title {
+            width: 100%;
+            font-weight: bold;
+            color: #565555;
+          }
+        }
+        .option-description {
+          width: 100%;
+          padding-left: 1.8rem;
+          color: #565555;
+        }
+      }
+      .login-button {
+        color: white;
+        --background: #f6a117;
+        --box-shadow: none;
+        text-transform: none;
+        margin-top: 1rem;
+      }
+    }
+
+    ion-item {
+      --background: none;
+    }
+
+    .tab-border-bottom {
+      position: absolute;
+      margin-top: 1.6rem;
+      width: 90%;
+      height: 1px;
+      border-radius: 1.5px;
+      background-color: #316eb473;
+    }
+
+    .tab-border-button {
+      position: absolute;
+      margin-top: 1.6rem;
+      width: 50%;
+      height: 5px;
+      border-radius: 2.5px;
+      background-color: #316eb4;
+    }
+
+    ion-tab-bar {
+      margin-bottom: 2.3rem;
+      border-top: none !important;
+      ion-tab-button {
+        ion-label {
+          font-size: 18px;
+          font-weight: bold;
+          color: #41414180;
+        }
+        .login-text {
+          color: #316eb4;
+        }
+        .register-text {
+          color: #316eb4;
+        }
+      }
+    }
+
+    .login-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 50%;
+    }
+
+    .ion-button {
+      margin-top: 1rem;
+      --border-radius: 25px;
+      width: 200px;
+      height: 45px;
+      margin-right: auto;
+      margin-left: auto;
+      text-transform: none;
+      font-size: 16px;
+    }
+
+    .ion-button-a {
+      margin-top: 2rem;
+      --border-radius: 25px;
+      width: 250px !important;
+      height: 45px;
+      margin-right: auto;
+      margin-left: auto;
+      text-transform: none;
+      font-size: 16px;
+    }
+
+    .login-container {
+      margin-top: 30px;
+      .block-message {
+        text-align: center;
+        padding-bottom: 1rem;
+        padding-inline: 1rem;
+        .message-title {
+          font-weight: bold;
+          font-size: 20px;
+          color: red;
+        }
+        .message-text {
+          font-size: 18px;
+        }
+      }
+      mat-form-field {
+        .mat-form-field-infix {
+          background: white;
+        }
+      }
+      .login-bottom-div {
+        display: flex;
+        padding-top: 1rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        .remember-password-div {
+          width: 100%;
+          text-align: center;
+          ion-checkbox {
+            margin-right: 0.5rem;
+          }
+          .remember-text {
+            font-family: "Open sans";
+            color: #565555;
+            font-weight: bold;
+            letter-spacing: 0px;
+          }
+        }
+      }
+      .login-button {
+        color: white;
+        --background: #f6a117;
+        --box-shadow: none;
+        text-transform: none;
+        margin-top: 1rem;
+      }
+      .forgot-password-div {
+        width: 100%;
+        text-align: center;
+        .forgot-password {
+          color: #565555;
+          font-weight: bold;
+          letter-spacing: 0px;
+          font-size: 12px;
+          a {
+            cursor: pointer;
+            font-family: "Open Sans";
+          }
+        }
+      }
+    }
+    .help {
+      margin-top: 1rem;
+      text-align: left;
+      font-size: 12px;
+    }
+    .contact-us {
+      color: #70c1ed;
+      font-weight: bold;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    i {
+      cursor: pointer;
+    }
+    ion-item {
+      i {
+        font-size: 1.5rem;
+        padding-right: 1rem;
+        color: #316eb4;
+        cursor: pointer;
+      }
+    }
+
+    mat-form-field {
+      display: list-item !important;
+      width: 87%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .input-label {
+      color: #565555;
+      font-size: 17px;
+      margin-left: 2.5rem;
+    }
+    .password-visibility {
+      position: absolute;
+      align-self: center;
+      right: 10px;
+      z-index: 5;
+      cursor: pointer;
+      margin-top: 2px;
+    }
+    @-moz-document url-prefix() {
+      .password-visibility {
+        margin-top: -17px;
+        right: 12px;
+        position: absolute;
+        align-self: center;
+        z-index: 5;
+      }
+    }
+  }
+
+  .create-account {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: "Open Sans";
+    letter-spacing: 0px;
+    color: #565555;
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  .login-footer {
+    margin-top: 1rem;
+    .footer-text {
+      font-weight: bold;
+      color: #f6f6f6;
+      font-size: 14px;
+      margin-bottom: 0px;
+      text-align: center;
+    }
+  }
+
+  @media (min-width: 720px) {
+    .bg-img {
+      background-image: url("../../assets/Growinco_Banner_Website_DesktopBanner.png");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+  }
+  @media (min-width: 1080px) {
+    .bg-img {
+      background-image: url("../../assets/Growinco_Banner_Website_DesktopBanner.png");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+  }
+}

@@ -1,0 +1,39 @@
+<ion-content *ngIf="!isLoading">
+  <!-- <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="crescente"></ion-spinner>
+  </div> -->
+  <div class="page-header">
+    <i class="fas fa-arrow-left back-icon" (click)="back()"></i>
+    <div class="header-title">
+      <span [translate]="'briefs.add.selectMarket'"></span>
+    </div>
+  </div>
+  <div class="select-company">
+    <ion-searchbar
+      animated
+      (keyup)="applyFilter($event.target.value)"
+      placeholder=" {{ searchbar }}"
+      (ionClear)="applyFilter(null)"
+    ></ion-searchbar>
+    <div class="select-all" style="margin-left:1rem">
+      <ion-checkbox (click)="selectAll()" [(ngModel)]="selectAllCheck" [indeterminate]="isIndeterminate"></ion-checkbox>
+      <ion-label style="margin-left: 0.5rem;">Select All</ion-label>
+    </div>
+    <div class="companies">
+      <ion-list *ngIf="!isLoading">
+        <ion-item *ngFor="let item of countryData.filteredData" style="--border-style: none;">
+          <ion-checkbox color="success" [(ngModel)]="item.isChecked" (ionChange)="select(item)"></ion-checkbox>
+          <ion-label style="margin-left: 0.5rem;">{{ item.name }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+</ion-content>
+<div class="footer-container" *ngIf="!isLoading">
+  <div class="buttons-container">
+    <ion-button color="secondary" (click)="back()" fill="outline" [translate]="'global.actions.back'"></ion-button>
+    <ion-button color="primary" (click)="confirmSelection()">
+      <span [translate]="'briefs.add.confirmSelection'"></span>
+    </ion-button>
+  </div>
+</div>

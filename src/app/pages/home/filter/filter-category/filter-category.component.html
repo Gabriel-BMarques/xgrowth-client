@@ -1,0 +1,81 @@
+<div class="modal">
+  <div
+    [ngClass]="{ 'modal-feed-filter': type === 'feed-filter' }"
+    *ngIf="type !== undefined && type !== null"
+    text-center
+  >
+    <div class="loading-container" *ngIf="isLoading">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+    <div class="modal-container" *ngIf="!isLoading">
+      <div class="panel-header">
+        <div class="back-icon">
+          <i id="filter-back" class="fas fa-arrow-left" (click)="dismiss()"></i>
+        </div>
+        <div class="title">
+          <span [translate]="'global.actions.filterFeed'">Filter Tags</span>
+        </div>
+      </div>
+      <ion-button (click)="clearAll()" id="filter-clear-all" class="ion-text-center clear-all">Clear All</ion-button>
+      <div class="panel-body">
+        <div class="feed-filter-form-container" *ngIf="type === 'feed-filter'">
+          <form (ngSubmit)="save()" [formGroup]="feedFilterForm" novalidate>
+            <div class="panel-container">
+              <div class="categories-container" *ngFor="let category of arrayCategories; let index = index">
+                <div class="category-name">
+                  <ion-chip
+                    id="filter-category"
+                    outline
+                    color="secondary"
+                    [ngClass]="{
+                      'chip-selected': category.selected === true,
+                      'category-tag': category.selected === false
+                    }"
+                    style="border-radius: 50px"
+                    (click)="changeSelectionCategory(category)"
+                  >
+                    <ion-label>{{ category.name }}</ion-label>
+                  </ion-chip>
+                </div>
+                <span *ngFor="let subcategory of this.arraySubCategories">
+                  <ion-chip
+                    id="filter-subcategory"
+                    *ngIf="subcategory.parentId === category._id"
+                    outline
+                    color="secondary"
+                    [ngClass]="{
+                      'chip-selected': subcategory.selected === true,
+                      'category-tag': subcategory.selected === false
+                    }"
+                    style="border-radius: 50px"
+                    (click)="changeSelectionCategory(subcategory)"
+                  >
+                    <ion-label>{{ subcategory.name }}</ion-label>
+                  </ion-chip>
+                </span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="footer-container" *ngIf="!isLoading">
+      <ion-row>
+        <div class="action col text-center">
+          <ion-button
+            id="filter-cancel"
+            shape="round"
+            fill="outline"
+            color="secondary"
+            (click)="cancel()"
+            [translate]="'global.actions.cancel'"
+            >Cancel</ion-button
+          >
+          <ion-button id="filter-save" color="primary" (click)="save()" [translate]="'global.actions.save'"
+            >Save</ion-button
+          >
+        </div>
+      </ion-row>
+    </div>
+  </div>
+</div>

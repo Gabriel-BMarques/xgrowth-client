@@ -1,0 +1,57 @@
+<div class="modal">
+  <div
+    class="loader"
+    *ngIf="isLoading"
+    style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center;"
+  >
+    <app-loader [isLoading]="isLoading"></app-loader>
+  </div>
+  <div class="modal-container" *ngIf="!isLoading">
+    <div class="panel-header">
+      <button id="webinars-details-cancel" (click)="cancel()"><i class="fas fa-arrow-left"></i></button>
+      <span>webinar details</span>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-12 col-lg-9">
+          <h3>{{ webinar?.title }}</h3>
+          <p>
+            <strong>Link:</strong> <a [href]="webinar?.meetingLink">{{ webinar?.meetingLink }}</a>
+          </p>
+          <p><strong>Description:</strong> {{ webinar?.description }}</p>
+        </div>
+        <div class="col-12 col-lg-3">
+          <p><strong>Date:</strong> {{ webinar?.eventDate | date: 'short' }}</p>
+          <p>{{ webinar?.eventTimezone?.text }}</p>
+          <p><strong>Event type:</strong> {{ webinar?.type }}</p>
+          <p class="m-0"><strong>Created by:</strong></p>
+          <p class="m-0">{{ webinar?.createdBy?.firstName }} {{ webinar?.createdBy?.familyName }}</p>
+          <p class="m-0">{{ webinar?.createdBy?.company?.organization?.name }}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <h3>Target audience</h3>
+        </div>
+        <div class="col-12 col-lg-3">
+          <p><strong>Business unit(s):</strong></p>
+          <ul *ngIf="webinar?.targetCompanies && webinar?.targetCompanies.length">
+            <li *ngFor="let item of webinar?.targetCompanies">{{ item?.companyName }}</li>
+          </ul>
+          <ng-container *ngIf="!webinar?.targetCompanies || !webinar?.targetCompanies?.length">
+            no parameters
+          </ng-container>
+        </div>
+        <div class="col-12 col-lg-3">
+          <p><strong>Department(s):</strong></p>
+          <ul *ngIf="webinar?.targetDepartments && webinar?.targetDepartments.length">
+            <li *ngFor="let item of webinar?.targetDepartments">{{ item }}</li>
+          </ul>
+          <ng-container *ngIf="!webinar?.targetDepartments || !webinar?.targetDepartments.length">
+            no parameters
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,98 @@
+<ion-content>
+  <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+  <div class="page-header" *ngIf="!isLoading">
+    <i
+      style="
+            padding-top: 1.8rem; 
+            padding-left: 1rem; 
+            color: #F6A117;"
+      class="fas fa-arrow-left back-icon"
+      (click)="back()"
+    >
+    </i>
+    <div class="header-title">
+      <span [translate]="'briefs.add.ndaTitle'"></span>
+    </div>
+  </div>
+  <div *ngIf="!isLoading" class="list-header">
+    <div *ngIf="!companies">
+      <div class="no-briefs col text-center">
+        <span [translate]="'briefs.youDont'"></span>
+        <span [translate]="'briefs.pendingNda'"></span>
+      </div>
+    </div>
+    <ion-row *ngIf="companies && companies.length > 0">
+      <ion-col style="margin-left: 1rem;">
+        <ion-label [translate]="'briefs.company'"></ion-label>
+      </ion-col>
+      <div class="end">
+        <ion-col style="margin-right: 2rem">
+          <ion-label [translate]="'briefs.NDA'"></ion-label>
+        </ion-col>
+        <ion-col>
+          <ion-label [translate]="'briefs.acceptDecline'"></ion-label>
+        </ion-col>
+      </div>
+    </ion-row>
+  </div>
+  <div class="list">
+    <ion-radio-group allow-empty-selection="true" name="radio-group">
+      <ion-list>
+        <ion-item *ngFor="let item of companies">
+          <ion-label style="margin-left: 0.5rem;">
+            {{ item.SupplierId.companyName }}
+          </ion-label>
+          <ion-row style="display: flex; float: right;">
+            <ion-col style="margin-right: 3.2rem; color: #64B34C;">
+              <a (click)="downloadNda(item.SignedNdaFile.url, item.SignedNdaFile.name)" style="cursor: pointer;"
+                ><i class="fas fa-file-download"></i
+              ></a>
+            </ion-col>
+            <ion-col>
+              <i
+                *ngIf="item.NdaAcceptance === 3 || item.NdaAcceptance === 2"
+                (click)="accept(item)"
+                class="far fa-check-circle"
+                style="color: #64B34C; margin-right: 0.5rem;"
+              >
+              </i>
+              <i
+                *ngIf="item.NdaAcceptance === 1"
+                class="fas fa-check-circle"
+                style="color: #64B34C; margin-right: 0.5rem;"
+              ></i>
+            </ion-col>
+            <ion-col>
+              <i
+                *ngIf="item.NdaAcceptance === 3 || item.NdaAcceptance === 1"
+                (click)="deny(item)"
+                class="far fa-times-circle"
+                style="color:#CC2B2B; margin-right: 1rem;"
+              ></i>
+              <i
+                *ngIf="item.NdaAcceptance === 2"
+                class="fas fa-times-circle"
+                style="color: #CC2B2B; margin-right: 1rem;"
+              ></i>
+            </ion-col>
+          </ion-row>
+        </ion-item>
+      </ion-list>
+    </ion-radio-group>
+  </div>
+</ion-content>
+<div class="footer-container" *ngIf="!isLoading">
+  <div class="buttons-container">
+    <ion-button
+      class="footer-button"
+      color="secondary"
+      fill="outline"
+      (click)="back()"
+      [translate]="'global.actions.back'"
+    >
+    </ion-button>
+    <ion-button color="primary" (click)="next()" [translate]="'global.actions.next'"></ion-button>
+  </div>
+</div>

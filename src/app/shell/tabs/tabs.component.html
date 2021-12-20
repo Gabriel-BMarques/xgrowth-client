@@ -1,0 +1,26 @@
+<div class="bottom-tab">
+  <ion-tabs>
+    <ion-tab-bar *ngIf="tabBar" class="all-tabs">
+      <ng-container *ngTemplateOutlet="segment"></ng-container>
+    </ion-tab-bar>
+  </ion-tabs>
+</div>
+<ng-template #segment>
+  <ion-segment mode="md" class="central mx-auto" color="secondary">
+    <ion-segment-button
+      mode="md"
+      *ngFor="let p of headerService.pages"
+      routerLinkActive="segment-button-checked"
+      [routerLinkActiveOptions]="{ exact: true }"
+      [routerLink]="p.path"
+      [replaceUrl]="true"
+      (click)="navigationToll(p.title)"
+      color="primary"
+      style="--background-hover: none; outline: none; min-width: 50px; width: 50px;"
+      [id]="p.id"
+    >
+      <ion-icon class="m-0 mt-2" *ngIf="p.img" src="{{ p.img }}"></ion-icon>
+      <ion-label class="mb-1 text-capitalize small {{ p.titleClass }}">{{ p.title }}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</ng-template>

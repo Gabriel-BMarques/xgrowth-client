@@ -1,0 +1,113 @@
+<div class="refer-solver-container">
+  <div class="refer-solver-header">
+    <span class="refer-solver-title">Refer Solver</span>
+    <div (click)="cancel()" class="back">
+      <ion-buttons slot="icon-only" class="closeButton">
+        <ion-button id="modal-solver-cancel" (click)="cancel()">
+          <ion-icon name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </div>
+  </div>
+  <div class="scrollable-div">
+    <div class="items-list">
+      <form [formGroup]="referSolverForm">
+        <label class="input-label">Company Name*</label>
+        <mat-form-field class="test" style="padding-bottom: 1rem;">
+          <input id="modal-solver-name" type="text" matInput formControlName="name" required />
+          <mat-error *ngIf="form.name.invalid && form.name.touched">
+            <div style="text-align: center;">
+              <span translate>Insert the company name</span>
+            </div>
+          </mat-error>
+        </mat-form-field>
+        <!-- WEBSITE -->
+        <label class="input-label">Website</label>
+        <mat-form-field class="test" style="padding-bottom: 1rem;">
+          <input id="modal-solver-url" type="text" matInput formControlName="url" />
+          <mat-error *ngIf="form.url.invalid">
+            <div style="text-align: center;">
+              <span [translate]="'myCompany.profile.edit.errorWebsite'"></span>
+            </div>
+          </mat-error>
+        </mat-form-field>
+        <!-- EMAIL -->
+        <label class="input-label">E-mail</label>
+        <mat-form-field class="test" style="padding-bottom: 1rem;">
+          <input id="modal-solver-email" type="email" matInput formControlName="email" />
+          <mat-error *ngIf="form.email.invalid || form.email.dirty">
+            <div style="text-align: center;">
+              <span [translate]="'myCompany.profile.edit.errorEmail'"></span>
+            </div>
+          </mat-error>
+        </mat-form-field>
+        <label class="input-label">Phone Number</label>
+        <span style="width:100%; display: flex;">
+          <span class="phone-prefix-span">
+            <mat-form-field
+              class="phone-prefix"
+              [hideRequiredMarker]="true"
+              style="padding-bottom: 1rem; flex:none; width:36%;"
+            >
+              <mat-select id="modal-solver-phone-prefix" formControlName="phonePrefix">
+                <mat-option *ngFor="let phonePrefix of phonePrefixes" [value]="phonePrefix.name">
+                  {{ phonePrefix.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </span>
+          <span class="phone-span">
+            <mat-form-field style="padding-bottom: 1rem; width:64%;" [hideRequiredMarker]="true">
+              <input
+                id="modal-solver-contact-data"
+                type="number"
+                matInput
+                formControlName="contactData"
+                min="0"
+                oninput="validity.valid||(value='');"
+              />
+              <mat-error *ngIf="form.contactData.invalid && form.contactData.touched">
+                <div style="text-align: center;">
+                  <span translate>Mobile Number is required.</span>
+                </div>
+              </mat-error>
+            </mat-form-field>
+          </span>
+        </span>
+        <!-- </span> -->
+        <div *ngFor="let contact of auxContactInfoArray" class="companyName">
+          {{ contact.name }}
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="refer-solver-footer">
+    <div class="actions-container">
+      <div class="save-button-container">
+        <ion-button
+          id="modal-solver-submit"
+          [disabled]="disableButtonSubmit()"
+          color="primary"
+          (click)="submit()"
+          translate
+          >Send</ion-button
+        >
+      </div>
+      <div id="modal-solver-reset" class="cancel-button-container" (click)="addSolver('reset')">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="40"
+          height="40"
+          fill="#70c1ed"
+          class="bi bi-plus-circle"
+          viewBox="0 0 16 16"
+        >
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+          <path
+            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>

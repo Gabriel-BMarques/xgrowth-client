@@ -1,0 +1,42 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
+
+.ion-page {
+  padding-top: 0 !important;
+}
+
+.modal-webinar-submit {
+  text-align: center;
+  font-size: 13px;
+  padding: 20px;
+  i {
+    font-size: 50px;
+    color: #cecece;
+  }
+  .request {
+    padding: 0px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    .footer {
+      display: inline-flex;
+      justify-content: space-evenly;
+      button {
+        border-radius: 50px;
+        width: 98px;
+        height: 40px;
+        margin: 0 0.5rem 0 0.5rem;
+      }
+      .cancel {
+        color: var(--ion-color-primary);
+        border: 1px solid var(--ion-color-primary);
+        background: #fff;
+      }
+      .confirm {
+        color: #fff;
+        background: var(--ion-color-secondary);
+      }
+    }
+  }
+}

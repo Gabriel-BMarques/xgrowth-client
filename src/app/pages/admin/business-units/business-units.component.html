@@ -1,0 +1,65 @@
+<ion-content #contentArea>
+  <div class="title" style="padding-right: 3rem;">
+    <span class="text-uppercase"> Business Units</span>
+  </div>
+  <ion-grid class="gridFix">
+    <div class="actions-div">
+      <ion-button id="admin-units-add" fill="clear" color="dark" class="add-button" (click)="addbusinessUnits()">
+        <i class="fas fa-plus"></i>
+      </ion-button>
+      <ion-button
+        id="admin-units-refresh"
+        fill="clear"
+        color="dark"
+        class="refresh-button"
+        (click)="refreshBusinessUnits()"
+      >
+        <i class="fas fa-redo-alt"></i>
+      </ion-button>
+    </div>
+
+    <ion-searchbar
+      id="admin-units-searchbar"
+      animated
+      (keyup.enter)="applyFilter($event.target.value)"
+      (ionClear)="applyFilter(null)"
+    ></ion-searchbar>
+  </ion-grid>
+  <div *ngIf="skeletonLoading">
+    <app-skeleton [skeleton]="'companies'"></app-skeleton>
+  </div>
+  <ion-grid class="display-list gridFixSkills" *ngIf="!skeletonLoading">
+    <ion-row>
+      <div *ngFor="let item of businessUnitsData.filteredData; let i = index">
+        <ion-card class="companies-container">
+          <a>
+            <ion-item id="admin-units-edit" class="table-item" (click)="itemClick(item)">
+              <ion-label>
+                <h5 class="title">{{ item?.name }}</h5>
+                <!-- AQUI FICA COMPANY. POPULATE -->
+                <!-- <h3 class="subtitle"><span class="applies-to" translate>Click on the business unit for more information </span></h3> -->
+                <!-- AQUI FICA ORGANIZATION POPULATE -->
+                <!-- <h3 class="subtitle"><span class="applies-to" translate>Public: </span>{{ item?.isPublic }}</h3> -->
+              </ion-label>
+              <i
+                id="admin-units-delete"
+                class="fas fa-trash delete-button"
+                (click)="delete(item); $event.stopPropagation()"
+              ></i>
+            </ion-item>
+          </a>
+        </ion-card>
+      </div>
+    </ion-row>
+  </ion-grid>
+
+  <!-- BUTTON -->
+  <ion-fab vertical="bottom" horizontal="end" edge slot="fixed">
+    <ion-fab-button id="admin-units-add" shape="round" color="success" fill="solid" (click)="addbusinessUnits()">
+      <i class="fas fa-plus"></i>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-infinite-scroll threshold="40%" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText=""> </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

@@ -1,0 +1,221 @@
+/*
+ * Application global variables.
+ */
+
+// Set Font Awesome font path
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
+
+// Angular Material custom theme
+// See https://material.angular.io/guide/theming for more details.
+//
+// You can also read https://medium.com/@tomastrajan/the-complete-guide-to-angular-material-themes-4d165a9d24d1
+// for more insight about Angular Material theming.
+
+@import "~@angular/material/theming";
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue.
+$app-primary: mat-palette($mat-blue);
+$app-accent: mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$app-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
+
+// Material design icons font path
+$material-design-icons-font-directory-path: "~material-design-icons-iconfont/dist/fonts/";
+
+// ---------------------------------------------------------------------------
+// Bootstrap variables
+//
+// Override Bootstrap variables here to suite your theme.
+// Copy variables you want to customize from node_modules/bootstrap/scss/_variables.scss
+
+//
+// Color system
+//
+
+$white: #fff;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #868e96;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+$black: #000;
+
+$blue: #0073dd;
+$indigo: #6610f2;
+$purple: #6f42c1;
+$pink: #e83e8c;
+$red: #dc3545;
+$orange: #fd7e14;
+$yellow: #ffc107;
+$green: #28a745;
+$teal: #20c997;
+$cyan: #17a2b8;
+$gray: #475063;
+
+$theme-colors: (
+  primary: #316eb4,
+  secondary: $gray-600,
+  success: #64b34c,
+  info: $cyan,
+  warning: $yellow,
+  danger: #ff4136,
+  light: $gray-100,
+  dark: $gray-800,
+  side-menu-background: #082648,
+  border-input-color: #dcdcdc,
+  page-grey-background: #ebebea,
+  plant: #475063,
+  member: #5295e1
+);
+
+//typography
+$font-family-base: "Open Sans", sans-serif;
+$link-color: map_get($theme-colors, success);
+$text-color: map_get($theme-colors, secondary);
+
+$headings-font-family: "Open Sans", sans-serif;
+$headings-color: $gray;
+
+//custom forms class
+//$input-min-height: 50px;
+$input-border-radius: 25px;
+$custom-select-border-radius: 25px;
+$input-border-width: 2px;
+$input-border-color: map_get($theme-colors, border-input-color);
+$input-padding-x: 1.5rem;
+
+//custom tooltip
+$tooltip-bg: $blue;
+$tooltip-opacity: 1;
+
+//custom buttons
+$btn-line-height: 38px;
+$btn-border-radius: 26px;
+$btn-padding-x: 1.5rem;
+
+//btn link
+
+//Cards
+$card-border-radius: 10px;
+$card-border-width: 0;
+$card-cap-bg: transparent;
+
+// Use Bootstrap defaults for other variables, imported here so we can access all app variables in one place when used
+// in components.
+@import "~bootstrap/scss/_functions";
+@import "~bootstrap/scss/_variables";
+
+// Ionic Variables and Theming. For more info, please see:
+// http://ionicframework.com/docs/theming/
+
+:root {
+  /** primary **/
+  --ion-color-primary: #f6a117;
+  --ion-color-primary-rgb: 246, 161, 23;
+  --ion-color-primary-contrast: #fff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #f6a117;
+  --ion-color-primary-tint: #f6a117;
+
+  /** secondary **/
+  --ion-color-secondary: #70c1ed;
+  --ion-color-secondary-rgb: 12, 209, 232;
+  --ion-color-secondary-contrast: #fff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #70c1ed;
+  --ion-color-secondary-tint: #70c1ed;
+
+  /** tertiary **/
+  --ion-color-tertiary: #7044ff;
+  --ion-color-tertiary-rgb: 112, 68, 255;
+  --ion-color-tertiary-contrast: #fff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #633ce0;
+  --ion-color-tertiary-tint: #7e57ff;
+
+  /** success **/
+  --ion-color-success: #64b34c;
+  --ion-color-success-rgb: 16, 220, 96;
+  --ion-color-success-contrast: #fff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #64b34c;
+  --ion-color-success-tint: #64b34c;
+
+  /** warning **/
+  --ion-color-warning: #ffce00;
+  --ion-color-warning-rgb: 255, 206, 0;
+  --ion-color-warning-contrast: #fff;
+  --ion-color-warning-contrast-rgb: 255, 255, 255;
+  --ion-color-warning-shade: #e0b500;
+  --ion-color-warning-tint: #ffd31a;
+
+  /** danger **/
+  --ion-color-danger: #f04141;
+  --ion-color-danger-rgb: 245, 61, 61;
+  --ion-color-danger-contrast: #fff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #d33939;
+  --ion-color-danger-tint: #f25454;
+
+  /** dark **/
+  --ion-color-dark: #222428;
+  --ion-color-dark-rgb: 34, 34, 34;
+  --ion-color-dark-contrast: #fff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #1e2023;
+  --ion-color-dark-tint: #383a3e;
+
+  /** medium **/
+  --ion-color-medium: #989aa2;
+  --ion-color-medium-rgb: 152, 154, 162;
+  --ion-color-medium-contrast: #fff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #86888f;
+  --ion-color-medium-tint: #a2a4ab;
+
+  /** light **/
+  --ion-color-light: #f4f5f8;
+  --ion-color-light-rgb: 244, 244, 244;
+  --ion-color-light-contrast: #000;
+  --ion-color-light-contrast-rgb: 0, 0, 0;
+  --ion-color-light-shade: #d7d8da;
+  --ion-color-light-tint: #f5f6f9;
+
+  /** background **/
+  --ion-background-color: #fff;
+  --ion-background-color-rgb: 255, 255, 255;
+  --ion-background-color-step-50: #f2f2f2;
+  --ion-background-color-step-100: #e6e6e6;
+  --ion-background-color-step-150: #d9d9d9;
+  --ion-background-color-step-200: #ccc;
+  --ion-background-color-step-250: #bfbfbf;
+  --ion-background-color-step-300: #b3b3b3;
+  --ion-background-color-step-350: #a6a6a6;
+  --ion-background-color-step-400: #999;
+  --ion-background-color-step-450: #8c8c8c;
+  --ion-background-color-step-500: #808080;
+  --ion-background-color-step-550: #737373;
+  --ion-background-color-step-600: #666;
+  --ion-background-color-step-650: #595959;
+  --ion-background-color-step-700: #4d4d4d;
+  --ion-background-color-step-750: #404040;
+  --ion-background-color-step-800: #333;
+  --ion-background-color-step-850: #262626;
+  --ion-background-color-step-900: #191919;
+  --ion-background-color-step-950: #0d0d0d;
+  --ion-background-color-step-1000: #000;
+
+  /** content margin and padding **/
+  --ion-content-margin: 16px;
+  --ion-content-padding: 16px;
+}

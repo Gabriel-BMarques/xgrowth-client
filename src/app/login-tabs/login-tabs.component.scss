@@ -1,0 +1,42 @@
+.login-header {
+  .welcome-back {
+    color: #316eb4;
+    font-weight: bold;
+  }
+}
+
+.tab-border-bottom {
+  position: absolute;
+  margin-top: 1.6rem;
+  width: 90%;
+  height: 1px;
+  border-radius: 1.5px;
+  background-color: #316eb473;
+}
+
+.tab-border-button {
+  position: absolute;
+  margin-top: 1.6rem;
+  width: 50%;
+  height: 5px;
+  border-radius: 2.5px;
+  background-color: #316eb4;
+}
+
+ion-tab-bar {
+  margin-bottom: 2.3rem;
+  border-top: none !important;
+  ion-tab-button {
+    ion-label {
+      font-size: 18px;
+      font-weight: bold;
+      color: #41414180;
+    }
+    .login-text {
+      color: #316eb4;
+    }
+    .register-text {
+      color: #316eb4;
+    }
+  }
+}

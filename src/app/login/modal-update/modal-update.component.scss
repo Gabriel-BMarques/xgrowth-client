@@ -1,0 +1,30 @@
+.header {
+  margin-top: 1.5rem;
+  text-align: center;
+  i {
+    color: #70c1ed;
+    font-size: 2rem;
+  }
+  .title {
+    font-weight: bold;
+    margin-top: 1rem;
+  }
+}
+.body {
+  margin-top: 1rem;
+  padding-bottom: 1rem;
+  font-size: 13px;
+  color: #565555;
+  text-align: center;
+}
+.actions {
+  margin-bottom: 1rem;
+  display: inline-flex;
+  ion-button {
+    margin: auto;
+    --background: #f6a117;
+    color: white;
+    text-transform: none;
+    --box-shadow: none;
+  }
+}

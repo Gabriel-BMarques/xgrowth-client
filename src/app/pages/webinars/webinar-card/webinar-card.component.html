@@ -1,0 +1,134 @@
+<div class="webinar-card" *ngIf="this.webinar">
+  <div class="row webinar-row">
+    <div class="col-12 col-sm-6 col-md-4 thumbnail">
+      <div class="gallery" *ngIf="!webinar.descriptionSlice">
+        <ion-slides
+          #slides
+          *ngIf="webinar.uploadedFiles"
+          pager="false"
+          [options]="slideOpts"
+          (ionSlideDidChange)="onSlideChange()"
+        >
+          <ion-slide *ngFor="let file of webinar.uploadedFiles; let index = index; let first = first; let last = last">
+            <button
+              class="open-gallery-button"
+              style="z-index: 100000;"
+              *ngIf="file.isImage"
+              (click)="openGallery(webinar.uploadedFiles)"
+              type="button"
+            >
+              <i class="fas fa-search-plus zoom-icon"></i>
+            </button>
+            <img [src]="file.url" (onerror)="fallbackImage()" loading="lazy" />
+            <div style="width: 100%;" *ngIf="file.isVideo && isLoadingVideos">
+              <ion-spinner *ngIf="file.isVideo && isLoadingVideos" name="dots"></ion-spinner>
+              <p style="font-size: 14px;" [translate]="'global.actions.loadingMedia'"></p>
+            </div>
+          </ion-slide>
+        </ion-slides>
+        <div class="swiper-pagination swiper-pagination-bullets">
+          <span
+            *ngFor="let file of webinar.uploadedFiles; let i = index; let first = first; let last = last"
+            [ngClass]="{
+              'swiper-pagination-bullet-active': i === active,
+              'swiper-pagination-bullet': i !== active
+            }"
+          ></span>
+        </div>
+      </div>
+      <button (click)="openGallery(webinar.uploadedFiles)" *ngIf="webinar.descriptionSlice">
+        <img
+          *ngIf="webinar.uploadedFiles && webinar.uploadedFiles.length && isImage(webinar.uploadedFiles[0])"
+          [src]="getResizedUrl(webinar.uploadedFiles[0])"
+          onerror="this.src='../../../assets/default-fallback-image.svg'"
+        />
+      </button>
+    </div>
+    <div class="col-12 col-sm-6 col-md-5 main-info">
+      <div class="webinar-head" style="margin-top: 0.5rem;">
+        <div class="creator-organization" *ngIf="type === 'invitation'">
+          <img [src]="webinar.createdBy?.company?.organization?.logo?.url" alt="" />
+          <h3>{{ webinar.createdBy?.company?.organization?.name }}</h3>
+        </div>
+        <div class="d-flex justify-content-between ">
+          <h3>{{ webinar.title }}</h3>
+          <button *ngIf="canEdit(webinar.reviewStatus)" (click)="editMyWebinar(webinar)">
+            <i class="bi bi-pencil-fill"></i>
+          </button>
+        </div>
+      </div>
+      <p class="description" [ngClass]="webinar.descriptionSlice ? 'slice' : 'whole'">
+        {{ getWebinarDescription(webinar?.description, webinar.descriptionSlice)
+        }}<span *ngIf="webinar?.description?.length > 249 && webinar.descriptionSlice">...</span>
+      </p>
+      <div *ngIf="webinar?.description?.length > 249" class="see-more">
+        <!--If the description is less than 249, the 'See less' phrase doesn't appear-->
+        <button (click)="webinar.descriptionSlice = !webinar.descriptionSlice">
+          {{ webinar.descriptionSlice ? 'See more' : 'See less' }}
+          <i class="fas fa-chevron-down" [ngClass]="webinar.descriptionSlice ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+        </button>
+      </div>
+    </div>
+    <div class="col-12 col-sm-12 col-md-3 p-0 actions">
+      <div class="container">
+        <div class="webinar-type">
+          <span>{{ webinar.type }}</span>
+        </div>
+        <div class="webinar-date d-flex">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-calendar"></i>
+          </div>
+          <div>
+            <div class="date-line">
+              <strong>{{ getEventDate(webinar) | date: 'EE MMMM dd YYYY' }}</strong>
+            </div>
+            <div class="date-line">
+              {{ getEventDate(webinar) | date: 'hh:mm a' }} -
+              {{ webinar.eventEndDate ? (getEventDate(webinar, 'end') | date: 'hh:mm a') : '' }}
+            </div>
+            <div class="date-line">Timezone: {{ getOffset(webinar.eventTimezone.text) }}</div>
+          </div>
+        </div>
+        <div class="webinar-link">
+          <i class="fas fa-video"></i>
+          <span>Online - <a [href]="webinar.meetingLink" target="_blank">Event link</a></span>
+        </div>
+        <div class="webinar-status" *ngIf="type === 'my-webinar'">
+          <i
+            class="fas"
+            [ngClass]="{
+              'fa-hourglass-half': webinar.reviewStatus === 'pending',
+              'fa-check': webinar.reviewStatus === 'approved',
+              'fa-comment-dots': webinar.reviewStatus === 'denied'
+            }"
+          ></i>
+          <button
+            [ngClass]="{
+              pending: webinar.reviewStatus === 'pending',
+              approved: webinar.reviewStatus === 'approved',
+              denied: webinar.reviewStatus === 'denied'
+            }"
+            (click)="showReview(webinar)"
+          >
+            <span
+              ><strong>{{ webinar.reviewStatus }}</strong></span
+            >
+            <span *ngIf="webinar.reviewStatus === 'denied'">(check feedback)</span>
+          </button>
+        </div>
+        <div class="webinar-status rsvp" *ngIf="type === 'invitation'">
+          <mat-select
+            style="font-weight: bold;"
+            (selectionChange)="invitationAttendance($event.value, inputEntity)"
+            placeholder="Will you attend?"
+            [formControl]="attendanceControl"
+          >
+            <mat-option value="yes">Yes, I want to attend</mat-option>
+            <mat-option value="no">No, I will not attend</mat-option>
+          </mat-select>
+          <!-- <span><a [href]="invitation.webinarId.meetingLink" target="_blank">RSVP</a></span> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,95 @@
+<ion-content #scrollableDiv [scrollEvents]="true">
+  <div class="header">
+    <ion-row>
+      <div class="header-title">
+        <div class="arrow-back">
+          <ion-button [routerLink]="['/collections/my-collections']" routerDirection="“back”">
+            <i class="fas fa-arrow-left back-icon"></i>
+          </ion-button>
+        </div>
+        <div class="title">
+          <span *ngIf="!isEditing && collection" class="page-title">{{ collection.Name }}</span>
+          <!-- <h2 *ngIf="!isEditing && collection" class="page-title" translate>{{ collection.name }}</h2> -->
+          <form [formGroup]="collectionForm" novalidate *ngIf="isEditing">
+            <input
+              type="text"
+              class="title-label"
+              formControlName="collectionName"
+              [value]="collection.Name"
+              required
+            />
+            <mat-error *ngIf="collectionForm.controls.collectionName.invalid">
+              <div style="text-align: center;font-size: 10px;">
+                <span [translate]="'collections.nameRequired'"></span>
+              </div>
+            </mat-error>
+          </form>
+          <span class="counter" *ngIf="collection && collection.postsIds.length === 1" translate
+            >{{ collection.postsIds.length }} item</span
+          >
+          <span class="counter" *ngIf="collection && collection.postsIds.length !== 1" translate
+            >{{ collection.postsIds.length }} items</span
+          >
+        </div>
+      </div>
+      <div class="header-icon">
+        <i *ngIf="!isEditing" class="fas fa-pen header-icon" (click)="editMode()"></i>
+        <div *ngIf="isEditing" class="actions-container">
+          <i
+            class="fas fa-check save-editions"
+            [style]="collectionForm.controls.collectionName.invalid ? 'opacity: 0.4 !important' : ''"
+            (click)="saveEditions()"
+          ></i>
+          <i class="fas fa-times delete-editions" (click)="deleteEditions()"></i>
+        </div>
+      </div>
+    </ion-row>
+  </div>
+  <div class="col text-center">
+    <ion-button
+      *ngIf="isEditing"
+      class="add-member-button"
+      color="primary-contrast"
+      (click)="deleteCollection()"
+      [translate]="'collections.deleteCollection'"
+    >
+    </ion-button>
+  </div>
+  <app-masonry
+    [onScrollEvent]="scrollableDiv.ionScroll"
+    [onScrollStop]="scrollableDiv.ionScrollEnd"
+    [type]="'posts'"
+    *ngIf="!isLoading"
+    [posts]="posts"
+    [isEditing]="isEditing"
+  ></app-masonry>
+</ion-content>
+<div class="footer-container" *ngIf="isEditing">
+  <div class="buttons-container">
+    <ion-button
+      *ngIf="!allSelected"
+      color="primary"
+      fill="outline"
+      (click)="selectAll()"
+      class="selection-button"
+      [translate]="'global.actions.selectAll'"
+    >
+    </ion-button>
+    <ion-button
+      *ngIf="allSelected"
+      color="primary"
+      fill="outline"
+      (click)="deselectAll()"
+      class="selection-button"
+      [translate]="'global.actions.deselectAll'"
+    >
+    </ion-button>
+    <ion-button
+      (click)="deleteItems('collection')"
+      class="delete-selected"
+      color="primary"
+      [translate]="'collections.deleteSelected'"
+    >
+    </ion-button>
+  </div>
+</div>

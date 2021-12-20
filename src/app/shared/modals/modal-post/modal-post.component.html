@@ -1,0 +1,527 @@
+<div *ngIf="isLoading" class="loader">
+  <ion-spinner name="crescent"></ion-spinner>
+</div>
+<ion-content #scrollableDiv [scrollEvents]="true" *ngIf="!isLoading" class="modal-content">
+  <div class="post-container">
+    <div class="page-header">
+      <div class="back-button" (click)="closeModal()">
+        <button>
+          <i class="fas fa-chevron-left"></i>
+        </button>
+      </div>
+      <div *ngIf="canDelete" class="delete-button" (click)="deletePost()">
+        <button>
+          Delete
+        </button>
+      </div>
+    </div>
+    <div class="desktop-modal">
+      <ion-col class="left" style="margin-top: 1rem;">
+        <div class="gallery">
+          <div class="slides-container">
+            <div class="slide-buttons">
+              <i *ngIf="!isLast" class="fas fa-chevron-circle-right slide-button next" (click)="next()"></i>
+              <i *ngIf="!isFirst" class="fas fa-chevron-circle-left slide-button prev" (click)="prev()"></i>
+            </div>
+            <ion-slides #slides pager="false" [options]="slideOpts" (ionSlideDidChange)="onSlideChange($event)">
+              <ion-slide *ngFor="let file of entity.UploadedFiles; let first = first; let last = last">
+                <ng-container *ngIf="file.isVideo">
+                  <video
+                    *ngIf="!file.Processing && !isLoadingVideos"
+                    [id]="getPlayerId(entity.UploadedFiles.indexOf(file), 'desktop')"
+                    playsinline
+                    controls
+                  ></video>
+                  <div style="width: 100%;" *ngIf="isLoadingVideos">
+                    <ion-spinner name="dots"></ion-spinner>
+                    <p style="font-size: 14px;" [translate]="'global.actions.loadingMedia'"></p>
+                  </div>
+                  <img *ngIf="file.Processing && !isLoadingVideos" src="../../../assets/Video_Processing_Cloud.svg" />
+                </ng-container>
+                <ng-container *ngIf="file.isImage">
+                  <button class="open-gallery-button" (click)="openGallery(entity.UploadedFiles)" type="button">
+                    <i class="fas fa-search-plus zoom-icon"></i>
+                  </button>
+                  <img
+                    [src]="file.url"
+                    onerror="this.src = '../../../assets/default-fallback-image.svg'"
+                    loading="lazy"
+                  />
+                </ng-container>
+              </ion-slide>
+            </ion-slides>
+          </div>
+          <div class="swiper-pagination swiper-pagination-bullets">
+            <span
+              *ngFor="let file of entity.UploadedFiles; let i = index; let first = first; let last = last"
+              [ngClass]="{
+                'swiper-pagination-bullet-active': i === active,
+                'swiper-pagination-bullet': i !== active
+              }"
+            ></span>
+          </div>
+        </div>
+        <div class="attachments-div">
+          <span
+            *ngIf="entity.Attachments && entity.Attachments.length"
+            class="document-desktop"
+            [translate]="'briefs.myBrief.documents'"
+          ></span>
+          <div *ngFor="let attachment of entity.Attachments">
+            <div *ngIf="entity.Attachments.length > 0" class="attachments-desktop">
+              <a
+                target="_blank"
+                href="{{ attachment.url }}"
+                rel="noopener noreferrer"
+                style="cursor: pointer; color:#f6a117"
+              >
+                <i class="fas fa-file-download"></i>
+                <span>{{ attachment?.Name }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+      <ion-col class="right">
+        <div class="info">
+          <div class="post-information-div-desktop">
+            <div class="col post-information-container-desktop">
+              <ion-avatar class="mr-2" *ngIf="entity.SupplierId.organization.logo">
+                <img [src]="entity.SupplierId.organization.logo.url" onerror="this.src=fallbackImage(i)" />
+              </ion-avatar>
+              <div class="post-information-desktop">
+                <div id="brief-post-profile" class="company-name-desktop" (click)="goToProfile(entity)">
+                  {{ entity.SupplierId.companyName }}
+                </div>
+                <div
+                  *ngIf="type === 'post-preview'"
+                  class="post-datetime-desktop"
+                  [translate]="'addNew.post.justNow'"
+                ></div>
+                <div *ngIf="type !== 'brief-accept'" class="post-datetime-desktop">
+                  {{ entity.createdAt | dateAgo }}
+                </div>
+                <div *ngIf="type === 'brief-accept'" class="post-datetime-desktop">
+                  <span [translate]="'briefs.postedOn'"></span>
+                  <span> {{ entity.createdAt | date: 'mediumDate' }}</span>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="type === 'brief-accept' && briefMainContact?.UserId" class="col post-pins-information-desktop">
+              <div class="mail">
+                <a
+                  id="brief-post-email"
+                  href="mailto:{{ briefMainContact?.UserId?.email }}?subject=xGrowth Brief: {{ entity.Title }}"
+                >
+                  <i
+                    class="bi bi-envelope-fill"
+                    aria-hidden="true"
+                    style="color: #F6A117; font-size: 1.3rem; cursor: pointer;"
+                  ></i>
+                </a>
+              </div>
+            </div>
+            <div class="col post-pins-information-desktop">
+              <div
+                id="brief-post-edit"
+                class="edit"
+                (click)="edit()"
+                *ngIf="canEdit"
+                [matTooltip]="entity?.BriefId ? 'Edit response' : 'Edit post'"
+                matTooltipPosition="after"
+              >
+                <i class="bi bi-pencil-fill"></i>
+              </div>
+              <div class="metric" *ngIf="canSeeMetrics" matTooltip="Views" matTooltipPosition="after">
+                <i class="bi bi-eye-fill"></i>
+                <div class="metric-counter">
+                  {{ entity.Views }}
+                </div>
+              </div>
+              <!-- <div class="metric" *ngIf="canSeeMetrics" matTooltip="Reach" matTooltipPosition="after">
+                <i class="bi bi-bar-chart-fill"></i>
+                <div class="metric-counter">
+                  {{ entity.reach }}
+                </div>
+              </div> -->
+            </div>
+            <div *ngIf="type === 'my-brief'" class="col edit-and-close">
+              <div class="close">
+                <ion-button id="brief-post-close" *ngIf="entity.isActive" fill="outline" (click)="closeBrief()">
+                  <span [translate]="'briefs.myBrief.close'"></span>
+                </ion-button>
+                <ion-button id="brief-post-open" *ngIf="!entity.isActive" fill="outline" (click)="openBrief()">
+                  <span [translate]="'briefs.myBrief.open'"></span>
+                </ion-button>
+              </div>
+              <div id="brief-post-edit" class="edit" (click)="edit()" *ngIf="canEdit">
+                <i class="bi bi-pencil-fill"></i>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="type === 'my-brief' || type === 'brief-accept'" class="boxes">
+            <div
+              class="box-1"
+              style="border: 1px solid #70C1ED;
+                border-radius: 4px 0px 0px 4px;"
+            >
+              <div>
+                <a>
+                  {{ entity.type?.name }}
+                </a>
+              </div>
+            </div>
+            <div
+              class="box-1"
+              style="margin-left: 0.2rem; border: 1px solid #70C1ED;
+                border-radius: 0px 4px 4px 0px;"
+            >
+              <div>
+                <a>
+                  {{ entity.Deadline | date: 'medium' }}
+                </a>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="type === 'brief-accept'" class="boxes">
+            <div class="box-2">
+              <div class="col text-center">
+                <a [translate]="'briefs.briefReceived'"></a>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="type === 'my-brief'" class="market-desktop">
+            <div
+              class="market-text"
+              [options]="{ ellipsis: '..' }"
+              line-truncation="1"
+              (hasTruncated)="handler($event)"
+              [innerHTML]="allMarkets"
+            ></div>
+            <span *ngIf="hasTruncated" (click)="toggleTruncateMarket()" class="market-see-more">See more</span>
+          </div>
+        </div>
+        <div class="title-description">
+          <div class="post-title-desktop">
+            <span>{{ entity.Title }}</span>
+          </div>
+        </div>
+        <div class="post-description-desktop-truncated">
+          <p
+            [options]="{ ellipsis: '..' }"
+            line-truncation="5"
+            (hasTruncated)="handlerDescription($event)"
+            [innerHTML]="entity.Description | linky"
+            [disabled]="disablePostTruncation"
+          ></p>
+        </div>
+        <div class="view-more-less-div">
+          <span
+            *ngIf="hasPostDescriptionTruncated"
+            (click)="disablePostTruncation = !disablePostTruncation"
+            class="view-more-less"
+            style="color: #F6A117;"
+          >
+            {{ disablePostTruncation ? 'Read less' : 'Read more' }}
+          </span>
+          <i
+            *ngIf="hasPostDescriptionTruncated"
+            (click)="disablePostTruncation = !disablePostTruncation"
+            [class]="
+              disablePostTruncation
+                ? 'fas fa-chevron-up view-more-less-icon'
+                : 'fas fa-chevron-down view-more-less-icon'
+            "
+            style="color: #F6A117;"
+          ></i>
+        </div>
+        <div #parentCategoriesDiv class="categories-container-desktop">
+          <div #childCategoriesDiv>
+            <ion-grid>
+              <span *ngFor="let category of entity.Categories; let index = index">
+                <ion-chip outline color="secondary">
+                  <ion-label>{{ category?.name }}</ion-label>
+                </ion-chip>
+              </span>
+            </ion-grid>
+          </div>
+        </div>
+        <div
+          *ngIf="hasOverflow(parentCategoriesDiv, childCategoriesDiv)"
+          class="view-more-less-div"
+          (click)="viewMore(entity.Categories, 'skills', 'Categories')"
+        >
+          <span class="view-more-less" style="color: #70C1ED;" [translate]="'global.actions.seeMore'"></span>
+          <i class="fas fa-chevron-down view-more-less-icon" style="color: #70C1ED;"></i>
+        </div>
+      </ion-col>
+    </div>
+    <div class="mobile-modal">
+      <ion-slides
+        #slidesMobile
+        *ngIf="entity.UploadedFiles"
+        pager="false"
+        [options]="slideOpts"
+        (ionSlideDidChange)="onSlideChangeMobile()"
+      >
+        <ion-slide *ngFor="let file of entity.UploadedFiles; let index = index">
+          <button
+            id="brief-post-open-gallery"
+            class="open-gallery-button"
+            style="z-index: 100000;"
+            *ngIf="file.isImage"
+            (click)="openGallery(entity.UploadedFiles)"
+            type="button"
+          >
+            <i class="fas fa-search-plus zoom-icon"></i>
+          </button>
+          <video
+            *ngIf="file.isVideo && !file.Processing && !isLoadingVideos"
+            [id]="getPlayerId(entity.UploadedFiles.indexOf(file), 'mobile')"
+            playsinline
+            controls
+          ></video>
+          <div style="width: 100%;" *ngIf="file.isVideo && isLoadingVideos">
+            <ion-spinner *ngIf="file.isVideo && isLoadingVideos" name="dots"></ion-spinner>
+            <p style="font-size: 14px;" [translate]="'global.actions.loadingMedia'"></p>
+          </div>
+          <img *ngIf="file.isImage" [src]="file.url" (onerror)="fallbackImage()" loading="lazy" />
+          <img
+            *ngIf="file.isVideo && file.Processing && !isLoadingVideos"
+            src="../../../assets/Video_Processing_Cloud.svg"
+          />
+        </ion-slide>
+      </ion-slides>
+      <div class="swiper-pagination-mobile swiper-pagination-bullets">
+        <span
+          *ngFor="let file of entity.UploadedFiles; let i = index; let first = first; let last = last"
+          [ngClass]="{
+            'swiper-pagination-bullet-active-mobile': i === activeMobile,
+            'swiper-pagination-bullet-mobile': i !== activeMobile
+          }"
+        ></span>
+      </div>
+      <div *ngIf="entity.Attachments && entity.Attachments.length" class="document">
+        <span [translate]="'briefs.myBrief.documents'"></span>
+      </div>
+      <div *ngFor="let attachment of entity.Attachments">
+        <div *ngIf="entity.Attachments.length > 0" class="attachments">
+          <a
+            target="_blank"
+            href="{{ attachment.url }}"
+            rel="noopener noreferrer"
+            style="cursor: pointer; color:#f6a117"
+          >
+            <i class="fas fa-file-download"></i>
+            <span>{{ attachment?.Name }}</span>
+          </a>
+        </div>
+      </div>
+      <div class="brief-information-div">
+        <div class="brief-information-container">
+          <div class="brief-information">
+            <ion-grid style="display: flex;">
+              <ion-col class="post-information-container">
+                <ion-avatar class="mr-2" *ngIf="entity.SupplierId.organization.logo" (click)="goToProfile(entity)">
+                  <img [src]="entity.SupplierId.organization.logo.url" onerror="this.src=fallbackImage(i)" />
+                </ion-avatar>
+                <div class="post-information">
+                  <div class="company-name" (click)="goToProfile(entity)">{{ entity.SupplierId.companyName }}</div>
+                  <div *ngIf="type === 'post-preview'" class="post-datetime" [translate]="'addNew.post.justNow'"></div>
+                  <div *ngIf="type !== 'brief-accept'" class="post-datetime">
+                    {{ entity.createdAt | dateAgo }}
+                  </div>
+                  <div *ngIf="type === 'brief-accept'" class="post-datetime">
+                    <span [translate]="'briefs.postedOn'"></span>
+                    <span> {{ entity.createdAt | date: 'mediumDate' }}</span>
+                  </div>
+                </div>
+              </ion-col>
+              <ion-col *ngIf="type === 'my-brief'" style="display: inline-flex;">
+                <div class="close">
+                  <ion-button
+                    id="brief-post-close"
+                    style="--border-radius: 50px; --border-color: #F6A117; color: #F6A117; --border-width: 0.5px;"
+                    fill="outline"
+                    (click)="closeBrief()"
+                    *ngIf="entity.isActive"
+                  >
+                    <span style="text-transform: capitalize;" [translate]="'briefs.myBrief.close'"></span>
+                  </ion-button>
+                  <ion-button
+                    id="brief-post-open"
+                    style="--border-radius: 50px; --border-color: #F6A117; color: #F6A117; --border-width: 0.5px;"
+                    fill="outline"
+                    (click)="openBrief()"
+                    *ngIf="!entity.isActive"
+                  >
+                    <span style="text-transform: capitalize;" [translate]="'briefs.myBrief.open'"></span>
+                  </ion-button>
+                </div>
+                <div id="brief-post-edit" class="edit" (click)="edit()" *ngIf="canEdit">
+                  <i class="bi bi-pencil-fill"></i>
+                </div>
+              </ion-col>
+            </ion-grid>
+          </div>
+        </div>
+        <div *ngIf="type === 'my-brief' || type === 'brief-accept'" class="boxes">
+          <div
+            class="box-1"
+            style="border: 1px solid #70C1ED;
+              border-radius: 4px 0px 0px 4px;"
+          >
+            <div>
+              <a>
+                {{ entity.type?.name }}
+              </a>
+            </div>
+          </div>
+          <div
+            class="box-1"
+            style="margin-left: 0.2rem; border: 1px solid #70C1ED;
+              border-radius: 0px 4px 4px 0px;"
+          >
+            <div>
+              <a>
+                {{ entity.Deadline | date: 'medium' }}
+              </a>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="type === 'brief-accept'" class="boxes">
+          <div class="box-2">
+            <div class="col text-center">
+              <a [translate]="'briefs.briefReceived'"></a>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="type === 'my-brief'" class="market" style="margin-left: 1rem;">
+          <div
+            class="market-text"
+            [options]="{ ellipsis: '..' }"
+            line-truncation="1"
+            (hasTruncated)="handler($event)"
+            [innerHTML]="allMarkets"
+          ></div>
+          <span *ngIf="hasTruncated" (click)="toggleTruncateMarket()" class="market-see-more">See more</span>
+        </div>
+        <div class="title-description-mobile">
+          <div class="post-title">
+            <ion-label>{{ entity.Title }}</ion-label>
+          </div>
+        </div>
+        <div class="post-description-truncated">
+          <p
+            [options]="{ ellipsis: '..' }"
+            line-truncation="5"
+            (hasTruncated)="handlerDescription($event)"
+            [innerHTML]="entity.Description | linky"
+            [disabled]="disablePostTruncation"
+          ></p>
+        </div>
+        <div class="view-more-less-div">
+          <span
+            *ngIf="hasPostDescriptionTruncated"
+            (click)="disablePostTruncation = !disablePostTruncation"
+            class="view-more-less"
+            style="color: #F6A117;"
+          >
+            {{ disablePostTruncation ? 'Read less' : 'Read more' }}
+          </span>
+          <i
+            *ngIf="hasPostDescriptionTruncated"
+            (click)="disablePostTruncation = !disablePostTruncation"
+            [class]="
+              disablePostTruncation
+                ? 'fas fa-chevron-up view-more-less-icon'
+                : 'fas fa-chevron-down view-more-less-icon'
+            "
+            style="color: #F6A117;"
+          ></i>
+        </div>
+        <div #parentCategoriesDivMobile class="categories-container">
+          <div #childCategoriesDivMobile>
+            <ion-grid>
+              <span *ngFor="let category of entity.Categories; let index = index">
+                <ion-chip outline color="secondary">
+                  <ion-label>{{ category?.name }}</ion-label>
+                </ion-chip>
+              </span>
+            </ion-grid>
+          </div>
+        </div>
+        <div
+          *ngIf="hasOverflow(parentCategoriesDivMobile, childCategoriesDivMobile)"
+          class="view-more-less-div"
+          (click)="viewMore(entity.Categories, 'skills', 'Categories', parentCategoriesDiv, childCategoriesDiv)"
+        >
+          <span class="view-more-less" style="color: #70C1ED;" [translate]="'global.actions.viewMore'"></span>
+          <i class="fas fa-chevron-down view-more-less-icon" style="color: #70C1ED;"></i>
+        </div>
+      </div>
+      <div *ngIf="type === 'brief-accept' && briefMainContact?.UserId" class="actions-container">
+        <div class="mail">
+          <a
+            id="brief-post-email"
+            href="mailto:{{ briefMainContact?.UserId?.email }}?subject=xGrowth Brief: {{ entity.Title }}"
+          >
+            <i
+              class="bi bi-envelope-fill"
+              aria-hidden="true"
+              style="color: #F6A117; font-size: 1.3rem; cursor: pointer;"
+            ></i>
+          </a>
+        </div>
+      </div>
+      <div class="actions-container">
+        <div id="brief-post-edit" class="edit" (click)="edit()" *ngIf="canEdit">
+          <i class="bi bi-pencil-fill"></i>
+        </div>
+        <div class="metric" *ngIf="canSeeMetrics" matTooltip="Views" matTooltipPosition="after">
+          <i class="bi bi-eye-fill"></i>
+          <div style="margin-top: 3px; margin-left: 6px;">
+            {{ entity.Views }}
+          </div>
+        </div>
+        <div id="brief-post-delete" class="delete" (click)="deletePost()" *ngIf="canDelete">
+          <i class="fas fa-trash"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-posting-rate
+    *ngIf="postType === 'proactive-posting' && !this.isRefreshing && entity.NumberOfRatings > 0"
+    #postRating
+    (onPostRate)="refreshData()"
+    [post]="entity"
+  ></app-posting-rate>
+  <div *ngIf="postType === 'proactive-posting' && similarPosts?.length" class="similar-posts">
+    <ion-label class="title-similar-posts" style="display: inline-flex;">
+      <span [translate]="'myCompany.posts.similarPosts'"></span>
+      <div *ngIf="similarPostsLoading" style="margin-left: 1rem; margin-top: 0.5rem; margin-bottom: 5rem;">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+    </ion-label>
+  </div>
+  <app-masonry
+    [onScrollEvent]="scrollableDiv.ionScroll"
+    [onScrollStop]="scrollableDiv.ionScrollEnd"
+    *ngIf="!similarPostsLoading && postType === 'proactive-posting' && similarPosts?.length"
+    [type]="'posts'"
+    [class]="'start-three'"
+    [posts]="similarPosts"
+    [class]="'start-three'"
+    (newModalEvent)="this.dismiss()"
+  >
+  </app-masonry>
+  <ion-infinite-scroll threshold="20%" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="lines" loadingText=""> </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
+<app-rating-footer
+  *ngIf="!isLoading && !this.isRefreshing && postType !== 'brief-response'"
+  (onPostRate)="refreshData()"
+  [entity]="entity"
+>
+</app-rating-footer>

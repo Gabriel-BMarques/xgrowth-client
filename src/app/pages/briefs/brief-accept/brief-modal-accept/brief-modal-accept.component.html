@@ -1,0 +1,37 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div class="header">
+          <div class="title">
+            <span [translate]="'briefs.respond.acceptThis'"></span>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <div class="actions">
+      <ion-button
+        shape="round"
+        fill="outline"
+        style="color: #70C1ED;
+          margin-right: 1rem;
+          text-transform: none;
+          --border-color: #70C1ED;
+          --border-width: 1px"
+        (click)="onCancel()"
+      >
+        <span [translate]="'global.actions.cancel'"></span>
+      </ion-button>
+      <ion-button
+        shape="round"
+        style="--background: #F6A117; 
+            color: white;
+            text-transform: none;
+            --box-shadow: none;"
+        (click)="onAccept()"
+      >
+        <span [translate]="'briefs.respond.accept'"></span>
+      </ion-button>
+    </div>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,123 @@
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+
+.webinars-admin {
+  .container {
+    max-width: 95% !important;
+  }
+
+  .webinars-head {
+    button {
+      background: inherit;
+      font-size: inherit;
+    }
+    .searchbar-input.sc-ion-searchbar-md {
+      background: #fff !important;
+    }
+  }
+}
+
+.tooltip-webinars {
+  background: inherit;
+
+  color: #cecece;
+  &:focus {
+    outline: none;
+  }
+}
+
+.webinar-list {
+  .table-item {
+    padding: 10px 0px;
+    height: auto;
+    border-bottom: 1px solid #c3c3c3;
+    .webinar-main {
+      .not-published-tag {
+        color: #ff4136;
+      }
+      a {
+        h5 {
+          color: #565555 !important;
+          font-size: 16px;
+          font-weight: bold;
+        }
+      }
+      p {
+        color: #565555 !important;
+        margin-left: 30px;
+      }
+    }
+    .guest-list {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      button {
+        color: #70c1ed;
+      }
+    }
+    .review-status {
+      text-transform: capitalize;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      p {
+        text-transform: capitalize;
+        i {
+          margin-left: 3px;
+          font-size: 12px;
+        }
+      }
+      &.pending {
+        color: #f6a117;
+      }
+      &.approved {
+        color: #70c1ed;
+      }
+      &.denied {
+        color: #707070;
+      }
+    }
+    .edit-webinar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      button {
+        color: #cecece;
+      }
+    }
+    p {
+      margin-bottom: 5px;
+    }
+    a {
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    button {
+      cursor: pointer;
+      background: inherit;
+    }
+  }
+}
+
+.review-modal-class {
+  .modal-wrapper.md {
+    border-radius: 7px !important;
+  }
+  @media (min-width: 767px) {
+    .modal-wrapper.md {
+      width: 90%;
+      max-width: 100%;
+    }
+  }
+  @media (min-width: 1000px) {
+    .modal-wrapper.md {
+      width: 75%;
+      max-width: 100%;
+    }
+  }
+}

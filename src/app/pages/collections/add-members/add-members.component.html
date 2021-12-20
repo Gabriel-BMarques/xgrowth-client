@@ -1,0 +1,73 @@
+<ion-content #contentArea>
+  <div class="header">
+    <h5 class="page-title text-uppercase" [translate]="'collections.add.editMembers'"></h5>
+  </div>
+
+  <div style="max-height: unset !important;" class="container-members">
+    <div *ngIf="panelAddedMembers.items.length > 0" class="can-edit">
+      <span [translate]="'collections.add.canEdit'"></span>
+    </div>
+    <div *ngIf="!panelAddedMembers.items || panelAddedMembers.items.length === 0">
+      <div class="no-members">
+        <i class="far fa-sad-tear no-members-icon"></i>
+        <h3 class="no-members-text" [translate]="'collections.add.noMembers'"></h3>
+      </div>
+    </div>
+    <ion-grid class="display-list">
+      <ion-row>
+        <div *ngFor="let item of panelAddedMembers.items; let index = index">
+          <ion-col *ngIf="index < 5 || viewAll">
+            <i class="fas fa-minus-circle" (click)="removeMember(item, index)"></i>
+            <app-item [Item]="item" [Type]="panelMembers.type"></app-item>
+            <ion-checkbox
+              color="primary"
+              [(ngModel)]="item.selected"
+              (ionChange)="editorMembers(item, index)"
+            ></ion-checkbox>
+          </ion-col>
+        </div>
+        <h6
+          class="view-all"
+          *ngIf="this.panelAddedMembers.items.length >= 5"
+          (click)="viewAllMembers()"
+          [translate]="'home.viewAll'"
+        ></h6>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div class="header">
+    <h5 class="page-title" [translate]="'collections.add.inviteMembers'"></h5>
+  </div>
+
+  <ion-grid>
+    <ion-searchbar animated (keyup)="applyFilter($event.target.value)" (ionClear)="applyFilter(null)"> </ion-searchbar>
+  </ion-grid>
+  <div *ngIf="skeletonLoading">
+    <app-skeleton [skeleton]="'members'"></app-skeleton>
+  </div>
+
+  <div class="container-members">
+    <ion-grid class="display-list">
+      <div class="select-all-container">
+        <ion-checkbox color="primary"></ion-checkbox>
+        <ion-label [translate]="'global.actions.selectAll'"></ion-label>
+      </div>
+      <ion-row>
+        <div *ngFor="let item of panelMembers.items">
+          <ion-col>
+            <i class="fas fa-plus-circle" (click)="addMember(item, index)"></i>
+            <app-item [Item]="item" [Type]="panelMembers.type"></app-item>
+          </ion-col>
+        </div>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <ion-infinite-scroll threshold="40%" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText=""> </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
+<div class="footer">
+  <ion-button class="cancel-button" color="primary-contrast" [translate]="'global.actions.cancel'"></ion-button>
+  <ion-button class="done-button" color="primary" translate [translate]="'global.actions.done'"></ion-button>
+</div>

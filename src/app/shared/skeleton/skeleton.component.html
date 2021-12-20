@@ -1,0 +1,93 @@
+<div
+  [ngClass]="{
+    'skeleton-products': skeleton === 'products',
+    'skeleton-posts': skeleton === 'posts',
+    'skeleton-suppliers': skeleton === 'suppliers',
+    'skeleton-latest-news': skeleton === 'news',
+    'skeleton-drafts': skeleton === 'drafts',
+    'skeleton-users': skeleton === 'users',
+    'skeleton-companies': skeleton === 'companies',
+    'skeleton-organizations': skeleton === 'organizations',
+    'skeleton-post': skeleton === 'post',
+    'skeleton-home': skeleton === 'home',
+    'skeleton-profile': skeleton === 'profile'
+  }"
+  *ngIf="skeleton !== undefined && skeleton !== null"
+  text-center
+>
+  <ion-list class="skeleton-list" *ngFor="let item of skeletonItems">
+    <ion-item class="skeleton-item">
+      <ion-label>
+        <h3 class="skeleton-title">
+          <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+        </h3>
+        <p class="skeleton-subtitle">
+          <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+        </p>
+        <p class="skeleton-description">
+          <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <div class="skeleton-post-panel">
+    <ion-thumbnail>
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </ion-thumbnail>
+    <div class="skeleton-post-information-div">
+      <ion-avatar>
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-avatar>
+      <div class="skeleton-post-information">
+        <ion-skeleton-text animated></ion-skeleton-text>
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </div>
+      <div class="skeleton-post-pins-information">
+        <ion-skeleton-text animated></ion-skeleton-text>
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </div>
+      <div class="skeleton-post-pins-icon">
+        <ion-avatar>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+      </div>
+    </div>
+    <ion-grid class="skeleton-categories-container">
+      <ion-skeleton-text animated class="skeleton-category" *ngFor="let item of skeletonItems"></ion-skeleton-text>
+    </ion-grid>
+    <div class="skeleton-post-title">
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </div>
+    <div class="skeleton-post-description">
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </div>
+  </div>
+
+  <div class="skeleton-profile-container">
+    <ion-thumbnail>
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </ion-thumbnail>
+    <div class="skeleton-profile-information-div">
+      <ion-avatar>
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-avatar>
+      <div class="skeleton-profile-information">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </div>
+    </div>
+  </div>
+
+  <div class="skeleton-home-container" text-center>
+    <!-- <div class="tabs-skeleton">
+      <ion-thumbnail>
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-thumbnail>
+    </div> -->
+    <div class="panel-skeleton">
+      <ion-thumbnail>
+        <ion-skeleton-text animated class="skeleton-card" *ngFor="let item of skeletonItems"></ion-skeleton-text>
+      </ion-thumbnail>
+    </div>
+  </div>
+</div>

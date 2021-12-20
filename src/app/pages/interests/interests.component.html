@@ -1,0 +1,101 @@
+<ion-content style="--background: #F6F6F6F6;">
+  <div style="position: fixed; width: 100%; z-index: 100;">
+    <div
+      *ngIf="!isLoading && !hasSeenInterestsTutorial"
+      class="tutorial large"
+      style="display: flex; top: 1.5rem; width: 20rem; margin: auto;"
+    >
+      <app-tutorial
+        #tutorial
+        [tutorialType]="'interests'"
+        [tutorialStyle]="4"
+        (nextTutorialEvent)="onNextTutorial($event)"
+        style="margin-left: -5.8rem"
+      ></app-tutorial>
+    </div>
+  </div>
+  <div style="position: fixed; width: 100%; z-index: 100; bottom: 0; margin-bottom: 21.5rem;">
+    <div *ngIf="!isLoading && !hasSeenInterestsTutorial" class="tutorial medium" style="width: 17rem; margin: auto;">
+      <app-tutorial
+        #tutorial
+        [tutorialType]="'interests'"
+        [tutorialStyle]="1"
+        (nextTutorialEvent)="onNextTutorial($event)"
+      ></app-tutorial>
+    </div>
+  </div>
+  <div [ngClass]="{ filter: !hasSeenInterestsTutorial }">
+    <div class="page-header">
+      <div class="header-title">
+        <span [translate]="'sidebar-menu.interests'"></span>
+      </div>
+    </div>
+    <div class="loading-container" *ngIf="skeletonLoading || isChecking">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+    <div class="list-categories" *ngIf="!isLoading && !isChecking">
+      <div *ngFor="let category of arrayCategories">
+        <div class="category">
+          <button [ngClass]="category.selected ? 'interest-selected' : ''" (click)="changeSelection(category)">
+            {{ category.name }}
+          </button>
+        </div>
+        <div class="subcategory">
+          <ng-container *ngFor="let subcategory of arraySubCategories">
+            <button
+              [ngClass]="subcategory.selected ? 'interest-selected' : ''"
+              *ngIf="subcategory.parentId === category._id"
+              (click)="changeSelection(subcategory)"
+            >
+              {{ subcategory.name }}
+            </button>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!isLoading && !isChecking" class="list-categories-desktop">
+      <ion-row>
+        <ion-col>
+          <div class="first-col" *ngFor="let category of arrayCategories; let index = index">
+            <div class="category" *ngIf="index % 2 == 0">
+              <button [ngClass]="category.selected ? 'interest-selected' : ''" (click)="changeSelection(category)">
+                {{ category.name }}
+              </button>
+              <div class="subcategory">
+                <ng-container *ngFor="let subcategory of arraySubCategories">
+                  <button
+                    [ngClass]="subcategory.selected ? 'interest-selected' : ''"
+                    *ngIf="subcategory.parentId === category._id"
+                    (click)="changeSelection(subcategory)"
+                  >
+                    {{ subcategory.name }}
+                  </button>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </ion-col>
+        <ion-col>
+          <div class="second-col" *ngFor="let category of arrayCategories; let index = index">
+            <div [ngClass]="index != 1 ? 'category' : 'category first-category'" *ngIf="index % 2 != 0">
+              <button [ngClass]="category.selected ? 'interest-selected' : ''" (click)="changeSelection(category)">
+                {{ category.name }}
+              </button>
+              <div class="subcategory">
+                <ng-container *ngFor="let subcategory of arraySubCategories">
+                  <button
+                    [ngClass]="subcategory.selected ? 'interest-selected' : ''"
+                    *ngIf="subcategory.parentId === category._id"
+                    (click)="changeSelection(subcategory)"
+                  >
+                    {{ subcategory.name }}
+                  </button>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </div>
+  </div>
+</ion-content>

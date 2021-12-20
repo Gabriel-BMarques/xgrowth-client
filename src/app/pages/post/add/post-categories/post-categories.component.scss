@@ -1,0 +1,110 @@
+@import "../../../../../theme/theme.scss";
+
+.page-header {
+  display: flex;
+  .header-title {
+    width: 78%;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding-top: 1.5rem;
+    padding-left: 1rem;
+    padding-bottom: 1rem;
+  }
+  .header-information {
+    text-transform: initial;
+    width: 22%;
+    min-width: 106px;
+    margin-left: 40%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 0.9rem;
+    color: rgba(86, 85, 85, 0.37);
+    font-weight: 600;
+  }
+}
+
+.categories-button-container {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  .select-categories-button {
+    --border-width: 1px;
+    --border-radius: 50px;
+    --box-shadow: none;
+    width: 100%;
+    margin-top: 0.5rem;
+    font-size: 16px;
+    text-transform: none;
+  }
+}
+.input-container {
+  width: 90%;
+  margin-top: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+.input-label {
+  color: #565555;
+  font-size: 17px;
+  margin-left: 2rem;
+  margin-bottom: 2px;
+}
+.form-input {
+  width: 100%;
+}
+.post-categories-footer-container {
+  box-shadow: 0 -2px 6px 1px rgba(0, 0, 0, 0.281);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  bottom: 0;
+  width: 100%;
+  z-index: 2;
+  background: white;
+  .save-button {
+    .save-changes {
+      text-transform: initial;
+      --border-radius: 50px;
+      --box-shadow: none;
+      --border-width: 1px;
+      width: 40%;
+    }
+  }
+  .buttons-container {
+    text-align: center;
+    .footer-button {
+      width: 30%;
+      margin-right: 1.5rem;
+      margin-left: 1.5rem;
+      text-transform: initial;
+      --border-radius: 50px;
+      --box-shadow: none;
+      --border-width: 1px;
+      --padding-top: 1.2rem;
+      --padding-bottom: 1.2rem;
+    }
+  }
+}
+
+@media (max-width: 699px) {
+  .mobile {
+    display: grid;
+  }
+  .desktop {
+    display: none;
+  }
+}
+
+@media (min-width: 700px) {
+  .desktop {
+    display: grid;
+    .form-input {
+      width: 20rem;
+    }
+    .select-categories-button {
+      width: 20rem;
+    }
+  }
+  .mobile {
+    display: none;
+  }
+}

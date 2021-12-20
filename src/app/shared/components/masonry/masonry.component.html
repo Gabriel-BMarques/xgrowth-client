@@ -1,0 +1,38 @@
+<!-- <ngx-masonry [options]="masonryOptions"> -->
+<div class="posts-grid">
+  <div class="posts-list">
+    <ion-card
+      [class]="'post-card ' + class"
+      *ngFor="let item of posts; let index = index"
+      [id]="item._id"
+      (contextmenu)="presentPopover($event, item)"
+    >
+      <ion-chip class="brief-chip" *ngIf="item.BriefId">
+        <span style="color: #f5a031;">a</span>
+        <i class="fas fa-clipboard-list"></i>
+        <span>BRIEF RESPONSE</span>
+      </ion-chip>
+      <ion-checkbox class="checkbox" style="z-index: 3;" [(ngModel)]="item.selected" *ngIf="isEditing"></ion-checkbox>
+      <ion-button style="z-index: 3;" *ngIf="type === 'posts'" (click)="presentPopover($event, item)">
+        <i class="fas fa-ellipsis-h d-none d-md-block"></i>
+        <i class="fas fa-ellipsis-v d-block d-md-none"></i>
+      </ion-button>
+      <div class="post-image" (click)="postClick(item._id)">
+        <img
+          [src]="item.thumbnail?.url"
+          loading="lazy"
+          onerror="this.src='../../../assets/default-fallback-image.svg'"
+          id="{{ item.UploadedFiles[0]?._id }}"
+          class="placeholder-image"
+        />
+      </div>
+      <ion-card-title class="title" (click)="postClick(item._id)"
+        >{{ item.Title | slice: 0:20 }}{{ item.Title?.length > 20 ? '...' : '' }}
+      </ion-card-title>
+      <ion-card-subtitle class="subtitle" (click)="subtitleClick(item.SupplierId?.organization)">{{
+        item.SupplierId?.companyName
+      }}</ion-card-subtitle>
+    </ion-card>
+  </div>
+</div>
+<!-- </ngx-masonry> -->

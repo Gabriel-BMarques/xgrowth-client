@@ -1,0 +1,77 @@
+<div class="post-rating-modal">
+  <div *ngIf="entity.canRate && !entity.BriefId" class="rating-content rating-content-div star-desktop">
+    <div class="rate-note-stars" (mouseleave)="hoverOut()">
+      <ng-container *ngFor="let number of [1, 2, 3, 4, 5]">
+        <div class="star" (click)="starsClick(number)">
+          <i
+            class="bi bi-star-fill"
+            [ngClass]="number <= this.rating ? 'yellow' : 'grey'"
+            (mouseenter)="hoverIn(number)"
+          ></i>
+        </div>
+      </ng-container>
+    </div>
+    <div *ngIf="entity.NumberOfRatings > 0" class="rating-numbers">
+      <div class="rating-note">{{ entity.PostRatingAverage }}</div>
+      <div class="rating-quantity">({{ entity.NumberOfRatings }} ratings)</div>
+    </div>
+    <div *ngIf="entity.NumberOfRatings == 0" class="rating-numbers">
+      <div class="rating-quantity">Rate post</div>
+    </div>
+  </div>
+  <div *ngIf="entity.canRate && !entity.BriefId" class="rating-content-div star-mobile" (click)="starClick()">
+    <div class="rating-icon">
+      <i class="bi bi-star-fill"></i>
+    </div>
+    <div class="rating-subtitle">Rate post</div>
+  </div>
+  <div *ngIf="!entity.canRate && !entity.BriefId" class="rating-content rating-content-div star-desktop">
+    <div class="ratings ">
+      <i
+        *ngFor="let star of stars"
+        class="bi bi-star-fill"
+        [ngClass]="[star % 1 === 0 && star ? 'rating-color' : '']"
+        [ngStyle]="star % 1 !== 0 ? setStarStyle(star) : ''"
+      >
+      </i>
+    </div>
+    <div class="rating-numbers">
+      <div class="rating-note">{{ entity.PostRatingAverage }}</div>
+      <div class="rating-quantity">({{ entity.NumberOfRatings }} ratings)</div>
+    </div>
+  </div>
+  <div *ngIf="!entity.canRate && !entity.BriefId" class="rating-content rating-content-div star-mobile">
+    <div class="rating-icon">
+      <i class="bi bi-star-fill"></i>
+    </div>
+    <div class="rating-numbers">
+      <div class="rating-note">{{ entity.PostRatingAverage }}</div>
+      <div class="rating-quantity">({{ entity.NumberOfRatings }} ratings)</div>
+    </div>
+  </div>
+  <div *ngIf="!entity.BriefId" class="share-content rating-content-div" (click)="share()">
+    <div class="rating-icon">
+      <i class="bi bi-share-fill"></i>
+    </div>
+    <div class="rating-subtitle">Share</div>
+  </div>
+  <div class="save-content rating-content-div" (click)="addToCollection()">
+    <div class="rating-icon">
+      <div id="brief-post-add-collection" matTooltip="Save in collection" matTooltipPosition="after">
+        <i class="bi bi-pin-angle-fill"></i>
+      </div>
+    </div>
+    <div class="rating-subtitle">{{ saveText }}</div>
+  </div>
+  <div
+    class="contact-content rating-content-div"
+    (click)="openContactModal('contact post creator', entity.CreatedBy?.email)"
+  >
+    <div class="rating-icon">
+      <a id="brief-post-email" matTooltip="Contact posting creator" matTooltipPosition="after">
+        <i class="bi bi-envelope-fill"></i>
+      </a>
+    </div>
+    <div class="rating-subtitle">Contact creator</div>
+  </div>
+</div>

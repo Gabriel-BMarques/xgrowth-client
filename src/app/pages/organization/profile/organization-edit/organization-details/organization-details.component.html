@@ -1,0 +1,169 @@
+<div class="organization-details-container">
+  <div *ngIf="viewport === 'mobile'" class="header">
+    <div class="header-content">
+      <i class="fas fa-chevron-left back-icon" (click)="back()"></i>
+      <span class="title" [translate]="'myCompany.profile.organizationDetails'"></span>
+    </div>
+  </div>
+  <div *ngIf="loading" class="loader-container">
+    <ion-spinner *ngIf="loading" name="lines" class="loader"></ion-spinner>
+  </div>
+  <div *ngIf="isEditing && !loading" class="organization-details-form-container">
+    <ion-row>
+      <form class="organization-details-form" [formGroup]="organizationDetailsForm">
+        <div class="form-field">
+          <label class="form-label" [translate]="'myCompany.profile.yearFounded'"></label>
+          <label class="form-label" style="font-weight: 300;" [translate]="'global.forms.optional'"></label>
+          <mat-form-field
+            [ngClass]="{
+              'form-input': true,
+              'form-input-invalid': form.yearFounded.invalid,
+              'form-input-valid': form.yearFounded.valid
+            }"
+          >
+            <span
+              *ngIf="inputEmpty(this.form.yearFounded)"
+              class="input-placeholder"
+              [translate]="'global.forms.insertYearFounded'"
+            ></span>
+            <input type="number" pattern="\d{4}" matInput formControlName="yearFounded" />
+            <mat-error *ngIf="form.yearFounded.invalid">
+              <div style="text-align: center;">
+                <span [translate]="'myCompany.profile.edit.errorYearFounded'"></span>
+              </div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- <div class="form-field">
+          <label class="form-label" [translate]="'myCompany.profile.organizationReach'"></label>
+          <div
+            class="organization-reach-field-container"
+            [ngClass]="{
+              'organization-reach-field-container': true,
+              'organization-reach-field-container-valid': form.organizationReach.valid
+            }"
+          >
+            <mat-form-field class="form-input search-input">
+              <span
+                *ngIf="searchEmpty(this.organizationReachSearchParam)"
+                class="input-placeholder"
+                [translate]="'global.forms.searchCountry'"
+              ></span>
+              <input
+                type="text"
+                matInput
+                (keyup)="applyFilter($event.target.value, countries, 500)"
+                (keydown)="$event.stopPropagation()"
+              />
+              <i class="fas fa-search search-icon"></i>
+            </mat-form-field>
+            <div class="organization-reach-list">
+              <div *ngFor="let globalRegion of globalRegions; let last = last">
+                <div class="organization-reach-item">
+                  <mat-checkbox [checked]="globalRegion.selected" (change)="toggleGlobalRegion(globalRegion)">
+                    <span class="global-region-name">{{ globalRegion.name }}</span>
+                  </mat-checkbox>
+                </div>
+                <div class="countries-grid">
+                  <div
+                    [hidden]="!includes(country, countries.filteredData)"
+                    class="organization-reach-item"
+                    *ngFor="let country of regionCountries(globalRegion._id)"
+                  >
+                    <mat-checkbox [checked]="country.selected" (change)="toggleCountry(country, globalRegion)">
+                      <span class="country-name">{{ country.name }}</span>
+                    </mat-checkbox>
+                  </div>
+                </div>
+                <hr *ngIf="!last" />
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+        <div class="form-field">
+          <label class="form-label" [translate]="'myCompany.profile.numberOfEmployees'"></label>
+          <label class="form-label" style="font-weight: 300;" [translate]="'global.forms.optional'"></label>
+          <mat-form-field
+            [ngClass]="{
+              'form-input': true,
+              'form-input-valid': form.numberOfEmployees.valid
+            }"
+          >
+            <span
+              *ngIf="inputEmpty(this.form.numberOfEmployees)"
+              class="input-placeholder"
+              [translate]="'global.forms.selectFromList'"
+            ></span>
+            <mat-select formControlName="numberOfEmployees">
+              <mat-option *ngFor="let numberOfEmployee of numberOfEmployees" [value]="numberOfEmployee">
+                {{ numberOfEmployee }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" [translate]="'myCompany.profile.edit.annualSales'"></label>
+          <label class="form-label" style="font-weight: 300;" [translate]="'global.forms.optional'"></label>
+          <mat-form-field
+            [ngClass]="{
+              'form-input': true,
+              'form-input-valid': form.annualSales.valid
+            }"
+          >
+            <span
+              *ngIf="inputEmpty(this.form.annualSales)"
+              class="input-placeholder"
+              [translate]="'global.forms.selectFromList'"
+            ></span>
+            <mat-select formControlName="annualSales">
+              <mat-option *ngFor="let annualSale of annualSales" [value]="annualSale">
+                {{ annualSale }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field uploaded-content-field">
+          <label class="form-label" [translate]="'myCompany.profile.uploadedContent'"></label>
+          &ensp;<label class="form-label" style="font-weight: 300;" [translate]="'global.forms.optional'"></label>
+          <i class="fas fa-info-circle information-icon"></i>
+          <label *ngIf="inputEmpty(form.uploadedContent)" class="choose-file-button">
+            <p-fileUpload
+              #uploadedContent
+              mode="basic"
+              auto="true"
+              id="file"
+              multiple="false"
+              fileLimit="1"
+              maxFileSize="250000000"
+              customUpload="true"
+              (uploadHandler)="upload($event)"
+            >
+            </p-fileUpload>
+            <span [translate]="'global.forms.chooseFile'"></span>
+            <ion-spinner *ngIf="isUploadingFile" name="lines-small" style="margin-left: 1rem"></ion-spinner>
+          </label>
+          <div *ngIf="!inputEmpty(form.uploadedContent)" class="uploaded-content-info">
+            <span class="uploaded-content-name"
+              >{{ form.uploadedContent.value.Name | slice: 0:25
+              }}{{ form.uploadedContent.value.Name.length > 25 ? '...' : '' }}</span
+            >
+            <i class="fas fa-times delete-file-button" (click)="deleteFile()"></i>
+          </div>
+        </div>
+
+        <div class="contact-us-container">
+          <span [translate]="'organization.profile.couldntfind'"></span><br />
+          <a
+            style="cursor: pointer;"
+            (click)="openContactModal('contact us', 'support@growinco.com')"
+            [translate]="'organization.profile.contactus'"
+          ></a>
+        </div>
+      </form>
+    </ion-row>
+  </div>
+</div>

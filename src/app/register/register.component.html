@@ -1,0 +1,155 @@
+<div class="register-page background-banner">
+  <div [ngClass]="activationStep ? 'container activate-container' : 'container'">
+    <div class="row">
+      <div class="col-md-4 offset-md-4 text-center">
+        <img width="142.519" height="39.287" src="../../../../assets/Logo_xGrowth_Main.svg" alt="Logo xGrowth" />
+      </div>
+      <div *ngIf="activationStep" class="col-md-4 logout-button text-right d-none d-md-block" (click)="logout()">
+        <button id="register-logout">Logout</button>
+      </div>
+    </div>
+    <div class="row justify-content-center" [style]="activationStep ? 'padding-top:9.6rem' : 'padding-top:2.2rem'">
+      <div class="register-box">
+        <div class="title">
+          <span>{{ title }}</span>
+        </div>
+        <div
+          [ngClass]="activationStep ? 'activation-description' : ''"
+          class="description"
+          [innerHTML]="description"
+        ></div>
+        <form [formGroup]="registerForm">
+          <div class="register-input">
+            <mat-form-field
+              *ngIf="emailStep"
+              [ngClass]="[
+                registerForm.controls.email.value === '' ? 'input-field-normal' : '',
+                registerForm.controls.email.invalid && registerForm.controls.email.touched ? 'input-field-error' : '',
+                !registerForm.controls.email.invalid ? 'input-field-success' : ''
+              ]"
+              hideRequiredMarker="true"
+              floatLabel="never"
+            >
+              <input
+                id="register-email"
+                (click)="checkPlaceHolder()"
+                (blur)="checkPlaceHolder()"
+                formControlName="email"
+                appearance="fill"
+                [placeholder]="emailPlaceHolder"
+                type="email"
+                matInput
+                required
+              />
+              <mat-error *ngIf="registerForm.get('email').hasError('required') && registerForm.controls.email.touched">
+                <span>That's a required field</span>
+              </mat-error>
+              <div
+                class="email-error"
+                *ngIf="registerForm.get('email').hasError('email') && registerForm.controls.email.touched"
+              >
+                <span>Invalid email</span>
+              </div>
+            </mat-form-field>
+            <mat-form-field
+              *ngIf="passwordStep"
+              [ngClass]="[
+                registerForm.controls.password.value === '' ? 'input-field-normal' : '',
+                registerForm.controls.password.invalid && registerForm.controls.password.touched
+                  ? 'input-field-error'
+                  : '',
+                !registerForm.controls.password.invalid ? 'input-field-success' : ''
+              ]"
+              hideRequiredMarker="true"
+              floatLabel="never"
+            >
+              <input
+                id="register-password"
+                (click)="checkPassPlaceHolder()"
+                (blur)="checkPassPlaceHolder()"
+                formControlName="password"
+                appearance="fill"
+                [placeholder]="passwordPlaceHolder"
+                [type]="passIsVisible ? 'text' : 'password'"
+                matInput
+                required
+              />
+              <img
+                id="register-password-visibility"
+                (click)="passIsVisible = !passIsVisible"
+                class="password-visibility"
+                width="16px"
+                height="13px"
+                [src]="
+                  passIsVisible
+                    ? '../../../../assets/password_visible.svg'
+                    : '../../../../assets/password_not_visible.svg'
+                "
+                alt="Password icon"
+              />
+              <mat-error
+                *ngIf="registerForm.get('password').hasError('required') && registerForm.controls.password.touched"
+              >
+                <span>That's a required field</span>
+              </mat-error>
+              <div
+                class="password-lenght-error"
+                *ngIf="registerForm.get('password').hasError('minlength') && registerForm.controls.password.touched"
+              >
+                <span>Must be at least 8 characters</span>
+              </div>
+            </mat-form-field>
+          </div>
+          <div *ngIf="passwordStep && registerForm.controls.password.value" class="new-password-strength pt-3 pb-2">
+            <app-password-strength-bar [passwordToCheck]="registerForm.controls.password.value">
+            </app-password-strength-bar>
+            <p class="pt-1">
+              Great passwords include 8+ characters, lowercase and uppercase letters, numbers and special characters.
+            </p>
+          </div>
+          <div *ngIf="emailStep" class="next-button" (click)="next('password')">
+            <button id="register-next" [class]="registerForm.controls.email.invalid ? 'next-disabled' : ''">
+              {{ registrationButton }}
+            </button>
+          </div>
+          <div *ngIf="passwordStep" class="next-button" (click)="next('onSave')">
+            <button id="register-save" [class]="registerForm.controls.password.invalid ? 'next-disabled' : ''">
+              Save
+            </button>
+          </div>
+          <div *ngIf="activationStep && !domainExists" class="next-button" (click)="next('onProceed')">
+            <button id="register-proceed">Ok, Proceed</button>
+          </div>
+        </form>
+        <hr
+          *ngIf="!userExists && !activationStep"
+          class="box-divider"
+          [style]="passwordStep && registerForm.controls.password.value ? 'margin-top: 1.875rem' : ''"
+        />
+        <div *ngIf="!activationStep" class="register-footer row justify-content-center">
+          <span id="register-already" *ngIf="!userExists" class="already-register">Already registered?</span>
+          <span id="register-access-account" class="access-account" (click)="goToLogin()">Access your account</span>
+          <span *ngIf="userExists">or</span>
+          <span
+            id="register-recover-password"
+            *ngIf="userExists"
+            (click)="modalForgotPassword()"
+            class="recover-password pb-3"
+            >Recover your password</span
+          >
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center pt-2">
+      <span id="register-open-terms" class="register-terms" (click)="openTerms()"
+        >Terms and Conditions
+        <span class="terms-dot">•</span>
+      </span>
+      <span id="register-need-help" class="register-help" (click)="needHelp()">Need help?</span>
+    </div>
+    <div class="d-flex flex-column align-items-center pt-4 register-powered">
+      <span class="pb-1">Powered by</span>
+      <img width="112px" height="17px" src="../../../../assets/Logo_GrowinCo_Gray.svg" alt="Logo xGrowth" />
+    </div>
+  </div>
+</div>

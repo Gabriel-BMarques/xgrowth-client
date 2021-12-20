@@ -1,0 +1,219 @@
+<ion-content>
+  <!-- <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div> -->
+  <div class="page-header" *ngIf="!isLoading">
+    <div class="header-title">
+      <span [translate]="'briefs.add.basicInfo'"></span>
+      <!-- <div class="help">
+        <ion-label
+          style="color: #F6A117; font-size: 12px; text-transform: none;"
+          translate="briefs.add.step1"
+        ></ion-label>
+        <i class="fa fa-question-circle" aria-hidden="true" style="margin-left: 0.5rem; color: #F6A117"></i>
+      </div> -->
+    </div>
+    <!-- <div class="header-information">
+      <span style="float: right;" [translate]="'addNew.post.draftSaved'"></span>
+    </div> -->
+  </div>
+  <div *ngIf="!isLoading">
+    <div class="uploaded-files-container">
+      <div class="align-center">
+        <!-- <ion-row>
+          <div class="uploaded-file" *ngFor="let img of images; let index = index">
+            <ion-col>
+              <div (click)="deleteImageOfArray(img)" class="action-circle" style="left: 68.5px">
+                <i class="fas fa-times"></i>
+              </div>
+              <div class="action-circle" style="left: 8px;">
+                <span class="counter">{{ index + 1 }}</span>
+              </div>
+              <img class="response-img" [src]="img" />
+            </ion-col>
+          </div>
+        </ion-row> -->
+        <ion-grid>
+          <ion-row>
+            <ion-col offset-md="5" offset="4" size="6" size-md="3">
+              <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
+                <div *ngFor="let img of files; let index = index">
+                  <div
+                    id="add-brief-basic-delete"
+                    *ngIf="img.url"
+                    (click)="deleteImageOfArray(img.url)"
+                    class="action-circle"
+                    style="left: 75px; z-index: 1000000; cursor: pointer;"
+                  >
+                    <i class="fas fa-times"></i>
+                  </div>
+                  <ion-reorder>
+                    <div class="uploaded-file">
+                      <ion-col>
+                        <ion-spinner
+                          *ngIf="!img.url"
+                          style="z-index: 1000000; margin-top: 2rem; margin-left: 2rem"
+                          name="crescent"
+                        ></ion-spinner>
+                        <div *ngIf="img.url" class="action-circle" style="left: 8px; top: -30px">
+                          <span class="counter">{{ index + 1 }}</span>
+                        </div>
+                        <img *ngIf="img.url && !isVideo(img.Type)" class="response-img" [src]="img.url" />
+                        <img
+                          *ngIf="img.url && isVideo(img.Type)"
+                          class="response-img"
+                          [src]="getVideoThumbnail(img.url)"
+                        />
+                        <!-- <video *ngIf="img.url && isVideo(img.Type)" class="response-img">
+                          <source [src]="img.url" />
+                        </video> -->
+                      </ion-col>
+                    </div>
+                  </ion-reorder>
+                </div>
+              </ion-reorder-group>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+      <label class="fileInput">
+        <p-fileUpload
+          #fileInput
+          mode="basic"
+          auto="true"
+          id="file"
+          name="file.name"
+          multiple="true"
+          fileLimit="9"
+          accept="image/*,video/*"
+          customUpload="true"
+          (uploadHandler)="upload($event)"
+        >
+        </p-fileUpload>
+        <div>
+          <div
+            [ngClass]="{
+              'no-images': !images,
+              'is-images ion-activatable ripple-parent': images
+            }"
+            color="primary"
+            style="--box-shadow: none"
+            id="add-brief-upload-media"
+          >
+            <i class="fas fa-file-upload" style="padding-right: 0.5rem"></i>
+            <span [translate]="'addNew.post.uploadMedia'"></span>
+            <ion-ripple-effect></ion-ripple-effect>
+          </div>
+        </div>
+        <div class="alert">
+          <div class="col text-center">
+            <ion-label [translate]="'briefs.add.only'"></ion-label>
+          </div>
+          <div class="col text-center" style="margin-top: 0.2rem;">
+            <ion-label [translate]="'briefs.add.files'"></ion-label>
+          </div>
+        </div>
+      </label>
+    </div>
+    <form class="mobile" [formGroup]="briefInfoForm" novalidate>
+      <ion-list>
+        <label class="input-label" [translate]="'briefs.add.briefName'"></label>
+        <mat-form-field [hideRequiredMarker]="true" style="padding-bottom: 1rem;">
+          <input id="add-brief-brief-name" type="text" matInput formControlName="name" required />
+          <mat-error *ngIf="briefInfoForm.controls.name.invalid && briefInfoForm.controls.name.touched">
+            <div style="text-align: center;">
+              <span [translate]="'briefs.respond.nameRequired'"></span>
+            </div>
+          </mat-error>
+        </mat-form-field>
+        <label class="input-label" [translate]="'briefs.add.description'"></label>
+        <mat-form-field [hideRequiredMarker]="true" class="description-form">
+          <textarea
+            id="add-brief-description"
+            type="description"
+            rows="5"
+            matInput
+            formControlName="description"
+            required
+          ></textarea>
+          <mat-error *ngIf="briefInfoForm.controls.description.invalid && briefInfoForm">
+            <div style="text-align: center;">
+              <span [translate]="'briefs.respond.descriptionRequired'"></span>
+            </div>
+          </mat-error>
+        </mat-form-field>
+      </ion-list>
+    </form>
+    <form class="desktop" (ngSubmit)="next()" [formGroup]="briefInfoForm" novalidate>
+      <ion-list>
+        <ion-row>
+          <ion-col>
+            <label class="input-label" [translate]="'briefs.add.briefName'"></label>
+            <div class="input-field">
+              <mat-form-field [hideRequiredMarker]="true" style="padding-bottom: 1rem;">
+                <input id="add-brief-brief-name" type="text" matInput formControlName="name" required />
+                <mat-error *ngIf="briefInfoForm.controls.name.invalid && briefInfoForm.controls.name.touched">
+                  <div style="text-align: center;">
+                    <span [translate]="'briefs.respond.nameRequired'"></span>
+                  </div>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <label class="input-label" [translate]="'briefs.add.description'"></label>
+            <div class="input-field">
+              <mat-form-field id="add-brief-description" [hideRequiredMarker]="true" class="description-form">
+                <textarea
+                  id="add-brief-description"
+                  type="description"
+                  rows="10"
+                  matInput
+                  formControlName="description"
+                  required
+                ></textarea>
+                <mat-error
+                  *ngIf="briefInfoForm.controls.description.invalid && briefInfoForm.controls.description.touched"
+                >
+                  <div style="text-align: center;">
+                    <span [translate]="'briefs.respond.descriptionRequired'"></span>
+                  </div>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-list>
+    </form>
+  </div>
+</ion-content>
+<div class="response-add-footer-container">
+  <div class="save-button col text-center">
+    <ion-button
+      id="add-brief-save-changes"
+      class="save-changes"
+      shape="round"
+      *ngIf="wizard.isEditing"
+      (click)="saveEditChanges()"
+      [translate]="'global.actions.saveChanges'"
+    ></ion-button>
+  </div>
+  <div class="buttons-container">
+    <ion-button
+      id="add-brief-basic-cancel"
+      color="secondary"
+      (click)="cancel()"
+      fill="outline"
+      [translate]="'global.actions.cancel'"
+    ></ion-button>
+    <ion-button
+      id="add-brief-basic-next"
+      [class]="
+        briefInfoForm.controls.name.invalid || briefInfoForm.controls.description.invalid || !haveFiles
+          ? 'next-disabled'
+          : ''
+      "
+      color="primary"
+      (click)="next()"
+      [translate]="'global.actions.next'"
+    ></ion-button>
+  </div>
+</div>

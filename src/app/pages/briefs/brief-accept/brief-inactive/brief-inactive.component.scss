@@ -1,0 +1,31 @@
+ion-content {
+  .brief-inactive-advertise {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-right: 42px;
+    padding-left: 42px;
+    text-align: center;
+    .sad-icon {
+      color: #cecece;
+      font-size: 43px;
+    }
+    .advertise-text {
+      color: #565555;
+      font-size: 13px;
+      letter-spacing: 0;
+    }
+    .advertise-text-bold {
+      color: #565555;
+      font-size: 13px;
+      font-weight: bold;
+    }
+    .buttons-div {
+      margin-top: 20px;
+      width: 100%;
+      .ok-button {
+        --box-shadow: none;
+        width: 138px;
+      }
+    }
+  }
+}

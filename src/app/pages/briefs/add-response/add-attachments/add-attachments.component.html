@@ -1,0 +1,118 @@
+<ion-content>
+  <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+  <div class="page-header" *ngIf="!isLoading">
+    <div class="header-title">
+      <span [translate]="'briefs.add.attachments'"></span>
+    </div>
+    <!-- <div class="header-information">
+      <span [translate]="'addNew.post.draftSaved'"></span>
+    </div> -->
+  </div>
+  <div *ngIf="!isLoading">
+    <div class="uploaded-files-container">
+      <div class="attachments" *ngFor="let file of files">
+        <div class="list">
+          <div style="display: flex; margin-left: 1.5rem; margin-right: 1.5rem;">
+            <ion-spinner *ngIf="!file.url" style="z-index: 1000000; margin-top: 1rem" name="crescent"></ion-spinner>
+            <i *ngIf="file.url" class="fas fa-file fa-3x" style="color: #F6A117; width: 31px;"></i>
+            <ion-label
+              *ngIf="file.url"
+              style="color: #F6A117; font-size: 12px; font-weight: bold; margin-left: 1rem; margin-top: 1rem;"
+            >
+              {{ file.Name }}
+            </ion-label>
+            <div
+              id="add-response-attachments-delete"
+              *ngIf="file.url"
+              (click)="deleteAttachmentOfArray(file.url)"
+              class="action-circle"
+            >
+              <i class="fas fa-times"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <label class="fileInput">
+        <p-fileUpload
+          #fileInput
+          mode="basic"
+          auto="true"
+          id="file"
+          multiple="true"
+          fileLimit="9"
+          maxFileSize="250000000"
+          customUpload="true"
+          (uploadHandler)="upload($event)"
+        >
+        </p-fileUpload>
+        <div class="upload-images">
+          <!-- <ion-button
+            [ngClass]="{
+              'no-images': !attachments,
+              'is-images': attachments
+            }"
+            color="primary"
+            style="margin-top: 4rem; --box-shadow: none"
+          >
+            <i class="fas fa-file-upload"></i>
+            <span [translate]="'briefs.add.uploadFiles'"></span>
+          </ion-button> -->
+          <div
+            id="add-response-attachments-upload"
+            [ngClass]="{
+              'no-images': !attachments,
+              'is-images ion-activatable ripple-parent': attachments
+            }"
+            color="primary"
+            style="margin-top: 4rem; --box-shadow: none"
+          >
+            <i class="fas fa-file-upload" style="padding-right: 0.5rem"></i>
+            <span [translate]="'briefs.add.uploadFiles'"></span>
+            <ion-ripple-effect></ion-ripple-effect>
+          </div>
+        </div>
+        <div class="alert">
+          <div class="col text-center">
+            <ion-label translate="briefs.add.only2"></ion-label>
+          </div>
+          <div class="col text-center" style="margin-top: 0.2rem;">
+            <ion-label translate="briefs.add.files2"></ion-label>
+          </div>
+        </div>
+      </label>
+    </div>
+  </div>
+</ion-content>
+<div class="response-add-footer-container" *ngIf="!isLoading">
+  <div class="save-button col text-center">
+    <ion-button
+      id="add-response-save-changes"
+      [disabled]="!haveFiles"
+      class="save-changes"
+      *ngIf="wizard.isEditing && wizard.entity.IsPublished"
+      shape="round"
+      color="secondary"
+      (click)="saveEditChanges()"
+      [translate]="'global.actions.saveChanges'"
+    ></ion-button>
+  </div>
+  <div class="buttons-container">
+    <ion-button
+      id="add-response-attachments-back"
+      class="footer-button"
+      color="secondary"
+      fill="outline"
+      (click)="back()"
+      [translate]="'global.actions.back'"
+    >
+    </ion-button>
+    <ion-button
+      id="add-response-attachments-next"
+      color="primary"
+      (click)="next()"
+      [translate]="'global.actions.next'"
+    ></ion-button>
+  </div>
+</div>

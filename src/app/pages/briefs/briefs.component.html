@@ -1,0 +1,756 @@
+<div
+  class="briefs-page"
+  [style]="isEmpty && !filteringActive ? 'overflow-y:scroll;--padding-top: 1rem;' : '--padding-top: 1rem;'"
+>
+  <app-organization-profile-imcomplete
+    *ngIf="!organizationProfileComplete && userRole === 'organization-admin' && !isLoading"
+    [currentUserCompany]="currentUserCompany"
+    [userRole]="userRole"
+    (organizationLoadingProgress)="organizationLoadingProgressBar($event)"
+  ></app-organization-profile-imcomplete>
+  <div
+    [class]="
+      !organizationProfileComplete && userRole === 'organization-admin'
+        ? 'container margin-incompleted-profile'
+        : 'container'
+    "
+    [style]="isEmpty && !filteringActive ? 'height:auto' : 'height: 100%'"
+  >
+    <div style="width: 314px;margin: auto;">
+      <div
+        *ngIf="!isLoading && briefs.length && nextTutorial == 0 && !tutorialUser.hasSeenTutorial"
+        class="tutorial large"
+        style="top: 1.5rem"
+      >
+        <app-tutorial
+          #tutorial
+          [tutorialType]="'new-briefs-page'"
+          [tutorialStyle]="4"
+          (nextTutorialEvent)="onNextTutorial($event)"
+        ></app-tutorial>
+      </div>
+    </div>
+    <div class="row pl-3 pr-3 pt-3" style="height: 70px;">
+      <div class="col-12 col-md-4 col-xl-3 search-container">
+        <form [formGroup]="searchForm" autocomplete="off">
+          <input
+            id="briefs-search-briefs"
+            type="text"
+            formControlName="search"
+            placeholder="Search brief"
+            (keyup.enter)="applyFilter()"
+          />
+          <span class="search-icon"
+            ><i *ngIf="!searchForm.controls.search.value" class="fas fa-search"></i
+            ><i
+              *ngIf="searchForm.controls.search.value"
+              (click)="deleteSearchTerm()"
+              class="fas fa-times"
+              style="cursor: pointer"
+            ></i
+          ></span>
+        </form>
+        <div *ngIf="!isLoading && nextTutorial == 2" class="tutorial desktop" style="top: 1rem">
+          <app-tutorial
+            #tutorial
+            [tutorialType]="'search'"
+            [tutorialStyle]="0"
+            (nextTutorialEvent)="onNextTutorial($event)"
+          ></app-tutorial>
+        </div>
+        <div *ngIf="!isLoading && nextTutorial == 2" class="tutorial mobile" style="top: 1rem; right: 21px;">
+          <app-tutorial
+            #tutorial
+            [tutorialType]="'search'"
+            [tutorialStyle]="0"
+            (nextTutorialEvent)="onNextTutorial($event)"
+          ></app-tutorial>
+        </div>
+      </div>
+      <div class="col-12 col-md-8 col-xl-9 main-head">
+        <div class="view-and-add">
+          <div class="view">
+            <button id="briefs-switch-view" *ngIf="!isEmpty || filteringActive" (click)="switchView()">
+              <div *ngIf="!isGrid">
+                <i class="bi bi-grid-3x2-gap-fill"></i>
+                <span>View as grid</span>
+              </div>
+              <div *ngIf="isGrid">
+                <i class="bi bi-list"></i>
+                <span>View as list</span>
+              </div>
+            </button>
+            <div *ngIf="!isLoading && nextTutorial == 1" class="tutorial desktop" style="left: -2rem; top: 0.5rem">
+              <app-tutorial
+                #tutorial
+                [tutorialType]="'list-grid'"
+                [tutorialStyle]="0"
+                (nextTutorialEvent)="onNextTutorial($event)"
+              ></app-tutorial>
+            </div>
+          </div>
+          <div id="briefs-add-brief" class="add">
+            <div *ngIf="!isLoading && tutorialUser.hasSeenTutorial" class="tutorial-reset">
+              <button (click)="tutorialReset()">
+                <i class="bi bi-question-circle-fill"></i>
+              </button>
+            </div>
+            <div class="add-brief">
+              <button (click)="addBrief()">add brief</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!isEmpty || filteringActive" class="row pl-3 pb-2 pt-3 pr-0 briefs-body-row">
+      <div
+        id="briefs-close-filter"
+        class="filter-backdrop"
+        *ngIf="filterOpen || optionsOpen"
+        (click)="filterOpen = false; optionsOpen = false"
+      ></div>
+      <div *ngIf="!isLoading && nextTutorial == 3" class="tutorial desktop" style="left: 1rem; top: 3rem;">
+        <app-tutorial
+          #tutorial
+          [tutorialType]="lastTutorial"
+          [tutorialStyle]="0"
+          (nextTutorialEvent)="onNextTutorial($event)"
+        ></app-tutorial>
+      </div>
+      <div
+        id="briefs-filter-section"
+        class="col-10 col-md-4 col-xl-3 filter-section"
+        [ngClass]="filterOpen ? 'open-filter' : ''"
+        [style]="
+          !organizationProfileComplete && userRole === 'organization-admin'
+            ? 'height: calc(100% - (192px + 65px)) !important;'
+            : ''
+        "
+      >
+        <div class="header-filter">
+          <span style="margin-right: 1rem;"><i style="color:#565555;opacity: 0.5;" class="fas fa-filter"></i></span>
+          <span class="text-uppercase filter-title">
+            Filter
+          </span>
+          <span class="clear-all" (click)="clearAll()">Clear all</span>
+        </div>
+        <form [formGroup]="filterForm">
+          <div class="filter-area">
+            <span
+              *ngIf="isPendingNda"
+              style="cursor: pointer"
+              [ngClass]="filterByNda ? 'nda-selected' : ''"
+              (click)="filterByPendingNda()"
+              >Brief with pending NDA</span
+            >
+            <hr *ngIf="isPendingNda" class="nda-line" />
+            <div [style]="filterByNda ? 'display: none' : ''">
+              <div class="my-briefs">
+                <div class="my-briefs-toggle">
+                  <ion-toggle
+                    [ngModel]="filterForm.controls.mineOrTeamMember.value === 'team-member'"
+                    [ngModelOptions]="{ standalone: true }"
+                    (ionChange)="mineOrTeamMember($event)"
+                    slot="start"
+                    name="mine"
+                    mode="ios"
+                  ></ion-toggle>
+                </div>
+                <div class="my-briefs-title">
+                  <span
+                    ><span [ngClass]="filterForm.controls.mineOrTeamMember.value === 'team-member' ? 'selected' : ''"
+                      >My briefs </span
+                    >(Briefs I've created or I'm selected as team member)</span
+                  >
+                </div>
+              </div>
+              <br />
+              <div class="sent-brief-all" style="margin-top:0px">
+                <div *ngFor="let item of sentReceivedBriefData; let i = index">
+                  <mat-checkbox
+                    [id]="item.id"
+                    [checked]="item.selected"
+                    [ngClass]="item.selected ? 'selected' : ''"
+                    (change)="sentReceivedBriefsOnChange(i)"
+                    (click)="sentReceivedBriefs(item.value)"
+                    >{{ item.name }}</mat-checkbox
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div [style]="filterByNda ? 'display: none' : ''">
+            <div class="filter-area">
+              <div class="filter-area-title">Brief type</div>
+              <div formArrayName="briefTypes">
+                <ng-container *ngFor="let item of briefTypesField.controls; let i = index" [formGroupName]="i">
+                  <div>
+                    <mat-checkbox
+                      [id]="'briefs-filter-brief-type' + '-' + i"
+                      *ngIf="item && item.controls && item.controls?.label.value"
+                      [ngClass]="item.controls?.value.value ? 'checked' : ''"
+                      formControlName="value"
+                      >{{ item.controls?.label.value }}</mat-checkbox
+                    >
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+            <div class="filter-area" *ngIf="categories && categories.length">
+              <div class="filter-area-title">Categories</div>
+              <div formArrayName="categories" class="categories-field">
+                <ng-container *ngFor="let item of categoriesField.controls; let i = index" [formGroupName]="i">
+                  <div
+                    class="d-flex align-items-center justify-content-between"
+                    *ngIf="
+                      item &&
+                      item.controls &&
+                      i < maxCategories &&
+                      (!filteringByCategoriesActive || pageTitle === item.controls?.label.value)
+                    "
+                  >
+                    <mat-checkbox
+                      [id]="'briefs-filter-category' + '-' + i"
+                      *ngIf="item && item.controls"
+                      [ngClass]="item.controls?.value.value ? 'checked' : ''"
+                      formControlName="value"
+                      [indeterminate]="someCompleteCategory($event, item)"
+                      (change)="selectCategory($event, item.controls)"
+                      >{{ item.controls?.label.value }}</mat-checkbox
+                    >
+                    <button
+                      [id]="'briefs-filter-open-sub-cat' + '-' + i"
+                      *ngIf="item.get('subCategories').controls?.length"
+                      (click)="item.controls.clicked.setValue(!item.controls.clicked.value)"
+                      style="color: #A0A0A0;"
+                    >
+                      <i class="fas" [ngClass]="item.controls.clicked.value ? 'fa-minus' : 'fa-plus'"></i>
+                    </button>
+                  </div>
+                  <div
+                    formArrayName="subCategories"
+                    *ngIf="item.get('subCategories').controls && item.controls.clicked.value"
+                  >
+                    <ng-container
+                      *ngFor="let subItem of item.get('subCategories').controls; let j = index"
+                      [formGroupName]="j"
+                    >
+                      <div class="ml-4">
+                        <mat-checkbox
+                          [id]="'briefs-filter-sub-category' + '-' + i + '-' + j"
+                          *ngIf="subItem"
+                          [ngClass]="subItem.value.value ? 'checked' : ''"
+                          formControlName="value"
+                          >{{ subItem.value.label }}</mat-checkbox
+                        >
+                      </div>
+                    </ng-container>
+                  </div>
+                  <ng-container *ngIf="i === maxCategories && !filteringByCategoriesActive">
+                    <button (click)="maxCategories = categoriesField.controls.length; moreCategories = true">
+                      <i class="fas fa-plus"></i> More
+                    </button>
+                  </ng-container>
+                  <ng-container
+                    *ngIf="
+                      maxCategories === categoriesField.controls.length &&
+                      i === categoriesField.controls.length - 1 &&
+                      !filteringByCategoriesActive &&
+                      moreCategories
+                    "
+                  >
+                    <button (click)="maxCategories = 5; moreCategories = false">
+                      <i class="fas fa-minus"></i> Less
+                    </button>
+                  </ng-container>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+          <div [style]="filterByNda ? 'display: none' : ''">
+            <div id="briefs-posting-date" class="filter-area">
+              <div class="filter-area-title">Posting date</div>
+              <span class="calendar-filter">
+                <mat-form-field
+                  [floatLabel]="'never'"
+                  [ngClass]="
+                    filterForm.controls.minPostingDate.invalid && !(filterForm.controls.minPostingDate.value === '')
+                      ? 'date-fields date-field-error'
+                      : 'date-fields'
+                  "
+                >
+                  <input
+                    id="briefs-filter-start-date"
+                    rInputMask="99/99/9999"
+                    matInput
+                    [matDatepicker]="startDate"
+                    [max]="maxDate"
+                    placeholder="Initial date"
+                    (click)="startDate.open(); scrollInputToTop(50)"
+                    (dateChange)="calendarFilter('startPostingDate', $event)"
+                    (focusout)="onFocusOutDateInput('minPostingDate', $event)"
+                    formControlName="minPostingDate"
+                  />
+                  <mat-error *ngIf="filterForm.get('minPostingDate').hasError('matDatepickerMin')">
+                    Invalid min date
+                  </mat-error>
+                  <mat-error *ngIf="filterForm.get('minPostingDate').hasError('matDatepickerMax')">
+                    Invalid max date
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      filterForm.get('minPostingDate').hasError('matDatepickerParse') &&
+                      filterForm.controls.minPostingDate.touched &&
+                      filterForm.controls.minPostingDate.dirty
+                    "
+                  >
+                    <span> Invalid date</span>
+                  </mat-error>
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="startDate"
+                    class="calendar-icon"
+                    (click)="scrollInputToTop(50)"
+                  >
+                    <mat-icon matDatepickerToggleIcon>
+                      <i style="font-size:16px" class="bi bi-calendar-week-fill"></i>
+                    </mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #startDate></mat-datepicker>
+                </mat-form-field>
+                <!-- end date -->
+                <p style="margin-top:0.8rem">&nbsp;to&nbsp;</p>
+                <mat-form-field
+                  [floatLabel]="'never'"
+                  [ngClass]="
+                    filterForm.controls.maxPostingDate.invalid &&
+                    filterForm.controls.maxPostingDate.touched &&
+                    !(filterForm.controls.maxPostingDate.value === '')
+                      ? 'date-fields date-field-error'
+                      : 'date-fields'
+                  "
+                >
+                  <input
+                    id="briefs-filter-end-date"
+                    rInputMask="99/99/9999"
+                    matInput
+                    [matDatepicker]="endDate"
+                    [min]="minPostingDate"
+                    [max]="maxDate"
+                    placeholder="Final date"
+                    (click)="endDate.open(); scrollInputToTop(50)"
+                    (dateChange)="calendarFilter('endPostingDate', $event)"
+                    (focusout)="onFocusOutDateInput('maxPostingDate', $event)"
+                    formControlName="maxPostingDate"
+                  />
+                  <mat-error *ngIf="filterForm.get('maxPostingDate').hasError('matDatepickerMin')">
+                    Invalid min date
+                  </mat-error>
+                  <mat-error *ngIf="filterForm.get('maxPostingDate').hasError('matDatepickerMax')">
+                    Invalid max date
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      filterForm.get('maxPostingDate').hasError('matDatepickerParse') &&
+                      filterForm.controls.maxPostingDate.touched &&
+                      filterForm.controls.maxPostingDate.dirty
+                    "
+                  >
+                    <span> Invalid date</span>
+                  </mat-error>
+                  <mat-datepicker-toggle matSuffix [for]="endDate" class="calendar-icon" (click)="scrollInputToTop(50)">
+                    <mat-icon matDatepickerToggleIcon>
+                      <i style="font-size:16px" class="bi bi-calendar-week-fill"></i>
+                    </mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #endDate></mat-datepicker>
+                </mat-form-field>
+              </span>
+            </div>
+          </div>
+
+          <div class="filter-area" [style]="filterByNda ? 'display: none' : ''">
+            <div class="filter-area-title">Brief Deadline</div>
+            <span class="calendar-filter">
+              <mat-form-field
+                [floatLabel]="'never'"
+                [ngClass]="
+                  filterForm.controls.minBriefDeadline.invalid &&
+                  filterForm.controls.minBriefDeadline.touched &&
+                  !(filterForm.controls.minBriefDeadline.value === '')
+                    ? 'date-fields date-field-error'
+                    : 'date-fields'
+                "
+              >
+                <input
+                  id="briefs-filter-deadline-end"
+                  rInputMask="99/99/9999"
+                  matInput
+                  [matDatepicker]="startBriefDeadLine"
+                  [max]="maxBriefDeadline"
+                  placeholder="Initial date"
+                  (click)="startBriefDeadLine.open(); scrollInputToTop(-30)"
+                  (dateChange)="calendarFilter('startBriefDeadLine', $event)"
+                  (focusout)="onFocusOutDateInput('minBriefDeadline', $event)"
+                  formControlName="minBriefDeadline"
+                />
+                <mat-error *ngIf="filterForm.get('minBriefDeadline').hasError('matDatepickerMin')">
+                  Invalid min date
+                </mat-error>
+                <mat-error *ngIf="filterForm.get('minBriefDeadline').hasError('matDatepickerMax')">
+                  Invalid max date
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    filterForm.get('minBriefDeadline').hasError('matDatepickerParse') &&
+                    filterForm.controls.minBriefDeadline.touched &&
+                    filterForm.controls.minBriefDeadline.dirty
+                  "
+                >
+                  <span> Invalid date</span>
+                </mat-error>
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="startBriefDeadLine"
+                  class="calendar-icon"
+                  (click)="scrollInputToTop(-30)"
+                >
+                  <mat-icon matDatepickerToggleIcon>
+                    <i style="font-size:16px" class="bi bi-calendar-week-fill"></i>
+                  </mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #startBriefDeadLine></mat-datepicker>
+              </mat-form-field>
+              <!-- end date -->
+              <p style="margin-top:0.8rem">&nbsp;to&nbsp;</p>
+              <mat-form-field
+                [floatLabel]="'never'"
+                [ngClass]="
+                  filterForm.controls.maxBriefDeadline.invalid &&
+                  filterForm.controls.maxBriefDeadline.touched &&
+                  !(filterForm.controls.maxBriefDeadline.value === '')
+                    ? 'date-fields date-field-error'
+                    : 'date-fields'
+                "
+              >
+                <input
+                  id="briefs-filter-deadline-start"
+                  rInputMask="99/99/9999"
+                  matInput
+                  [matDatepicker]="endBriefDeadLine"
+                  [min]="minBriefDeadline"
+                  placeholder="Final date"
+                  (click)="endBriefDeadLine.open(); scrollInputToTop(-30)"
+                  (dateChange)="calendarFilter('endBriefDeadLine', $event)"
+                  (focusout)="onFocusOutDateInput('maxBriefDeadline', $event)"
+                  formControlName="maxBriefDeadline"
+                />
+                <mat-error *ngIf="filterForm.get('maxBriefDeadline').hasError('matDatepickerMin')">
+                  Invalid min date
+                </mat-error>
+                <mat-error *ngIf="filterForm.get('maxBriefDeadline').hasError('matDatepickerMax')">
+                  Invalid max date
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    filterForm.get('maxBriefDeadline').hasError('matDatepickerParse') &&
+                    filterForm.controls.maxBriefDeadline.touched &&
+                    filterForm.controls.maxBriefDeadline.dirty
+                  "
+                >
+                  <span> Invalid date</span>
+                </mat-error>
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="endBriefDeadLine"
+                  class="calendar-icon"
+                  (click)="scrollInputToTop(-30)"
+                >
+                  <mat-icon matDatepickerToggleIcon>
+                    <i style="font-size:16px" class="bi bi-calendar-week-fill"></i>
+                  </mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #endBriefDeadLine></mat-datepicker>
+              </mat-form-field>
+            </span>
+          </div>
+
+          <div class="filter-area" [style]="filterByNda ? 'display: none' : ''">
+            <div class="filter-area-title">Briefs from</div>
+            <div formArrayName="companies" class="companies-field">
+              <ng-container *ngFor="let item of companiesField.controls; let i = index" [formGroupName]="i">
+                <div>
+                  <mat-checkbox
+                    [id]="'briefs-filter-from-company' + '-' + i"
+                    *ngIf="item && item.controls && i < maxCompanies"
+                    [ngClass]="item.controls?.value.value ? 'checked' : ''"
+                    formControlName="value"
+                    >{{ item.controls?.label.value }}</mat-checkbox
+                  >
+                  <ng-container *ngIf="i === maxCompanies">
+                    <button (click)="maxCompanies = companiesField.controls.length; moreCompanies = true">
+                      <i class="fas fa-plus"></i> More
+                    </button>
+                  </ng-container>
+                  <ng-container
+                    *ngIf="maxCompanies === companiesField.controls.length && i === maxCompanies - 1 && moreCompanies"
+                  >
+                    <button (click)="maxCompanies = 5; moreCompanies = false"><i class="fas fa-minus"></i> Less</button>
+                  </ng-container>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <div class="filter-area markets" [style]="filterByNda ? 'display: none' : ''">
+            <div class="filter-area-title">Market/Target location</div>
+            <mat-form-field [hideRequiredMarker]="true">
+              <mat-select
+                id="briefs-market-target-location"
+                multiple
+                disableOptionCentering
+                panelClass="markets-panel-class"
+                formControlName="markets"
+                placeholder="Select country"
+              >
+                <div class="markets-search-div">
+                  <input
+                    class="mat-select-search"
+                    placeholder="Search market"
+                    (keyup)="searchMarkets($event.target.value); $event.stopPropagation()"
+                  />
+                  <i class="fas fa-search search-icon"></i>
+                </div>
+                <ng-container *ngFor="let country of markets">
+                  <mat-option
+                    *ngIf="country"
+                    [value]="country._id"
+                    [ngStyle]="{ display: !country.visible ? 'none' : 'flex' }"
+                  >
+                    {{ country.name }}
+                  </mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="filter-area" [style]="filterByNda ? 'display: none' : ''">
+            <div class="filter-area-title">Brief Status</div>
+            <div class="sent-brief-all" style="margin-top: 0rem;">
+              <div *ngFor="let item of briefStatusData; let i = index">
+                <mat-checkbox
+                  [id]="item.id"
+                  [checked]="item.selected"
+                  [ngClass]="item.selected ? 'selected' : ''"
+                  (change)="briefStatusTypeOnChange(item.value)"
+                  (click)="briefStatusType(item.value)"
+                  >{{ item.name }}</mat-checkbox
+                >
+              </div>
+            </div>
+          </div>
+          <div class="apply-button" [style]="filterByNda ? 'display: none' : ''">
+            <button id="briefs-filter-apply" (click)="applyFilter()">Apply</button>
+          </div>
+        </form>
+      </div>
+      <div
+        class="col-12 col-md-8 col-xl-9 main-section"
+        [style]="
+          !organizationProfileComplete && userRole === 'organization-admin'
+            ? 'height: calc(100% - (192px + 65px)) !important;'
+            : ''
+        "
+        infiniteScroll
+        [infiniteScrollDistance]="1.5"
+        [infiniteScrollDisable]="allLoaded"
+        [infiniteScrollUpDistance]="2"
+        [infiniteScrollThrottle]="50"
+        [scrollWindow]="false"
+        (scrolled)="onScrollDown()"
+      >
+        <div *ngIf="!isEmpty && !filteringActive && minCategories" class="categories-filter">
+          <div
+            *ngIf="!isLoading && categoriesHeader.length && nextTutorial == 4"
+            class="tutorial mobile"
+            style="top: 2.7rem;right: 5px;"
+          >
+            <app-tutorial
+              #tutorial
+              [tutorialType]="'categories'"
+              [tutorialStyle]="0"
+              (nextTutorialEvent)="onNextTutorial($event)"
+            ></app-tutorial>
+          </div>
+          <button
+            id="briefs-categories-prev"
+            *ngIf="!disablePrevBtn"
+            type="submit"
+            float-left
+            ion-button
+            color="primary"
+            class="brief-categories-prev"
+            (click)="prev()"
+          >
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button
+            id="briefs-categories-next"
+            *ngIf="!disableNextBtn"
+            type="submit"
+            float-right
+            ion-button
+            color="primary"
+            class="brief-categories-next"
+            (click)="next()"
+          >
+            <i class="fas fa-chevron-right"></i>
+          </button>
+          <div
+            *ngIf="!isLoading && categoriesHeader.length && nextTutorial == 4"
+            class="tutorial desktop"
+            style="left: 3rem; top: 2.7rem;"
+          >
+            <app-tutorial
+              #tutorial
+              [tutorialType]="'categories'"
+              [tutorialStyle]="0"
+              (nextTutorialEvent)="onNextTutorial($event)"
+            ></app-tutorial>
+          </div>
+          <ion-slides
+            #categoriesSlider
+            class="briefs-slider"
+            [options]="slideOpts"
+            (ionSlideWillChange)="arrowVisibility()"
+            (ionSlideDidChange)="arrowVisibility()"
+            (ionSlideReachEnd)="reachedEnd()"
+          >
+            <ion-slide *ngFor="let category of categoriesHeader; let index = index">
+              <ion-chip
+                id="briefs-categories"
+                *ngIf="index < 20"
+                [class]="category.active ? 'ion-chip-selected' : ''"
+                (click)="selectInterestCategory(category, index)"
+                outline
+                color="primary"
+              >
+                <ion-label>{{ category.name }}</ion-label>
+              </ion-chip>
+            </ion-slide>
+          </ion-slides>
+        </div>
+        <div class="fast-access" *ngIf="!filteringActive">
+          {{ !isFastAccessEmpty || filteringByCategoriesActive ? pageTitle : '' }}
+          <app-brief-loop
+            *ngIf="!filteringByCategoriesActive && !isFastAccessEmpty"
+            [briefs]="fastAccessBriefs"
+            [lastViewed]="lastViewedDate"
+            [isGrid]="isGrid"
+            [section]="'fastAccess'"
+          ></app-brief-loop>
+        </div>
+        <div class="brief-sort-by" [style]="minCategories && !filteringActive ? 'top: 43px' : 'top: -5px'">
+          <span
+            [style]="filterByNda ? 'display: none' : ''"
+            id="briefs-open-sort-by"
+            class="sort-selected"
+            (click)="modalSortBy = !modalSortBy"
+            (clickOutside)="modalSortBy = false"
+            attachOutsideOnClick="true"
+            >{{ sortSelected }} <i class="bi bi-arrow-down"></i
+          ></span>
+          <div *ngIf="modalSortBy" class="brief-sort-card">
+            <div *ngFor="let sortOption of sortOptions">
+              <span
+                id="briefs-select-sort-by"
+                (click)="sortBy(sortOption.value)"
+                [class]="sortOption.isTitle ? 'title-info' : 'option-info'"
+                >{{ sortOption.name }}</span
+              >
+            </div>
+          </div>
+          <div class="switch-view-tutorial-reset">
+            <div *ngIf="!isLoading && tutorialUser.hasSeenTutorial" class="tutorial-reset">
+              <button (click)="tutorialReset()">
+                <i class="bi bi-question-circle-fill"></i>
+              </button>
+            </div>
+            <div class="switch-view">
+              <button id="briefs-switch-view" *ngIf="!isEmpty" (click)="switchView()">
+                <div *ngIf="!isGrid">
+                  <i class="bi bi-grid-3x2-gap-fill"></i>
+                </div>
+                <div *ngIf="isGrid">
+                  <i class="bi bi-list"></i>
+                </div>
+              </button>
+              <div *ngIf="!isLoading && nextTutorial == 1" class="tutorial mobile" style="right: 14.5rem;">
+                <app-tutorial
+                  #tutorial
+                  [tutorialType]="'list-grid'"
+                  [tutorialStyle]="2"
+                  (nextTutorialEvent)="onNextTutorial($event)"
+                ></app-tutorial>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="main-loop" *ngIf="!isLoading && !isEmpty" [style]="filteringActive ? 'margin-top: 11px;' : ''">
+          <span class="search-title">{{ pageTitleSearchTerm }}</span>
+          <app-brief-loop *ngIf="briefs" [briefs]="briefs" [isGrid]="isGrid" [section]="'main'"></app-brief-loop>
+        </div>
+        <div class="no-results" *ngIf="isEmpty && filteringActive && !isLoading">
+          <div class="briefs-container-no-results">
+            <img
+              src="../../../../assets/no_results.svg"
+              onerror="this.src='../../../../assets/default-fallback-image.svg'"
+            />
+            <span
+              >Hmmm, it seems that these parameters don't have matching results. You can try something different
+              or<button id="briefs-filter-clear-all" (click)="clearAll()">Clear all</button></span
+            >
+          </div>
+        </div>
+        <div class="loader">
+          <app-loader [isLoading]="isLoading"></app-loader>
+        </div>
+      </div>
+    </div>
+    <div style="width: 304px;margin: auto;">
+      <div
+        *ngIf="!isLoading && briefs.length && nextTutorial == 0 && !tutorialUser.hasSeenTutorial"
+        class="tutorial medium"
+        style="bottom: 18.2rem;right: 7px;"
+      >
+        <app-tutorial
+          #tutorial
+          [tutorialType]="'new-briefs-page'"
+          [tutorialStyle]="1"
+          (nextTutorialEvent)="onNextTutorial($event)"
+        ></app-tutorial>
+      </div>
+    </div>
+    <div class="options-mobile">
+      <div *ngIf="!isLoading && nextTutorial == 3" class="tutorial mobile" style="right: 14rem; bottom: 14.5rem;">
+        <app-tutorial
+          #tutorial
+          [tutorialType]="lastTutorial"
+          [tutorialStyle]="3"
+          (nextTutorialEvent)="onNextTutorial($event)"
+        ></app-tutorial>
+      </div>
+      <div *ngIf="optionsOpen" class="options">
+        <div class="info-options-filter"><span>Filter Briefs</span></div>
+        <button id="briefs-open-filter" class="open-filter" (click)="filterOpen = true; optionsOpen = false">
+          <i class="fas fa-filter"></i>
+        </button>
+        <div class="info-options-add"><span>Add Brief</span></div>
+        <button id="briefs-add-brief" class="add-briefs" (click)="addBrief()"><i class="fas fa-plus"></i></button>
+      </div>
+      <button id="briefs-open-options" class="open-options" (click)="optionsOpen = !optionsOpen">
+        <i class="fas fa-ellipsis-h"></i>
+      </button>
+    </div>
+  </div>
+  <app-brief-empty *ngIf="isEmpty && !filteringActive" [incompletedProfile]="incompletedProfile" [isCPG]="isCPG">
+  </app-brief-empty>
+</div>

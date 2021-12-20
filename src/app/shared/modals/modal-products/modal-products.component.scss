@@ -1,0 +1,50 @@
+.modal-products-container {
+  font-family: "Open Sans" !important;
+  color: #565555;
+  font-size: 1rem;
+  height: 100%;
+  .modal-products-header {
+    position: relative;
+    top: 0;
+    display: flex;
+    height: 5rem;
+    width: 100%;
+    z-index: 1;
+    display: flex !important;
+    align-items: center;
+    box-shadow: 0px 3px 10px #00000029;
+    .back {
+      cursor: pointer;
+      margin-left: 1.25rem;
+      .back-icon {
+        font-size: 1.125rem;
+        color: #f6a117;
+        position: initial;
+      }
+    }
+    .modal-products-title {
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-left: 0.599rem;
+    }
+  }
+  .modal-products-loop {
+    width: 80%;
+    padding-top: 2rem;
+    margin: auto;
+    display: flex;
+    .modal-products {
+      height: 50px;
+      max-width: 50%;
+      display: list-item;
+    }
+  }
+  .modal-products-footer {
+    position: absolute;
+    width: 100%;
+    background-color: #ffffff;
+    bottom: 0;
+    height: 3.75rem;
+    box-shadow: 0px 3px 10px #00000029;
+  }
+}

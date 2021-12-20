@@ -1,0 +1,70 @@
+ion-content {
+  --background: transparent;
+  .close-button {
+    font-size: 25px;
+    padding: 1px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 25px;
+    position: absolute;
+    right: 50%;
+    top: 0;
+    z-index: 300000000000;
+    --padding-end: 0px !important;
+    --padding-start: 0px !important;
+    height: 2.2rem;
+  }
+  ion-icon {
+    --padding-end: 0px !important;
+    --padding-start: 0px !important;
+  }
+  ion-slides {
+    .prev-button {
+      font-size: 25px;
+      padding: 1px;
+      margin-left: 1rem;
+      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.7);
+      position: absolute;
+      left: 15%;
+      top: 50%;
+      height: 2.2rem;
+      z-index: 16;
+      --padding-end: 0px !important;
+      --padding-start: 0px !important;
+    }
+    .next-button {
+      font-size: 25px;
+      padding: 1px;
+      margin-right: 1rem;
+      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.7);
+      position: absolute;
+      right: 15%;
+      height: 2.2rem;
+      top: 50%;
+      z-index: 16;
+      --padding-end: 0px;
+      --padding-start: 0px;
+    }
+    .zoom-button {
+      font-size: 19px;
+      width: 40px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 25px;
+      height: 2.4rem;
+      margin-inline: 1rem;
+      z-index: 16;
+    }
+    .video-modal {
+      width: 80% !important;
+    }
+  }
+}
+
+ion-footer {
+  margin-bottom: 10px;
+}
+
+ion-slides {
+  height: 100%;
+}

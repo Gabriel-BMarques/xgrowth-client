@@ -1,0 +1,20 @@
+.interests-complete-popover-container {
+  padding: 1rem;
+  font-size: 1rem;
+  text-align: center;
+  .interests-complete-popover-message {
+  }
+  .interests-complete-popover-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 1rem;
+    .interests-complete-popover-button {
+      --box-shadow: none;
+      --background: #f6a117;
+      --background-hover: #f6a117ad;
+      text-transform: uppercase;
+    }
+  }
+}

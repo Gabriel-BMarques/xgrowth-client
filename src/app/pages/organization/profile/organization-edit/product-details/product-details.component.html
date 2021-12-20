@@ -1,0 +1,323 @@
+<div class="product-add">
+  <div *ngIf="viewport === 'mobile'" class="header">
+    <div class="header-content">
+      <i class="fas fa-chevron-left back-icon" (click)="back()"></i>
+      <span class="title" [translate]="'myCompany.profile.edit.productDetails'"></span>
+    </div>
+  </div>
+
+  <div class="product-add-header">
+    <div>
+      <label style="font-weight: bold;" [translate]="'myCompany.profile.edit.productDetails'"></label>
+      <label style="font-weight: 300;" [translate]="'global.forms.optional'"></label>
+    </div>
+
+    <img
+      *ngIf="!isAddingProduct && !isEditingProduct"
+      class="add-product-button"
+      style="cursor: pointer;"
+      src="../../../../../assets/icon/plus-circle-icon.svg"
+      (click)="addProduct()"
+    />
+    <ion-button
+      *ngIf="isEditingProduct"
+      (click)="deleteProduct()"
+      class="delete-product-btn"
+      [translate]="'global.actions.delete'"
+    ></ion-button>
+  </div>
+
+  <ion-spinner
+    *ngIf="loadingProductAdd"
+    style="z-index: 1000000; width: 100%; margin-top: 1rem;"
+    name="crescent"
+  ></ion-spinner>
+
+  <!-- SWITCH TO REAL CONDITION AFTER FRONT FULLY IMPLEMENTED -->
+  <div *ngIf="!isAddingProduct && !isEditingProduct && !loadingProductAdd">
+    <app-loader [isLoading]="!(product$ | async)"></app-loader>
+    <app-product-list
+      *ngIf="isExternalManufacturer"
+      [organization]="organization"
+      [class]="'start-three'"
+      [mode]="'accordion'"
+      [viewport]="viewport"
+      [canEdit]="true"
+      (onProductEdit)="updateProducts()"
+    ></app-product-list>
+    <app-product-list
+      *ngIf="!isExternalManufacturer"
+      [organization]="organization"
+      [viewport]="viewport"
+      [class]="'start-three'"
+      [products]="product$ | async"
+      [mode]="'grid'"
+      [canEdit]="true"
+      (onProductEdit)="updateProducts()"
+    ></app-product-list>
+  </div>
+
+  <!-- FORM -->
+  <div *ngIf="!loadingProductAdd && (isAddingProduct || isEditingProduct)" class="product-add-form-container">
+    <form class="product-add-form" [formGroup]="productAddForm">
+      <div *ngIf="isExternalManufacturer" class="form-field">
+        <label class="form-label" [translate]="'myCompany.profile.edit.plant'"></label>
+        <mat-form-field
+          [ngClass]="{
+            'form-input': true,
+            'form-input-valid': form.plant.valid,
+            'form-input-invalid': form.plant.invalid && form.plant.touched
+          }"
+        >
+          <span
+            *ngIf="inputEmpty(form.plant)"
+            class="input-placeholder"
+            [translate]="'myCompany.profile.edit.plantPlaceholder'"
+          ></span>
+          <mat-select (selectionChange)="listPlantLines($event.value)" formControlName="plant">
+            <mat-option *ngFor="let plant of plants" [value]="plant._id">
+              {{ plant.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.plant.invalid">
+            <div style="text-align: center;">
+              <span [translate]="'myCompany.profile.edit.errorPlant'"></span>
+            </div>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="isExternalManufacturer" class="form-field">
+        <label class="form-label" [translate]="'myCompany.profile.edit.productionLine'"></label>
+        <mat-form-field
+          [ngClass]="{
+            'form-input': true,
+            'form-input-valid': form.productionLine.valid,
+            'form-input-invalid': form.productionLine.invalid && form.productionLine.touched
+          }"
+        >
+          <span
+            *ngIf="inputEmpty(form.productionLine)"
+            class="input-placeholder"
+            [translate]="'myCompany.profile.edit.productionLinePlaceholder'"
+          ></span>
+          <mat-select formControlName="productionLine">
+            <mat-option *ngFor="let productionLine of productionLines" [value]="productionLine._id">
+              {{ productionLine.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.productionLine.invalid">
+            <div style="text-align: center;">
+              <span [translate]="'myCompany.profile.edit.errorProductionLine'"></span>
+            </div>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" [translate]="'myCompany.profile.edit.product'"></label>
+        <mat-form-field
+          [ngClass]="{
+            'form-input': true,
+            'form-input-invalid': form.productName.invalid && form.productName.touched,
+            'form-input-valid': form.productName.valid
+          }"
+        >
+          <span
+            *ngIf="inputEmpty(form.productName)"
+            class="input-placeholder"
+            [translate]="'myCompany.profile.edit.productPlaceholder'"
+          ></span>
+          <input type="text" matInput formControlName="productName" />
+          <mat-error *ngIf="form.productName.invalid">
+            <div style="text-align: center;">
+              <span [translate]="'myCompany.profile.edit.errorProduct'"></span>
+            </div>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" [translate]="'myCompany.profile.edit.images'"></label>
+        <label class="form-label" style="font-weight: 300;" [translate]="'global.forms.optional'"></label>
+        <div class="product-upload-images">
+          <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
+            <ng-container *ngFor="let img of images; let index = index">
+              <ion-item lines="none" class="ion-no-padding uploaded-file">
+                <div *ngIf="img.url" (click)="deleteImageOfArray(img.url)" class="action-circle" style="right: 0">
+                  <i class="fas fa-times"></i>
+                </div>
+                <ion-reorder>
+                  <figure>
+                    <div *ngIf="!img.url" class="loading-image">
+                      <i class="fas fa-file fa-3x"></i>
+                      <ion-spinner name="crescent"></ion-spinner>
+                    </div>
+                    <div *ngIf="img.url" class="action-circle" style="right: 24px">
+                      <span class="counter">{{ index + 1 }}</span>
+                    </div>
+                    <div class="response-img">
+                      <img *ngIf="img.url" [src]="img.url" />
+                    </div>
+                    <figcaption *ngIf="img.url" class="image-label">
+                      {{ img.Name }}
+                    </figcaption>
+                  </figure>
+                </ion-reorder>
+              </ion-item>
+            </ng-container>
+          </ion-reorder-group>
+          <label class="product-fileInput">
+            <p-fileUpload
+              #fileInput
+              mode="basic"
+              auto="true"
+              id="file"
+              multiple="true"
+              fileLimit="9"
+              accept="image/*"
+              maxFileSize="250000000"
+              customUpload="true"
+              (uploadHandler)="upload($event)"
+            ></p-fileUpload>
+            <div
+              [ngClass]="{
+                'no-images': !images,
+                'is-images ion-activatable ripple-parent': images
+              }"
+              class="upload-file-btn"
+            >
+              <i class="fas fa-file-upload"></i>
+              <span [translate]="'myCompany.profile.edit.uploadImage'"></span>
+              <ion-ripple-effect></ion-ripple-effect>
+            </div>
+            <div class="product-images-ext ">
+              <div class="col text-center">
+                <ion-label translate="myCompany.profile.edit.uploadText"></ion-label>
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" [translate]="'myCompany.profile.edit.weight'"></label>
+        <label
+          *ngIf="!isExternalManufacturer"
+          class="form-label"
+          style="font-weight: 300;"
+          [translate]="'global.forms.optional'"
+        ></label>
+        <mat-form-field
+          [ngClass]="{
+            'form-input': true,
+            'form-input-valid': form.weight.valid && !inputEmpty(form.weight),
+            'form-input-invalid': form.weight.invalid && form.weight.touched
+          }"
+        >
+          <span
+            *ngIf="!form.weight.value"
+            class="input-placeholder"
+            [translate]="'myCompany.profile.edit.weightPlaceholder'"
+          ></span>
+          <input type="text" [placeholder]="" pattern="[0-9\/]*" matInput formControlName="weight" />
+          <mat-error *ngIf="form.weight.invalid">
+            <div style="text-align: center;">
+              <span *ngIf="!form.weight?.errors?.min" [translate]="'myCompany.profile.edit.errorWeightRequired'"></span>
+              <span *ngIf="form.weight?.errors?.min" [translate]="'myCompany.profile.edit.errorWeightMin'"></span>
+            </div>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" [translate]="'myCompany.profile.edit.measuringUnit'"></label>
+        <label
+          *ngIf="!isExternalManufacturer"
+          class="form-label"
+          style="font-weight: 300;"
+          [translate]="'global.forms.optional'"
+        ></label>
+        <mat-form-field
+          [ngClass]="{
+            'form-input': true,
+            'form-input-valid': form.measuringUnit.valid && !inputEmpty(form.measuringUnit),
+            'form-input-invalid': form.measuringUnit.invalid && form.measuringUnit.touched
+          }"
+        >
+          <span
+            *ngIf="inputEmpty(form.measuringUnit)"
+            class="input-placeholder"
+            [translate]="'myCompany.profile.edit.measuringUnitPlaceholder'"
+          ></span>
+          <mat-select formControlName="measuringUnit">
+            <mat-option *ngFor="let productMeasuringUnit of productMeasuringUnits" [value]="productMeasuringUnit">
+              {{ productMeasuringUnit }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.measuringUnit.invalid">
+            <div style="text-align: center;">
+              <span [translate]="'myCompany.profile.edit.errorMeasuringUnit'"></span>
+            </div>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" [translate]="'myCompany.profile.edit.description'"></label>
+        <label
+          *ngIf="isExternalManufacturer"
+          class="form-label"
+          style="font-weight: 300;"
+          [translate]="'global.forms.optional'"
+        ></label>
+        <mat-form-field
+          [ngClass]="{
+            'form-textarea': true,
+            'form-input-valid': form.description.valid && !inputEmpty(form.description)
+          }"
+        >
+          <span
+            *ngIf="inputEmpty(form.description)"
+            class="input-placeholder"
+            [translate]="'myCompany.profile.edit.descriptionPlaceholder'"
+          ></span>
+          <textarea id="description" type="description" rows="8" matInput formControlName="description"> </textarea>
+          <mat-error *ngIf="form.description.invalid">
+            <div style="text-align: center;">
+              <span [translate]="'myCompany.profile.edit.descriptionMax'"></span>
+            </div>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" [translate]="'myCompany.profile.edit.salesMarket'"></label>
+        <label class="form-label" style="font-weight: 300;" [translate]="'global.forms.optional'"></label>
+        <mat-form-field
+          [ngClass]="{
+            'form-input': true,
+            'form-input-valid': form.salesMarket.valid && !inputEmpty(form.salesMarket),
+            'form-input-invalid': form.salesMarket.invalid && form.salesMarket.touched
+          }"
+        >
+          <span
+            *ngIf="inputEmpty(form.salesMarket)"
+            class="input-placeholder"
+            [translate]="'myCompany.profile.edit.salesMarketPlaceholder'"
+          ></span>
+          <mat-select formControlName="salesMarket" multiple>
+            <mat-option *ngFor="let salesMarket of salesMarkets" [value]="salesMarket._id">
+              {{ salesMarket.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.salesMarket.invalid">
+            <div style="text-align: center;">
+              <span [translate]="'myCompany.profile.edit.salesMarket'"></span>
+            </div>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+</div>

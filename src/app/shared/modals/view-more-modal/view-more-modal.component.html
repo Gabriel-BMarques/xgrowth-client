@@ -1,0 +1,50 @@
+<div class="view-more-modal-container">
+  <div class="view-more-modal-header">
+    <div (click)="dismiss()" class="back">
+      <i class="fas fa-arrow-left back-icon"></i>
+    </div>
+    <span class="view-more-modal-title">{{ modalTitle }}</span>
+
+    <!-- ORGANIZATION REACH TYPE EXCLUSIVE -->
+    <i *ngIf="organizationReachDesktop" class="fas fa-map map-button" (click)="switchToWorldMap(items)"></i>
+  </div>
+  <div class="scrollable-div">
+    <!-- DEFAULT LIST TYPE -->
+    <div class="items-list" *ngIf="type !== 'skills' && type !== 'organizationReach'">
+      <span *ngFor="let item of items"> {{ item.name }}<br /></span>
+    </div>
+
+    <!-- SKILLS LIST TYPE -->
+    <div class="skills-list" *ngIf="type === 'skills'">
+      <ion-chip *ngFor="let item of items" class="skill-chip">
+        <ion-label>
+          {{ item.name }}
+        </ion-label>
+      </ion-chip>
+    </div>
+
+    <!-- TEXT TYPE -->
+    <div class="text" *ngIf="type === 'text'">
+      <span [innerHtml]="text"></span>
+    </div>
+
+    <!-- ORGANIZATION REACH LIST TYPE -->
+    <div *ngIf="type === 'organizationReach'">
+      <div class="search-container">
+        <input
+          id="country-modal-search"
+          type="text"
+          placeholder="Search country"
+          (keyup)="applyFilter($event, countriesDataSource)"
+        />
+        <span class="search-icon">
+          <i class="fas fa-search"></i>
+        </span>
+      </div>
+      <div class="items-list">
+        <p *ngFor="let country of countriesDataSource.filteredData">{{ country.name }}</p>
+      </div>
+    </div>
+    <div class="view-more-modal-footer"></div>
+  </div>
+</div>

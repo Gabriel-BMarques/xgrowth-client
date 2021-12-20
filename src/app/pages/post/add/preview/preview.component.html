@@ -1,0 +1,43 @@
+<ion-content style="--background: #F6F6F6F6;">
+  <div *ngIf="skeletonLoading">
+    <app-skeleton [skeleton]="'post'"></app-skeleton>
+  </div>
+  <div class="mobile" *ngIf="post && !skeletonLoading">
+    <app-brief-post-card
+      [mode]="'mobile'"
+      [type]="'post-preview'"
+      [entity]="post"
+      [company]="company"
+      [userInfo]="'anything'"
+    ></app-brief-post-card>
+  </div>
+  <div class="desktop" *ngIf="post && !skeletonLoading">
+    <app-brief-post-card
+      [mode]="'desktop'"
+      [type]="'post-preview'"
+      [entity]="post"
+      [company]="company"
+      [userInfo]="'anything'"
+    ></app-brief-post-card>
+  </div>
+</ion-content>
+<div class="footer-container" *ngIf="!skeletonLoading">
+  <div class="buttons-container">
+    <ion-button
+      id="post-preview-back"
+      style="--border-width: 1px"
+      color="secondary"
+      fill="outline"
+      (click)="back()"
+      [translate]="'global.actions.back'"
+    ></ion-button>
+    <ion-button
+      id="post-preview-post"
+      style="--box-shadow: none"
+      color="primary"
+      (click)="publish()"
+      [translate]="'addNew.post.post'"
+    >
+    </ion-button>
+  </div>
+</div>

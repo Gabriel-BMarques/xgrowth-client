@@ -1,0 +1,173 @@
+<ion-content>
+  <div *ngIf="isLoading">
+    <app-skeleton [skeleton]="'profile'"></app-skeleton>
+  </div>
+  <div class="main" *ngIf="!isLoading && !mobileSectionActive && organization">
+    <app-profile-header
+      [isEditing]="isEditing"
+      [organization]="organization"
+      [canEdit]="canEdit"
+      [viewPort]="viewPort"
+      [selectedSection]="selectedSection"
+      [isOrgFormSubmitted]="isOrgFormSubmitted"
+      (fileCoverInputChanges)="fileInputCover = $event"
+      (editProfileEvent)="editProfile($event)"
+      (fileUploadPropertyChanges)="fileUploadProperty = $event"
+      (fileChanges)="eventFiles = $event"
+      (coverImageChanges)="hasCoverImageChanged = $event"
+      (logoImageChanges)="hasLogoImageChanged = $event"
+    ></app-profile-header>
+    <mat-tab-group
+      style="margin-top: 82px;"
+      mat-stretch-tabs
+      [disablePagination]="true"
+      animationDuration="0ms"
+      (selectedTabChange)="switchTab($event)"
+      [(selectedIndex)]="selectedTabIndex"
+    >
+      <mat-tab *ngFor="let tab of activeTabs; let index = index" [label]="tab.label">
+        <div *ngIf="tab.id === 'organizationProfile'" class="organization-info-container">
+          <ion-row>
+            <ion-col
+              [ngStyle]="{ 'margin-bottom': isEditing && viewport === 'mobile' ? '4rem' : 'unset' }"
+              class="sections-list-container"
+            >
+              <ng-container *ngFor="let section of visibleSections; let last = last">
+                <span
+                  (click)="changeSection(section)"
+                  [ngClass]="{
+                    'section-item': !section.selected || viewport === 'mobile',
+                    'section-item-selected': section.selected && viewport === 'desktop'
+                  }"
+                >
+                  <div class="section-name-container">
+                    <span class="section-name">{{ section.name }}</span>
+                    <i
+                      *ngIf="isEditing && !sectionComplete(section)"
+                      class="far fa-circle section-status-indicator"
+                    ></i>
+                    <i
+                      *ngIf="isEditing && sectionComplete(section)"
+                      class="far fa-check-circle section-status-indicator"
+                    ></i>
+                    <i class="fas fa-chevron-right section-arrow-icon"></i>
+                  </div>
+                </span>
+                <hr *ngIf="!last && section.id !== 'manufacturingDetails'" class="section-divider" />
+              </ng-container>
+            </ion-col>
+            <ion-col class="section-info-container-desktop">
+              <app-organization-overview
+                #organizationOverview
+                [isEditing]="isEditing"
+                [viewport]="viewport"
+                [organization]="organization"
+                *ngIf="selectedSection.name === 'organization overview' && viewport === 'desktop'"
+              ></app-organization-overview>
+              <app-organization-details
+                #organizationDetails
+                [isEditing]="isEditing"
+                [viewport]="viewport"
+                [organization]="organization"
+                *ngIf="selectedSection.name === 'organization details' && viewport === 'desktop'"
+              ></app-organization-details>
+              <app-manufacturing-details
+                #manufacturingDetails
+                [isEditing]="isEditing"
+                [viewport]="viewport"
+                [organization]="organization"
+                [onSave]="onSave"
+                *ngIf="selectedSection.name === 'manufacturing details' && viewport === 'desktop'"
+              ></app-manufacturing-details>
+              <app-product-details
+                #productDetails
+                [viewport]="viewport"
+                [organization]="organization"
+                [section]="selectedSection"
+                [plantForm]="plantForm"
+                (closeSection)="closeSection($event)"
+                (goToManufacturingSection)="goToManufacturingSection($event)"
+                *ngIf="selectedSection.name === 'products details' && viewport === 'desktop'"
+              ></app-product-details>
+            </ion-col>
+          </ion-row>
+        </div>
+
+        <div *ngIf="tab.id === 'userProfile'">
+          <ion-grid *ngIf="!loadingUser">
+            <app-user-profile
+              #userProfile
+              (userChanges)="detectedFormChanges($event)"
+              [userInfo]="userInfo"
+            ></app-user-profile>
+          </ion-grid>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+  <div class="section-info-container-mobile" *ngIf="!isLoading && mobileSectionActive">
+    <app-organization-overview
+      #organizationOverview
+      [isEditing]="isEditing"
+      [viewport]="viewport"
+      [section]="selectedSection"
+      [organization]="organization"
+      (closeSection)="closeSection($event)"
+      *ngIf="selectedSection.name === 'organization overview'"
+    ></app-organization-overview>
+    <app-organization-details
+      #organizationDetails
+      [isEditing]="isEditing"
+      [viewport]="viewport"
+      [section]="selectedSection"
+      [organization]="organization"
+      (closeSection)="closeSection($event)"
+      *ngIf="selectedSection.name === 'organization details'"
+    ></app-organization-details>
+    <app-manufacturing-details
+      #manufacturingDetails
+      [isEditing]="isEditing"
+      [viewport]="viewport"
+      [section]="selectedSection"
+      [organization]="organization"
+      (closeSection)="closeSection($event)"
+      *ngIf="selectedSection.name === 'manufacturing details'"
+    ></app-manufacturing-details>
+    <app-product-details
+      #productDetails
+      [viewport]="viewport"
+      [organization]="organization"
+      [section]="selectedSection"
+      [plantForm]="plantForm"
+      [doSave]="doSave.asObservable()"
+      (closeSection)="closeSection($event)"
+      (goToManufacturingSection)="goToManufacturingSection($event)"
+      *ngIf="selectedSection.name === 'products details'"
+    ></app-product-details>
+  </div>
+  <ng-container>
+    <div *ngIf="footerDisplay" class="organization-profile-footer">
+      <div class="buttons-container">
+        <ion-button
+          size="default"
+          color="secondary"
+          fill="outline"
+          (click)="exitEdition()"
+          [translate]="'global.actions.exit'"
+        ></ion-button>
+        <ion-button
+          color="secondary"
+          [disabled]="formInvalid(selectedSection.id)"
+          [translate]="
+            selectedSection.id === 'manufacturingDetails'
+              ? 'global.actions.savePlantDetails'
+              : 'global.actions.saveChanges'
+          "
+          (click)="saveChanges(selectedSection.id)"
+        >
+        </ion-button>
+      </div>
+    </div>
+  </ng-container>
+</ion-content>

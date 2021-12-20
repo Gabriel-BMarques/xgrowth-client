@@ -1,0 +1,92 @@
+<div class="rating-modal-container">
+  <div class="rating-modal-header">
+    <div (click)="dismiss()" class="back">
+      <i class="fas fa-arrow-left back-icon"></i>
+    </div>
+    <span class="rating-modal-title">Rate Proactive Post</span>
+  </div>
+  <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+  <div *ngIf="!isLoading" class="content-scroll">
+    <div class="rating-modal-content">
+      <div class="rating-modal-post col-6">
+        <div class="post-card">
+          <div class="post-img">
+            <img [src]="entity.UploadedFiles[0].url" />
+          </div>
+          <div class="post-info">
+            <div class="post-title">{{ entity.Title }}</div>
+            <div class="post-company">{{ company.companyName }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="rating-modal-rate col-6">
+        <form [formGroup]="ratingForm">
+          <div class="rate-note">
+            <div class="rate-note-title">How do you rate the post "{{ entity.Title }}"?</div>
+            <div class="rate-note-stars" (mouseleave)="hoverOut()">
+              <ng-container *ngFor="let number of [1, 2, 3, 4, 5]">
+                <div class="star" (click)="setRating(number)">
+                  <i
+                    class="bi bi-star-fill"
+                    [ngClass]="number <= this.rating ? 'yellow' : 'grey'"
+                    (mouseenter)="hoverIn(number)"
+                  ></i>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <div *ngIf="savedRating > 0" class="rate-reason">
+            <div class="rate-reason-title">You chose {{ savedRating }}. What is the reason for your rating?</div>
+            <div class="rate-reason-dropdown">
+              <mat-form-field>
+                <span *ngIf="inputEmpty(ratingForm.controls.reason)" class="input-placeholder" style="top:0.6rem">
+                  Choose a reason
+                </span>
+                <mat-select formControlName="reason">
+                  <mat-option *ngFor="let reason of filterReasons()" [value]="reason.text">{{
+                    reason.text
+                  }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div *ngIf="!ratingForm.controls.reason.invalid" class="rate-comment">
+            <div class="input-field">
+              <div class="editor-container">
+                <mat-form-field class="form-textarea">
+                  <span *ngIf="inputEmpty(ratingForm.controls.comment)" class="input-placeholder">
+                    Type a comment to detail your rating.
+                  </span>
+                  <textarea matInput type="text" maxlength="1500" formControlName="comment"></textarea>
+                </mat-form-field>
+              </div>
+              <div>
+                <small
+                  *ngIf="isMaxLength(ratingForm.controls.comment)"
+                  style="color: #E11919; font-size: 12px; position: absolute; margin-left: 4.5rem"
+                  >You have reached the maximum of 1500 characters!</small
+                >
+              </div>
+            </div>
+
+            <div class="rate-advise">
+              <i class="bi bi-info-circle-fill" style="color: #E11919;"></i>
+              We advise you not to reveal any confidential content or information that allows your personal
+              identification. Your comment can appear to business competitors.
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!isLoading" class="rating-modal-footer">
+    <div class="cancel" (click)="dismiss()">
+      <button>Cancel</button>
+    </div>
+    <div class="send" [ngClass]="{ 'disabled-button': disableSubmitButton }">
+      <button [disabled]="disableSubmitButton" (click)="submitRating()">Send</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,74 @@
+.loader-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.manufacturing-details-modal-content {
+  width: 100%;
+  display: table;
+  height: fit-content;
+  padding: 1.25rem;
+  .manufacturing-details-modal-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    .manufacturing-details-header-title {
+      color: #70c1ed;
+      font-size: 1rem;
+      font-weight: bold;
+      text-transform: capitalize;
+    }
+  }
+  .manufacturing-details-modal-info-container {
+    width: 100%;
+    .manufacturing-details-modal-info-header {
+      display: flex;
+      .header-title {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #565555;
+      }
+    }
+    .manufacturing-details-modal-info {
+      .plant-info {
+        display: flex;
+        .plant-name-location {
+          .plant-name {
+            font-weight: bold;
+            color: #565555;
+            font-size: 1rem;
+            text-transform: capitalize;
+          }
+        }
+        .plant-contact {
+          font-size: 16px;
+          text-transform: capitalize;
+          color: #565555;
+          .not-added {
+            color: #a0a0a0;
+          }
+        }
+      }
+      .line-info {
+        display: block;
+        font-size: 1rem;
+        .line-name {
+          font-weight: bold;
+          text-transform: capitalize;
+          color: #565555;
+        }
+        .not-added {
+          color: #a0a0a0;
+        }
+        .read-more-products {
+          color: #70c1ed;
+          font-weight: bold;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

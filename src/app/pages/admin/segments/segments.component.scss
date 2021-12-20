@@ -1,0 +1,120 @@
+.logo {
+  margin: 0 auto;
+  padding-top: 40vh;
+  width: 300px;
+}
+
+.title {
+  font-weight: bold;
+  color: black;
+  text-align: justify;
+  padding-left: 0.5rem;
+  font-family: Open Sans;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+q {
+  font-style: italic;
+  quotes: "« " " »";
+}
+
+.tooltip-segments {
+  background: inherit;
+  margin-left: 2.5%;
+  color: #cecece;
+  &:focus {
+    outline: none;
+  }
+}
+
+.tooltip-text {
+  margin-left: 2.5%;
+}
+
+.container-categories {
+  width: 100%;
+  padding-bottom: 1rem;
+  .panel-header {
+    display: none;
+    .title {
+      display: none;
+    }
+    .view-all {
+      display: none;
+    }
+  }
+  .display-list {
+    display: block;
+    .title {
+      font-weight: bold;
+      color: black;
+    }
+    .subtitle {
+      color: #565555;
+      .applies-to {
+        font-weight: bold;
+      }
+    }
+    .description {
+      color: rgb(244, 150, 33);
+    }
+    .edit-button {
+      margin-right: 1rem;
+    }
+    div {
+      width: 100%;
+      line-height: 0px;
+      ion-checkbox {
+        display: none;
+      }
+      @media (min-width: 1px) {
+        padding-inline-start: 1rem;
+        padding-inline-end: 1rem;
+      }
+      @media (min-width: 1000px) {
+        padding-inline-start: 3rem;
+        padding-inline-end: 3rem;
+      }
+    }
+  }
+  .fa-plus-circle {
+    display: none;
+  }
+}
+
+@media (min-width: 1px) {
+  .gridFix {
+    display: block;
+    .actions-div {
+      display: none;
+    }
+    .sc-ion-searchbar-md-h {
+      padding-left: 1rem;
+    }
+  }
+  ion-fab {
+    padding-right: 2rem;
+    padding-bottom: 3rem;
+  }
+}
+@media (min-width: 1000px) {
+  .gridFix {
+    display: flex;
+    .actions-div {
+      display: flex;
+      padding-left: 2rem;
+      margin-top: 0.6rem;
+      button {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+      }
+    }
+    .sc-ion-searchbar-md-h {
+      padding-left: 50%;
+    }
+  }
+  ion-fab {
+    display: none;
+  }
+}

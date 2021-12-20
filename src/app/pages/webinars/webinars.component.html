@@ -1,0 +1,71 @@
+<ion-content style="--background: #F6F6F6F6;">
+  <div class="webinars-header container">
+    <h3>webinars</h3>
+    <div style="height: 45px">
+      <button *ngIf="selectedTab === 'my webinars' && hasWebinarAccess" (click)="addWebinar()">Add webinar</button>
+    </div>
+  </div>
+  <mat-tab-group
+    [disablePagination]="true"
+    mat-stretch-tabs
+    disablePagination
+    animationDuration="0ms"
+    #matTabGroup
+    (selectedTabChange)="switchTab($event)"
+  >
+    <mat-tab label="my webinars">
+      <div class="loading-container col text-center" *ngIf="loadingMyWebinars">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+      <div
+        class="no-posts col text-center"
+        *ngIf="!loadingMyWebinars && myWebinars && !myWebinars.length && hasWebinarAccess"
+      >
+        <div class="mt-4">You have not created a webinar yet.</div>
+      </div>
+      <div class="no-posts col text-center" *ngIf="!hasWebinarAccess && !loadingMyWebinars">
+        <div class="mt-4">
+          Your plan does not cover webinar creation.
+          <a style="cursor: pointer;" (click)="openContactModal('contact us', 'support@growinco.com')">Contact us</a> to
+          learn more.
+        </div>
+      </div>
+      <div class="my-webinars" *ngIf="!loadingMyWebinars && myWebinars && myWebinars.length">
+        <div class="container p-2">
+          <ng-container *ngFor="let webinarDate of myWebinarDates">
+            <p>{{ webinarDate | date }}</p>
+            <ng-container *ngFor="let webinar of myWebinars">
+              <app-webinar-card
+                *ngIf="isSameDate(webinar.eventDate, webinarDate)"
+                [inputEntity]="webinar"
+                [type]="'my-webinar'"
+              ></app-webinar-card>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="invitations">
+      <div class="no-posts col text-center" *ngIf="!loadingInvitations && invitations && !invitations.length">
+        <span>You haven't been invited to any webinars yet.</span>
+      </div>
+      <div class="loading-container col text-center" *ngIf="loadingInvitations">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+      <div class="my-invitations" *ngIf="!loadingInvitations && invitations && invitations.length">
+        <div class="container p-2">
+          <ng-container *ngFor="let invDate of invitationDates">
+            <p>{{ invDate | date }}</p>
+            <ng-container *ngFor="let invitation of invitations">
+              <app-webinar-card
+                *ngIf="isSameDate(invitation.webinarId.eventDate, invDate)"
+                [inputEntity]="invitation"
+                [type]="'invitation'"
+              ></app-webinar-card>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</ion-content>

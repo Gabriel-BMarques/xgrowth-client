@@ -1,0 +1,113 @@
+.modal-header {
+  position: absolute;
+  top: 0;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  z-index: 10000;
+}
+ion-content {
+  ion-list {
+    ion-item {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      .collection-image {
+        margin-right: 1rem;
+        img {
+          width: 46px;
+          height: 46px;
+          border-radius: 5px;
+        }
+      }
+      .collection-info {
+        display: grid;
+        .collection-title {
+          color: #70c1ed;
+          font-weight: bold;
+          width: 100%;
+          font-size: 16px;
+        }
+        .collection-items {
+          color: #56555566;
+          font-weight: bold;
+          font-size: 14px;
+          width: 100%;
+        }
+      }
+      .is-added-div {
+        display: flex;
+        position: absolute;
+        right: 1rem;
+        .is-added-icon {
+          color: #64b34c;
+        }
+        .is-added-text {
+          color: #64b34c;
+          font-weight: bold;
+          font-size: 10px;
+          margin-left: 0.25rem;
+          text-transform: uppercase;
+        }
+      }
+    }
+  }
+}
+// .footer-container {
+//   .actions-container {
+//     display: flex;
+//     padding-top: 0.5rem;
+//     padding-bottom: 0.5rem;
+//     .cancel-button-container {
+//       text-align: center;
+//       width: 50%;
+//       padding-left: 3rem;
+//       padding-right: 1rem;
+//       ion-button {
+//         width: 100%;
+//         color: #316eb4;
+//         padding-left: 1rem;
+//         padding-right: 1rem;
+//         --border-width: 1px;
+//         --border-radius: 50px;
+//         --border-color: #316eb4;
+//       }
+//     }
+//     .save-button-container {
+//       text-align: center;
+//       width: 50%;
+//       padding-left: 1rem;
+//       padding-right: 3rem;
+//       ion-button {
+//         width: 100%;
+//         padding-left: 1rem;
+//         padding-right: 1rem;
+//         --border-radius: 50px;
+//         --box-shadow: none !important;
+//       }
+//     }
+//   }
+// }
+
+.footer-container {
+  box-shadow: 0 -2px 6px 1px rgba(0, 0, 0, 0.281);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  bottom: 0;
+  width: 100%;
+  z-index: 2;
+  background: white;
+  .buttons-container {
+    text-align: center;
+    ion-button {
+      width: 30%;
+      margin-right: 1.5rem;
+      margin-left: 1.5rem;
+      text-transform: initial;
+      --border-radius: 50px;
+      --box-shadow: none;
+      --border-width: 1px;
+      --padding-top: 1.2rem;
+      --padding-bottom: 1.2rem;
+    }
+  }
+}

@@ -1,0 +1,55 @@
+<ion-header class="modal-header">
+  <!-- <ion-toolbar>
+  </ion-toolbar> -->
+  <ion-searchbar
+    animated
+    (keyup)="applyFilter($event.target.value)"
+    (ionClear)="applyFilter(null)"
+    style="--background: white;"
+  >
+  </ion-searchbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let collection of collectionsData.filteredData" (click)="addCollectionPost(collection._id)">
+      <div style="margin-top: 1rem; margin-bottom: 1rem; display: inline-flex;">
+        <div class="collection-image">
+          <!-- <img *ngIf="collection.postsIds" [src]="collection.postsIds[0].UploadedFiles[0].url" /> -->
+          <img *ngIf="!collection.postsIds" [src]="'../../../assets/default-fallback-image.svg'" />
+        </div>
+        <div class="collection-info">
+          <span *ngIf="collection.Name" class="collection-title">{{ collection.Name }}</span>
+          <span *ngIf="!collection.Name" class="collection-title" [translate]="'collections.noname'"></span>
+          <span *ngIf="collection.numberOfPosts" class="collection-items">{{ collection.numberOfPosts }} items</span>
+          <span *ngIf="!collection.numberOfPosts" class="collection-items">0 items</span>
+        </div>
+      </div>
+      <div class="is-added-div" *ngIf="isAdded(collection._id)">
+        <i class="fas fa-check is-added-icon"></i>
+        <span class="is-added-text" [translate]="'collections.added'"></span>
+      </div>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<div class="footer-container">
+  <div class="buttons-container">
+    <ion-button
+      color="secondary"
+      shape="round"
+      fill="outline"
+      (click)="cancel()"
+      [translate]="'global.actions.cancel'"
+    ></ion-button>
+    <ion-button
+      color="primary"
+      (click)="dismiss('addCollection')"
+      [translate]="'collections.newCollection'"
+    ></ion-button>
+  </div>
+</div>
+
+<!-- <p *ngFor="let collection of collections" (click)="addCollectionPost(collection._id)">
+    {{ collection.name }}
+<br /><span>{{ collection.numberOfPosts }} items</span>
+</p> -->

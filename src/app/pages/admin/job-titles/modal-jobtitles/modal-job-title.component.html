@@ -1,0 +1,81 @@
+<div class="modal">
+  <div class="modal-container">
+    <div class="panel-header">
+      <div class="title">
+        <span>Add/edit job title</span>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div
+        style="
+              margin-top: 5rem;
+              padding-left: 1.5rem;
+              padding-right: 1.5rem;"
+      >
+        <form [formGroup]="jobTitleForm" novalidate>
+          <ion-list>
+            <label class="input-label">Name</label>
+            <mat-form-field [hideRequiredMarker]="true" style="padding-bottom: 1rem;">
+              <input id="admin-job-name" type="text" matInput formControlName="name" required />
+              <mat-error *ngIf="jobTitleForm.controls.name.invalid && jobTitleForm.controls.name.touched">
+                <div style="text-align: center;">
+                  <span [translate]="'briefs.respond.nameRequired'"></span>
+                </div>
+              </mat-error>
+            </mat-form-field>
+            <label class="input-label">Description</label>
+            <mat-form-field [hideRequiredMarker]="true" style="padding-bottom: 1rem;">
+              <input id="admin-job-description" type="text" matInput formControlName="description" required />
+              <mat-error *ngIf="jobTitleForm.controls.description.invalid && jobTitleForm.controls.description.touched">
+                <div style="text-align: center;">
+                  <span [translate]="'briefs.respond.descriptionRequired'"></span>
+                </div>
+              </mat-error>
+            </mat-form-field>
+
+            <label class="input-label">Other values</label>
+            <mat-form-field [hideRequiredMarker]="true" style="padding-bottom: 1rem;">
+              <input
+                id="admin-job-values"
+                type="text"
+                matInput
+                formControlName="newOtherValue"
+                (keyup.enter)="addValue()"
+                placeholder="Insert a new value"
+              />
+            </mat-form-field>
+
+            <div class="other-values" *ngIf="otherValues">
+              <button id="admin-job-list-other-values" class="button-value" *ngFor="let item of otherValues">
+                {{ item }}
+                <button id="admin-job-delete-values" class="delete-value" (click)="deleteValue(item)">
+                  <i class="fas fa-times"></i>
+                </button>
+              </button>
+            </div>
+          </ion-list>
+        </form>
+      </div>
+
+      <div class="footer-container">
+        <div class="actions-container">
+          <div class="cancel-button-container">
+            <ion-button id="admin-job-cancel" shape="round" fill="outline" (click)="cancel()" translate
+              >Cancel</ion-button
+            >
+          </div>
+          <div class="save-button-container">
+            <ion-button
+              id="admin-job-save"
+              color="primary"
+              (click)="submit()"
+              translate
+              [disabled]="jobTitleForm.controls.name.invalid"
+              >Save</ion-button
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

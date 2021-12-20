@@ -1,0 +1,90 @@
+<ion-content>
+  <!-- <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="crescente"></ion-spinner>
+  </div> -->
+  <div class="page-header" *ngIf="!isLoading">
+    <div class="header-title">
+      <span [translate]="'briefs.add.marketInfo'"></span>
+      <!-- <div class="help">
+        <ion-label
+          style="color: #F6A117; font-size: 12px; text-transform: none;"
+          translate="briefs.add.step3"
+        ></ion-label>
+        <i class="fa fa-question-circle" aria-hidden="true" style="margin-left: 0.5rem; color: #F6A117;"></i>
+      </div> -->
+    </div>
+    <!-- <div class="header-information">
+      <span [translate]="'addNew.post.draftSaved'"></span>
+    </div> -->
+  </div>
+  <div class="market-info">
+    <!-- <div (click)="chooseCompany()">
+      <ion-label style="margin-left: 2rem;" [translate]="'briefs.add.company'"></ion-label>
+      <div class="row" style="margin-top: 0.5rem; cursor: pointer;">
+        <ion-item class="chooseCompany"> -->
+    <!-- <ion-label *ngIf="!companies" style="color: #56555580; font-size: 12px;">Select</ion-label> -->
+    <!-- <ion-label style="color: #56555580; font-size: 12px;">
+            <span text-wrap *ngFor="let company of companies">
+              <span style="color: black;">{{ company.companyName }}</span>
+              <span *ngIf="company != companies[companies.length - 1]">, </span>
+            </span>
+          </ion-label>
+          <ion-select disabled="true"></ion-select>
+        </ion-item>
+      </div>
+    </div> -->
+    <div (click)="chooseMarket()">
+      <ion-label style="margin-left: 2rem;" [translate]="'briefs.add.market'"></ion-label>
+      <div class="row" style="margin-top: 0.5rem; cursor: pointer;">
+        <ion-item class="chooseCompany" id="add-brief-market">
+          <ion-label *ngIf="!countries" style="color: #56555580; font-size: 12px;">Select</ion-label>
+          <ion-label style="color: #56555580; font-size: 12px;">
+            <span text-wrap *ngFor="let country of countries">
+              <span style="color: black;">{{ country.name }}</span>
+              <span *ngIf="country != countries[countries.length - 1]">, </span>
+            </span>
+          </ion-label>
+          <ion-select disabled="true"></ion-select>
+        </ion-item>
+      </div>
+    </div>
+    <div (click)="chooseDeadline()">
+      <ion-label style="margin-left: 2rem;" [translate]="'briefs.add.deadlineTitle'"></ion-label>
+      <div class="row" style="margin-top: 0.5rem; cursor: pointer;">
+        <ion-item class="chooseCompany" id="add-brief-deadline">
+          <ion-label *ngIf="deadline" style="color: #56555580; font-size: 12px;">{{ deadline }}</ion-label>
+          <ion-label *ngIf="!deadline" style="color: #56555580; font-size: 12px;">Choose Deadline</ion-label>
+          <i class="fas fa-calendar" style="float: right; color: #F6A117;"></i>
+        </ion-item>
+      </div>
+    </div>
+  </div>
+</ion-content>
+<div class="footer-container" *ngIf="!isLoading">
+  <div class="save-button col text-center">
+    <ion-button
+      class="save-changes"
+      *ngIf="wizard.isEditing"
+      (click)="saveEditChanges()"
+      shape="round"
+      [translate]="'global.actions.saveChanges'"
+      id="add-brief-save-changes"
+    ></ion-button>
+  </div>
+  <div class="buttons-container">
+    <ion-button
+      color="secondary"
+      id="add-brief-market-back"
+      (click)="back()"
+      fill="outline"
+      [translate]="'global.actions.back'"
+    ></ion-button>
+    <ion-button
+      [disabled]="!countries || !countries.length || !deadline"
+      color="primary"
+      (click)="next()"
+      [translate]="'global.actions.next'"
+      id="add-brief-market-next"
+    ></ion-button>
+  </div>
+</div>

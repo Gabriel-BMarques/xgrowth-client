@@ -1,0 +1,48 @@
+.organization-content {
+  --background: #f6f6f6;
+  .organization-tabs {
+    width: 100%;
+    margin-top: 3.375rem;
+    overflow-y: hidden;
+    .brief-section {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+      overflow-y: hidden;
+      height: 100%;
+      padding-bottom: 65px;
+      .brief-loop {
+        padding: 0 1rem;
+        .search-title {
+          color: #565555;
+          font-size: 1.125rem;
+          text-transform: uppercase;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .no-posts {
+      margin-top: 3rem;
+      text-transform: uppercase;
+      color: #56555566;
+      font-weight: bold;
+      font-size: 0.75rem;
+    }
+
+    .loading-container {
+      margin-top: 5rem;
+    }
+
+    .no-posts {
+      @media (min-width: 600px) {
+        font-size: 1rem;
+      }
+      @media only screen and (min-width: 1201px) {
+        font-size: 1.125rem;
+      }
+    }
+  }
+  .mat-tab-body {
+    overflow-y: hidden !important;
+  }
+}

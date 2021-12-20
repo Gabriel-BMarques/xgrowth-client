@@ -1,0 +1,97 @@
+<ion-content #contentArea>
+  <div class="title">
+    <span class="text-uppercase">Categories</span>
+  </div>
+  <ion-grid class="gridFix">
+    <div class="actions-div">
+      <ion-button id="admin-categories-add" fill="clear" color="dark" class="add-button" (click)="addCategory('teste')">
+        <i class="fas fa-plus"></i>
+      </ion-button>
+      <ion-button
+        id="admin-categories-refresh"
+        fill="clear"
+        color="dark"
+        class="refresh-button"
+        (click)="refreshCategories()"
+      >
+        <i class="fas fa-redo-alt"></i>
+      </ion-button>
+    </div>
+    <!--Mobile-->
+    <ng-container *ngIf="isApp">
+      <button class="tooltip-categories" (click)="toggleTooltipInfo()">
+        <i class="fas fa-info-circle"></i>
+      </button>
+      <div class="col-10 col-md-8 d-flex">
+        <p *ngIf="showTooltipInfo" class="tooltip-text">
+          Categories Page allows you to create a new Category and set it to an Organization.
+        </p>
+      </div>
+    </ng-container>
+    <ion-searchbar
+      id="admin-categories-searchbar"
+      animated
+      (keyup.enter)="applyFilter($event.target.value)"
+      (ionClear)="applyFilter(null)"
+    ></ion-searchbar>
+  </ion-grid>
+
+  <!--Desktop-->
+  <ng-container *ngIf="!isApp">
+    <button class="tooltip-categories" (click)="toggleTooltipInfo()">
+      <i class="fas fa-info-circle"></i>
+    </button>
+    <div class="col-10 col-md-8 d-flex">
+      <p *ngIf="showTooltipInfo" class="tooltip-text">
+        Categories Page allows you to create a new Category and set it to an Organization.
+      </p>
+    </div>
+  </ng-container>
+
+  <div *ngIf="skeletonLoading">
+    <app-skeleton [skeleton]="'categories'"></app-skeleton>
+  </div>
+
+  <div *ngIf="!skeletonLoading" class="container-categories">
+    <ion-grid class="display-list gridFix">
+      <ion-row>
+        <div *ngFor="let item of categoryData.filteredData; let i = index">
+          <ion-col>
+            <a>
+              <ion-item class="table-item">
+                <ion-label>
+                  <h5 class="title">{{ item.name }}</h5>
+                  <h3 class="subtitle">
+                    <span class="applies-to" translate>Applies to: </span>{{ item.companiesCount }}
+                    <span translate> companies in all organizations</span>
+                  </h3>
+                  <h3 [ngClass]="{ description: item.parentId }">
+                    <span *ngIf="item.parentId">{{ item.parentId.name }}</span>
+                    <span *ngIf="!item.parentId">root category</span>
+                  </h3>
+                </ion-label>
+                <i id="admin-categories-edit" class="fas fa-pen edit-button" (click)="edit(item._id)"></i>
+              </ion-item>
+            </a>
+          </ion-col>
+        </div>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" edge slot="fixed">
+    <ion-fab-button
+      id="admin-categories-add"
+      shape="round"
+      color="success"
+      fill="solid"
+      (click)="addCategory('create')"
+    >
+      <i class="fas fa-plus"></i>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-infinite-scroll threshold="40%" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText=""> </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

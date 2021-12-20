@@ -1,0 +1,81 @@
+<ion-content #contentArea>
+  <div class="title">
+    <span class="text-uppercase">Notifications</span>
+  </div>
+  <ion-grid>
+    <div class="actions-div">
+      <ion-button id="admin-notifications-add" fill="clear" color="dark" class="add-button" (click)="addNotification()">
+        <i class="fas fa-plus"></i>
+      </ion-button>
+      <ion-button
+        id="admin-notifications-refresh"
+        fill="clear"
+        color="dark"
+        class="refresh-button"
+        (click)="refreshNotifications()"
+      >
+        <i class="fas fa-redo-alt"></i>
+      </ion-button>
+    </div>
+    <!--Mobile-->
+    <ng-container *ngIf="isApp">
+      <button class="tooltip-notifications" (click)="toggleTooltipInfo()">
+        <i class="fas fa-info-circle"></i>
+      </button>
+      <div class="col-10 col-md-8 d-flex">
+        <p *ngIf="showTooltipInfo" class="tooltip-text">
+          Notifications Page allows you to create new Platform Notifications
+        </p>
+      </div>
+    </ng-container>
+    <ion-searchbar
+      id="admin-notifications-searchbar"
+      animated
+      (keyup.enter)="applyFilter($event.target.value)"
+      (ionClear)="applyFilter(null)"
+      style="--background: white;"
+    >
+    </ion-searchbar>
+  </ion-grid>
+
+  <!--Desktop-->
+  <ng-container *ngIf="!isApp">
+    <button class="tooltip-notifications" (click)="toggleTooltipInfo()">
+      <i class="fas fa-info-circle"></i>
+    </button>
+    <div class="col-10 col-md-8 d-flex">
+      <p *ngIf="showTooltipInfo" class="tooltip-text">
+        Notifications Page allows you to create new Platform Notifications
+      </p>
+    </div>
+  </ng-container>
+
+  <div *ngIf="skeletonLoading">
+    <app-skeleton [skeleton]="'companies'"></app-skeleton>
+  </div>
+  <ion-grid class="display-list" *ngIf="!skeletonLoading">
+    <ion-row>
+      <div *ngFor="let item of notificationData.filteredData; let i = index">
+        <ion-card class="notifications-container">
+          <a>
+            <ion-item id="admin-notifications-edit" class="table-item" (click)="itemClick(item._id)">
+              <ion-label>
+                <h5 class="title">{{ item.title }}</h5>
+                <!-- <h3 *ngIf="Type === 'companies'" class="description">{{ item.organization }}</h3> -->
+              </ion-label>
+            </ion-item>
+          </a>
+        </ion-card>
+      </div>
+    </ion-row>
+  </ion-grid>
+  <!-- <app-panel [panelData]="panelData" *ngIf="!skeletonLoading"></app-panel> -->
+  <ion-fab vertical="bottom" horizontal="end" edge slot="fixed">
+    <ion-fab-button id="admin-notifications-add" shape="round" color="success" fill="solid" (click)="addNotification()">
+      <i class="fas fa-plus"></i>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-infinite-scroll threshold="40%" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText=""> </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

@@ -1,0 +1,37 @@
+<div
+  *ngIf="!isLoading"
+  style="    position: fixed;
+    z-index: 10;
+    width: 100%;
+        opacity: 1;
+"
+>
+  <div class=" organization-profile">
+    <div class="content">
+      <span class="text-uppercase organization-profile-title">Organization Profile</span>
+      <span style="display: flex;">
+        <mat-progress-bar mode="determinate" type="warning" value="{{ progress }}"></mat-progress-bar>
+        <img src="../../../assets/thumbs-up.svg" class="thumbs-up" />
+      </span>
+
+      <div class="information">
+        <div class="about">
+          <span class="join-us" [translate]="'register.organizationTitleMessage'"></span>
+          <div>
+            <span [translate]="'register.organizationMessage'"> </span>
+            <span
+              class="emoji-common-emoji-sprite"
+              style='background-image: url("https://pf-emoji-service--cdn.us-east-1.prod.public.atl-paas.net/standard/a51a7674-8d5d-4495-a2d2-a67c090f5c3b/64x64/spritesheets/people.png"); background-position: 36.1111% 0%; background-size: 3700% 3600%; width: 20px; height: 20px; display: inline-block;'
+              >&nbsp;</span
+            >
+          </div>
+        </div>
+        <div class="complete-profile">
+          <ion-button style="--border-width: 1px" color="secondary" fill="outline" (click)="organizationProfile()"
+            >Complete Profile</ion-button
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

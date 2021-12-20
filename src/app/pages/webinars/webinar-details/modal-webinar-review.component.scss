@@ -1,0 +1,56 @@
+.modal-webinar-review {
+  text-align: center;
+  padding: 20px;
+  i {
+    font-size: 50px;
+  }
+  button {
+    border-radius: 50px;
+    height: 45px;
+    width: 160px;
+    border: 1px solid #70c1ed;
+  }
+  .approved {
+    padding: 0px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    button {
+      background: inherit;
+      color: #70c1ed;
+    }
+  }
+  .denied {
+    padding: 0px 30px;
+    position: relative;
+    height: 100%;
+    .denial-reason {
+      height: 100px;
+      overflow-y: scroll;
+    }
+    .review-footer {
+      position: absolute;
+      height: 50px;
+      bottom: 15px;
+      display: flex;
+      justify-content: center;
+      width: 85%;
+      button {
+        background: #70c1ed;
+        color: #fff;
+        margin-left: 10px;
+      }
+      .mail-support {
+        height: 45px;
+        padding: 11px 12px;
+        border: 1px solid #f6a117;
+        border-radius: 50px;
+        a {
+          color: #f6a117;
+        }
+      }
+    }
+  }
+}

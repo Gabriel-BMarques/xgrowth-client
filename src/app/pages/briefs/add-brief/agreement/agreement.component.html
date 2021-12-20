@@ -1,0 +1,251 @@
+<ion-content *ngIf="!isLoading">
+  <!-- <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div> -->
+  <div class="page-header" *ngIf="!isLoading">
+    <div class="header-title">
+      <span [translate]="'briefs.add.ndaTitle'" class="title-desktop"></span>
+      <span [translate]="'briefs.add.ndaTitle'" class="title-mobile"></span>
+      <div class="help">
+        <!-- <ion-label style="color: #F6A117; font-size: 12px; text-transform: none;" translate="briefs.add.step7">
+        </ion-label> -->
+        <!-- <i class="fa fa-question-circle" aria-hidden="true" style="margin-left: 0.5rem; color: #F6A117;"></i> -->
+      </div>
+    </div>
+    <!-- <div class="header-information">
+      <span style="float: right;" [translate]="'addNew.post.draftSaved'"></span>
+    </div> -->
+  </div>
+  <div class="select">
+    <div class="row">
+      <div class="col text-center">
+        <div class="add">
+          <ion-label style="font-size: 13px; color: #565555; font-weight: bold;" [translate]="'briefs.add.addNda'">
+          </ion-label>
+          <div class="radio">
+            <ion-radio-group allow-empty-selection="true" name="add">
+              <ion-radio
+                id="add-brief-nda-no"
+                name="no"
+                value="no"
+                color="success"
+                checked="{{ notAddAgreement }}"
+                (ionSelect)="notAdd()"
+              >
+              </ion-radio>
+              <ion-label style="margin-left: 0.3rem;" [translate]="'briefs.add.no'"></ion-label>
+              <ion-radio
+                id="add-brief-nda-yes"
+                name="yes"
+                value="yes"
+                color="success"
+                checked="{{ addAgreement }}"
+                style="margin-left: 1rem;"
+                (ionSelect)="add()"
+              ></ion-radio>
+              <ion-label style="margin-left: 0.3rem;" [translate]="'briefs.add.yes'"></ion-label>
+            </ion-radio-group>
+          </div>
+        </div>
+        <div class="typeOfNda">
+          <ion-radio-group allow-empty-selection="true" name="type" style="display: inline-flex;">
+            <div>
+              <ion-radio
+                id="add-brief-nda-same"
+                [disabled]="!addAgreement"
+                name="same"
+                value="same"
+                color="success"
+                style="margin-left: 1rem;"
+                checked="{{ sameAgreement }}"
+                (ionSelect)="same()"
+              ></ion-radio>
+              <ion-label
+                *ngIf="!addAgreement"
+                style="margin-left: 0.3rem; opacity: .50"
+                [translate]="'briefs.add.sameNda'"
+              >
+              </ion-label>
+              <ion-label
+                *ngIf="addAgreement"
+                style="margin-left: 0.3rem;"
+                [translate]="'briefs.add.sameNda'"
+              ></ion-label>
+            </div>
+            <div>
+              <ion-radio
+                id="add-brief-nda-different"
+                [disabled]="!addAgreement"
+                name="different"
+                value="different"
+                color="success"
+                style="margin-left: 1rem;"
+                checked="{{ differentAgreement }}"
+                (ionSelect)="different()"
+              ></ion-radio>
+              <ion-label
+                *ngIf="!addAgreement"
+                style="margin-left: 0.3rem; opacity: .50"
+                [translate]="'briefs.add.differentNda'"
+              ></ion-label>
+              <ion-label *ngIf="addAgreement" style="margin-left: 0.3rem;" [translate]="'briefs.add.differentNda'">
+              </ion-label>
+            </div>
+          </ion-radio-group>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 1rem;">
+      <div class="col text-center">
+        <label
+          class="fileInput"
+          style="width: auto;"
+          *ngIf="!wizard.entity.Nda && !wizard.entity.isLoadingNda && addAgreement && sameAgreement"
+        >
+          <p-fileUpload
+            #fileInput
+            mode="basic"
+            auto="true"
+            id="file"
+            multiple="true"
+            fileLimit="1"
+            maxFileSize="250000000"
+            customUpload="true"
+            (uploadHandler)="uploadNda($event, null, wizard.entity)"
+          >
+          </p-fileUpload>
+          <ion-button id="add-brief-nda-upload" [disabled]="!sameAgreement" color="secondary">
+            <span [translate]="'briefs.add.uploadNda'"></span>
+          </ion-button>
+        </label>
+        <ion-button
+          id="add-brief-nda-upload-solver"
+          [disabled]="!sameAgreement"
+          color="secondary"
+          *ngIf="!wizard.entity.Nda && !wizard.entity.isLoadingNda && !addAgreement && !sameAgreement"
+        >
+          <span [translate]="'briefs.add.uploadNda'"></span>
+        </ion-button>
+        <ion-spinner
+          *ngIf="wizard.entity.isLoadingNda"
+          style="z-index: 1000000; margin-right: 3.5rem"
+          name="crescent"
+        ></ion-spinner>
+        <div *ngIf="wizard.entity.Nda && !typeOfAgreement" class="fileName">
+          <i class="fas fa-file-download"></i>
+          <strong>{{ wizard.entity.Nda.Name }}</strong>
+          <svg
+            (click)="deleteFileOfArray(getBlobName(wizard.entity.Nda.url))"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="#E11919"
+            class="bi bi-x-circle-fill"
+            viewBox="0 0 16 16"
+            style="margin-left: 10px;"
+          >
+            <path
+              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"
+            />
+          </svg>
+          <!-- <i class="fas fa-times" (click)="deleteFileOfArray(getBlobName(item.Nda.url), item)"></i> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="list" *ngIf="organizations.length > 0">
+    <div style="margin-left: 1rem;">
+      <ion-label style="color: #56555566; font-size: 11px; font-weight: bold;" [translate]="'briefs.add.organization'">
+      </ion-label>
+    </div>
+    <ion-list *ngFor="let item of organizations">
+      <ion-item>
+        <ion-label style="margin-left: 0.5rem;">
+          {{ item.SupplierId.companyName }}
+        </ion-label>
+        <div>
+          <!-- GAB0003 -->
+          <label class="fileInput" *ngIf="typeOfAgreement && !item.Nda && !item.isLoadingNda">
+            <p-fileUpload
+              #fileInput
+              mode="basic"
+              auto="true"
+              id="file"
+              multiple="true"
+              fileLimit="1"
+              maxFileSize="250000000"
+              customUpload="true"
+              (uploadHandler)="uploadNda($event, item.SupplierId._id, item)"
+            >
+            </p-fileUpload>
+            <ion-button id="add-brief-nda-upload" color="secondary">
+              <span [translate]="'briefs.add.uploadNda'"></span>
+            </ion-button>
+          </label>
+          <ion-spinner
+            *ngIf="item.isLoadingNda"
+            style="z-index: 1000000; margin-top: 2rem; margin-left: 2rem"
+            name="crescent"
+          ></ion-spinner>
+          <div *ngIf="item.Nda && typeOfAgreement" class="fileName">
+            <i class="fas fa-file-download"></i>
+            <strong>{{ item.Nda.Name }}</strong>
+            <svg
+              (click)="deleteFileOfArray(getBlobName(item.Nda.url), item)"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="#E11919"
+              class="bi bi-x-circle-fill"
+              viewBox="0 0 16 16"
+              style="margin-left: 10px;"
+            >
+              <path
+                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"
+              />
+            </svg>
+
+            <!-- <i class="fas fa-times" (click)="deleteFileOfArray(getBlobName(item.Nda.url), item)"></i> -->
+          </div>
+        </div>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
+<div class="footer-container" *ngIf="!isLoading">
+  <div class="save-button col text-center">
+    <ion-button
+      id="add-brief-save-changes"
+      [disabled]="
+        (addAgreement && sameAgreement && !wizard.entity.Nda) ||
+        (addAgreement && differentAgreement && !addedSolversNda())
+      "
+      class="save-changes"
+      shape="round"
+      *ngIf="wizard.isEditing"
+      (click)="saveEditChanges()"
+      [translate]="'global.actions.saveChanges'"
+    ></ion-button>
+  </div>
+  <div class="buttons-container">
+    <ion-button
+      id="add-brief-nda-back"
+      class="footer-button"
+      color="secondary"
+      fill="outline"
+      (click)="back()"
+      [translate]="'global.actions.back'"
+    >
+    </ion-button>
+    <ion-button
+      id="add-brief-nda-next"
+      [disabled]="
+        (addAgreement && sameAgreement && !wizard.entity.Nda) ||
+        (addAgreement && differentAgreement && !addedSolversNda())
+      "
+      color="primary"
+      (click)="next()"
+      [translate]="'global.actions.next'"
+    ></ion-button>
+  </div>
+</div>

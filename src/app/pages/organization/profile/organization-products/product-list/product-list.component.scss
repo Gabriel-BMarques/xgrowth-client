@@ -1,0 +1,125 @@
+.product-list-accordion-container {
+  width: 100%;
+  mat-accordion {
+    ::ng-deep .mat-expansion-panel {
+      box-shadow: none !important;
+      background: transparent !important;
+      mat-expansion-panel-header {
+        i {
+          color: #70c1ed;
+          transition: all 0.5s ease-in-out;
+          display: flex;
+          align-items: center;
+        }
+        mat-panel-title {
+          font-size: 1rem;
+          font-weight: bold;
+          color: #70c1ed;
+        }
+        .mat-expansion-indicator {
+          display: none !important;
+        }
+      }
+      .mat-expansion-panel-body {
+        padding: 0;
+      }
+      .container-fluid {
+        margin-top: 0 !important;
+        .mt-5 {
+          margin-top: 0 !important;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1050px) {
+  .product-list-accordion-container {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+}
+
+:root {
+  --ion-safe-area-top: 1.25rem;
+  --ion-safe-area-bottom: 1.375rem;
+}
+
+ion-grid {
+  column-fill: initial;
+  display: flex;
+  flex-wrap: wrap;
+}
+@media (max-width: 640px) {
+  .all-products {
+    padding-top: 30px;
+  }
+}
+
+$grid-breakpoints: (
+  xs: 440px,
+  sm: 650px,
+  md: 800px,
+  lg: 1200px,
+  xl: 1564px
+);
+
+@function breakpoint-var($breakpoint) {
+  @return map-get($grid-breakpoints, $breakpoint);
+}
+
+@mixin resizeRow($margin, $flex) {
+  margin: $margin;
+  width: $flex;
+}
+
+ion-grid app-product-card {
+  &.start-six {
+    // six cards per row
+    @media (min-width: breakpoint-var(xl)) {
+      @include resizeRow(10px 0.5%, 15.66%);
+    }
+
+    // five cards per row
+    @media (max-width: breakpoint-var(xl)) and (min-width: breakpoint-var(lg)) {
+      @include resizeRow(10px 0.5%, 19%);
+    }
+
+    // four cards per row
+    @media (max-width: breakpoint-var(lg)) and (min-width: breakpoint-var(md)) {
+      @include resizeRow(10px 0.75%, 23.5%);
+    }
+
+    // three cards per row
+    @media (max-width: breakpoint-var(md)) and (min-width: breakpoint-var(sm)) {
+      @include resizeRow(10px 1%, 31.33%);
+    }
+
+    // two cards per row
+    @media (max-width: breakpoint-var(sm)) and (min-width: breakpoint-var(xs)) {
+      @include resizeRow(10px 1%, 48%);
+    }
+
+    // one cards per row
+    @media (max-width: breakpoint-var(xs)) {
+      @include resizeRow(10px 0.5%, 99%);
+    }
+  }
+
+  &.start-three {
+    // three cards per row
+    @media (min-width: breakpoint-var(sm)) {
+      @include resizeRow(10px 1%, 31.33%);
+    }
+
+    // two cards per row
+    @media (max-width: breakpoint-var(sm)) and (min-width: breakpoint-var(xs)) {
+      @include resizeRow(10px 1%, 48%);
+    }
+
+    // one cards per row
+    @media (max-width: breakpoint-var(xs)) {
+      @include resizeRow(10px 0.5%, 99%);
+    }
+  }
+}

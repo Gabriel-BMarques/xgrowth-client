@@ -1,0 +1,137 @@
+<ion-content style="--background: #F6F6F6F6;">
+  <div class="page-header-collection">
+    <span class="header-title" [translate]="'collections.myCollections'"></span>
+    <div *ngIf="collections.length > 0" class="header-actions">
+      <ion-button color="primary" [translate]="'collections.addNew'" (click)="addCollection()"></ion-button>
+    </div>
+  </div>
+  <div class="container-collections" *ngIf="!isLoading">
+    <ion-grid class="desktop">
+      <ion-row>
+        <div>
+          <ion-col>
+            <ion-card class="collections-items">
+              <ion-card
+                class="collection-images"
+                style="border-style: dotted; color: #BBBBBB;  box-shadow: none !important;"
+              >
+                <div *ngIf="collections.length === 0" class="col text-center" style="display: grid; margin-top: 3rem;">
+                  <i class="far fa-sad-tear" style="font-size: 60px;"></i>
+                  <div
+                    style="margin-top: 1rem; color: #56555566; font-size: 15px; font-weight: bold; display: grid; text-transform: uppercase;"
+                  >
+                    <span [translate]="'collections.youDont'"></span>
+                    <span [translate]="'collections.anyCollections'"></span>
+                  </div>
+                  <ion-button
+                    *ngIf="collections.length === 0"
+                    class="header-button col text-center"
+                    color="primary"
+                    (click)="addCollection()"
+                    [translate]="'collections.addNew'"
+                  ></ion-button>
+                </div>
+                <div *ngIf="collections.length > 0" class="col text-center" style="margin-top: 5rem;">
+                  <ion-button
+                    class="header-button col text-center"
+                    color="primary"
+                    (click)="addCollection()"
+                    [translate]="'collections.addNew'"
+                  >
+                  </ion-button>
+                </div>
+                <!-- <div class="col text-center" style="display: grid;">
+                  <i class="fas fa-plus" style="color: #316eb4; margin-top: 100px; font-size: 3rem;"></i>
+                </div> -->
+              </ion-card>
+            </ion-card>
+          </ion-col>
+        </div>
+        <div *ngFor="let item of collections; let i = index">
+          <ion-col>
+            <ion-card class="collections-items">
+              <ion-card
+                [ngClass]="!item.postsIds.length ? 'collection-empty' : ''"
+                (click)="itemClick(item._id)"
+                class="collection-images"
+              >
+                <div class="collection-empty-icon" *ngIf="!item.postsIds.length">
+                  <i class="bi bi-folder-fill"></i>
+                </div>
+                <div *ngFor="let image of getCollectionImages(item); let index = index">
+                  <div
+                    [ngClass]="{
+                      'main-image': index === 0,
+                      'other-images': index > 0 && index < 3,
+                      none: index > 2
+                    }"
+                  >
+                    <img *ngIf="image?.isVideo" [src]="getThumbnail(image.url)" />
+                    <img *ngIf="image?.isImage" [src]="getResizedUrl(image)" />
+                  </div>
+                </div>
+              </ion-card>
+              <ion-card-title class="title" (click)="itemClick(item._id)">{{ item.Name }}</ion-card-title>
+              <ion-card-subtitle class="counter">{{ item.postsIds.length }} items</ion-card-subtitle>
+            </ion-card>
+          </ion-col>
+        </div>
+      </ion-row>
+    </ion-grid>
+    <div class="mobile">
+      <ion-col>
+        <ion-card *ngIf="collections.length === 0" class="collections-items">
+          <ion-card (click)="addCollection()" class="collection-images" style="border-style: dotted; color: #BBBBBB;">
+            <div class="col text-center" style="display: grid; margin-top: 3rem;">
+              <i class="far fa-sad-tear" style="font-size: 60px;"></i>
+              <div
+                style="margin-top: 1rem; color: #56555566; font-size: 15px; font-weight: bold; display: grid; text-transform: uppercase;"
+              >
+                <span [translate]="'collections.youDont'"></span>
+                <span [translate]="'collections.anyCollections'"></span>
+              </div>
+              <ion-button
+                class="header-button col text-center"
+                color="primary"
+                (click)="addCollection()"
+                [translate]="'collections.addNew'"
+              ></ion-button>
+            </div>
+            <!-- <div class="col text-center" style="display: grid;">
+                  <i class="fas fa-plus" style="color: #316eb4; margin-top: 100px; font-size: 3rem;"></i>
+                </div> -->
+          </ion-card>
+        </ion-card>
+        <div *ngFor="let item of collections; let i = index">
+          <ion-col>
+            <ion-card class="collections-items">
+              <ion-card
+                [ngClass]="!item.postsIds.length ? 'collection-empty' : ''"
+                (click)="itemClick(item._id)"
+                class="collection-images"
+              >
+                <div class="collection-empty-icon" *ngIf="!item.postsIds.length">
+                  <i class="bi bi-folder-fill"></i>
+                </div>
+                <div *ngFor="let image of getCollectionImages(item); let index = index">
+                  <div
+                    [ngClass]="{
+                      'main-image': index === 0,
+                      'other-images': index > 0 && index < 3,
+                      none: index > 2
+                    }"
+                  >
+                    <img *ngIf="image?.isVideo" [src]="getThumbnail(image.url)" />
+                    <img *ngIf="image?.isImage" [src]="getResizedUrl(image)" />
+                  </div>
+                </div>
+              </ion-card>
+              <ion-card-title class="title" (click)="itemClick(item._id)">{{ item.Name }}</ion-card-title>
+              <ion-card-subtitle class="counter">{{ item.postsIds.length }} items</ion-card-subtitle>
+            </ion-card>
+          </ion-col>
+        </div>
+      </ion-col>
+    </div>
+  </div>
+</ion-content>

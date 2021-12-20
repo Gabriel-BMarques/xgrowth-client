@@ -1,0 +1,55 @@
+.modal {
+  display: block;
+
+  .loading-container {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    ion-spinner {
+      padding-top: 50%;
+    }
+  }
+
+  .modal-container {
+    width: 100%;
+    height: 100% !important;
+    position: relative;
+    .panel-header {
+      position: absolute;
+      width: 100%;
+      height: 75px;
+      font-size: 16px;
+      padding: 0px 15px;
+      text-transform: uppercase;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      box-shadow: 0px 3px 10px #00000029;
+      button {
+        background: inherit;
+        color: #f6a117;
+        font-weight: bold;
+      }
+    }
+    .panel-body {
+      position: absolute;
+      padding: 30px 55px;
+      width: 100%;
+      height: calc(100% - 75px);
+      top: 75px;
+      overflow-y: auto;
+      color: #565555 !important;
+      font-size: 14px;
+      h3 {
+        color: #565555 !important;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      ul {
+        list-style: none;
+        padding: 0px;
+      }
+    }
+  }
+}

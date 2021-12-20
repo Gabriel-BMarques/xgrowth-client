@@ -1,0 +1,74 @@
+<ion-content #contentArea>
+  <div class="title">
+    <span class="text-uppercase">Job Titles</span>
+  </div>
+  <ion-grid class="gridFix">
+    <div class="actions-div">
+      <ion-button id="admin-job-add" fill="clear" color="dark" class="add-button" (click)="addJobTitle()">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+      <ion-button id="admin-job-refresh" fill="clear" color="dark" class="refresh-button" (click)="refreshJobTitles()">
+        <ion-icon name="refresh"></ion-icon>
+      </ion-button>
+    </div>
+    <!--Mobile-->
+    <ng-container *ngIf="isApp">
+      <button class="tooltip-jobtitles-mob" (click)="toggleTooltipInfo()">
+        <i class="fas fa-info-circle"></i>
+      </button>
+      <div class="col-10 col-md-8 d-flex">
+        <p *ngIf="showTooltipInfo" class="tooltip-text-mob">
+          Job Titles Page allows you to create and edit new Job titles.
+        </p>
+      </div>
+    </ng-container>
+    <ion-searchbar
+      id="admin-job-searchbar"
+      animated
+      (keyup.enter)="applyFilter($event.target.value)"
+      (ionClear)="applyFilter(null)"
+    ></ion-searchbar>
+  </ion-grid>
+
+  <!--Desktop-->
+  <ng-container *ngIf="!isApp">
+    <button class="tooltip-jobtitles" (click)="toggleTooltipInfo()">
+      <i class="fas fa-info-circle"></i>
+    </button>
+    <div class="col-10 col-md-8 d-flex">
+      <p *ngIf="showTooltipInfo" class="tooltip-text">
+        Job Titles Page allows you to create and edit new Job titles.
+      </p>
+    </div>
+  </ng-container>
+
+  <div *ngIf="skeletonLoading">
+    <app-skeleton [skeleton]="'companies'"></app-skeleton>
+  </div>
+  <ion-grid class="display-list gridFixSkills" *ngIf="!skeletonLoading">
+    <ion-row>
+      <div *ngFor="let item of jobTitleData.filteredData; let i = index">
+        <ion-card class="companies-container">
+          <a>
+            <ion-item id="admin-job-edit" class="table-item" (click)="itemClick(item)">
+              <ion-label>
+                <h5 class="title">{{ item.name }}</h5>
+              </ion-label>
+              <ion-icon id="admin-job-delete" name="trash" (click)="delete(item); $event.stopPropagation()"></ion-icon>
+            </ion-item>
+          </a>
+        </ion-card>
+      </div>
+    </ion-row>
+  </ion-grid>
+
+  <!-- BUTTON -->
+  <ion-fab vertical="bottom" horizontal="end" edge slot="fixed">
+    <ion-fab-button id="admin-job-add" shape="round" color="success" fill="solid" (click)="addJobTitle()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-infinite-scroll threshold="40%" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText=""> </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

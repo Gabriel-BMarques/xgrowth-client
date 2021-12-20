@@ -1,0 +1,56 @@
+<ion-content>
+  <!-- <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div> -->
+  <div class="page-header-deadline" *ngIf="!isLoading">
+    <i class="fas fa-arrow-left back-icon" (click)="back()"></i>
+    <div class="header-title">
+      <span [translate]="'briefs.add.deadline'"></span>
+    </div>
+  </div>
+  <div class="date">
+    <mat-calendar [selected]="selectedDate" (selectedChange)="onSelect($event)"> </mat-calendar>
+    <div class="hour-selection-container">
+      <span class="hour-selection-title" [translate]="'time'"></span>
+      <form [formGroup]="timeForm">
+        <div class="time-selection-container">
+          <i (click)="confirmSelection()" class="fas fa-clock clock-icon"></i>
+          <mat-form-field>
+            <input type="number" (blur)="formatHour()" min="1" max="12" matInput formControlName="hour" required />
+          </mat-form-field>
+          <span>:</span>
+          <mat-form-field>
+            <input type="number" (blur)="formatMinute()" min="0" max="59" matInput formControlName="minute" required />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select formControlName="dayperiod">
+              <mat-option *ngFor="let period of datePeriodOptions" [value]="period.value">{{
+                period.label
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="timezone-selection-container">
+          <div class="time-zone-selection-title">
+            <span>timezone</span>
+          </div>
+          <mat-form-field>
+            <mat-select formControlName="timezone">
+              <mat-option *ngFor="let timezone of timezoneOptions" [value]="timezone">
+                {{ timezone.text }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </form>
+    </div>
+  </div>
+</ion-content>
+<div class="footer-container" *ngIf="!isLoading">
+  <div class="buttons-container">
+    <ion-button color="secondary" (click)="back()" fill="outline" [translate]="'global.actions.back'"></ion-button>
+    <ion-button color="primary" (click)="confirmSelection()" [disabled]="confirm">
+      <span [translate]="'briefs.add.confirmSelection'"></span>
+    </ion-button>
+  </div>
+</div>

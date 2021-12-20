@@ -1,0 +1,43 @@
+.header {
+  margin-top: 1.5rem;
+  text-align: center;
+  .popover-icon {
+    color: hsl(0, 0%, 81%);
+    font-size: 50px;
+    margin-bottom: 1rem;
+  }
+  .title {
+    color: #565555;
+    font-size: 13px;
+    font-weight: bold;
+  }
+}
+.subtitle {
+  padding-left: 2.15rem;
+  padding-right: 2.15rem;
+  padding-bottom: 1rem;
+  font-size: 13px;
+  color: #565555;
+  text-align: center;
+}
+.companies {
+  padding-top: 1rem;
+  padding-left: 2.15rem;
+  padding-right: 2.15rem;
+  font-size: 13px;
+  color: #565555;
+  text-align: left;
+}
+.feedback {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  padding-top: 1rem;
+  ion-textarea {
+    border: solid 1px #dededf;
+    border-radius: 1rem;
+  }
+}
+.actions {
+  margin-bottom: 1rem;
+  display: inline-flex;
+}

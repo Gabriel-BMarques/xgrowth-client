@@ -1,0 +1,61 @@
+<ion-content no-bounce>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-justify-content-center ion-no-padding">
+      <ion-col size-sm="8" size-lg="6" size-xl="4" align-self-center no-padding>
+        <div class="page-header">
+          <div class="header-title">
+            {{ header }}
+          </div>
+        </div>
+        <div class="wizard-container">
+          WIZARD GOES HERE
+        </div>
+        <div class="step-information">
+          1. Personal Information
+        </div>
+        <form (ngSubmit)="register()" [formGroup]="registerForm" novalidate>
+          <ion-list>
+            <label class="input-label">Family Name</label>
+            <mat-form-field style="padding-bottom: 1rem;">
+              <input type="text" matInput formControlName="name" required />
+              <mat-error *ngIf="registerForm.controls.name.invalid && registerForm.controls.name.touched">
+                <span translate>Name is required</span>
+              </mat-error>
+            </mat-form-field>
+            <label class="input-label">Job Title</label>
+            <mat-form-field style="padding-bottom: 1rem;">
+              <mat-select [formControl]="toppings" multiple placeholder="Select...">
+                <mat-option *ngFor="let topping of toppingList" [value]="topping">{{ topping }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <label class="input-label">Department</label>
+            <mat-form-field style="padding-bottom: 1rem;">
+              <mat-select [formControl]="toppings" multiple placeholder="Select...">
+                <mat-option *ngFor="let topping of toppingList" [value]="topping">{{ topping }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <label class="input-label">Country</label>
+            <mat-form-field style="padding-bottom: 1rem;">
+              <mat-select [formControl]="toppings" multiple placeholder="Select...">
+                <mat-option *ngFor="let topping of toppingList" [value]="topping">{{ topping }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <label class="input-label">Phone number</label>
+            <mat-form-field style="padding-bottom: 1rem;">
+              <input type="text" matInput formControlName="name" required />
+              <mat-error *ngIf="registerForm.controls.name.invalid && registerForm.controls.name.touched">
+                <span translate>Confirm Password is required</span>
+              </mat-error>
+            </mat-form-field>
+          </ion-list>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<div class="complete-registration-footer-container" *ngIf="!isLoading">
+  <div class="buttons-container">
+    <ion-button color="primary" (click)="cancel()" fill="outline">Cancel</ion-button>
+    <ion-button color="primary" (click)="next()">Next</ion-button>
+  </div>
+</div>

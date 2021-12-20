@@ -1,0 +1,147 @@
+<ion-content *ngIf="skeletonLoading && isLoading">
+  <div>
+    <app-skeleton [skeleton]="'home'"></app-skeleton>
+  </div>
+</ion-content>
+
+<ion-content
+  #scrollableFeed
+  [scrollEvents]="true"
+  *ngIf="!skeletonLoading && !isLoading"
+  style="--background: #F6F6F6F6;"
+>
+  <app-organization-profile-imcomplete
+    *ngIf="!organizationProfileComplete && !isLoading"
+    [currentUserCompany]="currentUserCompany"
+    [userRole]="userRole"
+    (organizationLoadingProgress)="organizationLoadingProgressBar($event)"
+  ></app-organization-profile-imcomplete>
+  <div class="feed" [style]="!organizationProfileComplete ? 'margin-top: 12rem' : ''">
+    <ion-row class="filters">
+      <div class="col text-center">
+        <ion-button [disabled]="filteringByCategoriesActive" (click)="filterLocation()" id="filter-all">
+          <svg
+            *ngIf="!filterService.feedRegions || filterService.feedRegions.length === 0"
+            xmlns="http://www.w3.org/2000/svg"
+            width="19.496"
+            height="19.5"
+            viewBox="0 0 19.496 19.5"
+          >
+            <defs>
+              <style>
+                .a {
+                  fill: #f6a117;
+                }
+              </style>
+            </defs>
+            <path
+              class="a"
+              d="M13.229,13.976C12.659,10.465,11.315,8,9.75,8s-2.909,2.465-3.479,5.976ZM5.976,17.75a24.642,24.642,0,0,0,.13,2.516h7.285a24.642,24.642,0,0,0,.13-2.516,24.643,24.643,0,0,0-.13-2.516H6.106A24.642,24.642,0,0,0,5.976,17.75Zm12.765-3.774A9.771,9.771,0,0,0,12.53,8.409,13.269,13.269,0,0,1,14.5,13.976ZM6.967,8.409A9.764,9.764,0,0,0,.759,13.976H5A13.215,13.215,0,0,1,6.967,8.409Zm12.2,6.825H14.653c.083.826.13,1.671.13,2.516s-.047,1.691-.13,2.516h4.505A9.666,9.666,0,0,0,19.5,17.75a9.835,9.835,0,0,0-.334-2.516ZM4.718,17.75c0-.845.047-1.691.13-2.516H.338a9.531,9.531,0,0,0,0,5.032H4.844C4.765,19.441,4.718,18.6,4.718,17.75Zm1.553,3.774C6.841,25.035,8.185,27.5,9.75,27.5s2.909-2.465,3.479-5.976Zm6.263,5.567a9.78,9.78,0,0,0,6.212-5.567H14.5A13.269,13.269,0,0,1,12.534,27.091ZM.759,21.524A9.771,9.771,0,0,0,6.97,27.091,13.269,13.269,0,0,1,5,21.524H.759Z"
+              transform="translate(0 -8)"
+            />
+          </svg>
+          <ion-label *ngIf="!filterService.feedRegions || filterService.feedRegions.length === 0">All</ion-label>
+          <ion-label class="location-name" *ngIf="filterService.feedRegions && filterService.feedRegions.length > 0">{{
+            filterService.feedRegions[0].companyName
+          }}</ion-label>
+          <i
+            class="fas fa-circle"
+            *ngIf="filterService.feedRegions && filterService.feedRegions.length > 0"
+            style="color: red; margin-bottom: 0.5rem;"
+          ></i>
+          <i class="fas fa-chevron-down"></i>
+        </ion-button>
+        <ion-button [disabled]="filteringByCategoriesActive" (click)="filterCategory()" id="filter-tags">
+          <svg xmlns="http://www.w3.org/2000/svg" width="23.953" height="19.162" viewBox="0 0 23.953 19.162">
+            <defs>
+              <style>
+                .a {
+                  fill: #f6a117;
+                }
+              </style>
+            </defs>
+            <path
+              class="a"
+              d="M5.317,8.456l7.93-7.93A1.8,1.8,0,0,1,14.517,0h7.639a1.8,1.8,0,0,1,1.8,1.8V9.436a1.8,1.8,0,0,1-.526,1.27l-7.93,7.93a1.8,1.8,0,0,1-2.541,0L5.317,11a1.8,1.8,0,0,1,0-2.541ZM19.761,5.988a1.8,1.8,0,1,0-1.8-1.8A1.8,1.8,0,0,0,19.761,5.988ZM.526,11l7.639,7.639a1.8,1.8,0,0,0,2.541,0l.013-.013L4.205,12.108a3.368,3.368,0,0,1,0-4.764L11.55,0H9.726a1.8,1.8,0,0,0-1.27.526L.526,8.456A1.8,1.8,0,0,0,.526,11Z"
+            />
+          </svg>
+          <ion-label>Tags</ion-label>
+          <i
+            class="fas fa-circle"
+            *ngIf="filterService.feedCategories && filterService.feedCategories.length > 0"
+            style="color: red; margin-bottom: 0.5rem;"
+          ></i>
+          <i class="fas fa-chevron-down"></i>
+        </ion-button>
+      </div>
+    </ion-row>
+    <div *ngIf="minCategories" class="home-categories-filter">
+      <button
+        id="home-categories-prev"
+        *ngIf="!disablePrevBtn"
+        type="submit"
+        float-left
+        ion-button
+        color="primary"
+        class="home-categories-prev"
+        (click)="prev()"
+      >
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button
+        id="home-categories-next"
+        *ngIf="!disableNextBtn"
+        type="submit"
+        float-right
+        ion-button
+        color="primary"
+        class="home-categories-next"
+        (click)="next()"
+      >
+        <i class="fas fa-chevron-right"></i>
+      </button>
+      <ion-slides
+        #categoriesSlider
+        class="home-slider"
+        [options]="slideOpts"
+        (ionSlideWillChange)="arrowVisibility()"
+        (ionSlideDidChange)="arrowVisibility()"
+        (ionSlideReachEnd)="reachedEnd()"
+      >
+        <ion-slide *ngFor="let category of categoriesHeader; let index = index">
+          <ion-chip
+            id="home-categories"
+            [class]="category.active ? 'ion-chip-selected' : ''"
+            (click)="selectInterestCategory(category, index)"
+            outline
+            color="primary"
+          >
+            <ion-label>{{ category.name }}</ion-label>
+          </ion-chip>
+        </ion-slide>
+      </ion-slides>
+    </div>
+    <app-masonry
+      [onScrollEvent]="scrollableFeed.ionScroll"
+      [onScrollStop]="scrollableFeed.ionScrollEnd"
+      [type]="'posts'"
+      [posts]="posts"
+      (onPostDelete)="ngOnInit()"
+    ></app-masonry>
+    <ion-infinite-scroll threshold="20%" (ionInfinite)="loadData($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText=""> </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" edge slot="fixed" *ngIf="!skeletonLoading">
+    <ion-fab-button
+      [disabled]="filteringByCategoriesActive"
+      shape="round"
+      style="color: #F6A131"
+      fill="solid"
+      (click)="filterCategory()"
+    >
+      <i class="fas fa-filter"></i>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

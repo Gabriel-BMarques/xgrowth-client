@@ -1,0 +1,70 @@
+<div class="modal">
+  <div class="modal-container">
+    <div class="panel-header">
+      <div class="title">
+        <span>Choose You Category Organization</span>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div
+        style="
+              margin-top: 3rem;
+              padding-left: 1.5rem;
+              padding-right: 1.5rem;"
+      >
+        <form [formGroup]="responseInfoForm" novalidate>
+          <ion-list>
+            <label class="input-label">Category Organization</label>
+            <mat-form-field [hideRequiredMarker]="true" style="padding-bottom: 1rem;">
+              <input id="admin-cat-org-name" type="text" matInput formControlName="name" required />
+              <mat-error *ngIf="responseInfoForm.controls.name.invalid && responseInfoForm.controls.name.touched">
+                <div style="text-align: center;">
+                  <span [translate]="'briefs.respond.nameRequired'"></span>
+                </div>
+              </mat-error>
+            </mat-form-field>
+            <label class="input-label">Segments</label>
+            <mat-form-field [hideRequiredMarker]="true">
+              <mat-select id="admin-cat-org-segment" formControlName="segment">
+                <mat-option *ngFor="let segment of segmentsSI" [value]="segment._id">
+                  {{ segment.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <ion-item style="margin-top:2rem; margin-right:6rem; margin-left:3rem">
+              <ion-label> Public</ion-label>
+              <ion-checkbox
+                id="admin-cat-org-public"
+                formControlName="isPublic"
+                style="--background-checked: orange;"
+                slot="start"
+                (ionChange)="toggleAccept()"
+              ></ion-checkbox>
+            </ion-item>
+          </ion-list>
+        </form>
+      </div>
+
+      <div class="footer-container">
+        <div class="actions-container">
+          <div class="cancel-button-container">
+            <ion-button id="admin-cat-org-cancel" shape="round" fill="outline" (click)="cancel()" translate
+              >Cancel</ion-button
+            >
+          </div>
+          <div class="save-button-container">
+            <ion-button
+              id="admin-cat-org-save"
+              color="primary"
+              (click)="submit()"
+              translate
+              [disabled]="responseInfoForm.controls.name.invalid"
+              >Save</ion-button
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

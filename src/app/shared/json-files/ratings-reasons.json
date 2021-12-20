@@ -1,0 +1,50 @@
+[
+  {
+    "range": [1, 2, 3, 4, 5],
+    "text": "Other"
+  },
+  {
+    "range": [1, 2],
+    "text": "This solution is unfeasible for the product/process/service"
+  },
+  {
+    "range": [1, 2],
+    "text": "The post could be better illustrated"
+  },
+  {
+    "range": [1, 2],
+    "text": "It was not possible to understand the idea through this post"
+  },
+  {
+    "range": [3, 4],
+    "text": "This post contains information that is relevant for my position/department/organization"
+  },
+  {
+    "range": [3, 4],
+    "text": "I like the product/service and would like to know more about it"
+  },
+  {
+    "range": [3, 4],
+    "text": "Content could have been more explored "
+  },
+  {
+    "range": [3, 4],
+    "text": "Maybe I will use this content in the future "
+  },
+  {
+    "range": [5],
+    "text": "That's a great idea, that fits a real business/product/service/process need"
+  },
+  {
+    "range": [5],
+    "text": "Although I won't implement it now, this post contains information that I consider relevant"
+  },
+  {
+    "range": [5],
+    "text": "I like the idea and there are chances to implement it"
+  },
+  {
+    "range": [5],
+    "text": "I will definitely want to know more about this topic"
+  }
+]

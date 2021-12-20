@@ -1,0 +1,24 @@
+.back-button {
+  position: absolute;
+  text-align: center;
+  top: 1.025rem;
+  left: 4.6875%;
+  width: 25px;
+  min-width: 25px;
+  height: 25px;
+  min-height: 25px;
+  border-radius: 50%;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  opacity: 0.7;
+  z-index: 1;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .back-icon {
+    font-size: 1rem;
+    margin-right: 2.5px;
+    color: #f6a117;
+    position: absolute;
+  }
+}

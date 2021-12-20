@@ -1,0 +1,85 @@
+<ion-content #scrollableDiv [scrollEvents]="true" style="--background: #F6F6F6F6;">
+  <div class="header">
+    <span (click)="backToHome()">
+      <button id="post-back" shape="round" class="back-icon-header">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <ion-label class="back-label" [translate]="'global.actions.back'" style="cursor: pointer;"></ion-label>
+    </span>
+    <ion-button
+      id="post-delete"
+      class="delete-button"
+      color="primary"
+      fill="outline"
+      (click)="deletePost()"
+      *ngIf="canDelete"
+    >
+      <ion-label>delete</ion-label>
+    </ion-button>
+  </div>
+
+  <div class="not-found" *ngIf="!post && postNotFound">
+    <div style="text-align: center;">
+      <h3>Post not found :(</h3>
+      <a routerLink="/">Return to home</a>
+    </div>
+  </div>
+
+  <div class="mobile" *ngIf="post && !skeletonLoading">
+    <ion-button id="post-back" shape="round" class="back-icon" (click)="backToHome()">
+      <i class="fas fa-chevron-left"></i>
+    </ion-button>
+    <app-brief-post-card
+      [mode]="'mobile'"
+      [type]="'post'"
+      [entity]="post"
+      [company]="company"
+      [userInfo]="userInfo"
+    ></app-brief-post-card>
+    <div *ngIf="similarPosts?.length" class="similar-posts">
+      <ion-label class="title-similar-posts">
+        <span [translate]="'myCompany.posts.similarPosts'"></span>
+        <div *ngIf="similarPostsLoading" style="margin-left: 1rem; margin-top: 0.5rem">
+          <ion-spinner name="crescent"></ion-spinner>
+        </div>
+      </ion-label>
+    </div>
+  </div>
+  <div class="desktop" *ngIf="post && !skeletonLoading">
+    <div class="brief-response">
+      <ion-label *ngIf="post.BriefId" class="brief-response-title" style="display: inline-flex;">
+        {{ post.BriefId.Title }}
+      </ion-label>
+    </div>
+    <app-brief-post-card
+      [mode]="'desktop'"
+      [type]="'post'"
+      [entity]="post"
+      [company]="company"
+      [userInfo]="userInfo"
+    ></app-brief-post-card>
+    <div *ngIf="similarPosts?.length" class="similar-posts">
+      <ion-label class="title-similar-posts" style="display: inline-flex;">
+        <span [translate]="'myCompany.posts.similarPosts'"></span>
+        <div *ngIf="similarPostsLoading" style="margin-left: 1rem; margin-top: 0.5rem">
+          <ion-spinner name="crescent"></ion-spinner>
+        </div>
+      </ion-label>
+    </div>
+  </div>
+  <div *ngIf="similarPosts?.length" class="similar-feed">
+    <app-masonry
+      [onScrollEvent]="scrollableDiv.ionScroll"
+      [onScrollStop]="scrollableDiv.ionScrollEnd"
+      *ngIf="!similarPostsLoading"
+      [type]="'posts'"
+      [posts]="similarPosts"
+      [class]="'start-three'"
+    ></app-masonry>
+  </div>
+</ion-content>
+<app-rating-footer
+  *ngIf="!isRefreshing && !skeletonLoading && postType === 'proactive-posting'"
+  (onPostRate)="refreshData()"
+  [entity]="post"
+></app-rating-footer>

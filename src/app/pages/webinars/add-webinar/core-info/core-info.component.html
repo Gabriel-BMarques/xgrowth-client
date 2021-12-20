@@ -1,0 +1,283 @@
+<ion-content>
+  <ng-container *ngIf="!isEditing && !isLoading && !hasDismissedTutorial && tutorial">
+    <app-tutorial-details [tutorialInput]="tutorial"></app-tutorial-details>
+  </ng-container>
+
+  <ng-container *ngIf="!isLoading && (hasDismissedTutorial || !tutorial)">
+    <div class="page-header" *ngIf="!isLoading">
+      <div class="header-title">
+        <span>webinar info</span>
+        <button (click)="openTutorial()">
+          <i class="fas fa-question-circle"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="uploaded-files-container" *ngIf="!isLoading">
+      <div class="align-center">
+        <ion-grid>
+          <ion-row>
+            <ion-col offset-md="5" offset="4" size="6" size-md="3">
+              <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
+                <div *ngFor="let img of files; let index = index">
+                  <div
+                    *ngIf="img.url"
+                    (click)="deleteImageOfArray(img.url)"
+                    class="action-circle"
+                    style="left: 75px; z-index: 1000000; cursor: pointer;"
+                  >
+                    <i class="fas fa-times"></i>
+                  </div>
+                  <ion-reorder>
+                    <div class="uploaded-file">
+                      <ion-col>
+                        <ion-spinner
+                          *ngIf="!img.url"
+                          style="z-index: 1000000; margin-top: 2rem; margin-left: 2rem"
+                          name="crescent"
+                        ></ion-spinner>
+                        <div *ngIf="img.url" class="action-circle" style="left: 8px; top: -30px">
+                          <span class="counter">{{ index + 1 }}</span>
+                        </div>
+                        <img *ngIf="img.url && !isVideo(img.Type)" class="response-img" [src]="img.url" />
+                        <img
+                          *ngIf="img.url && isVideo(img.Type)"
+                          class="response-img"
+                          [src]="getVideoThumbnail(img.url)"
+                        />
+                      </ion-col>
+                    </div>
+                  </ion-reorder>
+                </div>
+              </ion-reorder-group>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+      <label class="fileInput">
+        <p-fileUpload
+          #fileInput
+          mode="basic"
+          auto="true"
+          id="file"
+          name="file.name"
+          multiple="true"
+          fileLimit="9"
+          accept="image/*,video/*,.pdf"
+          customUpload="true"
+          (uploadHandler)="upload($event)"
+        >
+        </p-fileUpload>
+        <div>
+          <div
+            [ngClass]="{
+              'no-images': !images,
+              'is-images ion-activatable ripple-parent': images
+            }"
+            color="primary"
+            style="--box-shadow: none"
+          >
+            <i class="fas fa-file-upload" style="padding-right: 0.5rem"></i>
+            <span [translate]="'addNew.post.uploadMedia'"></span>
+            <ion-ripple-effect></ion-ripple-effect>
+          </div>
+        </div>
+        <div class="alert">
+          <div class="col text-center">
+            <mat-error
+              *ngIf="coreInfoForm?.controls.uploadedFiles.invalid && coreInfoForm?.controls.uploadedFiles.touched"
+            >
+              <div style="text-align: center;">
+                <span>At least one file is required</span>
+              </div>
+            </mat-error>
+            <ion-label
+              >Add some .png, .jpeg, .mp4 or .pdf <br />
+              to illustrate your webinar invitation</ion-label
+            >
+          </div>
+        </div>
+      </label>
+    </div>
+
+    <div class="container" *ngIf="!isLoading">
+      <form [formGroup]="coreInfoForm">
+        <ion-list>
+          <ion-row class="row">
+            <div class="col-12 col-md-7">
+              <label class="input-label">Webinar type</label>
+              <mat-form-field [hideRequiredMarker]="false" style="padding-bottom: 1rem;">
+                <mat-select formControlName="type">
+                  <mat-option *ngFor="let wType of webinarTypes" [value]="wType">
+                    {{ wType }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="coreInfoForm?.controls.type.invalid && coreInfoForm?.controls.type.touched">
+                  <div style="text-align: center;">
+                    <span>Type is required</span>
+                  </div>
+                </mat-error>
+              </mat-form-field>
+              <label class="input-label">Webinar title</label>
+              <div class="input-field">
+                <mat-form-field [hideRequiredMarker]="true" style="padding-bottom: 1rem;">
+                  <input type="text" matInput formControlName="title" required />
+                  <mat-error *ngIf="coreInfoForm?.controls.title.invalid && coreInfoForm?.controls.title.touched">
+                    <div style="text-align: center;">
+                      <span>Title is required</span>
+                    </div>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <label class="input-label">Broadcast link</label>
+              <i
+                matTooltip="Include here the online address where your event will take place"
+                matTooltipPosition="after"
+                class="fas fa-question-circle"
+              ></i>
+              <div class="input-field">
+                <mat-form-field [hideRequiredMarker]="true" style="padding-bottom: 1rem;">
+                  <input type="text" matInput formControlName="meetingLink" required />
+                  <mat-error
+                    *ngIf="coreInfoForm?.controls.meetingLink.invalid && coreInfoForm?.controls.meetingLink.touched"
+                  >
+                    <div style="text-align: center;">
+                      <span>Invalid url</span>
+                    </div>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <label class="input-label" [translate]="'briefs.add.description'"></label>
+              <div class="input-field">
+                <mat-form-field [hideRequiredMarker]="true" class="description-form">
+                  <textarea type="description" rows="10" matInput formControlName="description" required></textarea>
+                  <mat-error
+                    *ngIf="coreInfoForm?.controls.description.invalid && coreInfoForm?.controls.description.touched"
+                  >
+                    <div style="text-align: center;">
+                      <span [translate]="'briefs.respond.descriptionRequired'"></span>
+                    </div>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-12 col-md-5">
+              <div class="date">
+                <label>Schedule your event</label>
+                <p class="date-recommendation">
+                  It is recommended to choose a date at least two weeks in advance, so our team can proceed with the
+                  necessary arrangements.
+                </p>
+                <mat-error *ngIf="!validDate">
+                  <div style="text-align: center;">
+                    <span>Date is invalid.</span>
+                  </div>
+                </mat-error>
+                <mat-calendar [selected]="selectedDate" #calendar (selectedChange)="onSelect($event)"> </mat-calendar>
+                <div class="hour-selection-container">
+                  <span class="hour-selection-title">time</span>
+                  <div class="time-selection-container">
+                    <span class="hour-selection-title">start</span>
+                    <mat-form-field>
+                      <input
+                        type="number"
+                        (blur)="formatHour(coreInfoForm.controls.hour, this.coreInfoForm.controls.dayperiod)"
+                        min="1"
+                        max="12"
+                        matInput
+                        formControlName="hour"
+                        required
+                      />
+                    </mat-form-field>
+                    <span class="hour-minute-division">:</span>
+                    <mat-form-field>
+                      <input
+                        type="number"
+                        (blur)="formatMinute(coreInfoForm.controls.minute)"
+                        min="0"
+                        max="59"
+                        matInput
+                        formControlName="minute"
+                        required
+                      />
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-select formControlName="dayperiod">
+                        <mat-option *ngFor="let period of datePeriodOptions" [value]="period.value">{{
+                          period.label
+                        }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="time-selection-container">
+                    <span class="hour-selection-title">end</span>
+                    <mat-form-field>
+                      <input
+                        type="number"
+                        (blur)="formatHour(coreInfoForm.controls.hourEnd, this.coreInfoForm.controls.dayperiodEnd)"
+                        min="1"
+                        max="12"
+                        matInput
+                        formControlName="hourEnd"
+                        required
+                      />
+                    </mat-form-field>
+                    <span class="hour-minute-division">:</span>
+                    <mat-form-field>
+                      <input
+                        type="number"
+                        (blur)="formatMinute(coreInfoForm.controls.minuteEnd)"
+                        min="0"
+                        max="59"
+                        matInput
+                        formControlName="minuteEnd"
+                        required
+                      />
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-select formControlName="dayperiodEnd">
+                        <mat-option *ngFor="let period of datePeriodOptions" [value]="period.value">{{
+                          period.label
+                        }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="timezone-selection-container">
+                    <div class="time-zone-selection-title">
+                      <span>timezone</span>
+                    </div>
+                    <mat-form-field>
+                      <mat-select formControlName="timezone">
+                        <mat-option *ngFor="let timezone of timezoneOptions" [value]="timezone">
+                          {{ timezone.text }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ion-row>
+        </ion-list>
+      </form>
+    </div>
+  </ng-container>
+</ion-content>
+<div class="response-add-footer-container">
+  <div class="buttons-container">
+    <ion-button
+      id="webinars-cancel"
+      color="secondary"
+      (click)="cancel()"
+      fill="outline"
+      [translate]="'global.actions.cancel'"
+    ></ion-button>
+    <ion-button
+      id="webinars-next"
+      [class]="(coreInfoForm.invalid || !selectedDate) && hasDismissedTutorial ? 'next-disabled' : ''"
+      color="primary"
+      (click)="next()"
+      [translate]="'global.actions.next'"
+    ></ion-button>
+  </div>
+</div>

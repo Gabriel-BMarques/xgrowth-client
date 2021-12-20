@@ -1,0 +1,112 @@
+@media (min-width: 1px) {
+  .organization-profile {
+    font-family: Open Sans;
+    background: #ffffffb4 0% 0% no-repeat padding-box;
+    box-shadow: 0 2px 6px -2px rgb(0 0 0 / 28%);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+
+    .content {
+      padding-left: 1.5rem;
+      padding-top: 2.3rem;
+      padding-bottom: 1.6rem;
+      padding-right: 2rem;
+      .organization-profile-title {
+        color: #f6a117;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .thumbs-up {
+        margin-left: -1rem;
+        z-index: 10;
+      }
+      .information {
+        // display: flex;
+        .about {
+          display: grid;
+          color: #707070;
+          font-size: 16px;
+          .join-us {
+            font-weight: bold;
+          }
+        }
+        .complete-profile {
+          text-align: center;
+          ion-button {
+            --border-radius: 20px;
+            --box-shadow: none;
+            text-transform: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1000px) {
+  .organization-profile {
+    font-family: Open Sans;
+    background: #ffffffb4 0% 0% no-repeat padding-box;
+    margin-left: 1.8rem;
+    margin-right: 3rem;
+    box-shadow: 0 2px 6px -2px rgb(0 0 0 / 28%);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    .content {
+      padding-left: 1.5rem;
+      padding-top: 2.3rem;
+      padding-bottom: 1.6rem;
+      padding-right: 2rem;
+      .organization-profile-title {
+        color: #f6a117;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .information {
+        display: flex;
+        .about {
+          display: grid;
+          color: #707070;
+          font-size: 16px;
+          .join-us {
+            font-weight: bold;
+          }
+        }
+        .complete-profile {
+          margin-left: auto;
+          // margin-right: 2.5rem;
+          ion-button {
+            --border-radius: 20px;
+            --box-shadow: none;
+            text-transform: none;
+          }
+        }
+      }
+    }
+  }
+}
+// https://coolors.co/gradient-palette/70c1ed-f6a117?number=30
+::ng-deep .mat-progress-bar-fill::after {
+  background: #70c1ed;
+  border-radius: 6px;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background: #dededf;
+}
+
+::ng-deep .mat-progress-bar {
+  border-radius: 6px;
+}
+.mat-progress-bar {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  height: 10px;
+  // -webkit-transform: rotate(180deg);
+}

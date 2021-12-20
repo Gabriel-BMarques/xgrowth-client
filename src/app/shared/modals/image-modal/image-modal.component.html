@@ -1,0 +1,53 @@
+<ion-content class="my-custom-class">
+  <ion-button id="image-modal-close" class="close-button" (click)="close()" fill="clear" color="dark">
+    <ion-icon name="ios-close"></ion-icon>
+  </ion-button>
+  <ion-slides [options]="sliderOpts">
+    <ion-slide *ngFor="let file of uploadedFiles; let index = index; let first = first; let last = last">
+      <ng-container *ngIf="file.isImage">
+        <div>
+          <img [src]="file.url" />
+        </div>
+        <ion-row style="justify-content: center; position: absolute; bottom: 0rem">
+          <ion-button id="image-modal-zoom-minus" class="zoom-button" (click)="zoom(false)" fill="clear" color="dark">
+            <i class="fas fa-search-minus"></i>
+          </ion-button>
+          <ion-button id="image-modal-zoom-plus" class="zoom-button" (click)="zoom(true)" fill="clear" color="dark">
+            <i class="fas fa-search-plus"></i>
+          </ion-button>
+        </ion-row>
+      </ng-container>
+      <ng-container *ngIf="file.isVideo">
+        <div class="video-modal">
+          <video [src]="file.url" *ngIf="!file.Processing && !isLoadingVideos" controls></video>
+          <div style="width: 100%;" *ngIf="isLoadingVideos">
+            <ion-spinner name="dots"></ion-spinner>
+            <p style="font-size: 14px;" [translate]="'global.actions.loadingMedia'"></p>
+          </div>
+          <img *ngIf="file.Processing && !isLoadingVideos" src="../../../assets/Video_Processing_Cloud.svg" />
+        </div>
+      </ng-container>
+      <ion-button
+        id="image-modal-prev"
+        class="prev-button"
+        (click)="prev()"
+        fill="clear"
+        color="dark"
+        *ngIf="uploadedFiles.length > 1 && !first"
+      >
+        <ion-icon name="ios-arrow-back"></ion-icon>
+      </ion-button>
+      <ion-button
+        id="image-modal-next"
+        class="next-button"
+        (click)="next()"
+        fill="clear"
+        color="dark"
+        *ngIf="uploadedFiles.length > 1 && !last"
+      >
+        <ion-icon name="ios-arrow-forward"></ion-icon>
+      </ion-button>
+    </ion-slide>
+  </ion-slides>
+</ion-content>
+<ion-footer> </ion-footer>

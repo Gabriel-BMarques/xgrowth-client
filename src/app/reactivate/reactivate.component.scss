@@ -1,0 +1,190 @@
+.background-banner {
+  background-image: url("../../assets/Growinco_Banner_Register.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow-y: auto;
+}
+.register-page {
+  height: 100%;
+  font-family: Open Sans;
+  .container {
+    padding-top: 7.975rem;
+    padding-bottom: 1rem;
+    .register-box {
+      width: 324px;
+      background: #ffffff 0% 0% no-repeat padding-box;
+      box-shadow: 0px 3px 16px #00000029;
+      border-radius: 10px;
+      padding: 2.5rem 1.5rem 1.75rem 1.5rem;
+      .title {
+        text-align: center;
+        font: normal normal bold 25px/34px Open Sans;
+        letter-spacing: 0px;
+        color: #a0a0a0;
+        text-transform: uppercase;
+      }
+      .description {
+        padding-top: 1.875rem;
+        text-align: left;
+        font-size: 16px;
+        letter-spacing: 0px;
+        color: #565555;
+      }
+      .register-input {
+        padding-top: 0.625rem;
+        mat-form-field {
+          font-family: Open Sans;
+          width: 100%;
+          margin-left: auto;
+          margin-right: auto;
+          font-size: 15px;
+          .mat-select-value {
+            color: #565555 !important;
+          }
+          .mat-form-field-infix {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            input {
+              height: 20px !important;
+              text-align: left !important;
+            }
+          }
+          .password-visibility {
+            position: absolute;
+            align-self: center;
+            right: 10px;
+            z-index: 5;
+            cursor: pointer;
+          }
+        }
+        .mat-error {
+          height: 20px !important;
+          text-align: left !important;
+        }
+        .mat-form-field-appearance-legacy .mat-form-field-label {
+          top: 1.48125em !important;
+          color: #cacaca !important;
+        }
+        .mat-form-field-subscript-wrapper {
+          font-size: 15px;
+          text-align: left;
+          top: 0 !important;
+          padding-left: 15px;
+          padding-top: 2px;
+          pointer-events: none;
+        }
+        .input-field-normal {
+          .mat-form-field-infix {
+            border-color: #dededf !important;
+            border-width: 1px;
+          }
+        }
+        .input-field-error {
+          .mat-form-field-infix {
+            border-color: #e11919 !important;
+            border-width: 1px;
+          }
+        }
+        .input-field-success {
+          .mat-form-field-infix {
+            border-color: #64b34c !important;
+            border-width: 1px;
+          }
+        }
+        .mat-form-field.mat-focused .mat-form-field-label,
+        input.ng-valid + span.mat-form-field-label-wrapper .mat-form-field-label {
+          display: none !important;
+        }
+        .password-lenght-error {
+          color: #e11919;
+          font-size: 11px !important;
+          position: absolute;
+          bottom: 1px;
+        }
+      }
+      .new-password-strength {
+        color: #565555;
+        font-size: 12px;
+      }
+      .next-button {
+        padding-top: 0.625rem;
+        button {
+          color: white;
+          background: #70c1ed;
+          text-transform: uppercase;
+          width: 274px;
+          height: 40px;
+          border-radius: 34px;
+          font-size: 14px;
+          outline: none;
+        }
+        .next-disabled {
+          opacity: 0.5;
+        }
+      }
+      .box-divider {
+        color: #a0a0a0;
+        margin-top: 2.8rem;
+        margin-bottom: 1.5rem;
+        opacity: 0.5;
+        border-width: 2px;
+        margin-left: -24px;
+        margin-right: -24px;
+      }
+      .register-footer {
+        display: grid;
+        text-align: center;
+        .already-register {
+          font-size: 14px;
+          color: #565555;
+        }
+        .access-account,
+        .recover-password {
+          font-size: 16px;
+          color: #70c1ed;
+          font-weight: bold;
+          cursor: pointer;
+        }
+      }
+    }
+    .register-terms,
+    .register-help {
+      color: #70c1ed;
+      text-align: left;
+      font-weight: bold;
+      font-size: 11px;
+      cursor: pointer;
+      .terms-dot {
+        color: #565555;
+        margin-left: 6px;
+        margin-right: 8px;
+        cursor: normal;
+      }
+    }
+    .register-powered {
+      span {
+        color: #a0a0a0;
+        font: normal normal 600 14px/19px Open Sans;
+      }
+    }
+  }
+  .activate-container {
+    padding-top: 3rem !important;
+    padding-bottom: 2rem !important;
+  }
+}
+@media (max-width: 380px) {
+  .register-page {
+    .register-box {
+      width: 279px !important;
+    }
+    .next-button {
+      button {
+        width: 229px !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,120 @@
+<ion-content>
+  <div *ngIf="skeletonLoading">
+    <app-skeleton [skeleton]="'post'"></app-skeleton>
+  </div>
+  <div *ngIf="post && !skeletonLoading">
+    <ion-button shape="round" class="back-icon" (click)="back()">
+      <i class="fas fa-chevron-left"></i>
+    </ion-button>
+    <!--BUG LUA0001-->
+    <ion-slides *ngIf="post.UploadedFiles" pager="false" [options]="slideOpts">
+      <ion-slide *ngFor="let file of post.UploadedFiles; let index = i">
+        <img [src]="file.url" onerror="this.src=fallbackImage(i)" />
+      </ion-slide>
+    </ion-slides>
+    <div class="post-information-div">
+      <div class="post-information-container">
+        <ion-avatar>
+          <img [src]="post.UploadedFiles[0].url" />
+        </ion-avatar>
+        <div class="post-information">
+          <div class="company-name">Company</div>
+          <div class="post-datetime">3 hr</div>
+        </div>
+      </div>
+      <div class="post-pins-information">
+        <div class="pins-counter">13 Pins</div>
+        <div class="pins-icon" (click)="addToCollection()">
+          <i class="fas fa-thumbtack"></i>
+        </div>
+      </div>
+    </div>
+    <ion-grid class="categories-container">
+      <ion-chip outline color="primary" *ngFor="let category of post.Categories; let index = i">
+        <ion-label>{{ category }}</ion-label>
+      </ion-chip>
+    </ion-grid>
+    <div class="post-title">
+      <span>{{ post.Title }}</span>
+    </div>
+    <div class="post-description">
+      <span translate>{{ post.Description }}</span>
+    </div>
+    <div class="tags-container">
+      <div class="tags-title">
+        Tags
+      </div>
+      <div class="tags-links-div">
+        <span *ngFor="let category of post.Categories; let index = i; let isLast = last">
+          <a class="tags-links">{{ category }}</a
+          >{{ isLast ? '.' : ',' }}&nbsp;
+        </span>
+      </div>
+    </div>
+    <div class="actions-container">
+      <div class="like-container">
+        <div class="like-icon">
+          <i class="fas fa-thumbs-up"></i>
+        </div>
+        <div class="like-counter">
+          Like (XX)
+        </div>
+      </div>
+      <div class="comment-container">
+        <div class="comment-icon">
+          <i class="fas fa-comment-alt"></i>
+        </div>
+        <div class="comment-counter">
+          Comment (XX)
+        </div>
+      </div>
+      <div class="share-container">
+        <div class="share-icon">
+          <i class="fas fa-share-alt"></i>
+        </div>
+        <div class="share-counter">
+          Share (XX)
+        </div>
+      </div>
+    </div>
+    <div class="comments-container">
+      <div class="comments-title">
+        Comments (XX)
+      </div>
+      <div class="comments-panel">
+        <div class="comment-item" *ngFor="let file of post.UploadedFiles; let index = i">
+          <div class="comment-information-container">
+            <ion-avatar class="company-logo">
+              <img [src]="file.url" />
+            </ion-avatar>
+            <div class="comment-information">
+              <div class="company-name">Company</div>
+              <div class="post-datetime">30 minutes ago</div>
+            </div>
+          </div>
+          <div class="comment-content">
+            <span translate>lorem</span>
+          </div>
+          <div class="actions-container">
+            <div class="like-container">
+              <div class="like-icon">
+                <i class="fas fa-thumbs-up"></i>
+              </div>
+              <div class="like-counter">
+                Like (XX)
+              </div>
+            </div>
+            <div class="reply-container">
+              <div class="reply-icon">
+                <i class="fas fa-reply"></i>
+              </div>
+              <div class="reply-button">
+                Reply
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

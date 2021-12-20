@@ -1,0 +1,123 @@
+<ion-content>
+  <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+  <div class="page-header" *ngIf="!isLoading">
+    <div class="header-title">
+      <span>Tags</span>
+      <!-- <div class="help">
+        <ion-label
+          style="color: #F6A117; font-size: 12px; text-transform: none;"
+          translate="briefs.add.step4"
+        ></ion-label>
+        <i class="fa fa-question-circle" aria-hidden="true" style="margin-left: 0.5rem; color: #F6A117;"></i>
+      </div> -->
+    </div>
+    <!-- <div class="header-information">
+      <span [translate]="'addNew.post.draftSaved'"></span>
+    </div> -->
+  </div>
+  <div class="list-categories" *ngIf="!isLoading">
+    <div *ngFor="let category of arrayCategories">
+      <div class="category">
+        <button [ngClass]="category.selected ? 'interest-selected' : ''" (click)="changeSelection(category)">
+          {{ category.name }}
+        </button>
+      </div>
+      <div class="subcategory">
+        <ng-container *ngFor="let subcategory of arraySubCategories">
+          <button
+            [ngClass]="subcategory.selected ? 'interest-selected' : ''"
+            *ngIf="subcategory.parentId === category._id"
+            (click)="changeSelection(subcategory)"
+          >
+            {{ subcategory.name }}
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="list-categories-desktop" *ngIf="!isLoading">
+    <div class="searchbar">
+      <ion-searchbar
+        animated
+        placeholder="Search"
+        (keyup)="applyFilter($event.target.value)"
+        (ionClear)="applyFilter(null)"
+      ></ion-searchbar>
+    </div>
+    <ion-row>
+      <ion-col>
+        <div class="first-col" *ngFor="let category of categoriesData.filteredData; let index = index">
+          <div class="category" *ngIf="index % 2 == 0">
+            <button [ngClass]="category.selected ? 'interest-selected' : ''" (click)="changeSelection(category)">
+              {{ category.name }}
+            </button>
+            <div class="subcategory">
+              <ng-container *ngFor="let subcategory of arraySubCategories">
+                <button
+                  [ngClass]="subcategory.selected ? 'interest-selected' : ''"
+                  *ngIf="subcategory.parentId === category._id"
+                  (click)="changeSelection(subcategory)"
+                >
+                  {{ subcategory.name }}
+                </button>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div class="second-col" *ngFor="let category of categoriesData.filteredData; let index = index">
+          <div class="category" *ngIf="index % 2 != 0">
+            <button [ngClass]="category.selected ? 'interest-selected' : ''" (click)="changeSelection(category)">
+              {{ category.name }}
+            </button>
+            <div class="subcategory">
+              <ng-container *ngFor="let subcategory of arraySubCategories">
+                <button
+                  [ngClass]="subcategory.selected ? 'interest-selected' : ''"
+                  *ngIf="subcategory.parentId === category._id"
+                  (click)="changeSelection(subcategory)"
+                >
+                  {{ subcategory.name }}
+                </button>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>
+<div class="footer-container" *ngIf="!isLoading">
+  <div class="save-button col text-center">
+    <ion-button
+      id="add-brief-save-changes"
+      class="save-changes"
+      *ngIf="wizard.isEditing"
+      (click)="saveEditChanges()"
+      shape="round"
+      [translate]="'global.actions.saveChanges'"
+    ></ion-button>
+  </div>
+  <div class="buttons-container">
+    <ion-button
+      id="add-brief-categories-back"
+      class="footer-button"
+      color="secondary"
+      fill="outline"
+      (click)="back()"
+      [translate]="'global.actions.back'"
+    >
+    </ion-button>
+    <ion-button
+      id="add-brief-categories-next"
+      *ngIf="categoriesForm"
+      [disabled]="categoriesForm.controls.categories.value.length === 0"
+      color="primary"
+      (click)="next()"
+      [translate]="'global.actions.next'"
+    ></ion-button>
+  </div>
+</div>

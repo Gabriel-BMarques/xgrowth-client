@@ -1,0 +1,91 @@
+@media (min-width: 1px) {
+  .loading-container {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    ion-spinner {
+      padding-top: 50%;
+    }
+  }
+
+  .radio-button-container {
+    position: absolute;
+    right: 7.8rem;
+    top: -5px;
+    // width: 66.91px;
+  }
+  .checkbox-container {
+    position: absolute;
+    right: 3rem;
+    top: -5px;
+    // z-index: 1;
+    // width: 59.95px;
+    ion-checkbox {
+      margin-left: 1rem;
+    }
+  }
+
+  .page-header {
+    display: flex;
+    i {
+      cursor: pointer;
+      padding-top: 1.8rem;
+      margin-left: 1rem;
+      color: #f6a117;
+    }
+    .header-title {
+      display: grid;
+      width: 78%;
+      text-transform: uppercase;
+      font-weight: bold;
+      padding-top: 1.5rem;
+      padding-left: 1rem;
+      padding-bottom: 1rem;
+    }
+    .header-information {
+      text-transform: initial;
+      width: 22%;
+      min-width: 106px;
+      padding-right: 1rem;
+      padding-top: 1.5rem;
+      font-size: 0.9rem;
+      color: rgba(86, 85, 85, 0.37);
+      font-weight: 600;
+    }
+  }
+  .list-header {
+    display: flex;
+    float: right;
+    margin-top: 1rem;
+    ion-label {
+      color: #56555566;
+      font-size: 11px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .main-contact {
+      display: grid;
+    }
+  }
+  .list {
+    ion-label {
+      color: #000000cc;
+      font-size: 13px;
+    }
+  }
+}
+
+@media (min-width: 1000px) {
+  .page-header {
+    i {
+      margin-left: 2rem;
+    }
+  }
+  .list-header {
+    margin-right: 8rem;
+  }
+  .list {
+    margin-right: 8rem;
+    margin-left: 8rem;
+  }
+}

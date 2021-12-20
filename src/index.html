@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <!-- needs to be right at the top to prevent Chrome from reloading favicon on every route change -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <title>XGrowth</title>
+    <base href="/" />
+    <meta
+      name="viewport"
+      content="viewport-fit=cover, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="theme-color" content="#4e8ef7" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="Cache-control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <link rel="manifest" href="manifest.json" />
+
+    <!-- add to homescreen for ios -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link href="https://fonts.googleapis.com/css?family=Cabin&display=swap" rel="preload" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" type="text/css" />
+
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Expo" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/icon_180x180.png" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+      href="src/assets/Logo_xGrowth_Icon512.png"
+    />
+
+    <!-- Plyr cdn -->
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
+    <script src="https://cdn.plyr.io/3.6.8/plyr.js"></script>
+
+    <!-- Data gathering tools -->
+    <!-- PENDO (REMOVED) -->
+    <!-- <script type="text/javascript">
+      (function(apiKey) {
+        (function(p, e, n, d, o) {
+          var v, w, x, y, z;
+          o = p[d] = p[d] || {};
+          o._q = o._q || [];
+          v = ['initialize', 'identify', 'updateOptions', 'pageLoad', 'track'];
+          for (w = 0, x = v.length; w < x; ++w)
+            (function(m) {
+              o[m] =
+                o[m] ||
+                function() {
+                  o._q[m === v[0] ? 'unshift' : 'push']([m].concat([].slice.call(arguments, 0)));
+                };
+            })(v[w]);
+          y = e.createElement(n);
+          y.async = !0;
+          y.src = 'https://cdn.pendo.io/agent/static/' + apiKey + '/pendo.js';
+          z = e.getElementsByTagName(n)[0];
+          z.parentNode.insertBefore(y, z);
+        })(window, document, 'script', 'pendo');
+      })('8c6afcb0-7f37-4eb8-45c1-667068094c5d');
+    </script> -->
+    <!-- Start of Woopra Code -->
+    <script>
+      (function() {
+        var t,
+          i,
+          e,
+          n = window,
+          o = document,
+          a = arguments,
+          s = 'script',
+          r = ['config', 'track', 'identify', 'visit', 'push', 'call', 'trackForm', 'trackClick'],
+          c = function() {
+            var t,
+              i = this;
+            for (i._e = [], t = 0; r.length > t; t++)
+              (function(t) {
+                i[t] = function() {
+                  return i._e.push([t].concat(Array.prototype.slice.call(arguments, 0))), i;
+                };
+              })(r[t]);
+          };
+        for (n._w = n._w || {}, t = 0; a.length > t; t++) n._w[a[t]] = n[a[t]] = n[a[t]] || new c();
+        (i = o.createElement(s)),
+          (i.async = 1),
+          (i.src = '//static.woopra.com/js/w.js'),
+          (e = o.getElementsByTagName(s)[0]),
+          e.parentNode.insertBefore(i, e);
+      })('woopra');
+
+      woopra.config({
+        domain: 'xgrowth.growinco.com'
+      });
+      woopra.track();
+    </script>
+    <!-- End of Woopra Code -->
+  </head>
+  <body>
+    <!-- Google Analytics -->
+    <script>
+      if (window['customElements']) {
+        (function(i, s, o, g, r, a, m) {
+          i['GoogleAnalyticsObject'] = r;
+          (i[r] =
+            i[r] ||
+            function() {
+              (i[r].q = i[r].q || []).push(arguments);
+            }),
+            (i[r].l = 1 * new Date());
+          (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+          a.async = 1;
+          a.src = g;
+          m.parentNode.insertBefore(a, m);
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        // https://developers.google.com/analytics/devguides/collection/analyticsjs/cookies-user-id
+        // Using localstorage, in wkwebviews we don't have cookies
+        var GA_LOCAL_STORAGE_KEY = 'ga:clientId';
+
+        if (window.localStorage) {
+          ga('create', 'UA-132833015-1', {
+            storage: 'none',
+            clientId: localStorage.getItem(GA_LOCAL_STORAGE_KEY)
+          });
+          // disable verification against deployed devices protocols (file:/// or capacitor://)
+          ga('set', 'checkProtocolTask', null);
+          ga(function(tracker) {
+            localStorage.setItem(GA_LOCAL_STORAGE_KEY, tracker.get('clientId'));
+          });
+        } else {
+          ga('create', 'UA-132833015-1', 'auto');
+        }
+        ga('send', 'pageview');
+      } else {
+        setTimeout(function() {
+          document.getElementsByTagName('app-root')[0].style.display = 'none';
+          document.getElementById('unsupported').setAttribute('class', 'show');
+        }, 0);
+      }
+    </script>
+    <!-- End Google Analytics -->
+    <!--[if lt IE 10]>
+      <p>
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+    <noscript>
+      <p>
+        This page requires JavaScript to work properly. Please enable JavaScript in your browser.
+      </p>
+    </noscript>
+    <div id="unsupported" style="display: none">
+      <div class="browsers">
+        <h1 class="text-center p-5">Welcome to XGrowth</h1>
+        <div class="row max-width-1024 mx-auto">
+          <div class="col-md-3 col-6 text-center mb-3 d-block">
+            <a href="https://www.google.com/chrome/" target="_blank" class="text-white">
+              <div
+                style="height: 128px; width: 128px; display:inline-block; background-image: url(/assets/chrome_128x128.png)"
+              ></div>
+              <div class="p-3">
+                Chrome 60+
+              </div>
+            </a>
+          </div>
+          <div class="col-md-3 col-6 text-center mb-3 d-block">
+            <a href="https://www.mozilla.org/firefox/new/" target="_blank" class="text-white">
+              <div
+                style="height: 128px; width: 128px; display:inline-block; background-image: url(/assets/firefox_128x128.png)"
+              ></div>
+              <div class="p-3">
+                Firefox 63+
+              </div>
+            </a>
+          </div>
+          <div class="col-md-3 col-6 text-center mb-3 d-block">
+            <a href="https://support.apple.com/HT204416" target="_blank" class="text-white">
+              <div
+                style="height: 128px; width: 128px; display:inline-block; background-image: url(/assets/safari_128x128.png)"
+              ></div>
+              <div class="p-3">
+                Safari 10.1+
+              </div>
+            </a>
+          </div>
+          <div class="col-md-3 col-6 text-center mb-3 d-block">
+            <a href="https://www.opera.com/download" target="_blank" class="text-white">
+              <div
+                style="height: 128px; width: 128px; display:inline-block; background-image: url(/assets/opera_128x128.png)"
+              ></div>
+              <div class="p-3">
+                Opera 57+
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="message">
+        <div class="row max-width-1024 mx-auto">
+          <div class="col-md-3 text-center">
+            <div
+              style="height: 192px; width: 192px; display:inline-block; background-image: url(/assets/Logo_xGrowth_Icon192.png)"
+            ></div>
+          </div>
+          <div class="col-md-9 text-dark text-left p-4 mt-md-3">
+            <h4>
+              It seems that your browser is a little outdated. To use XGrowth we recommend using one of the above
+              browsers.
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Include Cordova script only when needed -->
+    <script>
+      if (/^app/.test(location.host)) {
+        /**
+         * https://github.com/angular/angular/issues/22509
+         * Prevent cordova.js 5.2.4+ routing bug
+         **/
+        window.addEventListener = function() {
+          EventTarget.prototype.addEventListener.apply(this, arguments);
+        };
+        window.removeEventListener = function() {
+          EventTarget.prototype.removeEventListener.apply(this, arguments);
+        };
+        document.addEventListener = function() {
+          EventTarget.prototype.addEventListener.apply(this, arguments);
+        };
+        document.removeEventListener = function() {
+          EventTarget.prototype.removeEventListener.apply(this, arguments);
+        };
+        document.write('<script src="cordova.js"><\/script>');
+      }
+    </script>
+    <app-root></app-root>
+  </body>
+</html>

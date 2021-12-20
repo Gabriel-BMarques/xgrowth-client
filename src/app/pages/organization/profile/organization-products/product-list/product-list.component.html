@@ -1,0 +1,48 @@
+<app-product-edit-menu
+  #editProductMenu
+  [organization]="organization"
+  [viewport]="viewport"
+  (onMenuDismiss)="onProductEdition(mode)"
+></app-product-edit-menu>
+
+<main *ngIf="mode === 'grid'" class="container-fluid">
+  <ion-grid class="mt-5 mx-0 all-products">
+    <app-product-card
+      *ngFor="let product of products"
+      [product]="product"
+      [organization]="organization"
+      [class]="class || 'start-six'"
+      [viewport]="viewport"
+      [canEdit]="canEdit"
+      (onProductWillEdit)="presentProductEditModal($event)"
+    ></app-product-card>
+  </ion-grid>
+</main>
+
+<div *ngIf="mode === 'accordion'" class="product-list-accordion-container">
+  <mat-accordion>
+    <mat-expansion-panel
+      (opened)="onPanelOpen(line._id)"
+      (closed)="onPanelClose(line._id)"
+      *ngFor="let line of lines$ | async"
+    >
+      <mat-expansion-panel-header>
+        <i [id]="line._id" class="fas fa-chevron-down"></i>
+        <mat-panel-title>{{ line.name }}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <main class="container-fluid">
+        <ion-grid class="mt-5 mx-0 all-products">
+          <app-product-card
+            *ngFor="let product of line.products"
+            [product]="product"
+            [organization]="organization"
+            [viewport]="viewport"
+            [class]="class || 'start-six'"
+            [canEdit]="canEdit"
+            (onProductWillEdit)="presentProductEditModal($event)"
+          ></app-product-card>
+        </ion-grid>
+      </main>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

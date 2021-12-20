@@ -1,0 +1,41 @@
+<ion-content>
+  <div class="page-header" *ngIf="!isLoading">
+    <div class="header-title">
+      <span [translate]="'register.terms'"></span>
+    </div>
+    <!-- <div class="header-information">
+      <span [translate]="'addNew.post.draftSaved'"></span>
+    </div> -->
+  </div>
+  <div class="terms-conditions-container">
+    <h5 class="terms-conditions-text">
+      {{ termsAndConditions }}
+    </h5>
+    <div class="agree-container">
+      <ion-checkbox id="add-post-terms-agree" [(ngModel)]="accepted" class="agree-checkbox"></ion-checkbox>
+      <span class="terms-conditions-text" style="margin-left: 0.5rem;" [translate]="'addNew.post.iAgree'"> </span>
+    </div>
+  </div>
+</ion-content>
+<div class="footer-container">
+  <div class="buttons-container">
+    <ion-button
+      id="add-post-terms-back"
+      class="footer-button"
+      color="secondary"
+      fill="outline"
+      (click)="back()"
+      [translate]="'global.actions.back'"
+    >
+    </ion-button>
+    <ion-button
+      id="add-post-terms-preview"
+      class="footer-button"
+      color="primary"
+      (click)="preview()"
+      disabled="{{ !accepted }}"
+      [translate]="'addNew.post.preview'"
+    >
+    </ion-button>
+  </div>
+</div>

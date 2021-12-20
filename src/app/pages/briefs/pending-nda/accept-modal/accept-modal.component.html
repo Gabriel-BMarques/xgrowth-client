@@ -1,0 +1,36 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div class="header">
+          <div class="title">
+            <i class="far fa-laugh-beam fa-3x" style="color: #64B34C;"></i>
+            <span style="font-size: 14px;">NDA Accepted!</span>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div class="subtitle">
+          <ion-label [translate]="'briefs.youJust'"></ion-label>
+          <ion-label [translate]="'briefs.innovationProccess'"></ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+    <div class="actions">
+      <div class="col text-center">
+        <ion-button
+          shape="round"
+          style="--background: #f6a117;
+              --background-hover: #f6a117ad; 
+              color: white;
+              text-transform: none;
+              --box-shadow: none;"
+          (click)="send()"
+          [translate]="'global.actions.done'"
+        ></ion-button>
+      </div>
+    </div>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,98 @@
+<ion-content #contentArea class="companies-page">
+  <div class="title">
+    <span class="text-uppercase">Business Units</span>
+  </div>
+  <ion-grid>
+    <div class="actions-div">
+      <ion-button id="admin-companies-add" fill="clear" color="dark" class="add-button" (click)="addCompany()">
+        <i class="fas fa-plus"></i>
+      </ion-button>
+      <ion-button
+        id="admin-companies-refresh"
+        fill="clear"
+        color="dark"
+        class="refresh-button"
+        (click)="refreshCompanies()"
+      >
+        <i class="fas fa-redo-alt"></i>
+      </ion-button>
+    </div>
+    <!--Mobile-->
+    <ng-container *ngIf="isApp">
+      <button class="tooltip-companies" (click)="toggleTooltipInfo()">
+        <i class="fas fa-info-circle"></i>
+      </button>
+      <div class="col-10 col-md-8 d-flex">
+        <p *ngIf="showTooltipInfo" class="tooltip-text">
+          Business Units Page allows you to create new BUs, set webinar access to them, edit and delete.
+        </p>
+      </div>
+    </ng-container>
+    <ion-searchbar
+      id="admin-companies-searchbar"
+      animated
+      (keyup.enter)="applyFilter($event.target.value)"
+      (ionClear)="applyFilter(null)"
+      style="--background: white;"
+    >
+    </ion-searchbar>
+  </ion-grid>
+
+  <!--Desktop-->
+  <ng-container *ngIf="!isApp">
+    <button class="tooltip-companies" (click)="toggleTooltipInfo()">
+      <i class="fas fa-info-circle"></i>
+    </button>
+    <div class="col-10 col-md-8 d-flex">
+      <p *ngIf="showTooltipInfo" class="tooltip-text">
+        Business Units Page allows you to create new BUs, set webinar access to them, edit and delete.
+      </p>
+    </div>
+  </ng-container>
+
+  <div *ngIf="skeletonLoading">
+    <app-skeleton [skeleton]="'companies'"></app-skeleton>
+  </div>
+  <ion-grid class="display-list" *ngIf="!skeletonLoading">
+    <ion-row>
+      <div *ngFor="let item of companyData.filteredData; let i = index">
+        <ion-card class="companies-container">
+          <a>
+            <ion-item
+              id="admin-companies-edit"
+              class="table-item"
+              [ngClass]="{ 'table-item': item.disable === false, 'table-item-disable': item.disable === true }"
+              (click)="itemClick(item._id)"
+            >
+              <ion-label>
+                <h5 class="title">{{ item.companyName }}</h5>
+                <!-- <h3 *ngIf="Type === 'companies'" class="description">{{ item.organization }}</h3> -->
+              </ion-label>
+              <i
+                id="admin-companies-delete"
+                *ngIf="!item.disable"
+                class="fas fa-minus-circle delete-button"
+                (click)="disable(item); $event.stopPropagation()"
+              ></i>
+              <i
+                id="admin-companies-delete"
+                *ngIf="item.disable"
+                class="fas fa-check delete-button"
+                (click)="enable(item); $event.stopPropagation()"
+              ></i>
+            </ion-item>
+          </a>
+        </ion-card>
+      </div>
+    </ion-row>
+  </ion-grid>
+  <!-- <app-panel [panelData]="panelData" *ngIf="!skeletonLoading"></app-panel> -->
+  <ion-fab vertical="bottom" horizontal="end" edge slot="fixed">
+    <ion-fab-button id="admin-companies-add" shape="round" color="success" fill="solid" (click)="addCompany()">
+      <i class="fas fa-plus"></i>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-infinite-scroll threshold="40%" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText=""> </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

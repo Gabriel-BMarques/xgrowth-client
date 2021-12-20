@@ -1,0 +1,21 @@
+<ion-list class="share-popover">
+  <ion-button
+    mode="ios"
+    color="none"
+    class="ion-no-margin ion-no-padding image-btn"
+    (click)="shareInXGrowth()"
+  ></ion-button>
+  <ion-button
+    (click)="dismiss()"
+    class="ion-no-margin ion-no-padding"
+    mode="ios"
+    href="mailto:?subject=XGrowth interesting organization&body=Hi team, look at this organization i just found at XGrowth platform: {{
+      urlEncoded
+    }}"
+  >
+    <i class="fas fa-envelope"></i>
+  </ion-button>
+  <ion-button class="ion-no-margin ion-no-padding" mode="ios" (click)="copyAddress()">
+    <i class="fas" [class]="copyClass"></i>
+  </ion-button>
+</ion-list>

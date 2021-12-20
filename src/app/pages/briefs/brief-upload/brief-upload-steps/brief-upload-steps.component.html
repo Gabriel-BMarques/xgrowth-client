@@ -1,0 +1,149 @@
+<ion-content *ngIf="!isLoading">
+  <div class="back-button">
+    <ion-button (click)="back()">
+      <i class="fa fa-arrow-left" style="color: #f6a117;" aria-hidden="true"></i>
+      <span [translate]="'global.actions.back'" style="margin-left: 1rem; color: #f6a117;"></span>
+    </ion-button>
+  </div>
+  <div class="steps">
+    <div class="row">
+      <div class="number-circle-active">1</div>
+    </div>
+    <div class="step">
+      <ion-label style="color: #f6a117; font-weight: bold;" [translate]="'briefs.respond.download'"></ion-label>
+      <ion-label style="color: #41414180; font-weight: normal;" [translate]="'briefs.respond.nda'"></ion-label>
+    </div>
+    <div class="terms" *ngIf="!isLoading">
+      <div class="col text-center">
+        <div class="title">
+          <a *ngIf="nda" (click)="downloadNda(nda.url, nda.Name)" style="color: #f6a117; cursor: pointer;">
+            <i class="fa fa-download" aria-hidden="true"></i>
+            <ion-label style="margin-left: 0.6rem;">{{ nda.Name }}</ion-label>
+          </a>
+          <ion-label *ngIf="!nda" style="margin-left: 0.6rem;">No NDA available to download.</ion-label>
+        </div>
+      </div>
+      <div class="terms-text-mobile">
+        <ion-text [translate]="'briefs.respond.disclaimer'"></ion-text>
+        <br />
+        <br />
+        <ion-text [translate]="'briefs.respond.disclaimerTwo'"></ion-text>
+      </div>
+      <div class="terms-text-desktop">
+        <ion-text [translate]="'briefs.respond.disclaimer'"></ion-text>
+        <ion-text [translate]="'briefs.respond.disclaimerTwo'"></ion-text>
+      </div>
+    </div>
+    <div class="row">
+      <div
+        [ngClass]="{
+          'number-circle': !firstStepOK,
+          'number-circle-active': firstStepOK
+        }"
+        style="margin-top: 1.9rem;"
+      >
+        2
+      </div>
+    </div>
+    <div class="step">
+      <ion-label style="color: #41414180; font-weight: normal;" [translate]="'briefs.respond.sign'"></ion-label>
+      <ion-label style="color: #f6a117; font-weight: bold;" [translate]="'briefs.respond.upload'"></ion-label>
+    </div>
+    <div class="row">
+      <div *ngIf="!isLoading" class="col text-center">
+        <label class="fileInput" *ngIf="briefSupplier && !briefSupplier?.SignedNdaFile && !briefSupplier?.isLoadingNda">
+          <p-fileUpload
+            #fileInput
+            mode="basic"
+            auto="true"
+            id="file"
+            multiple="true"
+            fileLimit="1"
+            maxFileSize="250000000"
+            customUpload="true"
+            (uploadHandler)="uploadNda($event)"
+          >
+          </p-fileUpload>
+          <ion-button
+            shape="round"
+            color="secondary"
+            style="
+            color: white;
+            margin-top: 2rem;
+            text-transform: none;
+            font-family: Open Sans;
+            --box-shadow: none;"
+          >
+            <i class="fa fa-upload" aria-hidden="true"></i>
+            <span style="margin-left: 1.29rem;" [translate]="'briefs.uploadSigned'"></span>
+          </ion-button>
+        </label>
+        <ion-spinner *ngIf="briefSupplier?.isLoadingNda" style="z-index: 1000000" name="crescent"></ion-spinner>
+        <div
+          *ngIf="briefSupplier && briefSupplier?.SignedNdaFile && !isLoading && !briefSupplier?.isLoadingNda"
+          class="fileName"
+        >
+          <i class="fas fa-file-download"></i>
+          <h6>{{ briefSupplier.SignedNdaFile.name }}</h6>
+          <i style="cursor: pointer;" class="fas fa-times" (click)="deleteFileOfArray(briefSupplier.SignedNdaFile)"></i>
+        </div>
+        <div *ngIf="briefSupplier && briefSupplier?.SignedNdaFile && briefSupplier?.isLoadingNda === false">
+          <ion-button
+            (click)="done()"
+            shape="round"
+            color="secondary"
+            style="color: white; margin-top: 2rem; text-transform: none; font-family: Open Sans; --box-shadow: none;"
+          >
+            <span [translate]="'global.actions.done'"></span>
+          </ion-button>
+        </div>
+      </div>
+    </div>
+    <div class="terms">
+      <div class="terms-text-mobile">
+        <ion-text [translate]="'briefs.respond.disclaimerThree'"></ion-text>
+      </div>
+      <div class="terms-text-desktop">
+        <ion-text [translate]="'briefs.respond.disclaimerThree'"></ion-text>
+      </div>
+    </div>
+    <div class="row">
+      <div
+        [ngClass]="{
+          'number-circle': !secondStepOK,
+          'number-circle-active': secondStepOK
+        }"
+        style="margin-top: 1.9rem;"
+      >
+        3
+      </div>
+    </div>
+    <div class="step">
+      <ion-label style="color: #41414180; font-weight: normal;" [translate]="'briefs.respond.wait'"></ion-label>
+      <ion-label style="color: #41414180; font-weight: normal;" [translate]="'briefs.respond.approval'"></ion-label>
+    </div>
+    <div class="col text-center">
+      <div class="warning">
+        <i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #CC2B2B; margin-top: 1rem;"></i>
+        <div class="texts">
+          <ion-label [translate]="'briefs.respond.clientApproval'"></ion-label>
+          <ion-label [translate]="'briefs.respond.fullContent'"></ion-label>
+        </div>
+      </div>
+    </div>
+    <div class="terms">
+      <div class="terms-text-mobile">
+        <ion-text [translate]="'briefs.respond.disclaimerFour'"></ion-text>
+      </div>
+      <div class="terms-text-desktop">
+        <ion-text [translate]="'briefs.respond.disclaimerFour'"></ion-text>
+      </div>
+    </div>
+  </div>
+  <div class="help">
+    <ion-label [translate]="'Need Help'" style="margin-right: 0.2rem"></ion-label>
+    <a (click)="openContactModal('contact us', 'support@growinco.com')" style="cursor: pointer;">
+      <ion-label style="color: #70C1ED; font-weight: bold;" [translate]="'Contact Us'"></ion-label>
+    </a>
+  </div>
+</ion-content>

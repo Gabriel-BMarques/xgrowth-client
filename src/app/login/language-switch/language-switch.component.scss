@@ -1,0 +1,11 @@
+.container-modal {
+  overflow-x: auto;
+  margin-bottom: 10px;
+  .languages {
+    display: grid;
+    font-size: 13px;
+  }
+  .line {
+    display: flex;
+  }
+}

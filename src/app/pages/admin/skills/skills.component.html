@@ -1,0 +1,81 @@
+<ion-content #contentArea>
+  <div class="title">
+    <span class="text-uppercase">Skills</span>
+  </div>
+  <ion-grid class="gridFix">
+    <div class="actions-div">
+      <ion-button id="admin-skills-add" fill="clear" color="dark" class="add-button" (click)="addSkill()">
+        <i class="fas fa-plus"></i>
+      </ion-button>
+      <ion-button id="admin-skills-refresh" fill="clear" color="dark" class="refresh-button" (click)="refreshSkills()">
+        <i class="fas fa-redo-alt"></i>
+      </ion-button>
+    </div>
+    <!--Mobile-->
+    <ng-container *ngIf="isApp">
+      <button class="tooltip-skills" (click)="toggleTooltipInfo()">
+        <i class="fas fa-info-circle"></i>
+      </button>
+      <div class="col-10 col-md-8 d-flex">
+        <p *ngIf="showTooltipInfo" class="tooltip-text">
+          Skills page allows you to create new skills and relating it with segments
+        </p>
+      </div>
+    </ng-container>
+    <ion-searchbar
+      side="bottom"
+      id="admin-skills-searchbar"
+      animated
+      (keyup.enter)="applyFilter($event.target.value)"
+      (ionClear)="applyFilter(null)"
+    ></ion-searchbar>
+  </ion-grid>
+
+  <!--Desktop-->
+  <ng-container *ngIf="!isApp">
+    <button class="tooltip-skills" (click)="toggleTooltipInfo()">
+      <i class="fas fa-info-circle"></i>
+    </button>
+    <div class="col-10 col-md-8 d-flex">
+      <p *ngIf="showTooltipInfo" class="tooltip-text">
+        Skills page allows you to create new skills and relating it with segments
+      </p>
+    </div>
+  </ng-container>
+
+  <div *ngIf="skeletonLoading">
+    <app-skeleton [skeleton]="'companies'"></app-skeleton>
+  </div>
+  <ion-grid class="display-list gridFixSkills" *ngIf="!skeletonLoading">
+    <ion-row>
+      <div *ngFor="let item of skillData.filteredData; let i = index">
+        <ion-card class="companies-container">
+          <a>
+            <ion-item id="admin-skills-edit" class="table-item" (click)="itemClick(item)">
+              <ion-label>
+                <h5 class="title">{{ item.name }}</h5>
+
+                <h3 class="segment">Segment: {{ item.segment.name }}</h3>
+              </ion-label>
+              <i
+                id="admin-skills-delete"
+                class="fas fa-trash delete-button"
+                (click)="delete(item); $event.stopPropagation()"
+              ></i>
+            </ion-item>
+          </a>
+        </ion-card>
+      </div>
+    </ion-row>
+  </ion-grid>
+
+  <!-- BUTTON -->
+  <ion-fab vertical="bottom" horizontal="end" edge slot="fixed">
+    <ion-fab-button id="admin-skills-add" shape="round" color="success" fill="solid" (click)="addSkill()">
+      <i class="fas fa-plus"></i>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-infinite-scroll threshold="40%" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText=""> </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

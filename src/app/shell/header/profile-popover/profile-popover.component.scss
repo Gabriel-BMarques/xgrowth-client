@@ -1,0 +1,41 @@
+.container-profile-modal {
+  padding-top: 10px;
+  padding-inline: 18px;
+  padding-bottom: 36px;
+  .section-title {
+    color: #f6a117;
+    font-size: 12px;
+    font-weight: bold;
+    padding-bottom: 8px;
+    padding-top: 8px;
+    text-transform: uppercase;
+    width: 100%;
+    float: left;
+  }
+  .section-item {
+    font-size: 12px;
+    font-weight: bold;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+    float: left;
+    a {
+      display: inline-flex;
+      color: #a0a0a0;
+      text-decoration: none;
+      .icon-div {
+        width: 30px;
+        font-size: 16px;
+        text-align: center;
+        color: #cecece;
+      }
+      .label {
+        text-align: justify;
+        padding-top: 5px;
+        margin-left: 5px;
+      }
+    }
+  }
+}

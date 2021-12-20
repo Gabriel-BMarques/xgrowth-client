@@ -1,0 +1,14 @@
+.organization-products {
+  --background: #f6f6f6;
+  .main {
+    display: flow-root;
+    .add-product-button {
+      width: 2.5rem;
+      height: 2.5rem;
+      margin-top: 0.43rem;
+      margin-right: 1rem;
+      cursor: pointer;
+      float: right;
+    }
+  }
+}

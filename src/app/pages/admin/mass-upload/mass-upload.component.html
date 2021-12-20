@@ -1,0 +1,97 @@
+<ion-content class="mass-upload-container">
+  <ion-card class="mass-upload-card">
+    <ion-card-header class="mass-upload-header">
+      <ion-card-title>MASS UPLOAD</ion-card-title>
+      <ion-card-subtitle [translate]="'massUpload.subtitle'"></ion-card-subtitle>
+      <ion-card-subtitle translate> massUpload.acceptedFormats<span>.xls, .xlsx, .csv, .ods</span> </ion-card-subtitle>
+    </ion-card-header>
+    <ng-container *ngIf="uploadStarted; then uploadingTemplate; else selectFileTemplate"></ng-container>
+    <ng-template #selectFileTemplate>
+      <ion-card-content class="mass-upload-content">
+        <ion-button
+          [translate]="'massUpload.downloadCompanyTemplate'"
+          download
+          href="../../../../assets/company-mass-upload-template.xlsx"
+          expand="block"
+        ></ion-button>
+        <ion-button
+          [translate]="'massUpload.downloadOrganizationTemplate'"
+          download
+          href="../../../../assets/organization-mass-upload-template.xlsx"
+          expand="block"
+        ></ion-button>
+        <ng-container *ngIf="file; then proceedUploadTemplate; else uploadFileTemplate"></ng-container>
+        <ng-template #uploadFileTemplate>
+          <ion-button expand="block" translate>
+            <label class="input-file">
+              <p-fileUpload
+                #fileInput
+                accept=".xlsx, .xls, .csv, .ods"
+                mode="basic"
+                auto="true"
+                id="file"
+                fileLimit="1"
+                maxFileSize="250000000"
+                customUpload="true"
+                (uploadHandler)="uploadFile($event)"
+              ></p-fileUpload>
+            </label>
+            massUpload.chooseFile
+          </ion-button>
+        </ng-template>
+        <ng-template #proceedUploadTemplate>
+          <ion-card class="proceed-upload">
+            <ion-card-header class="proceed-upload-header">
+              <ion-card-title translate>
+                massUpload.proceed
+                <span>{{ file.name }} ({{ fileSize }})</span>
+              </ion-card-title>
+              <ion-card-subtitle [translate]="'massUpload.start'"></ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content class="proceed-upload-content">
+              <ion-button
+                (click)="clearUpload()"
+                color="secondary"
+                fill="outline"
+                [translate]="'global.actions.cancel'"
+              ></ion-button>
+              <ion-button
+                (click)="startMassUpload()"
+                color="primary"
+                [translate]="'global.actions.proceed'"
+              ></ion-button>
+            </ion-card-content>
+          </ion-card>
+        </ng-template>
+      </ion-card-content>
+    </ng-template>
+    <ng-template #uploadingTemplate>
+      <ion-card-content class="uploading-data-main-content">
+        <ion-card class="uploading-data-card">
+          <ion-card-content class="uploading-data-card-content">
+            <ion-card-subtitle *ngIf="step === 0" [translate]="'massUpload.uploading'"></ion-card-subtitle>
+            <ion-card-subtitle *ngIf="step === 1" [translate]="'massUpload.finishing'"></ion-card-subtitle>
+            <ion-card-subtitle *ngIf="step === 2" [translate]="'massUpload.finished'"></ion-card-subtitle>
+            <section class="progress-bar-section">
+              <ion-card-subtitle class="text-center"> {{ (progressBarValue * 100).toFixed(0) }}% </ion-card-subtitle>
+              <ion-progress-bar
+                class="mass-upload-progress-bar"
+                [value]="progressBarValue"
+                [buffer]="progressBarBuffer"
+                type="determinate"
+                reversed="false"
+              ></ion-progress-bar>
+              <ion-button
+                (click)="clearUpload()"
+                color="primary"
+                class="finish-mass-upload-button"
+                [translate]="'global.actions.done'"
+                *ngIf="progressBarValue >= 1"
+              ></ion-button>
+            </section>
+          </ion-card-content>
+        </ion-card>
+      </ion-card-content>
+    </ng-template>
+  </ion-card>
+</ion-content>

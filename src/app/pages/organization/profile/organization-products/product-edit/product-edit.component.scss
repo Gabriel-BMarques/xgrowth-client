@@ -1,0 +1,295 @@
+.ion-page {
+  border-radius: 0px !important;
+}
+
+.product-add {
+  .header {
+    width: 100%;
+    height: 4rem;
+    background: #ffffff;
+    box-shadow: 0px -1px 6px #00000029;
+    display: flex;
+    align-items: center;
+    .header-content {
+      .back-icon {
+        margin-left: 1.313rem;
+        color: #707070;
+        font-size: 0.875rem;
+      }
+      .title {
+        margin-left: 0.628rem;
+        color: #565555;
+        font-size: 1rem;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .product-add-form-container {
+    padding-inline: 1.25rem;
+    .product-add-form {
+      width: 100%;
+      .form-field {
+        width: 100%;
+        margin-top: 1.25rem;
+        .form-label {
+          margin-bottom: 0.313rem;
+          font-weight: bold;
+          color: #565555;
+          &.header-label {
+            line-height: 30px;
+            font-size: 1.125rem;
+            text-transform: uppercase;
+          }
+        }
+        .select-disabled {
+          ::ng-deep .mat-form-field-infix {
+            background-color: #dededf !important;
+          }
+        }
+        .form-input {
+          width: 100%;
+          ::ng-deep .mat-form-field-infix {
+            padding: 0 !important;
+            background-color: #ffffff;
+            height: 2.5rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px #dededf solid;
+            border-radius: 1.563rem;
+            input {
+              margin: 0 !important;
+              padding-right: 1rem;
+              padding-left: 1rem;
+              height: 100%;
+              border-radius: 1.563rem;
+            }
+            .mat-input-element:disabled {
+              color: #565555;
+              background-color: #dededf;
+            }
+            .mat-select-disabled .mat-select-value {
+              color: #565555;
+            }
+            ::ng-deep .mat-select {
+              height: 100%;
+              padding-right: 1rem;
+              padding-left: 1rem;
+              .mat-select-trigger {
+                height: 100%;
+                .mat-select-value {
+                  padding: 0;
+                  vertical-align: middle;
+                }
+                .mat-select-arrow-wrapper {
+                  background-image: url("../../../../../../assets/icon/chevron-down-icon.svg");
+                  background-repeat: no-repeat;
+                  background-position: center;
+                  .mat-select-arrow {
+                    border: none;
+                    width: 4px;
+                  }
+                }
+              }
+            }
+          }
+          .input-placeholder {
+            position: absolute;
+            padding-left: 1rem;
+            font-size: 0.9375rem;
+            color: #cacaca;
+          }
+          .input-error {
+            position: absolute;
+            padding-left: 1rem;
+            font-size: 0.9375rem;
+            color: red;
+            transition-timing-function: ease-in;
+            transition-delay: 0.5s;
+          }
+        }
+        .form-input-invalid {
+          width: 100%;
+          ::ng-deep .mat-form-field-infix {
+            border: 1px red solid !important;
+          }
+        }
+        .form-input-valid {
+          width: 100%;
+          ::ng-deep .mat-form-field-infix {
+            border: 1px green solid !important;
+          }
+        }
+        .form-textarea {
+          width: 100%;
+          ::ng-deep .mat-form-field-infix {
+            padding: 0 !important;
+            background-color: #ffffff;
+            width: 100%;
+            display: flex;
+            border-radius: 7px;
+            .input-placeholder {
+              position: absolute;
+              padding-left: 1rem;
+              padding-right: 1rem;
+              padding-top: 1rem;
+              font-size: 0.9375rem;
+              color: #cacaca;
+            }
+            textarea {
+              margin: 0 !important;
+              padding-right: 1rem;
+              padding-left: 1rem;
+              padding-top: 1rem;
+              padding-bottom: 1rem;
+              height: 100%;
+            }
+          }
+        }
+        .product-upload-images {
+          width: 100%;
+          min-height: 214px;
+          background: #f6f6f6 0% 0% no-repeat padding-box;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          .uploaded-file {
+            --background: none;
+            margin: 5% 10%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 200px;
+            .action-circle {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              top: 0;
+              position: absolute;
+              width: 19px;
+              height: 19px;
+              border-radius: 50%;
+              z-index: 1000000;
+              cursor: pointer;
+              margin: 5px;
+              background-color: rgba(255, 255, 255, 0.699);
+              i {
+                color: #f6a117;
+              }
+              .counter {
+                font-size: 12px;
+                font-weight: bold;
+                color: #f6a117;
+              }
+            }
+            ion-reorder {
+              height: 84px;
+              figure {
+                align-items: center;
+                padding-right: 10px;
+                display: flex;
+                .loading-image {
+                  height: 86px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  i {
+                    color: #f6a117;
+                    display: inline-flex;
+                  }
+                  ion-spinner {
+                    display: inline-flex;
+                    z-index: 1000000;
+                    margin-left: 2rem;
+                  }
+                }
+                .response-img {
+                  margin-right: 0.5rem;
+                  min-width: 86px !important;
+                  min-height: 86px !important;
+                  img {
+                    height: 86px;
+                    width: auto;
+                    object-fit: cover;
+                  }
+                }
+                .image-label {
+                  color: #f6a117;
+                  display: inline-block;
+                  vertical-align: middle;
+                  font-size: 12px;
+                  font-weight: bold;
+                  align-self: center;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  width: 200px;
+                }
+              }
+            }
+          }
+          .product-fileInput {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .upload-file-btn {
+              background: #70c1ed 0% 0% no-repeat padding-box;
+              color: white;
+              border-radius: 1.563rem;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+              text-transform: none;
+              max-width: 278px;
+              width: 90%;
+              height: 40px;
+              display: flex;
+              span {
+                font-size: 14px;
+                line-height: 14px;
+                height: 14px;
+              }
+              i {
+                font-size: 14px;
+                line-height: 14px;
+                height: 14px;
+                padding-right: 10px;
+              }
+            }
+            .product-images-ext {
+              max-width: 278px;
+              margin-top: 10px;
+              color: #707070;
+              font-size: 13px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.save-button {
+  width: 100%;
+  --box-shadow: 0px 3px 6px #00000029;
+  padding-inline: 10%;
+  position: fixed;
+  bottom: 1.25rem;
+  height: 2.5rem;
+}
+
+.product_add {
+  .add_more_product_text {
+    text-align: left;
+    font: normal normal normal 18px Open Sans;
+    letter-spacing: 0px;
+    color: #565555;
+    opacity: 1;
+  }
+  .fa-check-circle {
+    color: #28a745;
+  }
+}

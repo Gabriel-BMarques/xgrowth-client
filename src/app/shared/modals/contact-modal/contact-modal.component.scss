@@ -1,0 +1,158 @@
+::ng-deep .contact-modal {
+  overflow-y: auto !important;
+  height: 100% !important;
+  ion-backdrop {
+    min-height: 44rem;
+  }
+}
+
+::ng-deep .contact-modal .modal-wrapper {
+  margin-top: 1.5rem !important;
+}
+
+@media (max-height: 782px) {
+  ::ng-deep .contact-modal {
+    align-items: unset !important;
+  }
+}
+
+.contact-modal-content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem !important;
+  .contact-modal-header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.125rem;
+    margin-top: 1.75rem;
+    .contact-modal-header-title {
+      font-size: 1.5625rem;
+      text-transform: uppercase;
+      font-weight: bold;
+      color: #a0a0a0;
+    }
+  }
+  .contact-modal-form-container {
+    width: 100%;
+    padding-left: 3.0625rem;
+    padding-right: 3.0625rem;
+    .contact-modal-form {
+      width: 100%;
+      margin-top: 0.625rem;
+      .form-field {
+        width: 100%;
+        margin-top: 1.25rem;
+        .form-label {
+          margin-bottom: 0.313rem;
+          font-weight: bold;
+          color: #565555;
+        }
+        .select-disabled {
+          ::ng-deep .mat-form-field-infix {
+            background-color: #dededf !important;
+          }
+        }
+        .form-input {
+          width: 100%;
+          margin-top: 0.625rem;
+          ::ng-deep .mat-form-field-infix {
+            padding: 0 !important;
+            background-color: #ffffff;
+            height: 2.5rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px #dededf solid;
+            border-radius: 1.563rem;
+            input {
+              margin: 0 !important;
+              padding-right: 1rem;
+              padding-left: 1rem;
+              height: 100%;
+              border-radius: 1.563rem;
+            }
+            .mat-input-element:disabled {
+              color: #565555;
+              background-color: #dededf;
+            }
+          }
+          .input-placeholder {
+            position: absolute;
+            padding-left: 1rem;
+            font-size: 0.9375rem;
+            color: #cacaca;
+          }
+          .input-error {
+            position: absolute;
+            padding-left: 1rem;
+            font-size: 0.9375rem;
+            color: red;
+            transition-timing-function: ease-in;
+            transition-delay: 0.5s;
+          }
+        }
+        .form-input-invalid {
+          width: 100%;
+          ::ng-deep .mat-form-field-infix {
+            border: 1px red solid !important;
+          }
+        }
+        .form-input-valid {
+          width: 100%;
+          ::ng-deep .mat-form-field-infix {
+            border: 1px green solid !important;
+          }
+        }
+        .form-textarea {
+          width: 100%;
+          ::ng-deep .mat-form-field-infix {
+            padding: 0 !important;
+            background-color: #ffffff;
+            width: 100%;
+            display: flex;
+            border-radius: 7px;
+            .input-placeholder {
+              position: absolute;
+              padding-left: 1rem;
+              padding-right: 1rem;
+              padding-top: 1rem;
+              font-size: 0.9375rem;
+              color: #cacaca;
+            }
+            textarea {
+              margin: 0 !important;
+              padding-right: 1rem;
+              padding-left: 1rem;
+              padding-top: 1rem;
+              padding-bottom: 1rem;
+              height: 8.375rem;
+            }
+          }
+        }
+      }
+      .contact-modal-buttons {
+        width: 100%;
+        display: inline-flexbox;
+        margin-top: 1.5rem;
+        ion-button {
+          width: 48%;
+          text-transform: uppercase;
+        }
+        .cancel {
+          --border-width: 1px;
+          --border-color: #70c1ed;
+          --background-hover: #70c1ed1f;
+          color: #70c1ed;
+        }
+        .send {
+          --box-shadow: none;
+          --background: #70c1ed;
+          --background-hover: #70c1edad;
+        }
+      }
+    }
+  }
+}

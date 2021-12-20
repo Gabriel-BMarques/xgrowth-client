@@ -1,0 +1,15 @@
+.masonry-popover-content {
+  .feed-popover-list {
+    --padding: 0;
+    overflow: hidden;
+    ion-item {
+      --min-height: 37px;
+      font-size: 13px;
+      color: #565555;
+      a {
+        color: inherit;
+        text-decoration: inherit;
+      }
+    }
+  }
+}

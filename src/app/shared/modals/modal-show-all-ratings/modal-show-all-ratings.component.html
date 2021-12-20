@@ -1,0 +1,110 @@
+<div class="modal-all-ratings">
+  <div class="page-header">
+    <div class="back-button">
+      <i class="fas fa-arrow-left back-icon" (click)="back()"></i>
+      <span class="back-text" style="color:#565555"> POST RATINGS</span>
+    </div>
+  </div>
+  <div class="modal-ratings-informations">
+    <div class="d-md-flex align-items-center mt-4">
+      <div class="ratings">
+        <i
+          *ngFor="let star of stars"
+          class="bi bi-star-fill"
+          [ngClass]="[star % 1 === 0 && star ? 'rating-color' : '']"
+          [ngStyle]="star % 1 !== 0 ? setStarStyle(star) : ''"
+        >
+        </i>
+      </div>
+      <span class="ml-1 mt-2 mb-2 rate-mobile"
+        ><b>{{ post.PostRatingAverage }}</b> (rating average)</span
+      >
+      <div (click)="openRatePostModal()" *ngIf="post.canRate" class="rate-post ml-auto mt-3 mt-md-0">
+        <button>Rate Post</button>
+      </div>
+    </div>
+    <span class="ml-1 rate-desktop"
+      ><b>{{ post.PostRatingAverage }}</b> (rating average)</span
+    >
+  </div>
+  <div class="modal-ratings-content">
+    <div *ngFor="let rating of post.ratings; let index = index" [ngClass]="index > 0 ? 'row mt-5' : 'row'">
+      <div class="col-sm-0 col-md-3"></div>
+      <div class="col-sm-12 col-md-9 border-rating">
+        <div class="pl-0">
+          <div class="rating">
+            <ion-avatar>
+              <img [src]="rating.organization?.logo?.url" onerror="this.src='../../../assets/EmptyProfileLogo.png'" />
+            </ion-avatar>
+            <div class="rating-informations ml-3">
+              <span
+                class="organization"
+                [style]="rating.organization?.name == 'Restricted organization' ? 'color:#565555;opacity: 0.6;' : ''"
+                >{{ rating.organization?.name }}</span
+              >
+              <span class="rating-date">{{ rating.createdAt | date: 'mediumDate' }}</span>
+            </div>
+          </div>
+          <div class="d-flex align-items-center mt-3">
+            <div class="ratings">
+              <i *ngFor="let star of rating.stars" class="bi bi-star-fill" [ngClass]="star ? 'rating-color' : ''"></i>
+            </div>
+          </div>
+        </div>
+        <div class="align-items-center pl-0 mt-3">
+          <p class="rating-title">{{ rating.reason }}</p>
+          <p
+            class="rating-description mt-3"
+            [style]="!rating?.comment ? 'color:#CACACA !important' : ''"
+            [options]="{ ellipsis: '..' }"
+            line-truncation="2"
+            (hasTruncated)="handlerRatingTruncated($event, index)"
+            [innerHTML]="rating?.comment ? rating?.comment : 'Comment not added'"
+            [disabled]="disableTruncation[index]"
+          ></p>
+          <div
+            *ngIf="hasDescriptionTruncated[index]"
+            (click)="disableTruncation[index] = !disableTruncation[index]"
+            class="read-more"
+          >
+            {{ disableTruncation[index] ? 'Read less' : 'Read more' }}
+          </div>
+          <div class="rating-answer mt-3">
+            <div *ngIf="!isAnswering[index] && !rating?.answer?.message && post.canAnswer" class="open-answer-input">
+              <i class="bi bi-chat-square-fill"></i>
+              <span (click)="isAnswering[index] = !isAnswering[index]" class="ml-2 answer-button">Reply</span>
+            </div>
+            <div *ngIf="rating?.answer?.message && canViewAnswer(rating)" class="answer-informations ml-3 mt-2">
+              <span class="organization">{{ rating.answer.organization?.name }} reply</span>
+              <p class="organization-response mt-3">
+                {{ rating.answer.message }}
+              </p>
+            </div>
+            <div *ngIf="isAnswering[index]" class="input-field">
+              <mat-form-field [hideRequiredMarker]="true" class="answer-box">
+                <textarea [(ngModel)]="answerText[index]" rows="4" matInput></textarea>
+              </mat-form-field>
+              <div class="send-answer row">
+                <div class="col-sm-0 col-md-5"></div>
+                <div class="col-sm-12 col-md-7 pl-0" style="padding-left: 0px !important;">
+                  <p>
+                    <i class="bi bi-info-circle-fill" style="color:red; font-size:14px"></i> We advise you not to reveal
+                    any confidential content or information that allows your personal identification.
+                  </p>
+                  <div class="answer-buttons">
+                    <div class="cancel-button ml-auto mt-3 mt-md-0">
+                      <button (click)="isAnswering[index] = !isAnswering[index]">Cancel</button>
+                    </div>
+                    <div class="send-button ml-auto mt-3 mt-md-0">
+                      <button (click)="sendAnswer(index)">Send</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

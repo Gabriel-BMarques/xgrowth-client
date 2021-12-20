@@ -1,0 +1,486 @@
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+
+.brief-loop {
+  height: 100%;
+  .brief-main-grid {
+    column-fill: initial;
+    border-radius: 20px;
+    flex-wrap: wrap;
+    .brief-card {
+      cursor: pointer;
+      background: #ffffff 0% 0% no-repeat padding-box;
+      box-shadow: 0px 3px 6px #00000029;
+      display: inline-block; /* Fix the misalignment of items */
+      vertical-align: top; /* Keep the item on the very top */
+      border-radius: 20px;
+      height: 15.625rem;
+      width: 100%;
+      overflow: hidden;
+      .brief-image {
+        cursor: pointer;
+        z-index: 1;
+        height: 9.375rem;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        img,
+        svg {
+          position: absolute;
+          vertical-align: middle;
+          min-width: inherit;
+          width: 100%;
+          min-height: 9.375rem;
+          margin: auto;
+          top: -9999px;
+          left: -9999px;
+          right: -9999px;
+          bottom: -9999px;
+          object-fit: contain;
+        }
+      }
+      .video-player-button {
+        position: absolute;
+        width: 278px;
+        height: 150px;
+        top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          width: 58px;
+          height: 58px;
+        }
+      }
+      .brief-nda-lock-grid {
+        background-color: #dededf;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        .a {
+          fill: #a0a0a0;
+          transform: scale(0.3, 0.3) translate(135px, 125px);
+        }
+      }
+      .brief-content-hover {
+        opacity: 0;
+        position: absolute;
+        width: 100%;
+        top: 0px;
+        height: 9.375rem;
+        background: rgba(160, 160, 160, 0.4);
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        // text-align: center;
+        .posted-on {
+          position: relative;
+          width: 100%;
+          height: 17px;
+          top: 120px;
+          margin-left: 10px;
+          span {
+            background-color: #70c1ed;
+            min-width: 170px;
+            width: auto;
+            padding: 0 8px 0 8px;
+            text-align: center;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: none;
+          }
+        }
+        .edit-brief {
+          position: relative;
+          float: right;
+          right: 2%;
+          top: 10px;
+          .edit {
+            background: white;
+            border-radius: 50px;
+            height: 35px;
+            width: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          i {
+            color: #70c1ed;
+            font-size: 16px;
+            position: relative;
+            top: 1px;
+            right: 1px;
+          }
+        }
+      }
+      .brief-content-mobile {
+        position: absolute;
+        width: 100%;
+        top: 0px;
+        height: 9.375rem;
+        .info-brief {
+          position: relative;
+          float: right;
+          right: 2%;
+          top: 10px;
+          .more {
+            background: white;
+            border-radius: 50px;
+            height: 35px;
+            width: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.8;
+          }
+          i {
+            color: #707070;
+            font-size: 16px;
+            position: relative;
+            top: 1px;
+            right: 1px;
+          }
+        }
+        .brief-modal-info {
+          position: absolute;
+          width: 219px;
+          height: 239px;
+          background: #ffffff 0% 0% no-repeat padding-box;
+          box-shadow: 0px 1px 6px #00000029;
+          top: 44px;
+          right: 0%;
+          padding: 13px 13px 13px 13px;
+          color: #565555;
+          font-size: 13px;
+          z-index: 3;
+          span {
+            display: block;
+          }
+          .title-info {
+            font-weight: bold;
+          }
+          hr {
+            margin-top: 0.7rem;
+            margin-bottom: 0.7rem;
+            border: 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.2);
+            width: 90%;
+          }
+        }
+      }
+      .brief-content {
+        margin: 13px 21px 19px 21px;
+        text-align: left;
+        .brief-main-informations {
+          display: inline-flex;
+          width: 100%;
+          ion-avatar {
+            width: 40px;
+            height: 40px;
+            display: inline-table;
+            overflow: hidden;
+            img {
+              width: 40px;
+              height: 40px;
+              overflow: hidden;
+              max-width: none;
+              img {
+                width: 40px;
+                height: 40px;
+              }
+            }
+            .brief-title {
+              margin-left: 10px;
+            }
+          }
+          .brief-title {
+            font-size: 16px;
+            color: #565555;
+            margin-left: 10px;
+            font-weight: bold;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; // limit number of lines
+            -webkit-box-orient: vertical;
+            text-transform: none;
+          }
+        }
+        .brief-additional-informations {
+          margin-left: 50px;
+          margin-top: 5px;
+          color: #a0a0a0;
+          font-size: 13px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          .brief-company-name {
+            text-transform: uppercase;
+          }
+          .brief-last-viewed {
+            color: #a0a0a0;
+            font: normal normal normal 13px/18px Open Sans;
+            text-transform: none;
+          }
+        }
+      }
+    }
+  }
+  .brief-divider {
+    border-top: 1px solid #bbb;
+    margin-bottom: 29px;
+    margin-top: 25px;
+  }
+  .list-header {
+    flex-wrap: unset;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 20px;
+    text-transform: none;
+    .header-info {
+      min-width: 151px;
+      color: #565555;
+    }
+  }
+  .brief-main-list {
+    --ion-background-color: #f6f6f6;
+    .brief-list {
+      display: inline-flex;
+      flex-direction: row;
+      width: 100%;
+      height: 60px;
+      font-size: 14px;
+      margin: 12px 0 12px 0;
+      flex-wrap: unset;
+      cursor: pointer;
+      .brief-img {
+        min-width: 110px;
+        height: 60px;
+        .brief-nda-lock {
+          background-color: #dededf;
+          border-radius: 5px;
+          .a {
+            fill: #a0a0a0;
+            transform: scale(0.5, 0.5) translate(65px, 55px);
+          }
+        }
+        // margin-right: 1rem;
+        @media (max-width: 767px) {
+          margin-right: 0;
+          padding: 0;
+          min-width: 90px;
+          max-width: 90px;
+        }
+        img {
+          vertical-align: unset;
+          border-radius: 5px;
+          width: 82px;
+          height: 60px;
+          object-fit: cover;
+        }
+      }
+      .video-player-button-list {
+        position: absolute;
+        width: 82px;
+        height: 60px;
+        top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          width: 28px;
+          height: 28px;
+        }
+      }
+      .brief-info {
+        min-width: 151px;
+        color: #565555;
+        font-size: 14px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        .brief-info-mobile {
+          display: grid;
+          .brief-title-mobile {
+            height: 40px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; // limit number of lines
+            -webkit-box-orient: vertical;
+          }
+          .mobile-date {
+            margin-top: 3px;
+            color: #a0a0a0;
+            font-size: 12px;
+          }
+        }
+        @media (max-width: 767px) {
+          min-width: 150px;
+        }
+      }
+    }
+    .brief-list:hover .brief-title-mobile {
+      font-weight: bold;
+      transition-delay: 0.1s;
+    }
+    .brief-list:hover .brief-img {
+      animation: blinker 0.7s;
+    }
+    .background-hover-list:hover {
+      background-color: #fafafa;
+    }
+    @keyframes blinker {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    .brief-content-mobile {
+      position: absolute;
+      margin-top: -8rem;
+      right: -1.8rem;
+      .info-brief {
+        @media (min-width: 768px) {
+          display: none;
+        }
+        position: relative;
+        right: 36px;
+        top: 46px;
+        float: right;
+        .more {
+          height: 35px;
+          width: 35px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0.8;
+        }
+        i {
+          color: #707070;
+          font-size: 16px;
+          position: relative;
+          top: 1px;
+          right: 1px;
+        }
+      }
+      .brief-modal-info {
+        position: absolute;
+        width: 219px;
+        height: 239px;
+        background: #ffffff 0% 0% no-repeat padding-box;
+        box-shadow: 0px 1px 6px #00000029;
+        right: 3rem;
+        margin-top: 4.6rem;
+        padding: 13px 13px 13px 13px;
+        color: #565555;
+        font-size: 13px;
+        z-index: 3;
+        span {
+          display: block;
+        }
+        .title-info {
+          font-weight: bold;
+        }
+        hr {
+          margin-top: 0.7rem;
+          margin-bottom: 0.7rem;
+          border: 0;
+          border-top: 1px solid rgba(0, 0, 0, 0.2);
+          width: 90%;
+        }
+      }
+    }
+  }
+  .mobile-remove {
+    @media (max-width: 767px) {
+      display: none;
+    }
+  }
+  .mobile-show {
+    @media (min-width: 768px) {
+      display: none;
+    }
+  }
+  // Desktop
+  @media (min-width: 768px) {
+    .brief-loop {
+      margin-top: 14px;
+    }
+    .brief-card {
+      img:hover + .brief-content-hover,
+      .brief-content-hover:hover {
+        display: block;
+        opacity: 1;
+        transition: 0.3s;
+      }
+      img + .brief-content-hover,
+      .brief-content-hover {
+        transition: all 0.4s ease-out;
+      }
+
+      .brief-content-mobile {
+        display: none;
+      }
+    }
+  }
+  // Mobile
+  @media (max-width: 767px) {
+    .brief-loop {
+      margin-top: 0px;
+    }
+    .brief-card {
+      .brief-content-hover {
+        display: none;
+      }
+      .brief-content-mobile {
+        display: block;
+      }
+    }
+  }
+}
+
+// https://www.creativebloq.com/advice/10-things-you-never-knew-you-could-do-with-sass
+$grid-breakpoints: (
+  sm: 500px,
+  md: 900px,
+  lg: 1200px,
+  xl: 1564px
+);
+
+@function breakpoint-var($breakpoint) {
+  @return map-get($grid-breakpoints, $breakpoint);
+}
+
+@mixin resizeRow($margin, $flex) {
+  margin: $margin;
+  flex: $flex;
+  max-width: $flex;
+}
+
+.brief-loop .brief-main-grid .brief-card {
+  // five cards per row
+  @media (min-width: breakpoint-var(xl)) {
+    @include resizeRow(10px 0.5%, 19%);
+  }
+
+  // four cards per row
+  @media (max-width: breakpoint-var(xl)) and (min-width: breakpoint-var(lg)) {
+    @include resizeRow(10px 0.75%, 23.5%);
+  }
+
+  // three cards per row
+  @media (max-width: breakpoint-var(lg)) and (min-width: breakpoint-var(md)) {
+    @include resizeRow(10px 1%, 31.33%);
+  }
+
+  // two cards per row
+  @media (max-width: breakpoint-var(md)) and (min-width: breakpoint-var(sm)) {
+    @include resizeRow(10px 1%, 48%);
+  }
+
+  // one cards per row
+  @media (max-width: breakpoint-var(sm)) {
+    @include resizeRow(10px 3% 10px 1%, 96%);
+  }
+}

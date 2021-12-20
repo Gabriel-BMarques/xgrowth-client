@@ -1,0 +1,619 @@
+<ion-content class="organization-profile-overview">
+  <ng-container *ngIf="viewport && organization">
+    <div class="main">
+      <app-profile-header
+        *ngIf="organization"
+        [isEditing]="isEditing"
+        [organization]="organization"
+        [canEdit]="canEdit"
+        [viewport]="viewport"
+      ></app-profile-header>
+    </div>
+    <ng-container *ngIf="loadData$ | async">
+      <main class="container-fluid">
+        <ion-card class="overview-modal" *ngIf="!loadTabs">
+          <ion-card-header><ion-card-title class="content_title_item">Overview</ion-card-title></ion-card-header>
+          <ion-card-content>
+            <ion-grid class="p-0">
+              <ion-row class="overview-modal-content">
+                <ion-col class="p-0">
+                  <div class="d-flex pb-2 flex-column">
+                    <ion-text
+                      class="pb-1 font-weight-bold"
+                      [translate]="'myCompany.profile.organizationType'"
+                    ></ion-text>
+                    <ion-text [innerText]="organization?.organizationType?.name"></ion-text>
+                  </div>
+                  <div class="d-flex py-2 flex-column">
+                    <ion-text class="pb-1 font-weight-bold" [translate]="'myCompany.profile.segments'"></ion-text>
+                    <ion-text
+                      >{{ segments | slice: 0:80 }}<ion-text *ngIf="segments.length > 80"> +</ion-text></ion-text
+                    >
+                  </div>
+                  <div class="d-flex py-2 flex-column">
+                    <ion-text class="pb-1 font-weight-bold" [translate]="'myCompany.profile.subSegments'"></ion-text>
+                    <ion-text
+                      >{{ subSegments | slice: 0:80 }}<ion-text *ngIf="subSegments.length > 80"> +</ion-text></ion-text
+                    >
+                  </div>
+                  <div class="d-flex py-2 flex-column">
+                    <ion-text class="pb-1 font-weight-bold" [translate]="'myCompany.profile.skills'"></ion-text>
+                    <ion-text>{{ skills | slice: 0:80 }}<ion-text *ngIf="skills.length > 80"> +</ion-text></ion-text>
+                  </div>
+                  <div class="d-flex py-2 flex-column">
+                    <ion-text class="pb-1 font-weight-bold" [translate]="'myCompany.profile.certifications'"></ion-text>
+                    <ion-text
+                      >{{ certifications | slice: 0:80
+                      }}<ion-text *ngIf="certifications.length > 80"> +</ion-text></ion-text
+                    >
+                  </div>
+                  <div class="d-flex py-2 flex-column">
+                    <ion-text
+                      class="pb-1 font-weight-bold"
+                      [translate]="'myCompany.profile.ownerShipDiversity'"
+                    ></ion-text>
+                    <ion-text
+                      >{{ initiatives | slice: 0:80 }}<ion-text *ngIf="initiatives.length > 80"> +</ion-text></ion-text
+                    >
+                  </div>
+                </ion-col>
+              </ion-row>
+              <div class="overview-modal-footer">
+                <hr />
+                <ion-row class="see-all-btn">
+                  <ion-col class="p-0">
+                    <ion-text
+                      class="see-all-btn-text"
+                      (click)="overviewSeeAll()"
+                      [translate]="'global.actions.seeAll'"
+                    ></ion-text>
+                  </ion-col>
+                </ion-row>
+              </div>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+        <ion-grid class="mx-0 card-grid" fixed="true" size="8" *ngIf="!loadTabs">
+          <ion-row>
+            <ion-col>
+              <ion-card class="mt-5">
+                <ion-card-header>
+                  <ion-card-subtitle class="content_title_item">About</ion-card-subtitle>
+                </ion-card-header>
+
+                <ion-card-content>
+                  <ion-grid>
+                    <ion-row>
+                      <ion-col size-lg="6">
+                        <h6 class="ion-padding-vertical ion-margin-vertical content_subtitle_item">Who we are</h6>
+                        <div>
+                          {{ organization.whoWeAre }}
+                        </div>
+                      </ion-col>
+                      <ion-col size="1"></ion-col>
+                      <ion-col class="mx-lg-2">
+                        <a
+                          [href]="organization.website"
+                          target="_blank"
+                          class="ion-padding-vertical ion-margin-vertical profile_link_style"
+                        >
+                          Visit website
+                          <span style="position: absolute;top: 6px;left: 88px; font-size: 8px;"
+                            ><i class="fas fa-external-link-alt"></i
+                          ></span>
+                        </a>
+                        <div>
+                          <ion-col class="d-flex flex-column mb-2 py-2">
+                            <div class="d-flex flex-column">
+                              <ion-text class="pb-1 font-weight-bold">Founded</ion-text>
+                              <ion-text>{{ organization.yearFounded }}</ion-text>
+                            </div>
+                            <div class="d-flex flex-column py-2">
+                              <ion-text class="pb-1 font-weight-bold">Company size</ion-text>
+                              <ion-text>{{ organization.numberOfEmployees }}</ion-text>
+                            </div>
+                            <div class="d-flex flex-column mb-2 py-0">
+                              <ion-text class="pb-1 font-weight-bold">Annual sales</ion-text>
+                              <ion-text>{{ organization.annualSales }} (USD)</ion-text>
+                            </div>
+                          </ion-col>
+                        </div>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+          <ion-row class="overview-modal-mobile">
+            <ion-col>
+              <ion-card>
+                <ion-card-header><ion-card-title class="content_title_item">Overview</ion-card-title></ion-card-header>
+                <ion-card-content>
+                  <ion-grid class="p-0">
+                    <ion-row>
+                      <ion-col size-md="6" size-xs="12" class="pl-0 pr-3">
+                        <div class="d-flex pb-2 flex-column">
+                          <ion-text
+                            class="pb-1 font-weight-bold"
+                            [translate]="'myCompany.profile.organizationType'"
+                          ></ion-text>
+                          <ion-text [innerText]="organization.organizationType?.name"></ion-text>
+                        </div>
+                      </ion-col>
+                      <ion-col size-md="6" size-xs="12" class="pl-0 pr-3">
+                        <div class="d-flex py-2 flex-column">
+                          <ion-text class="pb-1 font-weight-bold" [translate]="'myCompany.profile.segments'"></ion-text>
+                          <ion-text
+                            >{{ segments | slice: 0:80 }}<ion-text *ngIf="segments.length > 80"> +</ion-text></ion-text
+                          >
+                        </div>
+                      </ion-col>
+                      <ion-col size-md="6" size-xs="12" class="pl-0 pr-3">
+                        <div class="d-flex py-2 flex-column">
+                          <ion-text
+                            class="pb-1 font-weight-bold"
+                            [translate]="'myCompany.profile.subSegments'"
+                          ></ion-text>
+                          <ion-text
+                            >{{ subSegments | slice: 0:80
+                            }}<ion-text *ngIf="subSegments.length > 80"> +</ion-text></ion-text
+                          >
+                        </div>
+                      </ion-col>
+                      <ion-col size-md="6" size-xs="12" class="pl-0 pr-3">
+                        <div class="d-flex py-2 flex-column">
+                          <ion-text class="pb-1 font-weight-bold" [translate]="'myCompany.profile.skills'"></ion-text>
+                          <ion-text
+                            >{{ skills | slice: 0:80 }}<ion-text *ngIf="skills.length > 80"> +</ion-text></ion-text
+                          >
+                        </div>
+                      </ion-col>
+                      <ion-col size-md="6" size-xs="12" class="pl-0 pr-3">
+                        <div class="d-flex py-2 flex-column">
+                          <ion-text
+                            class="pb-1 font-weight-bold"
+                            [translate]="'myCompany.profile.certifications'"
+                          ></ion-text>
+                          <ion-text
+                            >{{ certifications | slice: 0:80
+                            }}<ion-text *ngIf="certifications.length > 80"> +</ion-text></ion-text
+                          >
+                        </div>
+                      </ion-col>
+                      <ion-col size-md="6" size-xs="12" class="pl-0 pr-3">
+                        <div class="d-flex py-2 flex-column">
+                          <ion-text
+                            class="pb-1 font-weight-bold"
+                            [translate]="'myCompany.profile.ownerShipDiversity'"
+                          ></ion-text>
+                          <ion-text
+                            >{{ initiatives | slice: 0:80
+                            }}<ion-text *ngIf="initiatives.length > 80"> +</ion-text></ion-text
+                          >
+                        </div>
+                      </ion-col>
+                    </ion-row>
+                    <hr />
+                    <ion-row class="see-all-btn">
+                      <ion-col class="p-0">
+                        <ion-text
+                          class="see-all-btn-text"
+                          (click)="overviewSeeAll()"
+                          [translate]="'global.actions.seeAll'"
+                        ></ion-text>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+          <ion-row class="organization-reach-mobile">
+            <ion-col>
+              <ion-card #worldMap id="worldMapId">
+                <ion-card-header class="org-reach-header" style="display: flex; justify-content: space-between;">
+                  <ion-card-title class="content_title_item">Organization Reach</ion-card-title>
+                  <div style="font-size: 20px;">
+                    <i
+                      class="bi bi-list"
+                      style="color: #A0A0A0 !important;cursor: pointer;"
+                      (click)="switchToList(organization.organizationReach)"
+                    ></i>
+                  </div>
+                </ion-card-header>
+                <div class="world-map-content">
+                  <app-world-map
+                    [chartWidth]="worldMap.el.clientWidth"
+                    [organizationReach]="organization.organizationReach"
+                  ></app-world-map>
+                </div>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+          <ion-row class="card_grid">
+            <ion-col
+              *ngIf="(organizationBriefs$ | async)?.length > 0"
+              size="12"
+              size-lg="4"
+              style="cursor: pointer;"
+              (click)="goToOrganizationContent('briefs')"
+            >
+              <ion-card>
+                <ion-row>
+                  <ion-col size="9" class="p-0">
+                    <ng-container *ngIf="organizationBriefsImages$ | async">
+                      <div>
+                        <img
+                          class="card-img"
+                          [src]="(organizationBriefsImages$ | async)[0]?.url || imagePlaceholder"
+                          (error)="(imagePlaceholder)"
+                        />
+                      </div>
+                    </ng-container>
+                  </ion-col>
+                  <ion-col size="3" class="py-0 pr-0">
+                    <img
+                      class="card-img h-50"
+                      [src]="(organizationBriefsImages$ | async)[1]?.url || imagePlaceholder"
+                      (error)="(imagePlaceholder)"
+                    />
+                    <img
+                      class="card-img h-50 pt-1"
+                      [src]="(organizationBriefsImages$ | async)[2]?.url || imagePlaceholder"
+                      (error)="(imagePlaceholder)"
+                    />
+                  </ion-col>
+                </ion-row>
+
+                <ion-card-header>
+                  <ion-card-title class="content_title_item">Briefs</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <ng-container *ngIf="organizationBriefs$ | async">
+                    <ion-text class="content_subtitle_item_2">
+                      {{ (organizationBriefs$ | async)?.length }}<span class="text-muted"> - briefs </span>
+                    </ion-text>
+                  </ng-container>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            <ion-col
+              *ngIf="(organizationPosts$ | async)?.length > 0"
+              size="12"
+              size-lg="4"
+              style="cursor: pointer;"
+              (click)="goToOrganizationContent('posts')"
+            >
+              <ion-card>
+                <ion-row>
+                  <ion-col size="9" class="p-0">
+                    <ng-container *ngIf="organizationPostsImages$ | async">
+                      <div>
+                        <img
+                          class="card-img"
+                          [src]="(organizationPostsImages$ | async)[0]?.url || imagePlaceholder"
+                          (error)="(imagePlaceholder)"
+                        />
+                      </div>
+                    </ng-container>
+                  </ion-col>
+                  <ion-col size="3" class="py-0 pr-0">
+                    <img
+                      class="card-img h-50"
+                      [src]="(organizationPostsImages$ | async)[1]?.url || imagePlaceholder"
+                      (error)="(imagePlaceholder)"
+                    />
+                    <img
+                      class="card-img h-50 pt-1"
+                      [src]="(organizationPostsImages$ | async)[2]?.url || imagePlaceholder"
+                      (error)="(imagePlaceholder)"
+                    />
+                  </ion-col>
+                </ion-row>
+
+                <ion-card-header>
+                  <ion-card-title class="content_title_item">Posts</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <ng-container *ngIf="organizationPosts$ | async">
+                    <ion-text class="content_subtitle_item_2">
+                      {{ (organizationPosts$ | async)?.length }} <span class="text-muted">- posts</span>
+                    </ion-text>
+                  </ng-container>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            <ion-col
+              *ngIf="(briefResponses$ | async)?.length > 0"
+              size="12"
+              size-lg="4"
+              style="cursor: pointer;"
+              (click)="goToOrganizationContent('brief-responses')"
+            >
+              <ion-card>
+                <ion-row>
+                  <ion-col size="9" class="p-0">
+                    <ng-container *ngIf="briefResponses$ | async">
+                      <div>
+                        <img
+                          class="card-img"
+                          [src]="(briefResponsesImages$ | async)[0]?.url || imagePlaceholder"
+                          (error)="(imagePlaceholder)"
+                        />
+                      </div>
+                    </ng-container>
+                  </ion-col>
+                  <ion-col size="3" class="py-0 pr-0">
+                    <img
+                      class="card-img h-50"
+                      [src]="(briefResponsesImages$ | async)[1]?.url || imagePlaceholder"
+                      (error)="(imagePlaceholder)"
+                    />
+                    <img
+                      class="card-img h-50 pt-1"
+                      [src]="(briefResponsesImages$ | async)[2]?.url || imagePlaceholder"
+                      (error)="(imagePlaceholder)"
+                    />
+                  </ion-col>
+                </ion-row>
+
+                <ion-card-header>
+                  <ion-card-title class="content_title_item">Brief responses</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <ion-text class="content_subtitle_item_2">
+                    {{ (briefResponses$ | async)?.length }}<span class="text-muted"> - brief responses</span>
+                  </ion-text>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="!isNull(webinars$ | async)">
+            <ion-col>
+              <ion-card class="webinar_card">
+                <ion-card-header class="pl-4 pr-4 pt-4 pb-0">
+                  <ion-card-title class="content_title_item">Upcoming webinar</ion-card-title>
+                </ion-card-header>
+
+                <ion-card-content class="p-0">
+                  <ion-grid>
+                    <ion-row>
+                      <ion-col
+                        size="12"
+                        size-lg="3"
+                        class="d-flex justify-content-center align-items-center"
+                        style="max-height: 13.75rem;"
+                      >
+                        <img
+                          class="card-img w-75 h-auto webinar_card_image"
+                          [src]="getWebinarThumbnail(webinars$ | async)"
+                        />
+                      </ion-col>
+
+                      <ion-col size="12" size-lg="9">
+                        <ion-row>
+                          <ion-col class="px-0">
+                            <ng-container>
+                              <h6
+                                class="ion-padding-vertical ion-margin-vertical webinar_card_subtitle"
+                                [innerText]="(webinars$ | async)?.title | titlecase"
+                              ></h6>
+                            </ng-container>
+                          </ion-col>
+                        </ion-row>
+                        <ion-row>
+                          <ion-col size="12" size-lg="7" class="px-0">
+                            <div
+                              class="d-block text-justify webinar_description"
+                              [line-truncation]="4"
+                              (hasTruncated)="handler($event)"
+                              [disabled]="!hasWebinarTruncatedDescription"
+                              [innerText]="(webinars$ | async)?.description"
+                            ></div>
+                            <div class="py-0 mt-1 px-0">
+                              <a
+                                *ngIf="hasWebinarTruncatedDescription"
+                                class="read_more_less_link"
+                                [translate]="'global.actions.readMore'"
+                                (click)="webinarDescriptionReadMore()"
+                              ></a>
+                              <a
+                                *ngIf="!hasWebinarTruncatedDescription && readMoreWebinarDescription"
+                                class="read_more_less_link"
+                                [translate]="'global.actions.readLess'"
+                                (click)="webinarDescriptionReadLess()"
+                              ></a>
+                            </div>
+                          </ion-col>
+                          <ion-col class="webinar_info" size="12" size-lg="4">
+                            <ion-row>
+                              <ion-col size="1" class="d-flex flex-row justify-content-center align-items-center">
+                                <i class="bi bi-calendar-date-fill" style="font-size: 1rem; color: #565555;"></i>
+                              </ion-col>
+                              <ion-col style="margin-left: 0.625rem;">
+                                <ion-text
+                                  style="font-weight: bold;"
+                                  [innerText]="(webinars$ | async)?.eventDate | date: 'EEEE, MMMM d'"
+                                >
+                                  <!-- Wed, Nov 23 -->
+                                </ion-text>
+                                <br />
+                                <ion-text [innerText]="(webinars$ | async)?.eventDate | date: 'h:mm:ss a'"> </ion-text>
+                                <br />
+                                <ion-text [innerText]="(webinars$ | async)?.eventDate | date: 'zz'"> </ion-text>
+                                <br />
+                              </ion-col>
+                              <hr style="width: 100%; margin-top: 0.6563rem; margin-bottom: 0.6563rem;" />
+                            </ion-row>
+                            <ion-row>
+                              <ion-col class="pl-0">
+                                <a
+                                  class="profile_link_style d-flex align-items-center"
+                                  [href]="(webinars$ | async)?.meetingLink"
+                                  target="_blank"
+                                >
+                                  <i class="bi bi-camera-video-fill" style="font-size: 1.125rem; color: #565555;"></i
+                                  ><span style="margin-left: 0.625rem;">Online - Event link</span>
+                                </a>
+                              </ion-col>
+                            </ion-row>
+                          </ion-col>
+                        </ion-row>
+                      </ion-col>
+                    </ion-row>
+                    <ion-row class="col-12 pb-2">
+                      <hr style="width: 100%; margin-top: 0.6563rem; margin-bottom: 0.6563rem;" />
+                      <ion-col size="12" class="d-flex justify-content-center align-items-center">
+                        <span
+                          [translate]="'global.actions.seeAll'"
+                          style="color: #70c1ed; cursor: pointer;"
+                          (click)="goToWebinarsPage()"
+                        >
+                        </span>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="(products$ | async).length > 0">
+            <ion-col size="10" class="px-3">
+              <h6 class="content_title_item">Last Added Products</h6>
+            </ion-col>
+            <ion-col size="2" class="px-3 d-flex align-self-end justify-content-end">
+              <a
+                [routerLink]="['..', 'products']"
+                style="font-size: 18px; cursor: pointer; font-weight: 400;"
+                class="content_title_item"
+                >See all</a
+              >
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="(products$ | async)?.length > 0" class="card_grid">
+            <ion-col size="12" size-lg="4" *ngFor="let product of products$ | async | slice: 0:3">
+              <ion-card style="cursor: pointer;" (click)="openProductModal(product)">
+                <ion-row>
+                  <ion-col size="12" class="p-0">
+                    <div>
+                      <img
+                        class="img img-responsive"
+                        [src]="product?.uploadedFiles?.length ? (product?.uploadedFiles)[0].url : imagePlaceholder"
+                        (error)="(imagePlaceholder)"
+                      />
+                    </div>
+                  </ion-col>
+                </ion-row>
+
+                <ion-card-header>
+                  <ion-card-title class="text-truncate" [innerText]="product.name | titlecase"></ion-card-title>
+                  <ion-card-subtitle>
+                    <ion-text
+                      *ngIf="product?.weight && product?.measuringUnit; else productWeightPlaceholder"
+                      class="text-dark"
+                      [innerText]="(product.weight | number) + product.measuringUnit"
+                    ></ion-text>
+                    <ng-template #productWeightPlaceholder>
+                      <ion-text style="font-size: 13px;" class="text-muted">No weight or size available</ion-text>
+                    </ng-template>
+                  </ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                  <ion-text> </ion-text>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="(productsByCity$ | async)?.length > 0 && isExternalManufacturer">
+            <ion-col>
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-title class="content_title_item">Manufacturing details</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <h1 class="card_table_title">Plants At</h1>
+                  <hr style="width: 100%;" />
+                  <div
+                    class="row py-4"
+                    style="padding-left: 1.25rem; padding-right: 1.25rem;"
+                    *ngFor="let productByCity of productsByCity$ | async | slice: 0:4; let last = last"
+                  >
+                    <div class="col-3" [innerText]="productByCity.country.name | titlecase"></div>
+                    <div class="col-3" [innerText]="productByCity.city.name | titlecase"></div>
+                    <div class="row">
+                      <div class="col">
+                        <ng-container *ngFor="let product of productByCity?.products | slice: 0:4">
+                          <ion-text class="text-truncate" [innerText]="product.name"></ion-text>
+                          <br />
+                        </ng-container>
+                      </div>
+                      <div class="col">
+                        <ng-container *ngFor="let product of productByCity?.products | slice: 4:7">
+                          <ion-text class="text-truncate" [innerText]="product.name"></ion-text>
+                          <br />
+                        </ng-container>
+                      </div>
+                    </div>
+                    <hr *ngIf="!last" style="width: 100%;" />
+                  </div>
+                  <ion-row>
+                    <hr style="width: 100%; margin-bottom: 0.6563rem;" />
+                    <ion-col class="d-flex justify-content-center align-items-center py-2">
+                      <a (click)="manufacturingDetailsModal()" class="profile_link_style">See All</a>
+                    </ion-col>
+                  </ion-row>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="organization.uploadedContent">
+            <ion-col>
+              <ion-card>
+                <ion-row>
+                  <ion-col>
+                    <ion-card-header class="d-flex flex-row justify-content-between">
+                      <ion-card-title class="content_title_item">Strategic material</ion-card-title>
+                      <div *ngIf="organization?.uploadedContent?.url">
+                        <a [href]="organization?.uploadedContent?.url" target="_blank">
+                          <i class="far fa-eye mr-3"></i>
+                        </a>
+                        <a [href]="organization?.uploadedContent?.url">
+                          <i class="fas fa-file-download"></i>
+                        </a>
+                      </div>
+                    </ion-card-header>
+                  </ion-col>
+                </ion-row>
+                <ion-card-content class="p-0">
+                  <div style="max-height: 60%;">
+                    <img
+                      style="height: 200px; object-fit: cover;"
+                      class="img-fluid p-0"
+                      [src]="organization?.uploadedContent?.url || imagePlaceholder"
+                      (error)="(imagePlaceholder)"
+                      alt=""
+                    />
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </main>
+
+      <!-- <app-organization-tabs
+        *ngIf="loadTabs"
+        [initialTab]="tab"
+        [organizationId]="organization._id"
+      ></app-organization-tabs> -->
+    </ng-container>
+
+    <ng-container *ngIf="!(loadData$ | async)">
+      <div class="loader-wrapper d-flex justify-content-center align-items-center p-3">
+        <app-loader [isLoading]="!(loadData$ | async)"></app-loader>
+      </div>
+    </ng-container>
+  </ng-container>
+</ion-content>

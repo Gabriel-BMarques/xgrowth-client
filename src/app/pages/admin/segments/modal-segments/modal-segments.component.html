@@ -1,0 +1,51 @@
+<div class="modal">
+  <div class="modal-container">
+    <div class="panel-header">
+      <div class="title">
+        <span>Choose Your Segment</span>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div
+        style="
+              margin-top: 5rem;
+              padding-left: 1.5rem;
+              padding-right: 1.5rem;"
+      >
+        <form [formGroup]="responseInfoForm" novalidate>
+          <ion-list>
+            <label class="input-label">Segment</label>
+            <mat-form-field [hideRequiredMarker]="true" style="padding-bottom: 1rem;">
+              <input id="admin-segment-name" type="text" matInput formControlName="name" required />
+              <mat-error *ngIf="responseInfoForm.controls.name.invalid && responseInfoForm.controls.name.touched">
+                <div style="text-align: center;">
+                  <span [translate]="'briefs.respond.nameRequired'"></span>
+                </div>
+              </mat-error>
+            </mat-form-field>
+          </ion-list>
+        </form>
+      </div>
+
+      <div class="footer-container">
+        <div class="actions-container">
+          <div class="cancel-button-container">
+            <ion-button id="admin-segment-cancel" shape="round" fill="outline" (click)="cancel()" translate
+              >Cancel</ion-button
+            >
+          </div>
+          <div class="save-button-container">
+            <ion-button
+              id="admin-segment-save"
+              color="primary"
+              (click)="submit()"
+              translate
+              [disabled]="responseInfoForm.controls.name.invalid"
+              >Save</ion-button
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

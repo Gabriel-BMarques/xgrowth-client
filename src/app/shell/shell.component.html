@@ -1,0 +1,589 @@
+<ion-menu side="start" (ionWillOpen)="menuOpened()" (ionDidClose)="menuClosed()" type="overlay">
+  <ion-content>
+    <div class="menu-div">
+      <ion-list id="slideIn" class="mainMenu" *ngIf="selectedMenu === 'mainMenu'">
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            routerLink="/home"
+            [replaceUrl]="true"
+            (click)="navigationToll('Feed')"
+            routerLinkActive="active"
+            id="menu-home"
+          >
+            <i class="fas fa-home"></i>
+            <ion-label class="menu-label" [translate]="'sidebar-menu.home'"> </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/interests']"
+            [replaceUrl]="true"
+            (click)="navigationToll('Following')"
+            routerLinkActive="active"
+            id="menu-interests"
+          >
+            <i class="fas fa-heart"></i>
+            <ion-label class="menu-label" [translate]="'sidebar-menu.interests'"> </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/collections/my-collections']"
+            [replaceUrl]="true"
+            (click)="navigationToll('Collections')"
+            routerLinkActive="active"
+            id="menu-collections"
+          >
+            <i class="fas fa-thumbtack"></i>
+            <ion-label class="menu-label" [translate]="'sidebar-menu.collections'"> </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            routerLink="/briefs"
+            [replaceUrl]="true"
+            (click)="navigationToll('Briefs')"
+            routerLinkActive="active"
+            id="menu-briefs"
+          >
+            <i class="fas fa-tasks" style="font-size: 1.4rem;"></i>
+            <ion-label class="menu-label" [translate]="'sidebar-menu.briefs'"> </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            routerLink="/solvers"
+            [replaceUrl]="true"
+            (click)="navigationToll('Solvers')"
+            routerLinkActive="active"
+            id="menu-solvers"
+          >
+            <i class="fas fa-rocket"></i>
+            <ion-label class="menu-label" [translate]="'sidebar-menu.solvers'"> </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            routerLink="/webinars"
+            [replaceUrl]="true"
+            routerLinkActive="active"
+            id="menu-webinars"
+          >
+            <i class="bi bi-display-fill"></i>
+            <ion-label class="menu-label"> webinars</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-item style="padding-left: 1rem; cursor: default">
+          <i class="fa fa-plus-circle" style="font-size: 1.3333em" aria-hidden="true"></i>
+          <ion-label class="menu-label" style="padding-left: 1.9rem;" [translate]="'sidebar-menu.addNew'"> </ion-label>
+        </ion-item>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]=""
+            [replaceUrl]="true"
+            (click)="addPost()"
+            routerLinkActive="active"
+            style="padding-left: 2rem;"
+            id="menu-add-post"
+          >
+            <ion-label class="menu-label" [translate]="'sidebar-menu.post'"> </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]=""
+            [replaceUrl]="true"
+            (click)="addBrief()"
+            routerLinkActive="active"
+            style="padding-left: 2rem;"
+            id="menu-add-brief"
+          >
+            <ion-label class="menu-label" [translate]="'sidebar-menu.request'"> </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            *ngIf="hasWebinarAccess"
+            [routerDirection]="'forward'"
+            [routerLink]=""
+            [replaceUrl]="true"
+            (click)="addWebinar()"
+            routerLinkActive="active"
+            style="padding-left: 2rem; cursor: pointer;"
+            id="menu-add-webinar"
+          >
+            <ion-label class="menu-label"> webinar</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]=""
+            [replaceUrl]="true"
+            (click)="helpCenter()"
+            routerLinkActive="active"
+            style="padding-left: 1rem; cursor: pointer;"
+            id="menu-help-center"
+          >
+            <i class="fas fa-book"></i>
+            <ion-label class="menu-label">Help Center</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle *ngIf="impersonation">
+          <ion-item routerLink="" routerLinkActive="active" (click)="backToAdminPanel()" id="menu-back-to-admin-panel">
+            <i class="fas fa-user-shield"></i>
+            <ion-label class="menu-label" [translate]="'sidebar-menu.backToAdminPanel'" style="padding-left: 1.5rem;">
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            routerLink="/login"
+            [replaceUrl]="true"
+            (click)="logout()"
+            routerLinkActive="active"
+            id="menu-logout"
+          >
+            <i class="fas fa-sign-out-alt"></i>
+            <ion-label class="menu-label" [translate]="'sidebar-menu.logout'" style="padding-left: 1.5rem;">
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <!-- INSTALL PWA BUTTON -->
+        <ion-menu-toggle *ngIf="showPWABtn">
+          <ion-item style="cursor: pointer;" (click)="installPwa()" routerLinkActive="active" id="menu-pwa">
+            <i class="fas fa-download"></i>
+            <ion-label class="menu-label" style="padding-left: 1.5rem;">INSTALL APP</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item class="version">
+            <ion-text>version {{ version }}</ion-text>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+      <ion-list id="slideIn" class="addNewMenu" *ngIf="selectedMenu === 'addNewMenu'">
+        <ion-item (click)="selectMenu('mainMenu')" style="cursor: pointer" class="ion-activatable ripple-parent">
+          <ion-ripple-effect></ion-ripple-effect>
+          <i class="fas fa-chevron-left"></i>
+          <ion-label class="menu-label" [translate]="'global.actions.back'"> </ion-label>
+        </ion-item>
+        <ion-item style="margin-bottom: 0rem;">
+          <ion-label class="menu-title">
+            <span style="color: #F6A117; font-size: 12px;" [translate]="'sidebar-menu.addNew'"></span>
+          </ion-label>
+        </ion-item>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/post/add']"
+            [replaceUrl]="true"
+            (click)="navigationToll()"
+            routerLinkActive="active"
+            id="menu-add-post"
+          >
+            <ion-label class="menu-label" [translate]="'sidebar-menu.post'"> </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/briefs']"
+            [replaceUrl]="true"
+            (click)="navigationToll()"
+            routerLinkActive="active"
+            id="menu-briefs"
+          >
+            <ion-label class="menu-label" [translate]="'sidebar-menu.request'"> </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+      <ion-list id="slideIn" class="myCompanyMenu" *ngIf="selectedMenu === 'myCompanyMenu'">
+        <ion-item
+          (click)="selectMenu('mainMenu')"
+          style="cursor: pointer"
+          class="ion-activatable ripple-parent"
+          id="menu-back"
+        >
+          <ion-ripple-effect></ion-ripple-effect>
+          <i class="fas fa-chevron-left"></i>
+          <ion-label class="menu-label" [translate]="'global.actions.back'"> </ion-label>
+        </ion-item>
+        <ion-item style="margin-bottom: 0rem;">
+          <ion-label class="menu-title">
+            <span style="color: #F6A117; font-size: 12px;" [translate]="'sidebar-menu.myCompany'"></span>
+          </ion-label>
+        </ion-item>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            (click)="goToProfile()"
+            style="cursor: pointer"
+            class="ion-activatable ripple-parent"
+            routerLinkActive="active"
+            id="menu-profile"
+          >
+            <ion-label class="menu-label" [translate]="'sidebar-menu.profile'"> </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/company/posts']"
+            [replaceUrl]="true"
+            (click)="navigationToll()"
+            routerLinkActive="active"
+            id="menu-posts"
+          >
+            <ion-label class="menu-label" [translate]="'sidebar-menu.posts'"> </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+      <ion-list id="slideIn" class="adminMenu" *ngIf="selectedMenu === 'adminMenu'">
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            routerLink="/home"
+            [replaceUrl]="true"
+            routerLinkActive="active"
+            id="menu-home"
+          >
+            <i class="fas fa-home"></i>
+            <ion-label class="menu-label">
+              <span [translate]="'sidebar-menu.home'"></span>
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/admin/organizations']"
+            [replaceUrl]="true"
+            routerLinkActive="active"
+            id="menu-admin-organizations"
+          >
+            <i class="fas fa-sitemap"></i>
+            <ion-label class="menu-label">
+              <span [translate]="'sidebar-menu.organizations'"></span>
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <!--<ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/admin/business-unit']"
+            [replaceUrl]="true"
+            routerLinkActive="active"
+            id="menu-admin-business-unit"
+          >
+            <ion-icon name="rocket" class="menu-icon"></ion-icon>
+            <ion-label class="menu-label">
+              <span>Business Units</span>
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>-->
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/admin/webinars']"
+            [replaceUrl]="true"
+            routerLinkActive="active"
+            id="menu-admin-webinars"
+          >
+            <ion-icon name="tv" class="menu-icon"></ion-icon>
+            <ion-label class="menu-label">
+              <span>Webinars</span>
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/admin/segments']"
+            [replaceUrl]="true"
+            routerLinkActive="active"
+            id="menu-admin-segments"
+          >
+            <i class="fas fa-industry menu-icon"></i>
+            <ion-label class="menu-label">
+              <span>Segments</span>
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/admin/skills']"
+            [replaceUrl]="true"
+            routerLinkActive="active"
+            id="menu-admin-skills"
+          >
+            <i class="fas fa-toolbox menu-icon"></i>
+            <ion-label class="menu-label">
+              <span>Skills</span>
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/admin/category-organization']"
+            [replaceUrl]="true"
+            routerLinkActive="active"
+            id="menu-admin-category-organization"
+          >
+            <ion-icon name="planet" class="menu-icon"></ion-icon>
+            <ion-label class="menu-label">
+              <span>Organization Category</span>
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/admin/companies']"
+            [replaceUrl]="true"
+            routerLinkActive="active"
+            id="menu-admin-companies"
+          >
+            <ion-icon name="filing" class="menu-icon"></ion-icon>
+            <ion-label class="menu-label">
+              <!--<span [translate]="'sidebar-menu.companies'"></span>-->
+              <span>Business Units</span>
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/admin/company-relations']"
+            [replaceUrl]="true"
+            routerLinkActive="active"
+            id="menu-admin-company-relations"
+          >
+            <ion-icon name="swap" class="menu-icon"></ion-icon>
+            <ion-label class="menu-label">
+              <span [translate]="'sidebar-menu.companyRelations'"></span>
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/admin/categories']"
+            [replaceUrl]="true"
+            routerLinkActive="active"
+            id="menu-admin-categories"
+          >
+            <ion-icon name="pricetags" class="menu-icon"></ion-icon>
+            <ion-label class="menu-label">
+              <span [translate]="'sidebar-menu.categories'"></span>
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/admin/users']"
+            [replaceUrl]="true"
+            routerLinkActive="active"
+            id="menu-admin-users"
+          >
+            <ion-icon name="person" class="menu-icon"></ion-icon>
+            <ion-label class="menu-label">
+              <span [translate]="'sidebar-menu.users'"></span>
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/admin/notifications']"
+            [replaceUrl]="true"
+            routerLinkActive="active"
+            id="menu-admin-notifications"
+          >
+            <ion-icon name="notifications" class="menu-icon"></ion-icon>
+            <ion-label class="menu-label">
+              <span [translate]="'sidebar-menu.notifications'"></span>
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/admin/job-titles']"
+            [replaceUrl]="true"
+            routerLinkActive="active"
+            id="menu-admin-job-titles"
+          >
+            <ion-icon name="briefcase" class="menu-icon"></ion-icon>
+            <ion-label class="menu-label">
+              <span>Job Titles</span>
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/admin/departments']"
+            [replaceUrl]="true"
+            routerLinkActive="active"
+            id="menu-admin-departments"
+          >
+            <ion-icon name="git-pull-request" class="menu-icon"></ion-icon>
+            <ion-label class="menu-label">
+              <span>Departments</span>
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/admin/tutorials']"
+            [replaceUrl]="true"
+            routerLinkActive="active"
+            id="menu-admin-tutorials"
+          >
+            <ion-icon name="school" class="menu-icon"></ion-icon>
+            <ion-label class="menu-label">
+              <span>Tutorials</span>
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/admin/mass-upload']"
+            [replaceUrl]="true"
+            routerLinkActive="active"
+            id="menu-admin-mass-upload"
+          >
+            <ion-icon name="cloud-upload" class="menu-icon"></ion-icon>
+            <ion-label class="menu-label">
+              <span>Mass upload</span>
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/admin/mass-download']"
+            [replaceUrl]="true"
+            routerLinkActive="active"
+            id="menu-admin-download"
+          >
+            <ion-icon name="cloud-download" class="menu-icon"></ion-icon>
+            <ion-label class="menu-label">
+              <span>Mass download</span>
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <!--<ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/admin/reports']"
+            [replaceUrl]="true"
+            routerLinkActive="active"
+            id="menu-admin-reports"
+          >
+            <i class="fas fa-chart-bar" style="padding-left: 0.3rem"></i>
+            <ion-label class="menu-label" style="padding-left: 2.1rem">
+              <span [translate]="'sidebar-menu.reports'"></span>
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]="['/admin/log']"
+            [replaceUrl]="true"
+            routerLinkActive="active"
+            id="menu-admin-log"
+          >
+            <i class="fas fa-clipboard-list" style="padding-left: 0.3rem"></i>
+            <ion-label class="menu-label" style="padding-left: 2.1rem">
+              <span [translate]="'sidebar-menu.adminLog'"></span>
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>-->
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]=""
+            [replaceUrl]="true"
+            (click)="addPost()"
+            routerLinkActive="active"
+            style="padding-left: 2rem;"
+            id="menu-add-post"
+          >
+            <ion-label class="menu-label" [translate]="'sidebar-menu.post'"> </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]=""
+            [replaceUrl]="true"
+            (click)="addBrief()"
+            routerLinkActive="active"
+            style="padding-left: 2rem;"
+            id="menu-add-brief"
+          >
+            <ion-label class="menu-label" [translate]="'sidebar-menu.request'"> </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle *ngIf="hasWebinarAccess">
+          <ion-item
+            [routerDirection]="'forward'"
+            [routerLink]=""
+            [replaceUrl]="true"
+            (click)="addWebinar()"
+            routerLinkActive="active"
+            style="padding-left: 2rem; cursor: pointer;"
+            id="menu-add-webinar"
+          >
+            <ion-label class="menu-label"> webinar</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item
+            [routerDirection]="'forward'"
+            routerLink="/login"
+            (click)="logout()"
+            routerLinkActive="active"
+            id="menu-logout"
+          >
+            <i class="fas fa-sign-out-alt"></i>
+            <ion-label class="menu-label" [translate]="'sidebar-menu.logout'" style="padding-left: 1.5rem;">
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <!-- INSTALL PWA BUTTON -->
+        <ion-menu-toggle *ngIf="showPWABtn">
+          <ion-item style="cursor: pointer;" (click)="installPwa()" routerLinkActive="active" id="menu-pwa">
+            <i class="fas fa-sign-out-alt"></i>
+            <ion-label class="menu-label" style="padding-left: 1.5rem;">INSTALL APP</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item class="version">
+            <span>version {{ version }}</span>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </div>
+  </ion-content>
+</ion-menu>
+<app-header></app-header>
+<ion-router-outlet main></ion-router-outlet>
+<app-tabs></app-tabs>

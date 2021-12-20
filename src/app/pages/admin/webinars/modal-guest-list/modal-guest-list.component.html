@@ -1,0 +1,60 @@
+<div class="modal">
+  <div
+    class="loader"
+    *ngIf="isLoading"
+    style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center;"
+  >
+    <app-loader [isLoading]="isLoading"></app-loader>
+  </div>
+  <div class="modal-container" *ngIf="!isLoading">
+    <div class="panel-header">
+      <div class="left">
+        <button id="webinars-guest-cancel" (click)="cancel()"><i class="fas fa-arrow-left"></i></button>
+        <span>guest list - {{ webinar?.title }}</span>
+      </div>
+      <div class="right">
+        <button id="webinars-guest-download" (click)="downloadGuestsXlsx()">Download guest xlsx</button>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div
+        style="
+              margin-top: 1rem;
+              padding-left: 1.5rem;
+              padding-right: 1.5rem;"
+      >
+        <ng-container *ngIf="invitations && invitations.length">
+          <ng-container *ngFor="let invitation of invitations">
+            <div class="invited-user-card row" *ngIf="invitation.invitedUserId">
+              <div class="col-1 d-flex align-items-center justify-content-center">
+                <button
+                  id="webinars-guest-cancel-invitation"
+                  *ngIf="invitation.status !== 'uninvited'"
+                  class="cancel-invitation"
+                  (click)="cancelInvitation(invitation)"
+                >
+                  <i class="fas fa-minus"></i>
+                </button>
+                <button
+                  id="webinars-guest-reacreate-invitation"
+                  *ngIf="invitation.status === 'uninvited'"
+                  class="recreate-invitation"
+                  (click)="recreateInvitation(invitation)"
+                >
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+              <div class="col-11" [ngStyle]="{ opacity: invitation.status === 'uninvited' ? '0.6' : '1' }">
+                <p>{{ invitation.invitedUserId.firstName }} {{ invitation.invitedUserId.familyName }}</p>
+                <p>{{ invitation.invitedUserId.email }}</p>
+                <p>
+                  <strong>Invitation status: {{ invitation.status }}</strong>
+                </p>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

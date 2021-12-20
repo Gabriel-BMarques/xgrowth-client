@@ -1,0 +1,51 @@
+<ion-content>
+  <ion-row>
+    <ion-col>
+      <div class="header-brief-type">
+        <div class="title">
+          <span [translate]="'briefs.add.selectType'"></span>
+        </div>
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <div class="form">
+      <ion-list lines="none">
+        <ion-item *ngFor="let item of briefTypes">
+          <div (click)="changeContact(item)">
+            <ion-checkbox class="check" [(ngModel)]="item.selected" [id]="item.html_id"></ion-checkbox>
+          </div>
+          <ion-label class="text">{{ item.name }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+  </ion-row>
+  <div class="actions col text-center">
+    <ion-button
+      shape="round"
+      fill="outline"
+      style="color: #70C1ED;
+                  margin-right: 0.5rem;
+                  text-transform: none;
+                  --border-color: #70C1ED;
+                  --border-width: 1px"
+      (click)="onCancel()"
+      [translate]="'global.actions.cancel'"
+      id="brief-type-cancel"
+    >
+    </ion-button>
+    <ion-button
+      shape="round"
+      [disabled]="!typeSelected"
+      style="--background: #F6A117;
+                    color: white;
+                    text-transform: none;
+                    --box-shadow: none;
+                    margin-left: 1.5rem"
+      (click)="onAccept()"
+      [translate]="'global.actions.confirm'"
+      id="brief-type-confirm"
+    >
+    </ion-button>
+  </div>
+</ion-content>

@@ -1,0 +1,18 @@
+<div class="modal-products-container">
+  <div class="modal-products-header">
+    <div (click)="back()" class="back">
+      <i class="fas fa-arrow-left back-icon"></i>
+    </div>
+    <span class="modal-products-title">Products</span>
+  </div>
+  <div class="modal-products-loop row">
+    <ng-container *ngFor="let product of products">
+      <div class="modal-products col-6">
+        <div>
+          {{ product.name }}
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div class="modal-products-footer"></div>
+</div>

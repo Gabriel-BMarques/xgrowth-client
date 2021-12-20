@@ -1,0 +1,135 @@
+.refer-solver-container {
+  color: #565555;
+  font-size: 16px;
+  .refer-solver-header {
+    display: flex;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .back {
+      position: absolute;
+      cursor: pointer;
+      float: right;
+      right: 5px;
+      top: 10px;
+    }
+    .refer-solver-title {
+      font-weight: bold;
+      font-size: 14px;
+      color: #41414180;
+      padding-top: 20px;
+    }
+  }
+  .scrollable-div {
+    width: 100%;
+    overflow-y: auto;
+    position: absolute;
+    height: calc(100% - 140px);
+    .items-list {
+      margin: 1.475rem;
+      margin-top: 0.5rem;
+      .input-label {
+        display: flex;
+        font: normal normal normal 13px/18px Open Sans;
+        letter-spacing: 0px;
+        color: #565555;
+      }
+      .mat-form-field {
+        display: block;
+      }
+      .mat-form-field-appearance-legacy .mat-form-field-infix {
+        height: 38px;
+        border: 1px solid #dededf;
+        border-radius: 34px;
+        font-size: 13px;
+      }
+      .phone-prefix-span {
+        display: contents;
+        .mat-form-field-appearance-legacy .mat-form-field-infix {
+          height: 38px;
+          border-top-right-radius: 1px;
+          border-bottom-right-radius: 0px 00px;
+          border-right-color: transparent;
+        }
+        .mat-select-arrow {
+          opacity: 0.5;
+          display: inline-block !important;
+          border-right: 2px solid #565555 !important;
+          border-bottom: 2px solid #565555 !important;
+          width: 7px !important;
+          height: 7px !important;
+          transform: rotate(-315deg) !important;
+          border-left: none !important;
+          border-top: none !important;
+          margin: 0 9px !important;
+          position: relative;
+          right: 0.4rem;
+          padding-right: 0% !important;
+          bottom: 0.3rem;
+        }
+        .mat-select-value-text {
+          font-size: 13px;
+          color: #565555;
+        }
+      }
+      .phone-span {
+        display: contents;
+        .mat-form-field-appearance-legacy .mat-form-field-infix {
+          height: 38px;
+          border-top-left-radius: 1px;
+          border-bottom-left-radius: 0px 00px;
+          border-left-color: transparent;
+        }
+        input {
+          margin-left: 0rem !important;
+        }
+      }
+    }
+    .skills-list {
+      padding-right: 1.25rem;
+      padding-left: 1.25rem;
+      margin-top: 1.25rem;
+      margin-bottom: 1.25rem;
+      .skill-chip {
+        min-width: 80px;
+        text-transform: none;
+        --background: #70c1ed;
+        --color: #ffffff;
+        --box-shadow: none;
+      }
+    }
+  }
+  .refer-solver-footer {
+    position: absolute;
+    width: 100%;
+    background-color: #ffffff;
+    bottom: 0;
+    height: 3.75rem;
+    .actions-container {
+      display: flex;
+      .cancel-button-container {
+        margin-left: 1rem;
+        cursor: pointer;
+        .addButton {
+          width: 100%;
+        }
+        .add-icon {
+          color: #70c1ed;
+          font-size: 2.5em;
+        }
+      }
+      .save-button-container {
+        text-align: center;
+        width: 75%;
+        padding-left: 2.1rem;
+        ion-button {
+          width: 100%;
+          text-transform: capitalize;
+          --border-radius: 50px;
+          --box-shadow: none;
+        }
+      }
+    }
+  }
+}

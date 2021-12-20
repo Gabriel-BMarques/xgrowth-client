@@ -1,0 +1,94 @@
+<ion-content #contentArea>
+  <div class="title">
+    <span class="text-uppercase">Users</span>
+  </div>
+  <ion-grid class="gridFix">
+    <div class="actions-div">
+      <ion-button id="admin-users-add" fill="clear" color="dark" class="add-button" (click)="addUser()">
+        <i class="fas fa-plus"></i>
+      </ion-button>
+      <ion-button id="admin-users-refresh" fill="clear" color="dark" class="refresh-button" (click)="refreshUsers()">
+        <i class="fas fa-redo-alt"></i>
+      </ion-button>
+      <div class="filter-by">
+        <ion-item class="choose-filter">
+          <ion-label style="color: #56555580; font-size: 12px;">filter by</ion-label>
+          <ion-select
+            id="admin-users-filter"
+            multiple="false"
+            (ionChange)="onChange($event)"
+            okText="Filter"
+            cancelText="Dismiss"
+          >
+            <ion-select-option>{{ 'Unhandled job title' }}</ion-select-option>
+            <ion-select-option>{{ 'Unhandled department' }}</ion-select-option>
+            <ion-select-option>{{ 'No filter' }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+    </div>
+    <!--Mobile-->
+    <ng-container *ngIf="isApp">
+      <button class="tooltip-users" (click)="toggleTooltipInfo()">
+        <i class="fas fa-info-circle"></i>
+      </button>
+      <div class="col-10 col-md-8 d-flex">
+        <p *ngIf="showTooltipInfo" class="tooltip-text">
+          Users Page allows you to create new users, edit and delete other ones. You can set an user to a new
+          Organization/Business Unit and impersonate him by accessing his modal.
+        </p>
+      </div>
+    </ng-container>
+    <ion-searchbar
+      id="admin-users-searchbar"
+      animated
+      (keyup.enter)="applyFilter($event.target.value)"
+      (ionClear)="applyFilter(null)"
+      style="--background: white;"
+    >
+    </ion-searchbar>
+  </ion-grid>
+
+  <!--Desktop-->
+  <ng-container *ngIf="!isApp">
+    <button class="tooltip-users" (click)="toggleTooltipInfo()">
+      <i class="fas fa-info-circle"></i>
+    </button>
+    <div class="col-10 col-md-8 d-flex">
+      <p *ngIf="showTooltipInfo" class="tooltip-text">
+        Users Page allows you to create new users, edit and delete other ones. You can set an user to a new
+        Organization/Business Unit and impersonate him by accessing his modal.
+      </p>
+    </div>
+  </ng-container>
+
+  <div *ngIf="skeletonLoading">
+    <app-skeleton [skeleton]="'users'"></app-skeleton>
+  </div>
+  <ion-grid class="display-list gridFix" *ngIf="!skeletonLoading">
+    <ion-row>
+      <div *ngFor="let item of userData.filteredData; let i = index">
+        <ion-card class="users-container">
+          <a>
+            <ion-item id="admin-users-edit" class="table-item" (click)="itemClick(item._id)">
+              <ion-label>
+                <h5 class="title">{{ item.firstName }} {{ item.familyName }}</h5>
+                <h3 class="subtitle">{{ item.email }}</h3>
+                <h3 *ngIf="item.company" class="description">{{ item.company.companyName }}</h3>
+              </ion-label>
+            </ion-item>
+          </a>
+        </ion-card>
+      </div>
+    </ion-row>
+  </ion-grid>
+  <app-panel [panelData]="panelData" *ngIf="!skeletonLoading"></app-panel>
+  <ion-fab vertical="bottom" horizontal="end" edge slot="fixed">
+    <ion-fab-button id="admin-users-add" shape="round" color="success" fill="solid" (click)="addUser()">
+      <i class="fas fa-plus"></i>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-infinite-scroll threshold="40%" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText=""> </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

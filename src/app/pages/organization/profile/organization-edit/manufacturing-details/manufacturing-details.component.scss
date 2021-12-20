@@ -1,0 +1,407 @@
+.manufacturing-details-container {
+  margin-bottom: 8rem;
+  .header {
+    width: 100%;
+    height: 4rem;
+    background: #ffffff;
+    box-shadow: 0px -1px 6px #00000029;
+    display: flex;
+    align-items: center;
+    .header-content {
+      .back-icon {
+        margin-left: 1.313rem;
+        color: #707070;
+        font-size: 0.875rem;
+      }
+      .title {
+        margin-left: 0.628rem;
+        color: #565555;
+        font-size: 16px;
+        font-weight: bold;
+      }
+    }
+  }
+  .loader-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 3rem;
+    .loader {
+      transform: scale(1.5);
+    }
+  }
+  .form-title {
+    text-align: left;
+    margin-bottom: 0.313rem;
+    width: 100%;
+    display: flow-root;
+    span {
+      color: #565555;
+      font-size: 1rem;
+    }
+    .add-plant-button {
+      width: 2.5rem;
+      height: 2.5rem;
+      cursor: pointer;
+      float: right;
+    }
+  }
+  .manufacturing-details-info-container {
+    .no-plants {
+      width: 100%;
+      padding-top: 4.063rem;
+      .no-plants-icon {
+        width: 55px;
+        height: 55px;
+        margin-left: auto;
+        margin-right: auto;
+        background: transparent url("../../../../../../assets/icon/meh-face-icon.svg");
+      }
+      .no-plants-message {
+        margin-top: 1.875rem;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 1rem;
+        color: #a0a0a0;
+        text-align: center;
+        width: 22.5rem;
+        .how-to-add-plant {
+          margin-top: 1.875rem;
+        }
+      }
+    }
+    .plant-list-container {
+      width: 100%;
+      margin-top: 1.563rem;
+      .plant-title-div {
+        width: 100%;
+        margin-bottom: 0.313rem;
+        .plant-title {
+          font-weight: bold;
+          font-size: 1rem;
+          color: #565555;
+        }
+        .edit-plant-icon {
+          color: #70c1ed;
+          margin-left: 0.313rem;
+          font-size: 1rem;
+          cursor: pointer;
+        }
+      }
+      .plant-info-container {
+        display: flex;
+        width: 100%;
+        .plant-info {
+          width: 100%;
+          display: flex;
+          .info-label {
+            color: #565555;
+            font-weight: bold;
+            font-size: 1rem;
+          }
+          .info-value {
+            color: #565555;
+            font-weight: 400;
+            font-size: 1rem;
+            margin-left: 5px;
+          }
+        }
+        .line-details-button {
+          width: 100%;
+          margin-top: 0.938rem;
+          cursor: pointer;
+          span {
+            font-size: 1rem;
+            color: #70c1ed;
+            font-weight: bold;
+          }
+          i {
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-left: 10px;
+            color: #70c1ed;
+          }
+        }
+        .lines-list {
+          padding-left: 6.125rem;
+          padding-top: 0.938rem;
+          .line-title {
+            color: #565555;
+            font-size: 1rem;
+            font-weight: bold;
+          }
+          .products-list {
+            margin-top: 0.313rem;
+            .products-title {
+              color: #565555;
+              font-size: 1rem;
+              font-weight: bold;
+            }
+            ul {
+              padding-left: 1rem;
+              .product-item {
+                color: #565555;
+                font-size: 1rem;
+              }
+            }
+          }
+        }
+        .left-col {
+          padding: 0;
+          display: table;
+        }
+        .right-col {
+          display: table;
+          .plant-info {
+            display: block;
+            .info-value {
+              margin-left: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+  .manufacturing-form-container {
+    .plant-details-form {
+      width: 100%;
+      .form-field {
+        width: 100%;
+        margin-top: 1.25rem;
+        .form-label {
+          margin-bottom: 0.313rem;
+          font-weight: bold;
+          color: #565555;
+        }
+        .form-input {
+          width: 100%;
+          ::ng-deep .mat-form-field-infix {
+            padding: 0 !important;
+            background-color: #ffffff;
+            height: 2.5rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px #dededf solid;
+            border-radius: 1.563rem;
+            input {
+              margin: 0 !important;
+              padding-right: 1rem;
+              padding-left: 1rem;
+              height: 100%;
+              border-radius: 1.563rem;
+            }
+            ::ng-deep .mat-select {
+              height: 100%;
+              padding-right: 1rem;
+              padding-left: 1rem;
+              .mat-select-trigger {
+                height: 100%;
+                .mat-select-value {
+                  padding: 0;
+                }
+                .mat-select-arrow-wrapper {
+                  background-image: url("../../../../../../assets/icon/chevron-down-icon.svg");
+                  background-repeat: no-repeat;
+                  background-position: center;
+                  .mat-select-arrow {
+                    border: none;
+                    width: 4px;
+                  }
+                }
+              }
+            }
+          }
+          .input-placeholder {
+            position: absolute;
+            padding-left: 1rem;
+            font-size: 0.9375rem;
+            color: #cacaca;
+          }
+          .dropdown-icon {
+            padding-right: 1rem;
+            color: #565555;
+            opacity: 0.5;
+          }
+        }
+        .form-input-invalid {
+          width: 100%;
+          ::ng-deep .mat-form-field-infix {
+            border: 1px red solid !important;
+          }
+        }
+        .form-input-valid {
+          width: 100%;
+          ::ng-deep .mat-form-field-infix {
+            border: 1px green solid !important;
+          }
+        }
+        .form-textarea {
+          width: 100%;
+          ::ng-deep .mat-form-field-infix {
+            padding: 0 !important;
+            background-color: #ffffff;
+            width: 100%;
+            display: flex;
+            border-radius: 7px;
+            .input-placeholder {
+              position: absolute;
+              padding-left: 1rem;
+              padding-top: 1rem;
+              font-size: 0.9375rem;
+              color: #cacaca;
+            }
+            textarea {
+              margin: 0 !important;
+              padding-right: 1rem;
+              padding-left: 1rem;
+              padding-top: 1rem;
+              padding-bottom: 1rem;
+              height: 100%;
+            }
+          }
+        }
+      }
+      .line-details-container {
+        background-color: #f6f6f6;
+        border: 1px solid #dededf;
+        border-radius: 7px;
+        margin-top: 1.25rem;
+        .line-details-form {
+          padding-top: 1.25rem;
+          padding-bottom: 1.25rem;
+          padding-right: 1rem;
+          padding-left: 1rem;
+          .line-details-decision {
+            width: 100%;
+            display: flex;
+            .question {
+              font-size: 1rem;
+              font-weight: bold;
+              color: #565555;
+            }
+            .radio-buttons-container {
+              margin-left: 0.688rem;
+              ion-radio-group {
+                display: table;
+                ion-radio {
+                  vertical-align: middle;
+                  --border-width: 1px;
+                  --color: #dddddd;
+                  --color-checked: #70c1ed;
+                  :host(.radio-checked) .radio-icon {
+                    border-color: #dddddd !important;
+                  }
+                }
+                ion-label {
+                  display: table-cell;
+                  vertical-align: middle;
+                  padding-left: 0.313rem;
+                  padding-right: 1.875rem;
+                }
+              }
+            }
+          }
+          .line-details {
+            margin-top: 1.25rem;
+            .line-list {
+              width: 100%;
+              max-height: 9.5rem;
+              overflow-y: auto;
+              .line-item {
+                width: 100%;
+                display: table;
+                .line-title {
+                  display: flex;
+                  align-items: center;
+                  margin-bottom: 0.938rem;
+                  span {
+                    font-size: 1rem;
+                    color: #565555;
+                    font-weight: bold;
+                  }
+                  .edit-button {
+                    color: #70c1ed;
+                    font-size: 0.875rem;
+                    margin-left: 0.625rem;
+                    cursor: pointer;
+                  }
+                }
+                .line-products {
+                  .products-title {
+                    span {
+                      font-size: 1rem;
+                      color: #565555;
+                      font-weight: bold;
+                    }
+                  }
+                  .products-list {
+                    ul {
+                      padding-left: 1.25rem;
+                      li {
+                        font-weight: 400;
+                        color: #565555;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            .line-form {
+              .buttons-container {
+                margin-top: 1.25rem;
+                display: flow-root;
+                .save-line-button {
+                  width: 17.375rem;
+                  height: 2.5rem;
+                  text-transform: capitalize;
+                  float: right;
+                  --background: #70c1ed;
+                  --box-shadow: none;
+                  --background-hover: #70c1edad;
+                }
+                .add-line-button {
+                  width: 2.5rem;
+                  height: 2.5rem;
+                  cursor: pointer;
+                  margin-left: 1.25rem;
+                  margin-top: 0.25rem;
+                  float: right;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width: 1024px) {
+  .manufacturing-details-container {
+    .manufacturing-details-info-container {
+      max-height: 100vh;
+      padding-top: 1.563rem;
+      padding-bottom: 18rem;
+      overflow-y: auto;
+    }
+    .manufacturing-form-container {
+      max-height: 100vh;
+      padding-top: 1.563rem;
+      padding-bottom: 18rem;
+      overflow-y: auto;
+      .plant-details-form {
+        .line-details-container {
+          .line-details {
+            .line-form {
+              .buttons-container {
+                .save-line-button {
+                  float: left;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

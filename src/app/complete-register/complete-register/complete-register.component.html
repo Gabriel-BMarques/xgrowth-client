@@ -1,0 +1,621 @@
+<div *ngIf="!isLoading" class="complete-register" style="height: 100vh">
+  <div class="register-container">
+    <div class="header row" style="margin-left: 0 !important;margin-right: 0 !important">
+      <div id="complete-register-xgrowth-logo" class="col-md-4 offset-md-4 text-center">
+        <img width="142.519" height="39.287" src="../../../../assets/Logo_xGrowth_Main.svg" alt="Logo xGrowth" />
+      </div>
+      <div class="col-md-4 logout-button text-center d-none d-md-block" (click)="logout()">
+        <button id="register-logout">Logout</button>
+      </div>
+      <!-- QA AUTOMATION -->
+      <div id="complete-register-close-dropdown" style="visibility: hidden" (click)="closesDropdowns()">X</div>
+    </div>
+    <div class="navigation-bar">
+      <div class="navigation-step" style="cursor: default">
+        <i class="bi bi-lock-fill complete"></i>
+        Login details
+      </div>
+      <div class="bar-progress">
+        <hr />
+      </div>
+      <div *ngIf="AllowedDomainUser" class="navigation-step">
+        <i class="bi bi-shield-fill-exclamation complete"></i>
+        Confirm email
+      </div>
+      <div *ngIf="AllowedDomainUser" class="bar-progress">
+        <hr />
+      </div>
+      <div
+        id="complete-register-user-step"
+        class="navigation-step"
+        [ngClass]="[activeStep === 1 ? 'incomplete-active' : '']"
+        (click)="switchStep(1)"
+      >
+        <i class="bi bi-person-fill incomplete"></i>
+        User profile
+      </div>
+      <div *ngIf="NotAllowedDomainUser" class="bar-progress">
+        <hr />
+      </div>
+      <div
+        id="complete-register-org-step"
+        *ngIf="NotAllowedDomainUser"
+        class="navigation-step"
+        [ngClass]="[activeStep === 2 ? 'incomplete-active' : '']"
+        (click)="switchStep(2)"
+      >
+        <i class="bi bi-diagram-3-fill incomplete"></i>
+        Organization info
+      </div>
+      <div *ngIf="SSOUser || AllowedDomainUser" class="bar-progress">
+        <hr />
+      </div>
+      <div *ngIf="SSOUser || AllowedDomainUser" class="navigation-step">
+        <i class="bi bi-heart-fill incomplete" style="padding-top: 3px;"></i>
+        Interests
+      </div>
+    </div>
+    <div class="col-8" style="min-width: 280px; margin: auto;">
+      <div class="card row" style="max-width: 664px">
+        <div class="title">
+          <span>{{ title }}</span>
+        </div>
+        <form class="register-form" [formGroup]="userForm" novalidate>
+          <div *ngIf="activeStep == 1" class="user-profile">
+            <div class="resgister-field">
+              <label class="input-label">First name</label>
+              <div class="input-field">
+                <mat-form-field
+                  [ngClass]="[
+                    userForm.controls.firstName.value === '' ? 'input-field-normal' : '',
+                    userForm.controls.firstName.invalid && userForm.controls.firstName.touched
+                      ? 'input-field-error'
+                      : '',
+                    !userForm.controls.firstName.invalid && userForm.controls.firstName.touched
+                      ? 'input-field-success'
+                      : '',
+                    SSOUser && userForm.controls.firstName.valid ? 'input-field-disabled' : ''
+                  ]"
+                  hideRequiredMarker="true"
+                  floatLabel="never"
+                >
+                  <input
+                    id="complete-register-first-name"
+                    type="text"
+                    matInput
+                    formControlName="firstName"
+                    [placeholder]="firstNamePlaceHolder"
+                    [readonly]="SSOUser && userForm.controls.firstName.valid"
+                  />
+                  <mat-error
+                    *ngIf="userForm.get('firstName').hasError('required') && userForm.controls.firstName.touched"
+                  >
+                    <span>That's a required field</span>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="resgister-field">
+              <label class="input-label">Last name</label>
+              <div class="input-field">
+                <mat-form-field
+                  [ngClass]="[
+                    userForm.controls.familyName.value === '' ? 'input-field-normal' : '',
+                    userForm.controls.familyName.invalid && userForm.controls.familyName.touched
+                      ? 'input-field-error'
+                      : '',
+                    !userForm.controls.familyName.invalid && userForm.controls.familyName.touched
+                      ? 'input-field-success'
+                      : '',
+                    SSOUser && userForm.controls.familyName.valid ? 'input-field-disabled' : ''
+                  ]"
+                  hideRequiredMarker="true"
+                  floatLabel="never"
+                >
+                  <input
+                    id="complete-register-last-name"
+                    type="text"
+                    matInput
+                    formControlName="familyName"
+                    [placeholder]="familyNamePlaceHolder"
+                    [readonly]="SSOUser && userForm.controls.familyName.valid"
+                    required
+                  />
+                  <mat-error
+                    *ngIf="userForm.get('familyName').hasError('required') && userForm.controls.familyName.touched"
+                  >
+                    <span>That's a required field</span>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="resgister-field">
+              <label class="input-label">Which of these best describes your working field?</label>
+              <div
+                class="input-field"
+                [ngClass]="[userForm.controls.department.disabled ? 'input-field-disabled' : 'input-field']"
+              >
+                <mat-form-field
+                  [ngClass]="[
+                    userForm.controls.department.value === '' ? 'input-field-normal' : '',
+                    userForm.controls.department.invalid && userForm.controls.department.touched
+                      ? 'input-field-error'
+                      : '',
+                    !userForm.controls.department.invalid && userForm.controls.department.touched
+                      ? 'input-field-success'
+                      : ''
+                  ]"
+                  hideRequiredMarker="true"
+                  floatLabel="never"
+                >
+                  <mat-select
+                    id="complete-register-department"
+                    #completeregisterSelect
+                    formControlName="department"
+                    [placeholder]="departmentPlaceHolder"
+                    panelClass="complete-panel-class"
+                    disableOptionCentering
+                    required
+                  >
+                    <mat-option *ngFor="let department of departmentsSI.data" [value]="department.name">
+                      {{ department.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="userForm.get('department').hasError('required') && userForm.controls.department.touched"
+                  >
+                    <span>That's a required field</span>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="resgister-field">
+              <label class="input-label">Which of these roles is the closest to yours?</label>
+              <div
+                class="input-field"
+                [ngClass]="[userForm.controls.jobTitle.disabled ? 'input-field-disabled' : 'input-field']"
+              >
+                <mat-form-field
+                  [ngClass]="[
+                    userForm.controls.jobTitle.value === '' ? 'input-field-normal' : '',
+                    userForm.controls.jobTitle.invalid && userForm.controls.jobTitle.touched ? 'input-field-error' : '',
+                    !userForm.controls.jobTitle.invalid && userForm.controls.jobTitle.touched
+                      ? 'input-field-success'
+                      : ''
+                  ]"
+                  hideRequiredMarker="true"
+                  floatLabel="never"
+                >
+                  <mat-select
+                    id="complete-register-job-title"
+                    #completeregisterSelect
+                    formControlName="jobTitle"
+                    [placeholder]="jobTitlePlaceHolder"
+                    panelClass="complete-panel-class"
+                    disableOptionCentering
+                    required
+                  >
+                    <mat-option *ngFor="let jobTitle of jobTitlesSI.data" [value]="jobTitle.name">
+                      {{ jobTitle.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="userForm.get('jobTitle').hasError('required') && userForm.controls.jobTitle.touched"
+                  >
+                    <span>That's a required field</span>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="resgister-field">
+              <label class="input-label">Country</label>
+              <div
+                class="input-field"
+                [ngClass]="[userForm.controls.country.disabled ? 'input-field-disabled' : 'input-field']"
+              >
+                <mat-form-field
+                  [ngClass]="[
+                    userForm.controls.country.value === '' ? 'input-field-normal' : '',
+                    userForm.controls.country.invalid && userForm.controls.country.touched ? 'input-field-error' : '',
+                    !userForm.controls.country.invalid && userForm.controls.country.touched ? 'input-field-success' : ''
+                  ]"
+                  hideRequiredMarker="true"
+                  floatLabel="never"
+                >
+                  <mat-select
+                    id="complete-register-country"
+                    #completeregisterSelect
+                    formControlName="country"
+                    [placeholder]="countryPlaceHolder"
+                    panelClass="complete-panel-class"
+                    disableOptionCentering
+                    required
+                  >
+                    <mat-option *ngFor="let country of countriesSI.data" [value]="country._id">
+                      {{ country.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="userForm.get('country').hasError('required') && userForm.controls.country.touched">
+                    <span>That's a required field</span>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div *ngIf="AllowedDomainUser || SSOUser" class="resgister-field">
+              <label class="input-label">Organization name</label>
+              <div class="input-field input-field-disabled">
+                <mat-form-field>
+                  <input id="complete-register-org-name-user" type="text" matInput formControlName="orgName" readonly />
+                </mat-form-field>
+              </div>
+            </div>
+            <div *ngIf="AllowedDomainUser || SSOUser" class="resgister-field">
+              <label class="input-label">Business Unit</label>
+              <div class="input-field">
+                <mat-form-field
+                  [ngClass]="[
+                    userForm.controls.businessUnit.value === '' ? 'input-field-normal' : '',
+                    userForm.controls.businessUnit.invalid && userForm.controls.businessUnit.touched
+                      ? 'input-field-error'
+                      : '',
+                    !userForm.controls.businessUnit.invalid && userForm.controls.businessUnit.touched
+                      ? 'input-field-success'
+                      : '',
+                    userForm.controls.businessUnit.disabled ? 'input-field-disabled' : ''
+                  ]"
+                  hideRequiredMarker="true"
+                  floatLabel="never"
+                >
+                  <mat-select
+                    id="complete-register-unit"
+                    #completeregisterSelect
+                    formControlName="businessUnit"
+                    panelClass="complete-panel-class"
+                    disableOptionCentering
+                    required
+                    [disabled]="userForm.controls.businessUnit.disabled"
+                    [placeholder]="businessUnitPlaceHolder"
+                  >
+                    <mat-option *ngFor="let businessUnit of businessUnitsSI.data" [value]="businessUnit._id">
+                      {{ businessUnit.companyName }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="userForm.get('businessUnit').hasError('required') && userForm.controls.businessUnit.touched"
+                  >
+                    <span>That's a required field</span>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="resgister-field">
+              <label class="input-label"
+                >What kind of products do you work with?<span *ngIf="NotAllowedDomainUser" class="input-optional">
+                  Optional</span
+                ></label
+              >
+              <div
+                class="input-field"
+                [ngClass]="[userForm.controls.items.disabled ? 'input-field-disabled' : 'input-field']"
+              >
+                <mat-form-field
+                  [ngClass]="[
+                    userForm.controls.items.value === '' ? 'input-field-normal' : '',
+                    userForm.controls.items.invalid && userForm.controls.items.touched ? 'input-field-error' : '',
+                    !userForm.controls.items.invalid && userForm.controls.items.value && userForm.controls.items.touched
+                      ? 'input-field-success'
+                      : ''
+                  ]"
+                  hideRequiredMarker="true"
+                  floatLabel="never"
+                >
+                  <mat-select
+                    id="complete-register-products"
+                    multiple
+                    #completeregisterSelect
+                    formControlName="items"
+                    panelClass="complete-panel-class"
+                    [placeholder]="itemsPlaceHolder"
+                    disableOptionCentering
+                    [required]="AllowedDomainUser"
+                  >
+                    <mat-option *ngFor="let item of itemsSI.data" [value]="item._id">
+                      {{ item.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="userForm.get('items').hasError('required') && userForm.controls.items.touched">
+                    <span>That's a required field</span>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </form>
+        <form class="register-form" [formGroup]="orgForm" novalidate>
+          <div *ngIf="activeStep == 2" class="organization-info">
+            <div class="resgister-field">
+              <label class="input-label">What type better describe your organization?</label>
+              <div
+                class="input-field"
+                [ngClass]="[orgForm.controls.organizationType.disabled ? 'input-field-disabled' : 'input-field']"
+              >
+                <mat-form-field
+                  [ngClass]="[
+                    orgForm.controls.organizationType.value === '' ? 'input-field-normal' : '',
+                    orgForm.controls.organizationType.invalid && orgForm.controls.organizationType.touched
+                      ? 'input-field-error'
+                      : '',
+                    !orgForm.controls.organizationType.invalid ? 'input-field-success' : ''
+                  ]"
+                  hideRequiredMarker="true"
+                  floatLabel="never"
+                >
+                  <mat-select
+                    id="complete-register-org-type"
+                    #completeregisterSelect
+                    formControlName="organizationType"
+                    panelClass="complete-panel-class"
+                    [placeholder]="organizationTypePlaceHolder"
+                    disableOptionCentering
+                    required
+                  >
+                    <mat-option
+                      *ngFor="let organizationType of organizationTypesSI.data"
+                      [value]="organizationType._id"
+                    >
+                      {{ organizationType.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      orgForm.get('organizationType').hasError('required') && orgForm.controls.organizationType.touched
+                    "
+                  >
+                    <span>That's a required field</span>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="resgister-field">
+              <label class="input-label">Organization name</label>
+              <div
+                class="input-field"
+                [ngClass]="[orgForm.controls.organizationName.disabled ? 'input-field-disabled' : 'input-field']"
+              >
+                <mat-form-field
+                  [ngClass]="[
+                    orgForm.controls.organizationName.value === '' ? 'input-field-normal' : '',
+                    orgForm.controls.organizationName.invalid && orgForm.controls.organizationName.touched
+                      ? 'input-field-error'
+                      : '',
+                    !orgForm.controls.organizationName.invalid ? 'input-field-success' : ''
+                  ]"
+                  hideRequiredMarker="true"
+                  floatLabel="never"
+                >
+                  <input
+                    id="complete-register-org-name"
+                    type="text"
+                    matInput
+                    formControlName="organizationName"
+                    [placeholder]="organizationPlaceHolder"
+                    required
+                  />
+                  <mat-error
+                    *ngIf="
+                      orgForm.get('organizationName').hasError('required') && orgForm.controls.organizationName.touched
+                    "
+                  >
+                    <span> {{ orgNameError }} </span>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="resgister-field">
+              <label class="input-label">What the segment of your organization?</label>
+              <div
+                class="input-field"
+                [ngClass]="[orgForm.controls.organizationSegments.disabled ? 'input-field-disabled' : 'input-field']"
+              >
+                <mat-form-field
+                  [ngClass]="[
+                    orgForm.controls.organizationSegments.value === '' ? 'input-field-normal' : '',
+                    orgForm.controls.organizationSegments.invalid && orgForm.controls.organizationSegments.touched
+                      ? 'input-field-error'
+                      : '',
+                    !orgForm.controls.organizationSegments.invalid ? 'input-field-success' : ''
+                  ]"
+                  hideRequiredMarker="true"
+                  floatLabel="never"
+                >
+                  <mat-select
+                    id="complete-register-segment"
+                    #completeregisterSelect
+                    formControlName="organizationSegments"
+                    [placeholder]="segmentPlaceHolder"
+                    panelClass="complete-panel-class"
+                    disableOptionCentering
+                    multiple
+                    required
+                  >
+                    <mat-option
+                      *ngFor="let organizationSegment of organizationSegmentsSI.data"
+                      [value]="organizationSegment._id"
+                    >
+                      {{ organizationSegment.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      orgForm.get('organizationSegments').hasError('required') &&
+                      orgForm.controls.organizationSegments.touched
+                    "
+                  >
+                    <span>That's a required field</span>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="resgister-field">
+              <label class="input-label">What are your organization skills?</label>
+              <div
+                class="input-field"
+                [ngClass]="[orgForm.controls.organizationSkills.disabled ? 'input-field-disabled' : 'input-field']"
+              >
+                <mat-form-field
+                  [ngClass]="[
+                    orgForm.controls.organizationSkills.value === '' ? 'input-field-normal' : '',
+                    orgForm.controls.organizationSkills.invalid && orgForm.controls.organizationSkills.touched
+                      ? 'input-field-error'
+                      : '',
+                    !orgForm.controls.organizationSkills.invalid ? 'input-field-success' : ''
+                  ]"
+                  hideRequiredMarker="true"
+                  floatLabel="never"
+                >
+                  <mat-select
+                    id="complete-register-skills"
+                    #completeregisterSelect
+                    formControlName="organizationSkills"
+                    [placeholder]="skillsPlaceHolder"
+                    panelClass="complete-panel-class"
+                    disableOptionCentering
+                    required
+                    multiple
+                  >
+                    <mat-option
+                      *ngFor="let organizationSkill of organizationSkillsSI.data"
+                      [value]="organizationSkill._id"
+                    >
+                      {{ organizationSkill.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      orgForm.get('organizationSkills').hasError('required') &&
+                      orgForm.controls.organizationSkills.touched
+                    "
+                  >
+                    <span>That's a required field</span>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="resgister-field">
+              <label class="input-label">Organization reach</label>
+              <div class="input-field">
+                <mat-form-field
+                  [hideRequiredMarker]="true"
+                  style="padding-bottom: 1rem;"
+                  [ngClass]="[
+                    orgForm.controls.organizationReach.value === '' ? 'input-field-normal' : '',
+                    orgForm.controls.organizationReach.invalid && orgForm.controls.organizationReach.touched
+                      ? 'input-field-error'
+                      : '',
+                    !orgForm.controls.organizationReach.invalid ? 'input-field-success' : ''
+                  ]"
+                  floatLabel="never"
+                >
+                  <mat-select
+                    id="complete-register-organization-reach"
+                    #completeregisterSelect
+                    formControlName="organizationReach"
+                    panelClass="complete-panel-class"
+                    disableOptionCentering
+                    panelClass="company-profile-panel-class"
+                    placeholder="Select countries"
+                    multiple
+                  >
+                    <div class="search-div">
+                      <input
+                        id="complete-register-search-country"
+                        class="mat-select-search"
+                        placeholder="Search country"
+                        (keyup)="applyFilter($event.target.value, countriesSI)"
+                        (keydown)="$event.stopPropagation()"
+                      />
+                      <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <div *ngFor="let globalRegion of globalRegions">
+                      <div class="option-group-div">
+                        <mat-checkbox
+                          class="select-all"
+                          [checked]="globalRegion.selected"
+                          (change)="toggleCountries(globalRegion)"
+                        ></mat-checkbox>
+                        <span class="option-group-name">{{ globalRegion.name }}</span>
+                      </div>
+                      <span *ngFor="let country of countriesSI.data">
+                        <mat-option
+                          id="complete-register-country-option"
+                          *ngIf="country.globalRegion._id === globalRegion._id"
+                          [hidden]="!includes(country, countriesSI.filteredData)"
+                          [value]="country._id"
+                          >{{ country.name }}</mat-option
+                        >
+                      </span>
+                    </div>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      orgForm.get('organizationReach').hasError('required') &&
+                      orgForm.controls.organizationReach.touched
+                    "
+                  >
+                    <span>That's a required field</span>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="SSOUser || AllowedDomainUser"
+            class="register-button"
+            [ngClass]="{ 'disabled-button': disableSubmitUser }"
+          >
+            <button id="complete-register-save-user" (click)="submitUser()" [disabled]="disableSubmitUser">
+              save
+            </button>
+          </div>
+          <div
+            *ngIf="NotAllowedDomainUser && activeStep == 1"
+            class="register-button"
+            [ngClass]="{ 'disabled-button': disableSubmitNotAllowedUser }"
+          >
+            <button
+              id="complete-register-proceed"
+              (click)="submitNotAllowedUser()"
+              [disabled]="disableSubmitNotAllowedUser"
+            >
+              proceed
+            </button>
+          </div>
+          <div
+            *ngIf="NotAllowedDomainUser && activeStep == 2"
+            class="register-button"
+            [ngClass]="{ 'disabled-button': disableSubmitOrganization }"
+          >
+            <button
+              id="complete-register-save-org"
+              (click)="submitOrganization()"
+              [disabled]="disableSubmitOrganization"
+            >
+              save
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="row justify-content-center pt-2">
+        <span id="register-open-terms" class="register-terms" (click)="openTerms()"
+          >Terms and Conditions
+          <span class="terms-dot">•</span>
+        </span>
+        <span id="register-need-help" class="register-help" (click)="needHelp()">Need help?</span>
+      </div>
+      <div class="d-flex flex-column align-items-center pt-4 register-powered">
+        <span class="pb-1">Powered by</span>
+        <img width="112px" height="17px" src="../../../../assets/Logo_GrowinCo_Gray.svg" alt="Logo xGrowth" />
+      </div>
+    </div>
+  </div>
+</div>

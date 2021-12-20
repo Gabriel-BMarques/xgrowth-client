@@ -1,0 +1,28 @@
+.header-brief-type {
+  margin-top: 0.5rem;
+  text-align: center;
+  .title {
+    color: #41414180;
+    font-size: 14px;
+    font-weight: bold;
+  }
+}
+.form {
+  margin-left: 1rem;
+  .check {
+    --border-radius: 50px;
+  }
+  .text {
+    margin-left: 1rem;
+    font-size: 13px;
+    color: #565555;
+  }
+}
+.actions {
+  margin-bottom: 1rem;
+  display: inline-flex;
+}
+
+ion-radio {
+  --color-checked: #f6a117;
+}

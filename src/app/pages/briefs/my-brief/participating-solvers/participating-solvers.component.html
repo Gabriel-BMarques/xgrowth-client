@@ -1,0 +1,199 @@
+<ion-content>
+  <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+  <div class="page-header" *ngIf="!isLoading">
+    <i class="fas fa-arrow-left back-icon" (click)="back()"></i>
+    <div class="header-title">
+      <span [translate]="'briefs.myBrief.participatingSolvers'"></span>
+    </div>
+  </div>
+  <div class="list" *ngIf="!isLoading">
+    <ion-grid>
+      <!-- HEADER -->
+      <ion-row class="ion-text-center ">
+        <ion-col size-md="3" offset-md="1" class="ion-text-left">
+          <ion-label style="font-weight: bold;" [translate]="'briefs.company'"></ion-label>
+        </ion-col>
+        <ion-col size="2">
+          <ion-label style="font-weight: bold;" [translate]="'briefs.myBrief.ndaFile'"></ion-label>
+        </ion-col>
+        <ion-col size="2">
+          <ion-label style="font-weight: bold;" [translate]="'briefs.myBrief.nda'"></ion-label>
+        </ion-col>
+        <ion-col size="1" class="is-responded">
+          <ion-label style="font-weight: bold;" [translate]="'briefs.myBrief.brief'"></ion-label>
+          <ion-label style="font-weight: bold;" [translate]="'briefs.myBrief.accepted'"></ion-label>
+        </ion-col>
+        <ion-col size="1" class="is-responded">
+          <ion-label style="font-weight: bold;" [translate]="'briefs.myBrief.brief'"></ion-label>
+          <ion-label style="font-weight: bold;" [translate]="'briefs.myBrief.responded'"></ion-label>
+        </ion-col>
+      </ion-row>
+      <!-- DATA -->
+      <ion-row *ngFor="let item of invitedSolvers" class="ion-align-items-center" style="margin-top: 2rem;">
+        <ion-col
+          size-md="3"
+          offset-md="1"
+          class="ion-text-left"
+          style="overflow:hidden;white-space: nowrap;text-overflow: ellipsis; color: #000000cc;
+      font-size: 13px;"
+        >
+          <i
+            class="fas fa-minus-circle"
+            *ngIf="canEdit"
+            (click)="uninvite(item)"
+            style="color:#E11919; cursor: pointer;"
+          ></i>
+          {{ item.SupplierId.companyName }}
+        </ion-col>
+        <ion-col
+          size="2"
+          class="ion-text-center"
+          style="margin-right: 0;"
+          [ngClass]="{
+            'margin-0': brief.NdaRequirementMode === 1 || brief.NdaRequirementMode === 3,
+            'margin-5': brief.NdaRequirementMode === 2 || brief.Nda === null || !item.SignedNdaFile
+          }"
+        >
+          <ng-container *ngIf="brief.NdaRequirementMode !== 2">
+            <span
+              *ngIf="
+                !item.SignedNdaFile &&
+                ((brief.NdaRequirementMode === 3 && item.Nda) || (brief.NdaRequirementMode === 1 && brief.Nda))
+              "
+              style="font-size: 10px; font-weight: bold; color: #56555566;"
+              [translate]="'briefs.myBrief.notUploaded'"
+            ></span>
+            <ng-container *ngIf="!item.SignedNdaFile && !(item.Nda || brief.Nda)">
+              <label class="fileInput" *ngIf="!item.isLoadingNda">
+                <p-fileUpload
+                  #fileInput
+                  mode="basic"
+                  auto="true"
+                  id="file"
+                  multiple="true"
+                  fileLimit="1"
+                  maxFileSize="250000000"
+                  customUpload="true"
+                  (uploadHandler)="uploadNda($event, item)"
+                >
+                </p-fileUpload>
+                <i class="fas fa-file-upload" style="color:#71c1ed; cursor: pointer;"></i>
+              </label>
+
+              <!-- <a *ngIf="!item.isLoadingNda" (click)="uploadNda($event, item)" style="cursor: pointer;">
+                <i class="fas fa-file-upload" style="color:#71c1ed;"></i>
+              </a> -->
+              <i *ngIf="item.isLoadingNda" class="fas fa-circle-notch fa-spin" style="color:#71c1ed;"></i>
+            </ng-container>
+            <a
+              *ngIf="item.SignedNdaFile"
+              (click)="downloadNda(item.SignedNdaFile.url, item.SignedNdaFile.name)"
+              style="cursor: pointer;"
+            >
+              <i class="fas fa-file-download" style="color:#F6A117;"></i>
+            </a>
+          </ng-container>
+          <ng-container *ngIf="brief.NdaRequirementMode === 2">
+            <span style="font-size: 10px; color: #56555566;font-weight: bold;">Not required</span>
+          </ng-container>
+        </ion-col>
+
+        <!-- <ion-col
+          class="ion-text-center"
+          size="2"
+          style="margin-right: 0;"
+          [ngClass]="{
+            'margin-3': item.NdaAcceptance !== 3,
+            'margin-1': item.NdaAcceptance === 3
+          }"
+        >
+          <a (click)="downloadNda(item.SignedNdaFile.url, item.SignedNdaFile.name)" style="cursor: pointer;">
+            <i class="fas fa-file-download" style="color:#F6A117;"></i>
+          </a>
+        </ion-col> -->
+
+        <!-- ACCEPT OR DECLINE -->
+        <ion-col class="ion-text-center" *ngIf="item.NdaAcceptance === 1" size="2">
+          <ion-label
+            style="color: #F6A117; font-size: 10px; font-weight: bold;"
+            [translate]="'briefs.myBrief.accepted'"
+          ></ion-label>
+        </ion-col>
+        <ion-col *ngIf="item.NdaAcceptance === 2" size="2" class="ion-text-center">
+          <ion-label
+            style="color: #70C1ED; font-size: 10px; font-weight: bold;"
+            [translate]="'briefs.myBrief.declined'"
+          ></ion-label>
+        </ion-col>
+        <ion-col *ngIf="item.NdaAcceptance === 3" size="2" class="ion-text-center">
+          <span
+            *ngIf="item.SignedNdaFile"
+            style="color: #F6A117; font-size: 12px; font-weight: bold;cursor:pointer"
+            (click)="onAccept(item)"
+            [translate]="'briefs.myBrief.accept'"
+          ></span>
+          <span
+            *ngIf="item.SignedNdaFile"
+            style="color: #70C1ED; font-size: 12px; font-weight: bold;cursor:pointer"
+            (click)="onDecline(item)"
+            [translate]="'briefs.myBrief.decline'"
+          ></span>
+        </ion-col>
+        <ion-col
+          *ngIf="item.NdaAcceptance !== 3 && item.NdaAcceptance !== 2 && item.NdaAcceptance !== 1"
+          size="2"
+          class="ion-text-center"
+        >
+          <span style="font-size:10px; color: #56555566;font-weight: bold;">
+            Nda not uploaded
+          </span>
+        </ion-col>
+
+        <!-- Primeiro X ou Check -->
+        <ion-col class="is-accepted ion-text-center" size="1">
+          <ion-label *ngIf="!item.Accepted && item.Accepted !== undefined" translate=""
+            ><i style="color: #70C1ED" class="fas fa-times"></i
+          ></ion-label>
+          <ion-label *ngIf="item.Accepted && item.Accepted === true" translate=""
+            ><i style="color: #F6A117" class="fas fa-check"></i
+          ></ion-label>
+        </ion-col>
+        <!-- Segundo X ou Check -->
+        <ion-col class="is-responded  ion-text-center" size="1">
+          <ion-label *ngIf="!item.isResponded" translate=""
+            ><i style="color: #70C1ED" class="fas fa-times"></i>
+          </ion-label>
+          <ion-label *ngIf="item.isResponded" translate=""
+            ><i style="color: #F6A117" class="fas fa-check"></i>
+          </ion-label>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div class="invite" *ngIf="canEdit">
+    <div class="header-title">
+      {{ secondHeader }}
+    </div>
+    <div class="filter">
+      <ion-searchbar
+        id="participating-solvers-searchbar"
+        animated
+        (keyup)="applyFilter($event.target.value)"
+        placeholder=" {{ searchbar }}"
+        (ionClear)="applyFilter($event.target.value)"
+      ></ion-searchbar>
+    </div>
+    <div class="list" *ngIf="!isLoading">
+      <ion-list *ngFor="let item of uninvitedSolverData.filteredData">
+        <ion-item id="participating-solvers-solver" (click)="invite(item)">
+          <i class="fas fa-plus-circle" style="color:#64B34C;"></i>
+          <ion-label style="margin-left: 0.5rem;">
+            {{ item.companyName }}
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+</ion-content>

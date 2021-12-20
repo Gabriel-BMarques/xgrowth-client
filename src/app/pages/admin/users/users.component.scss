@@ -1,0 +1,130 @@
+.logo {
+  margin: 0 auto;
+  padding-top: 40vh;
+  width: 300px;
+}
+
+.title {
+  font-weight: bold;
+  color: black;
+  text-align: justify;
+  padding-left: 0.5rem;
+  font-family: Open Sans;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+.tooltip-users {
+  background: inherit;
+  margin-left: 2.5%;
+  color: #cecece;
+  &:focus {
+    outline: none;
+  }
+}
+
+.tooltip-text {
+  margin-left: 2.5%;
+}
+
+q {
+  font-style: italic;
+  quotes: "« " " »";
+}
+
+.display-list {
+  display: block;
+  div {
+    width: 100%;
+    line-height: 0px;
+    .users-container {
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      border-radius: 0px;
+      box-shadow: unset;
+      .table-item {
+        display: block;
+        cursor: pointer;
+        --padding-start: 0rem;
+        .title {
+          font-size: 14px;
+          text-align: justify;
+          padding-left: 0.5rem;
+          color: #565555;
+          font-family: Open Sans;
+          font-weight: normal;
+          margin-top: 1rem;
+          cursor: pointer;
+        }
+        .subtitle {
+          text-align: justify;
+          padding-left: 0.5rem;
+          color: #565555;
+          font-family: Open Sans;
+          font-weight: normal;
+          cursor: pointer;
+        }
+        .description {
+          text-align: justify;
+          padding-left: 0.5rem;
+          color: #565555;
+          font-family: Open Sans;
+          font-weight: normal;
+          cursor: pointer;
+        }
+      }
+      .table-item:hover {
+        --background: rgb(202, 207, 255);
+      }
+    }
+    @media (min-width: 1px) {
+      padding-inline-start: 1rem;
+      padding-inline-end: 1rem;
+    }
+    @media (min-width: 1000px) {
+      padding-inline-start: 3rem;
+      padding-inline-end: 3rem;
+    }
+  }
+}
+
+@media (min-width: 1px) {
+  .gridFix {
+    display: block;
+    .actions-div {
+      display: none;
+    }
+    .sc-ion-searchbar-md-h {
+      padding-left: 1rem;
+    }
+  }
+  ion-fab {
+    padding-right: 2rem;
+    padding-bottom: 3rem;
+  }
+}
+@media (min-width: 1000px) {
+  .gridFix {
+    display: flex;
+    .actions-div {
+      display: flex;
+      padding-left: 2rem;
+      margin-top: 0.6rem;
+      .choose-filter {
+        width: 150px;
+      }
+      button {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+      }
+    }
+    .sc-ion-searchbar-md-h {
+      padding-left: 50%;
+    }
+  }
+  ion-fab {
+    display: none;
+  }
+}

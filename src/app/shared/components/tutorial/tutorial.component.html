@@ -1,0 +1,35 @@
+<div
+  [ngClass]="{
+    'tutorial-box-0': this.tutorialStyle == 0 || this.tutorialStyle == 5,
+    'tutorial-box-1': this.tutorialStyle == 1,
+    'tutorial-box-2': this.tutorialStyle == 2,
+    'tutorial-box-3': this.tutorialStyle == 3,
+    'tutorial-box-4': this.tutorialStyle == 4
+  }"
+>
+  <div class="tutorial-content">
+    <div class="tutorial-title">
+      <div class="tutorial-text-title">
+        {{ tutorialTitle }}
+      </div>
+      <div class="close-box">
+        <button (click)="close()">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
+    </div>
+    <div class="tutorial-text">
+      {{ tutorialText }}
+    </div>
+    <div
+      [ngClass]="{
+        'tutorial-button-0': this.tutorialStyle == 0 || this.tutorialStyle == 2 || this.tutorialStyle == 3,
+        'tutorial-button-1': this.tutorialStyle == 1 || this.tutorialStyle == 4 || this.tutorialStyle == 5
+      }"
+    >
+      <button (click)="returnOrder()">
+        {{ tutorialButton }}
+      </button>
+    </div>
+  </div>
+</div>

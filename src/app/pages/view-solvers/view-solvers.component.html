@@ -1,0 +1,464 @@
+<div class="solvers-page">
+  <div *ngIf="nextTutorial == 0 && viewTutorial" style="width: 314px;margin: auto;">
+    <div class="tutorial large" style="top: 1.5rem">
+      <app-tutorial
+        #tutorial
+        [tutorialType]="'solvers-page'"
+        [tutorialStyle]="4"
+        (nextTutorialEvent)="onNextTutorial($event)"
+      ></app-tutorial>
+    </div>
+  </div>
+  <div *ngIf="nextTutorial == 0 && viewTutorial" class="filter-backdrop-tutorial"></div>
+  <div class="container" style="height: 100%">
+    <div class="row pl-3 pr-3 pt-3 solvers-header">
+      <div class="col-12 col-md-7 col-xl-7 search-container">
+        <form
+          [formGroup]="searchForm"
+          autocomplete="off"
+          style="width: 100%; display: flex; align-items: center; justify-content: space-between;"
+        >
+          <input type="text" formControlName="search" placeholder="Search for solver's name" />
+          <span class="search-icon"
+            ><i *ngIf="!searchForm.controls.search.value" class="fas fa-search"></i
+            ><i
+              *ngIf="searchForm.controls.search.value"
+              (click)="deleteSearchTerm()"
+              class="fas fa-times"
+              style="cursor: pointer"
+            ></i
+          ></span>
+        </form>
+        <div
+          *ngIf="nextTutorial == 1 && viewTutorial"
+          class="tutorial"
+          style="top: 0.4rem; right: 1.5rem;"
+          style="width: 300px;"
+        >
+          <app-tutorial
+            #tutorial
+            [tutorialType]="'solvers-search'"
+            [tutorialStyle]="4"
+            (nextTutorialEvent)="onNextTutorial($event)"
+          ></app-tutorial>
+        </div>
+        <div *ngIf="nextTutorial == 2 && viewTutorial" style="width: 300px;">
+          <div class="tutorial desktop" style="top: 5rem">
+            <app-tutorial
+              #tutorial
+              [tutorialType]="'solvers-filter'"
+              [tutorialStyle]="4"
+              (nextTutorialEvent)="onNextTutorial($event)"
+            ></app-tutorial>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-5 col-xl-" style="padding-left: 0;">
+        <!-- Desktop -->
+        <div class="main-head">
+          <div class="sort-options">
+            <span
+              id="solver-open-sort-by"
+              class="sort-selected"
+              (click)="modalSortBy = !modalSortBy"
+              (clickOutside)="modalSortBy = false"
+              attachOutsideOnClick="true"
+              >{{ sortSelected }} <i class="bi bi-arrow-down"></i
+            ></span>
+            <div
+              *ngIf="nextTutorial == 3 && viewTutorial"
+              style="width: 320px; position: absolute; left: -8rem; top: 3rem;"
+            >
+              <div class="tutorial desktop">
+                <app-tutorial
+                  #tutorial
+                  [tutorialType]="'solver-sort'"
+                  [tutorialStyle]="4"
+                  (nextTutorialEvent)="onNextTutorial($event)"
+                ></app-tutorial>
+              </div>
+            </div>
+            <div *ngIf="modalSortBy" class="solver-sort-card">
+              <div *ngFor="let sortOption of sortOptions">
+                <span
+                  id="solver-select-sort-by"
+                  (click)="sortBy(sortOption.value)"
+                  [class]="sortOption.isTitle ? 'title-info' : 'option-info'"
+                  >{{ sortOption.name }}</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="refer">
+            <div *ngIf="!viewTutorial" class="tutorial-reset" (click)="resetTutorial()">
+              <button>
+                <i class="bi bi-question-circle-fill"></i>
+              </button>
+              <div class="tutorial-hover">Click to see the page tutorial</div>
+            </div>
+            <div class="refer-solver">
+              <button (click)="referSolver()">Refer Solver</button>
+            </div>
+          </div>
+        </div>
+        <!-- Mobile -->
+        <div class="main-head-mobile">
+          <div class="refer-solver">
+            <button (click)="referSolver()">Refer Solver</button>
+          </div>
+          <div class="refer pt-2">
+            <div class="sort-options">
+              <span
+                id="solver-open-sort-by"
+                class="sort-selected"
+                (click)="modalSortBy = !modalSortBy"
+                (clickOutside)="modalSortBy = false"
+                attachOutsideOnClick="true"
+                >{{ sortSelected }} <i class="bi bi-arrow-down"></i
+              ></span>
+              <div *ngIf="nextTutorial == 3 && viewTutorial" style="width: 300px;">
+                <div class="tutorial mobile" style="top: 0.5rem; right: 0.9rem">
+                  <app-tutorial
+                    #tutorial
+                    [tutorialType]="'solver-sort'"
+                    [tutorialStyle]="5"
+                    (nextTutorialEvent)="onNextTutorial($event)"
+                  ></app-tutorial>
+                </div>
+              </div>
+              <div *ngIf="modalSortBy" class="solver-sort-card">
+                <div *ngFor="let sortOption of sortOptions">
+                  <span
+                    id="solver-select-sort-by"
+                    (click)="sortBy(sortOption.value)"
+                    [class]="sortOption.isTitle ? 'title-info' : 'option-info'"
+                    >{{ sortOption.name }}</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!viewTutorial" class="tutorial-reset" (click)="resetTutorial()">
+              <button>
+                <i class="bi bi-question-circle-fill"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row pb-2 pt-3 solvers-body-row">
+      <div class="filter-backdrop" *ngIf="filterOpen" (click)="filterOpen = false"></div>
+      <div *ngIf="nextTutorial == 2 && viewTutorial" style="width: 300px; position: absolute;">
+        <div class="tutorial mobile" style="bottom: 8rem;">
+          <app-tutorial
+            #tutorial
+            [tutorialType]="'solvers-filter'"
+            [tutorialStyle]="4"
+            (nextTutorialEvent)="onNextTutorial($event)"
+          ></app-tutorial>
+        </div>
+      </div>
+      <div class="col-0 col-md-3 col-xl-3 filter-section" [ngClass]="filterOpen ? 'open-filter' : ''">
+        <div class="header-filter">
+          <span style="margin-right: 1rem;"><i style="color:#565555;opacity: 0.5;" class="fas fa-filter"></i></span>
+          <span class="text-uppercase filter-title">
+            Filter
+          </span>
+          <span *ngIf="filteringActive" (click)="clearAll()" class="clear-all">Clear all</span>
+        </div>
+        <div *ngIf="loadingFilter" class="loader-container" style="top: 10%">
+          <ion-spinner name="dots"></ion-spinner>
+          <p class="loader-text" [translate]="'global.actions.loadingFilterData'"></p>
+        </div>
+        <form *ngIf="!loadingFilter" [formGroup]="filterForm">
+          <div class="filter-area">
+            <div class="filter-area-title">
+              Organization type
+              <span *ngIf="filteringActive && filterObject.organizationType?.length > 0" class="filter-area-status"
+                >(filtering)</span
+              >
+            </div>
+            <div formArrayName="organizationType" class="org-field">
+              <ng-container *ngFor="let item of organizationTypeField.controls; let i = index" [formGroupName]="i">
+                <div
+                  class="d-flex align-items-center justify-content-between"
+                  *ngIf="item && item.controls && i < maxOrgType"
+                >
+                  <mat-checkbox
+                    [id]="'solvers-filter-org-type' + '-' + i"
+                    *ngIf="item && item.controls && item.controls?.label.value"
+                    [ngClass]="item.controls?.value.value ? 'checked' : ''"
+                    formControlName="value"
+                    [indeterminate]="someCompleteOrgType($event, item)"
+                    (change)="selectOrgType($event, item.controls)"
+                  >
+                    {{ item.controls?.label.value }}</mat-checkbox
+                  >
+                  <button
+                    [id]="'solvers-filter-sec-org-type' + '-' + i"
+                    *ngIf="item.get('secOrgTypes').controls?.length"
+                    (click)="item.controls.clicked.setValue(!item.controls.clicked.value)"
+                    style="color: #A0A0A0;"
+                  >
+                    <i class="fas" [ngClass]="item.controls.clicked.value ? 'fa-minus' : 'fa-plus'"></i>
+                  </button>
+                </div>
+                <div
+                  formArrayName="secOrgTypes"
+                  *ngIf="item.get('secOrgTypes').controls && item.controls.clicked.value"
+                >
+                  <ng-container
+                    *ngFor="let subItem of item.get('secOrgTypes').controls; let j = index"
+                    [formGroupName]="j"
+                  >
+                    <div class="ml-4">
+                      <mat-checkbox
+                        [id]="'solvers-filter-sec-org-type' + '-' + i + '-' + j"
+                        *ngIf="subItem"
+                        [ngClass]="subItem.value.value ? 'checked' : ''"
+                        formControlName="value"
+                        >{{ subItem.value.label }}</mat-checkbox
+                      >
+                    </div>
+                  </ng-container>
+                </div>
+                <ng-container *ngIf="i === maxOrgType">
+                  <button (click)="maxOrgType = organizationTypeField.controls.length; moreOrgType = true">
+                    <i class="fas fa-plus"></i> More
+                  </button>
+                </ng-container>
+                <ng-container
+                  *ngIf="
+                    maxOrgType === organizationTypeField.controls.length &&
+                    i === organizationTypeField.controls.length - 1 &&
+                    moreOrgType
+                  "
+                >
+                  <button (click)="maxOrgType = 5; moreOrgType = false"><i class="fas fa-minus"></i> Less</button>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+          <div class="filter-area">
+            <div class="filter-area-title">
+              Organization segment
+              <span *ngIf="filteringActive && filterObject.segments?.length > 0" class="filter-area-status"
+                >(filtering)</span
+              >
+            </div>
+            <div formArrayName="segments" class="org-field">
+              <ng-container *ngFor="let item of segmentsField.controls; let i = index" [formGroupName]="i">
+                <div>
+                  <mat-checkbox
+                    [id]="'solvers-filter-segments' + '-' + i"
+                    *ngIf="item && item.controls && item.controls?.label.value && i < maxOrgSegment"
+                    [ngClass]="item.controls?.value.value ? 'checked' : ''"
+                    formControlName="value"
+                    ngDefaultControl
+                    >{{ item.controls?.label.value }}</mat-checkbox
+                  >
+                  <ng-container *ngIf="i === maxOrgSegment">
+                    <button (click)="maxOrgSegment = segmentsField.controls.length; moreOrgSegment = true">
+                      <i class="fas fa-plus"></i> More
+                    </button>
+                  </ng-container>
+                  <ng-container
+                    *ngIf="maxOrgSegment === segmentsField.controls.length && i === maxOrgSegment - 1 && moreOrgSegment"
+                  >
+                    <button (click)="maxOrgSegment = 5; moreOrgSegment = false">
+                      <i class="fas fa-minus"></i> Less
+                    </button>
+                  </ng-container>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <div class="filter-area">
+            <div class="filter-area-title">
+              Organization certification
+              <span *ngIf="filteringActive && filterObject.certifications?.length > 0" class="filter-area-status"
+                >(filtering)</span
+              >
+            </div>
+            <div formArrayName="certifications" class="org-field">
+              <ng-container *ngFor="let item of certificationsField.controls; let i = index" [formGroupName]="i">
+                <div>
+                  <mat-checkbox
+                    [id]="'solvers-filter-certifications' + '-' + i"
+                    *ngIf="item && item.controls && item.controls?.label.value && i < maxOrgCertification"
+                    [ngClass]="item.controls?.value.value ? 'checked' : ''"
+                    formControlName="value"
+                    ngDefaultControl
+                    >{{ item.controls?.label.value }}</mat-checkbox
+                  >
+                  <ng-container *ngIf="i === maxOrgCertification">
+                    <button
+                      (click)="maxOrgCertification = certificationsField.controls.length; moreOrgCertification = true"
+                    >
+                      <i class="fas fa-plus"></i> More
+                    </button>
+                  </ng-container>
+                  <ng-container
+                    *ngIf="
+                      maxOrgCertification === certificationsField.controls.length &&
+                      i === maxOrgCertification - 1 &&
+                      moreOrgCertification
+                    "
+                  >
+                    <button (click)="maxOrgCertification = 5; moreOrgCertification = false">
+                      <i class="fas fa-minus"></i> Less
+                    </button>
+                  </ng-container>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <div class="filter-area">
+            <div class="filter-area-title">
+              Organization reach
+              <span *ngIf="filteringActive && filterObject.organizationReach" class="filter-area-status"
+                >(filtering)</span
+              >
+            </div>
+            <mat-form-field hideRequiredMarker="true" floatLabel="never">
+              <mat-select
+                formControlName="organizationReach"
+                panelClass="solvers-panel-class"
+                placeholder="Select global region or country"
+                required
+                disableOptionCentering
+                multiple
+              >
+                <div class="search-div">
+                  <input
+                    class="mat-select-search"
+                    placeholder="Search country"
+                    (keyup)="applyFilterInput($event.target.value, countriesSI)"
+                    (keydown)="$event.stopPropagation()"
+                  />
+                  <i class="fas fa-search search-icon"></i>
+                </div>
+                <div *ngFor="let globalRegion of globalRegions">
+                  <div class="option-group-div">
+                    <mat-checkbox
+                      class="select-all"
+                      [checked]="globalRegion.selected"
+                      (change)="toggleCountries(globalRegion)"
+                    ></mat-checkbox>
+                    <span class="option-group-name">{{ globalRegion.name }}</span>
+                  </div>
+                  <span *ngFor="let country of countriesSI.data">
+                    <mat-option
+                      *ngIf="country.globalRegion._id === globalRegion._id"
+                      [hidden]="!includes(country, countriesSI.filteredData)"
+                      [value]="country._id"
+                      >{{ country.name }}
+                    </mat-option>
+                  </span>
+                </div>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="filter-area">
+            <div class="filter-area-title pt-2">
+              Plant/Production line location
+              <span *ngIf="filteringActive && filterObject.lineLocation" class="filter-area-status">(filtering)</span>
+            </div>
+            <mat-form-field hideRequiredMarker="true" floatLabel="never">
+              <mat-select
+                formControlName="lineLocation"
+                panelClass="solvers-panel-class"
+                placeholder="Search country"
+                required
+                disableOptionCentering
+                multiple
+              >
+                <div class="search-div">
+                  <input
+                    class="mat-select-search"
+                    placeholder="Select country"
+                    (keyup)="applyFilterInput($event.target.value, locationsSI)"
+                    (keydown)="$event.stopPropagation()"
+                  />
+                  <i class="fas fa-search search-icon"></i>
+                </div>
+                <div *ngFor="let globalRegion of globalRegions">
+                  <div class="option-group-div">
+                    <mat-checkbox
+                      class="select-all"
+                      [checked]="globalRegion.selected"
+                      (change)="selectLineCountries(globalRegion)"
+                    ></mat-checkbox>
+                    <span class="option-group-name">{{ globalRegion.name }}</span>
+                  </div>
+                  <span *ngFor="let country of locationsSI.data">
+                    <mat-option
+                      *ngIf="country.globalRegion._id === globalRegion._id"
+                      [hidden]="!includes(country, locationsSI.filteredData)"
+                      [value]="country._id"
+                      >{{ country.name }}
+                    </mat-option>
+                  </span>
+                </div>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="apply-button">
+            <button (click)="getFilteredSolvers()">Apply</button>
+          </div>
+        </form>
+      </div>
+      <div
+        *ngIf="!isEmpty"
+        class="col-12 col-md-9 col-xl-9 main-section"
+        infiniteScroll
+        [infiniteScrollDistance]="1.5"
+        [infiniteScrollDisable]="allLoaded"
+        [infiniteScrollUpDistance]="2"
+        [infiniteScrollThrottle]="50"
+        [scrollWindow]="false"
+        (scrolled)="onScrollDown()"
+      >
+        <div class="main-loop">
+          <app-solver-loop *ngIf="!loadingFilteredData && !loadingPage" [solvers]="solvers"></app-solver-loop>
+          <div *ngIf="solversLoading" class="loader-container" style="margin-top: 2.5rem; top: 10%">
+            <ion-spinner name="lines"></ion-spinner>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isEmpty && !solversLoading" class="main-empty col-12 col-md-8 col-xl-9">
+        <div class="empty-message pt-5">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="55"
+            height="55"
+            fill="currentColor"
+            class="bi bi-emoji-neutral sad-icon"
+            viewBox="0 0 16 16"
+          >
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+            <path
+              d="M4 10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5zm3-4C7 5.672 6.552 5 6 5s-1 .672-1 1.5S5.448 8 6 8s1-.672 1-1.5zm4 0c0-.828-.448-1.5-1-1.5s-1 .672-1 1.5S9.448 8 10 8s1-.672 1-1.5z"
+            />
+          </svg>
+          <p>Couldn't find the solver you're looking for?</p>
+          <p>
+            Use the <b>Refer solver</b> button above and our <br />
+            team will help you with that.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="open-filter-mobile">
+      <button class="open-filter-button" (click)="filterOpen = !filterOpen">
+        <i class="fas fa-filter"></i>
+      </button>
+    </div>
+  </div>
+  <div *ngIf="nextTutorial == 0 && viewTutorial" style="width: 304px;margin: auto;">
+    <div class="tutorial medium" style="bottom: 14rem;">
+      <app-tutorial [tutorialType]="'solvers-page'" [tutorialStyle]="1" (nextTutorialEvent)="onNextTutorial($event)">
+      </app-tutorial>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,128 @@
+@media (min-width: 1px) {
+  ion-content.mass-upload-container {
+    ion-card.mass-upload-card {
+      margin-right: 2rem;
+      margin-left: 2rem;
+
+      ion-card-header.mass-upload-header {
+        padding: 1rem;
+        margin-bottom: 0rem;
+        text-align: center;
+        ion-card-title {
+          --color: #AOAOAO;
+          font-size: 1.3rem;
+          font-weight: bold;
+          text-transform: uppercase;
+        }
+        ion-card-subtitle {
+          --color: #AOAOAO;
+          font-size: 1rem;
+        }
+      }
+
+      ion-card-content.mass-upload-content {
+        margin: 1rem 0;
+        ion-button {
+          --background: #f5a031;
+          --background-hover: #ffc06d;
+          --color-hover: white;
+          --background-focused: #ffc06d;
+          --border-radius: 50px;
+          display: block;
+          margin: 1rem 25%;
+          font-size: 0.95rem;
+
+          .input-file {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            cursor: pointer;
+            margin: 0;
+          }
+        }
+
+        .proceed-upload {
+          margin-top: 2rem;
+
+          ion-card-header.proceed-upload-header {
+            text-align: center;
+            ion-card-title,
+            ion-card-subtitle {
+              --color: #AOAOAO;
+              font-size: 1rem;
+              font-weight: 400;
+            }
+          }
+
+          ion-card-content.proceed-upload-content {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            ion-button {
+              margin: 0 5% 1rem;
+            }
+          }
+        }
+      }
+
+      .uploading-data-main-content {
+        .uploading-data-card {
+          .uploading-data-card-content {
+            ion-card-subtitle {
+              --color: #AOAOAO;
+              margin-bottom: 10px;
+              font-weight: 400;
+            }
+            section.progress-bar-section {
+              ion-button.finish-mass-upload-button {
+                --background: #f5a031;
+                --background-hover: #ffc06d;
+                --color-hover: white;
+                --background-focused: #ffc06d;
+                --border-radius: 50px;
+                display: block;
+                margin: 2rem 25% 1rem;
+                font-size: 0.95rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  ion-content.mass-upload-container {
+    ion-card.mass-upload-card {
+      ion-card-content.mass-upload-content {
+        ion-button {
+          margin: 1rem 0;
+          font-size: 0.9rem;
+        }
+      }
+
+      .uploading-data-main-content {
+        .uploading-data-card {
+          .uploading-data-card-content {
+            section.progress-bar-section {
+              ion-button.finish-mass-upload-button {
+                margin: 2rem 0 1rem;
+                font-size: 0.9rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1368px) {
+  ion-content.mass-upload-container {
+    ion-card.mass-upload-card {
+      margin-right: 30%;
+      margin-left: 30%;
+    }
+  }
+}

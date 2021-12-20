@@ -1,0 +1,47 @@
+.header-add-collection {
+  text-align: center;
+  margin-top: 1rem;
+  .title {
+    font-family: Open Sans;
+    font-size: 14px;
+    color: #41414180;
+    font-weight: bold;
+    text-align: center;
+  }
+}
+
+.input-name {
+  margin-bottom: 1rem;
+}
+
+.mat-form-field-appearance-legacy {
+  .mat-form-field-subscript-wrapper {
+    .mat-error {
+      text-align: center;
+      padding-bottom: 1rem;
+    }
+  }
+}
+
+.form-container {
+  // width: 90%;
+  // padding-bottom: 1rem;
+  // margin-right: auto;
+  // margin-left: auto;
+  margin-inline: 1rem;
+  .input-label {
+    font-family: Open Sans;
+    font-size: 13px;
+    color: #565555;
+  }
+  mat-form-field {
+    width: 90%;
+    display: inline;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}

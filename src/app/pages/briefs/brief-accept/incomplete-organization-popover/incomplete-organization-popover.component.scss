@@ -1,0 +1,50 @@
+ion-content {
+  .incomplete-profile-advertise {
+    padding: 34px;
+    text-align: center;
+    .sad-icon {
+      color: #cecece;
+      font-size: 43px;
+    }
+    .advertise-text {
+      color: #565555;
+      font-size: 13px;
+    }
+    .advertise-text-bold {
+      color: #565555;
+      font-size: 13px;
+      font-weight: bold;
+    }
+    .buttons-div {
+      margin-top: 28px;
+      width: 100%;
+      .exit-button-org-admin {
+        --border-width: 1px;
+        --border-color: #70c1ed;
+        --color: #70c1ed;
+        --background-hover: #70c1ed0e;
+        font-size: 14px;
+        width: 98px;
+        text-transform: capitalize;
+      }
+      .exit-button {
+        --border-width: 1px;
+        --border-color: #70c1ed;
+        --color: #70c1ed;
+        --background-hover: #70c1ed0e;
+        font-size: 14px;
+        width: 180px;
+        margin-right: auto;
+        margin-left: auto;
+        text-transform: capitalize;
+      }
+      .complete-button {
+        --box-shadow: none;
+        --background: #f6a117;
+        font-size: 14px;
+        width: 98px;
+        text-transform: capitalize;
+      }
+    }
+  }
+}

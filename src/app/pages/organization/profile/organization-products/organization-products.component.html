@@ -1,0 +1,26 @@
+<ion-content class="organization-products">
+  <ng-container *ngIf="viewport && organization">
+    <div class="main mb-5">
+      <app-profile-header [organization]="organization" [viewport]="viewport" [path]="'products'"></app-profile-header>
+      <img
+        *ngIf="!isAddingProduct && !isEditingProduct && viewport === 'desktop'"
+        class="add-product-button"
+        style="cursor: pointer;"
+        src="../../../../../assets/icon/plus-circle-icon.svg"
+        (click)="addProduct()"
+      />
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="productsObs$ | async">
+    <app-product-list
+      [viewport]="viewport"
+      [organization]="organization"
+      [products]="products$ | async"
+      [canEdit]="canEdit"
+      (onProductEdit)="updateList()"
+    ></app-product-list>
+  </ng-container>
+
+  <app-loader *ngIf="!(productsObs$ | async)" [isLoading]="!(productsObs$ | async)"></app-loader>
+</ion-content>

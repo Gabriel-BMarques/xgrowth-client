@@ -1,0 +1,298 @@
+::ng-deep .mat-primary .mat-option .mat-selected {
+  color: var(--ion-color-secondary) !important;
+}
+
+.rating-modal-container {
+  font-family: "Open Sans" !important;
+  color: #565555;
+  font-size: 1rem;
+  height: 100%;
+  .rating-modal-header {
+    position: relative;
+    display: flex;
+    height: 5rem;
+    width: 100%;
+    display: flex !important;
+    align-items: center;
+    box-shadow: 0px 3px 10px #00000029;
+    .back {
+      cursor: pointer;
+      margin-left: 1.25rem;
+      .back-icon {
+        font-size: 1.125rem;
+        color: #f6a117;
+        position: initial;
+      }
+    }
+    .rating-modal-title {
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-left: 0.6rem;
+    }
+  }
+  .loading-container {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    ion-spinner {
+      padding-top: 50%;
+    }
+  }
+  ::-webkit-scrollbar {
+    /*Chrome, Safari and Opera*/
+    display: none;
+  }
+  .content-scroll {
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 120px;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    .rating-modal-content {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+      padding-bottom: 2rem;
+      justify-content: center;
+      .rating-modal-post {
+        display: flex;
+        @media (max-width: 609px) {
+          justify-content: center;
+          max-width: 100% !important;
+          min-width: 290px;
+        }
+        @media (min-width: 610px) {
+          justify-content: right;
+          max-width: 35% !important;
+          min-width: 290px;
+        }
+        .post-card {
+          border-radius: 10px;
+          max-width: 278px;
+          box-shadow: 0px 2px 4px #0000001a;
+          margin-bottom: 1rem;
+          .post-img {
+            img {
+              border-radius: 10px 10px 0px 0px;
+              object-fit: cover;
+              width: 278px;
+              height: 298px;
+            }
+          }
+          .post-info {
+            margin: 0.5rem;
+            height: 85px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            .post-title {
+              font-size: 14px;
+            }
+            .post-company {
+              font-size: 15px;
+              font-weight: bold;
+              text-transform: capitalize;
+              color: var(--ion-color-secondary);
+            }
+          }
+        }
+      }
+      .rating-modal-rate {
+        @media (max-width: 609px) {
+          max-width: 100% !important;
+          min-width: 320px;
+        }
+        @media (min-width: 610px) {
+          max-width: 65% !important;
+          min-width: 320px;
+        }
+        .input-placeholder {
+          position: absolute;
+          padding-left: 1rem;
+          font-size: 0.9375rem;
+          color: #cacaca;
+        }
+        .rate-note {
+          margin-bottom: 1.5rem;
+          .rate-note-title {
+            margin-bottom: 0.5rem;
+            font-size: 16px;
+            font-weight: bold;
+          }
+          .rate-note-stars {
+            width: fit-content;
+            display: flex;
+            .star {
+              margin-right: 0.5rem;
+              font-size: 22px;
+              cursor: pointer;
+              .yellow {
+                color: #f6a117 !important;
+              }
+              .grey {
+                color: #cacaca !important;
+              }
+            }
+          }
+        }
+        .rate-reason {
+          margin-bottom: 1rem;
+          .rate-reason-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+          }
+          .rate-reason-dropdown {
+            ::ng-deep .mat-form-field {
+              width: 100%;
+              .mat-form-field-infix {
+                height: 40px;
+                width: 100%;
+              }
+            }
+            ::ng-deep .mat-select {
+              font-size: 15px;
+              .mat-select-trigger {
+                top: -0.2rem;
+              }
+              .mat-select-arrow {
+                opacity: 0.5;
+                display: inline-block !important;
+                border-right: 2px solid #565555 !important;
+                border-bottom: 2px solid #565555 !important;
+                width: 7px !important;
+                height: 7px !important;
+                transform: rotate(-315deg) !important;
+                border-left: none !important;
+                border-top: none !important;
+                margin: 0 9px !important;
+                position: relative;
+                right: 0.4rem;
+                padding-right: 0% !important;
+                bottom: 0.3rem;
+              }
+            }
+          }
+        }
+        .rate-comment {
+          .input-field {
+            width: 100%;
+            margin-bottom: 1rem;
+            .editor-container {
+              width: 100%;
+              max-height: 800px;
+              border: 0;
+              .form-textarea {
+                width: 100%;
+                border-radius: 7px;
+                ::ng-deep .mat-form-field-infix {
+                  padding: 0 !important;
+                  background-color: #ffffff;
+                  width: 100%;
+                  display: flex;
+                  border: 0;
+                  .input-placeholder {
+                    position: absolute;
+                    padding-left: 1rem;
+                    padding-right: 1rem;
+                    padding-top: 1rem;
+                    font-size: 0.9375rem;
+                    color: #cacaca;
+                    width: 100%;
+                  }
+                  textarea {
+                    margin: 0 !important;
+                    padding-right: 1rem;
+                    padding-left: 1rem;
+                    padding-top: 1rem;
+                    padding-bottom: 1rem;
+                    resize: none;
+                    width: 100% !important;
+                    height: 145px !important;
+                    border: 1px solid #dededf;
+                    border-radius: 7px;
+                  }
+                  textarea:focus {
+                    outline: none !important;
+                    border: 1px solid #dededf;
+                    border-radius: 7px;
+                  }
+                }
+              }
+            }
+            .input-field-normal {
+              .mat-form-field-infix {
+                border-color: #dededf !important;
+                border-width: 1px;
+              }
+            }
+            .input-field-error {
+              .mat-form-field-infix {
+                border-color: #e11919 !important;
+                border-width: 1px;
+              }
+              .mat-form-field-label {
+                color: transparent !important;
+              }
+            }
+            .input-field-success {
+              .mat-form-field-infix {
+                border-color: #64b34c !important;
+                border-width: 1px;
+              }
+            }
+          }
+          .rate-advise {
+            font-size: 13px;
+          }
+        }
+      }
+    }
+  }
+  .rating-modal-footer {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: #ffffff;
+    bottom: 0;
+    height: 3.75rem;
+    box-shadow: 0px -1px 6px #00000029;
+    .cancel {
+      width: 40%;
+      display: flex;
+      justify-content: center;
+      margin-right: 1rem;
+      button {
+        background: #fff;
+        border: 1px solid #70c1ed;
+        border-radius: 34px;
+        width: 100%;
+        margin: auto;
+        color: #70c1ed;
+        height: 40px;
+        font-size: 14px;
+      }
+    }
+    .send {
+      width: 40%;
+      display: flex;
+      justify-content: center;
+      margin-left: 1rem;
+      button {
+        background: #70c1ed;
+        border-radius: 34px;
+        width: 100%;
+        margin: auto;
+        color: #fff;
+        height: 40px;
+        font-size: 14px;
+      }
+    }
+    .disabled-button {
+      opacity: 0.5 !important;
+      cursor: default;
+    }
+  }
+}

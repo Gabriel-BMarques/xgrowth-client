@@ -1,0 +1,319 @@
+.search-div {
+  width: 82.5%;
+  margin-right: auto;
+  margin-left: auto;
+  .mat-select-search {
+    margin-top: 12px;
+    margin-bottom: 10px;
+    border-radius: 30px;
+    outline: none;
+    border: 1px solid #e0e0e0;
+    width: 100%;
+    height: 40px;
+    text-indent: 15px;
+  }
+  .search-icon {
+    position: absolute;
+    top: 21.65px;
+    right: 16.32%;
+    font-size: 17px;
+    color: #565555;
+    opacity: 0.5;
+  }
+  ::placeholder {
+    color: #e0e0e0;
+  }
+}
+
+@media (min-width: 1px) {
+  .form-user-component {
+    .mat-form-field-infix {
+      height: 40.38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    form {
+      padding: 1rem;
+      text-align: left;
+      .first-info {
+        width: 100%;
+        mat-form-field {
+          width: 100%;
+          margin-left: auto;
+          margin-right: auto;
+          font-size: 14px;
+          .mat-select-value {
+            color: #565555 !important;
+          }
+        }
+      }
+      .input-disabled {
+        .mat-form-field-infix {
+          background-color: #dededf !important;
+        }
+        .mat-input-element:disabled,
+        .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after {
+          color: #565555;
+        }
+      }
+      .input-label {
+        color: #565555;
+        font-size: 14px;
+      }
+      .input-field {
+        ::ng-deep .mat-form-field-infix {
+          padding: 0 !important;
+          background-color: #ffffff;
+          height: 2.5rem;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          border: 1px #dededf solid;
+          border-radius: 1.563rem;
+          input {
+            margin: 0 !important;
+            padding-right: 1rem;
+            padding-left: 1rem;
+            height: 100%;
+            border-radius: 1.563rem;
+          }
+          .mat-input-element:disabled {
+            color: #565555;
+            background-color: #dededf;
+          }
+          .mat-select-disabled .mat-select-value {
+            color: #565555;
+          }
+          ::ng-deep .mat-select {
+            height: 100%;
+            padding-right: 1rem;
+            padding-left: 1rem;
+            .mat-select-trigger {
+              height: 100%;
+              .mat-select-value {
+                padding: 0;
+                vertical-align: middle;
+              }
+              .mat-select-arrow-wrapper {
+                background-image: url("../../../../../../assets/icon/chevron-down-icon.svg");
+                background-repeat: no-repeat;
+                background-position: center;
+                .mat-select-arrow {
+                  border: none;
+                  width: 4px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .user-profile-component {
+    .mat-form-field-flex {
+      display: inline-flex !important;
+      align-items: center !important;
+      .mat-form-field-infix {
+        display: flex !important;
+        align-items: center !important;
+      }
+    }
+
+    .panel-container {
+      width: 100%;
+      overflow-x: auto;
+      padding: 1rem;
+      text-align: justify;
+      .title {
+        color: #565555;
+        font-weight: bold;
+        padding-bottom: 0.5rem;
+      }
+      .panel-header {
+        width: 100%;
+        .title {
+          color: #56555566;
+          font-weight: bold;
+          padding-bottom: 0.5rem;
+          font-size: 16px;
+        }
+        .subtitle {
+          color: #a0a0a0;
+          font-size: 12px;
+          text-align: left;
+        }
+      }
+      .content {
+        .domain {
+          color: #f6a117;
+          font-weight: bold;
+          // cursor: pointer;
+          // text-decoration: underline;
+        }
+        .content-flex {
+          display: flex;
+          padding-bottom: 0.5rem;
+          .info-title {
+            font-weight: bold;
+            color: #565555;
+            // min-width: 32%;
+          }
+          .info-content {
+            padding-left: 0.5rem;
+            .read-more-less {
+              margin-left: -1rem;
+              ion-button {
+                --background: none;
+                --background-color: none;
+                --background-hover: none;
+                --box-shadow: none;
+                color: #70c1ed;
+                font-weight: bold;
+                font-size: 14px;
+                text-transform: none;
+              }
+            }
+          }
+          .company-title {
+            font-weight: bold;
+            color: #aca9a9;
+          }
+        }
+        .content-list {
+          text-align: center;
+          .content-item {
+            border-bottom: 1px solid #e2e2e3;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            .item-title {
+              font-weight: bold;
+              color: #565555;
+            }
+            .item-info {
+              color: #aca9a9;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .user-profile-panel-class {
+    margin-top: 27.8px !important;
+    margin-left: 52px !important;
+    min-width: calc(100% - 20px) !important;
+    .mat-option {
+      .mat-option-text {
+        color: #565555;
+        white-space: normal;
+        font-size: 13px;
+      }
+    }
+  }
+
+  .static-user-select-panel-class {
+    margin-top: 27.8px !important;
+    margin-left: 25px !important;
+    min-width: calc(100% - 20px) !important;
+    .mat-option {
+      .mat-option-text {
+        color: #565555;
+        white-space: normal;
+        font-size: 13px;
+      }
+    }
+  }
+
+  .user-profile-panel-class::-webkit-scrollbar,
+  .static-user-select-panel-class::-webkit-scrollbar {
+    display: block;
+    width: 13px;
+    background: #f6f6f6;
+  }
+
+  .user-profile-panel-class::-webkit-scrollbar-thumb,
+  .static-user-select-panel-class::-webkit-scrollbar-thumb {
+    border-radius: 34px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    background-color: #cecece;
+    height: 88px;
+  }
+
+  .change-password-displayed {
+    display: none;
+  }
+
+  .change-password-button {
+    color: #70c1ed;
+    text-decoration: underline;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  // CSS Encapsulation Not Working
+  .mat-optgroup-label {
+    color: #565555 !important;
+    margin-bottom: 0px !important;
+    font-weight: bold;
+    opacity: 0.4;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .mat-primary .mat-pseudo-checkbox-checked {
+    background: #70c1ed;
+    border: 2px solid transparent !important;
+  }
+  .mat-pseudo-checkbox {
+    border: 1px solid #dededf !important;
+  }
+  .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+    color: #565555;
+    // background-color: #DEDEDF;
+  }
+  // ::ng-deep .mat-select-arrow {
+  //   display: inline-block !important;
+  //   border-right: 2px solid #707070 !important;
+  //   border-bottom: 2px solid #707070 !important;
+  //   width: 8px !important;
+  //   height: 8px !important;
+  //   transform: rotate(-315deg) !important;
+  //   border-left: none !important;
+  //   border-top: none !important;
+  //   margin: 0 9px !important;
+  //   position: relative;
+  //   right: 0.7rem;
+  // }
+
+  // ::ng-deep .mat-select-arrow-wrapper {
+  //   background-image: url("../../../../../assets/icon/chevron-down-icon.svg");
+  //   background-repeat: no-repeat;
+  //   background-position: center;
+  //   .mat-select-arrow {
+  //     border: none;
+  //     width: 4px;
+  //   }
+  // }
+  // End CSS Encapsulation Not Working
+}
+@media (min-width: 1000px) {
+  .form-user-component {
+    form {
+      display: flex;
+      padding: 1rem;
+      text-align: left;
+      .first-info {
+        width: 100%;
+        mat-form-field {
+          width: 90%;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .category-input {
+          width: 95% !important;
+        }
+      }
+    }
+  }
+}

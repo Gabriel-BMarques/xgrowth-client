@@ -1,0 +1,55 @@
+<ion-content>
+  <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+  <div class="page-header" *ngIf="!isLoading">
+    <i class="fas fa-arrow-left back-icon" (click)="back()"></i>
+    <span class="header-title"> Share </span>
+  </div>
+  <!-- <div class="comment" *ngIf="!isLoading">
+    <form class="form" (ngSubmit)="share()" [formGroup]="shareForm">
+      <label class="comment-label" [translate]="'share.comment'"></label>
+      <mat-form-field [hideRequiredMarker]="true" class="description-form">
+        <textarea id="comment" type="comment" rows="5" matInput formControlName="comment" required></textarea>
+      </mat-form-field>
+    </form>
+  </div> -->
+  <div class="coworkers-list" *ngIf="!isLoading">
+    <div class="searchbar">
+      <ion-searchbar
+        id="post-share-searchbar"
+        class="searchbar"
+        animated
+        (keyup)="applyFilter($event.target.value)"
+        placeholder=" {{ searchbar }}"
+        (ionClear)="applyFilter(null)"
+      ></ion-searchbar>
+    </div>
+    <label class="coworkers-label">Coworkers</label>
+    <div *ngIf="!isLoading" style="padding-left: 1rem;">
+      <ion-item *ngFor="let item of coworkerData.filteredData" style="width: 95%;">
+        <ion-checkbox
+          id="post-share-coworker"
+          [(ngModel)]="item.selected"
+          (ionChange)="changeSelection(item)"
+          mode="md"
+          color="success"
+          style="margin-left: 0.5rem;"
+        ></ion-checkbox>
+        <ion-label class="coworker-name">{{ item.firstName }} {{ item.familyName }}</ion-label>
+      </ion-item>
+    </div>
+  </div>
+</ion-content>
+<div class="footer-container" *ngIf="!isLoading">
+  <div class="buttons-container">
+    <ion-button
+      id="post-share-cancel"
+      color="secondary"
+      (click)="cancel()"
+      fill="outline"
+      [translate]="'global.actions.cancel'"
+    ></ion-button>
+    <ion-button id="post-share-share" color="primary" (click)="share()" [translate]="'share.share'"></ion-button>
+  </div>
+</div>

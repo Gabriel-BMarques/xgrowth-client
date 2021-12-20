@@ -1,0 +1,26 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div class="container-modal">
+          <div class="languages">
+            <div class="line">
+              <a class="en-us" (click)="switchEnglish()" style="margin-top: 11px;">
+                <ion-label *ngIf="isEnglish" style="color: #70C1ED; font-weight: bold;">English</ion-label>
+                <ion-label *ngIf="!isEnglish" style="color: #565555; font-weight: normal;">English</ion-label>
+              </a>
+              <i
+                class="fas fa-globe"
+                style="color: #70C1ED; margin-left: 0.8rem; margin-top: 0.8rem; font-size: 18px;"
+              ></i>
+            </div>
+            <a class="pt-br" (click)="switchPortuguese()" style="margin-top: 15px;">
+              <ion-label *ngIf="isPortuguese" style="color: #70C1ED; font-weight: bold;">Portuguese</ion-label>
+              <ion-label *ngIf="!isPortuguese" style="color: #565555; font-weight: normal;">Portuguese</ion-label>
+            </a>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

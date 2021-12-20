@@ -1,0 +1,209 @@
+.organization-profile-overview {
+  --background: #f6f6f6;
+  ion-card {
+    box-shadow: none !important;
+  }
+  .overview-modal {
+    position: fixed;
+    right: -8vw;
+    top: calc(50% + 20px);
+    transform: translate(-50%, -50%);
+    width: 21vw;
+    max-height: 86vh;
+    border-radius: 7px !important;
+    opacity: 1 !important;
+    background: #ffffff 0% 0% no-repeat padding-box !important;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    .overview-modal-content {
+      padding-bottom: 3.375rem;
+      max-height: 60vh;
+      overflow-y: auto;
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+    .overview-modal-content::-webkit-scrollbar {
+      display: none;
+    }
+    .overview-modal-footer {
+      hr {
+        margin-top: 0;
+      }
+      background-color: #ffffff;
+      width: 87.9%;
+      position: fixed;
+      bottom: 0;
+      padding-bottom: 1rem;
+    }
+  }
+
+  .see-all-btn {
+    padding: 0;
+    text-align: center;
+    ion-text.see-all-btn-text {
+      font: normal normal normal 14px/19px Open Sans;
+      letter-spacing: 0px;
+      color: #70c1ed;
+      width: 70px;
+      cursor: pointer;
+    }
+  }
+
+  .container-fluid {
+    margin-top: 2.5rem;
+    margin-inline: 3vw;
+
+    .card-grid {
+      width: 71vw;
+      .card_grid {
+        ion-card {
+          img {
+            height: 250px;
+            width: 100%;
+            object-fit: cover;
+          }
+        }
+      }
+
+      ion-card {
+        border-radius: 7px !important;
+        opacity: 1 !important;
+        background: #ffffff 0% 0% no-repeat padding-box !important;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+        &.webinar_card {
+          .webinar_card_image {
+            object-fit: cover;
+            border-radius: 15px;
+            min-height: 8.75rem;
+          }
+
+          .webinar_card_subtitle {
+            text-align: left;
+            font: normal normal bold 20px/24px Open Sans;
+            letter-spacing: 0px;
+            color: #565555;
+            opacity: 1;
+          }
+          .webinar_description {
+            font-size: 1rem;
+          }
+          .webinar_info {
+            margin-left: 1.9375rem;
+            @media (max-width: 991px) {
+              margin-left: 0 !important;
+            }
+          }
+        }
+        i {
+          color: #70c1ed;
+        }
+        .read_more_less_link {
+          color: #70c1ed;
+          font-size: 1rem;
+          font-weight: bold;
+          cursor: pointer;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  .profile_link_style {
+    text-decoration: none;
+    color: #70c1ed;
+    cursor: pointer;
+    &:hover {
+      color: #3895c7;
+    }
+  }
+
+  img {
+    border-radius: 0%;
+  }
+
+  .content_title_item {
+    text-align: left;
+    font: normal normal bold 18px/24px Open Sans;
+    letter-spacing: 0px;
+    color: #70c1ed;
+    opacity: 1;
+  }
+
+  .content_subtitle_item {
+    text-align: left;
+    font: normal normal bold 16px/22px Open Sans;
+    letter-spacing: 0px;
+    color: #565555;
+    opacity: 1;
+  }
+
+  .content_subtitle_item_2 {
+    text-align: left;
+    font: normal normal normal 14px/19px Open Sans;
+    letter-spacing: 0px;
+    opacity: 1;
+  }
+
+  .col {
+    border-bottom-style: none;
+    border-right-style: none;
+  }
+
+  .row:last-child {
+    border-bottom-style: none !important;
+    border-right-style: none !important;
+  }
+
+  .card_table_title {
+    text-align: left;
+    font: normal normal bold 16px/22px Open Sans;
+    letter-spacing: 0px;
+    color: #565555;
+    opacity: 1;
+  }
+
+  .loader-wrapper {
+    position: fixed;
+    left: 0px;
+    top: 10rem;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+  }
+}
+
+@media (min-width: 1024px) {
+  .overview-modal-mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 500px) {
+  .container-fluid {
+    margin-inline: 0 !important;
+
+    .overview-modal {
+      display: none;
+    }
+
+    .card-grid {
+      width: 93vw !important;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .container-fluid {
+    margin-inline: 0 !important;
+    padding: 0 !important;
+
+    .overview-modal {
+      display: none;
+    }
+
+    .card-grid {
+      padding: 0 !important;
+      margin-left: 0 !important;
+      width: 98vw !important;
+    }
+  }
+}

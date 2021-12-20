@@ -1,0 +1,23 @@
+.share-popover {
+  display: flex;
+  justify-content: space-around;
+  ion-button {
+    border-radius: 0px !important;
+    width: 30px;
+    height: 25px;
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    color: #565555;
+    --background-hover: white;
+    --background: white;
+    --box-shadow: none;
+    &.image-btn {
+      background: url("../../../../../../assets/icon/feed-icon.svg");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+}

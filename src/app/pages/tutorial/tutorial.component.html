@@ -1,0 +1,61 @@
+<ion-content>
+  <div
+    class="tutorial-page row"
+    [ngClass]="{ 'show-content': this.selectedTutorial, 'show-menu': !this.selectedTutorial }"
+  >
+    <div class="accordion-list col-12 col-md-4">
+      <ion-list class="list" detail="false" no-padding>
+        <ion-label class="menu-title">Help Center</ion-label>
+        <ng-container *ngFor="let topic of tutorialTopics; let i = index">
+          <div
+            *ngIf="topic !== 'draft'"
+            class="menu-table"
+            [ngClass]="{ '--open': this.isOpen[i] && hasSubTopics(topic) }"
+          >
+            <ion-item no-padding>
+              <div class="section" style="background: #f6f6f6">
+                <div class="section-title" (click)="toggleSection(i, topic)" tappable>
+                  <ion-label [ngClass]="{ selected: this.isOpen[i] }">{{ topic }}</ion-label>
+                  <div class="arrow" *ngIf="hasSubTopics(topic)">
+                    <i *ngIf="!isOpen[i]" class="fas fa-chevron-right"></i>
+                    <i *ngIf="isOpen[i]" class="fas fa-chevron-down"></i>
+                  </div>
+                </div>
+                <div *ngIf="isOpen[i]" class="tutorial">
+                  <ng-container *ngFor="let tutorial of tutorials">
+                    <ion-item
+                      *ngIf="tutorial.topic === topic && tutorial.type === 'sub topic'"
+                      (click)="setSelectedTutorial(tutorial)"
+                      class="tutorial-title"
+                      tappable
+                      lines="none"
+                    >
+                      <ion-label [ngClass]="{ 'tutorial-title-selected': tutorial == selectedTutorial }">{{
+                        tutorial.title
+                      }}</ion-label>
+                    </ion-item>
+                  </ng-container>
+                </div>
+              </div>
+            </ion-item>
+          </div>
+        </ng-container>
+        <div class="contact-us">
+          <span>Couldn't find what you're looking for?</span>
+        </div>
+        <a href="https://growinco.com/#/need-help" style="color: #70C1ED; font-size: 14px;text-decoration: underline;"
+          >Contact us</a
+        >
+      </ion-list>
+    </div>
+    <div class="tutorial-content col-12 col-md-8">
+      <div class="content-header">
+        <ion-button class="back-icon-header" (click)="back()">
+          <i class="fas fa-arrow-left"></i>
+        </ion-button>
+        <ion-label class="header-title" *ngIf="selectedTutorial">{{ this.selectedTutorial.topic }}</ion-label>
+      </div>
+      <app-tutorial-details *ngIf="selectedTutorial" [tutorialInput]="selectedTutorial"></app-tutorial-details>
+    </div>
+  </div>
+</ion-content>

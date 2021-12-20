@@ -1,0 +1,430 @@
+@import "../../../../../theme/theme.scss";
+
+.mat-option {
+  text-transform: capitalize;
+}
+
+.tutorial-modal-class {
+  .modal-wrapper.md {
+    border-radius: 7px !important;
+  }
+  @media (min-width: 767px) {
+    .modal-wrapper.md {
+      width: 90%;
+      max-width: 100%;
+    }
+  }
+  @media (min-width: 1000px) {
+    .modal-wrapper.md {
+      width: 75%;
+      max-width: 100%;
+    }
+  }
+}
+
+@media (min-width: 1px) {
+  .loading-container {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    ion-spinner {
+      padding-top: 100%;
+    }
+  }
+
+  .page-header {
+    display: flex;
+    .header-title {
+      display: flex;
+      text-transform: uppercase;
+      font-weight: bold;
+      padding-top: 1.5rem;
+      padding-left: 2rem;
+      padding-bottom: 1rem;
+      button {
+        background: inherit;
+        margin-left: 3px;
+        &:focus {
+          outline: none;
+        }
+        i {
+          color: #dededf;
+        }
+      }
+    }
+    .header-information {
+      text-transform: initial;
+      font-size: 0.75rem;
+      color: #e11919;
+      font-weight: normal;
+      padding-top: 1.75rem;
+      padding-left: 1rem;
+      padding-bottom: 1rem;
+    }
+  }
+
+  .uploaded-files-container {
+    min-height: 14rem;
+    // height: 14rem;
+    background-color: #ced6e1;
+    text-align: center;
+    margin-bottom: 1rem;
+    .align-center {
+      width: 100%;
+      ion-row {
+        margin-left: 3rem;
+        margin-right: 3rem;
+      }
+    }
+    .action-circle {
+      display: table;
+      position: absolute;
+      width: 19px;
+      height: 19px;
+      margin-top: 0.95rem;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.699);
+      i {
+        display: table-cell;
+        vertical-align: middle;
+        margin-right: auto;
+        margin-left: auto;
+        color: #f6a117;
+      }
+      .counter {
+        position: absolute;
+        right: 6.5px;
+        vertical-align: middle;
+        font-size: 12px;
+        font-weight: bold;
+        color: #f6a117;
+      }
+    }
+    .uploaded-file {
+      width: fit-content;
+      .response-img {
+        width: 86px;
+        height: 86px;
+        margin-top: 0.75rem;
+        margin-right: 0.5rem;
+        object-fit: cover;
+      }
+    }
+    .no-images {
+      margin-top: 5rem;
+    }
+    .is-images {
+      background-color: #f6a117;
+      max-width: 20rem;
+      margin-left: auto;
+      margin-right: auto;
+      padding-top: 0.7rem;
+      padding-bottom: 0.7rem;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 50px;
+      color: white;
+      max-width: 50;
+      letter-spacing: 0.1em;
+      border-radius: 50px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    ion-button {
+      text-transform: initial;
+      --border-radius: 50px;
+      width: 90%;
+      // margin-top: 5rem;
+      i {
+        padding-right: 0.5rem;
+      }
+    }
+    .fileInput {
+      height: fit-content;
+      width: auto;
+      margin-top: 4rem;
+    }
+    .fileInput > p-fileUpload {
+      display: none;
+    }
+  }
+
+  form {
+    text-transform: capitalize;
+    mat-form-field {
+      display: list-item !important;
+      width: 87%;
+      margin-left: 2rem;
+      margin-right: auto;
+    }
+    #description {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      padding-left: 0.8rem;
+      padding-right: 0.6rem;
+    }
+    .description-form {
+      margin-bottom: 1rem;
+      .mat-form-field-infix {
+        border-radius: 7px !important;
+        textarea {
+          padding: 10px;
+          resize: none;
+          width: 90%;
+        }
+      }
+    }
+    .input-label {
+      color: #565555;
+      font-size: 17px;
+      margin-left: 2rem;
+      margin-bottom: 2px;
+    }
+    .input-field {
+      margin-top: 1rem;
+    }
+    ion-button {
+      width: 100%;
+      padding-left: 2rem;
+      padding-right: 2rem;
+      --border-radius: 50px;
+      height: 2.5rem;
+    }
+  }
+  .response-add-footer-container {
+    box-shadow: 0 -2px 6px 1px rgba(0, 0, 0, 0.281);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    bottom: 0;
+    width: 100%;
+    z-index: 2;
+    background: white;
+    .save-button {
+      .save-changes {
+        --background: #70c1ed;
+        --background-hover: #70c1edad;
+        --color-hover: white;
+        --box-shadow: none;
+        color: white;
+        text-transform: none;
+        width: 40%;
+      }
+    }
+    .buttons-container {
+      text-align: center;
+      ion-button {
+        width: 30%;
+        margin-right: 1.5rem;
+        margin-left: 1.5rem;
+        text-transform: initial;
+        --border-radius: 50px;
+        --box-shadow: none;
+        --border-width: 1px;
+        --padding-top: 1.2rem;
+        --padding-bottom: 1.2rem;
+      }
+    }
+  }
+  .next-disabled {
+    opacity: 0.5;
+  }
+}
+
+@media (min-width: 1000px) {
+  ion-slides {
+    max-height: 60%;
+    height: 30rem;
+    img {
+      object-fit: contain;
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 699px) {
+  .mobile {
+    display: grid;
+  }
+  .desktop {
+    display: none;
+  }
+}
+
+@media (min-width: 700px) {
+  .desktop {
+    display: grid;
+  }
+  .mobile {
+    display: none;
+  }
+  ion-slides {
+    max-height: 60%;
+    height: 30rem;
+    img {
+      object-fit: contain;
+      height: 100%;
+      width: 100%;
+    }
+  }
+  // .upload-images {
+  //   ion-button {
+  //     width: 20rem;
+  //   }
+  // }
+
+  .input-field {
+    text-align: left;
+    margin-top: 1rem;
+  }
+}
+
+.date {
+  height: auto;
+  max-width: 278px;
+  margin: 0 auto;
+  text-transform: none;
+
+  .date-recommendation {
+    color: #cecece;
+    cursor: default;
+    &:hover {
+      color: #565555;
+    }
+  }
+
+  .mat-calendar-table-header th {
+    font-size: 12px !important;
+    font-weight: bold;
+  }
+  .mat-calendar-body-label {
+    font-size: 14px;
+  }
+
+  .mat-calendar-body-cell-content {
+    font-size: 13px;
+    color: #70c1ed;
+  }
+
+  .mat-calendar-body-today {
+    border-color: #cecece !important;
+  }
+
+  .mat-calendar-body-focus {
+    background: whitesmoke !important;
+  }
+
+  .mat-calendar-body-selected {
+    background: #f6a117 !important;
+    color: white;
+  }
+
+  .mat-calendar-header {
+    color: #f6a117;
+  }
+  .mat-calendar-body-label {
+    font-weight: bold;
+    color: #f6a117;
+    display: none;
+  }
+  .mat-calendar-period-button {
+    font-weight: bold;
+  }
+
+  .hour-selection-container {
+    width: 278px;
+    text-align: center;
+    margin-top: 2rem;
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
+    .hour-selection-title {
+      color: #f6a117;
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .time-selection-container {
+      display: inline-flex;
+      margin-top: 1.25rem;
+      margin-inline: auto;
+      align-items: center;
+      color: #f6a117;
+
+      mat-form-field {
+        margin-left: 0px;
+      }
+
+      .hour-minute-division {
+        color: #70c1ed;
+      }
+      .mat-form-field-infix {
+        border: 1px solid;
+        border-radius: 1.5rem; //15rem
+        border-color: #70c1ed;
+        padding: 0.5rem 0 !important;
+        width: 4.79rem;
+        margin-inline: 0.3rem;
+        input {
+          width: 51% !important;
+          color: #70c1ed;
+          text-align: center;
+          vertical-align: middle;
+          font-size: 14px;
+        }
+        .mat-select {
+          .mat-select-value {
+            color: #70c1ed;
+            font-size: 14px;
+          }
+          .mat-select-arrow {
+            color: #70c1ed;
+          }
+          .mat-select-trigger {
+            height: fit-content !important;
+          }
+        }
+      }
+    }
+    .timezone-selection-container {
+      width: 100%;
+      margin-top: 1.25rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      mat-form-field {
+        margin-left: 6px;
+      }
+      .time-zone-selection-title {
+        color: #f6a117;
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+      .mat-form-field-infix {
+        border: 1px solid;
+        border-radius: 1.5rem;
+        border-color: #70c1ed;
+        padding: 0.5rem 0 !important;
+        padding-inline: 5px;
+        width: 207px;
+        .mat-select-value-text {
+          color: #70c1ed;
+          font-size: 15px;
+        }
+      }
+      .mat-select-arrow {
+        color: #70c1ed;
+      }
+    }
+  }
+}
